@@ -1,0 +1,810 @@
+// 1. أولاً، قم بإضافة حزم Supabase اللازمة في ملف pubspec.yaml
+/*
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.5
+  hive: ^2.2.3
+  supabase_flutter: ^1.10.25
+  flutter_secure_storage: ^8.0.0
+*/
+
+// 2. الآن دعنا ننشئ ملف لإدارة اتصال Supabase
+// lib/services/supabase_service.dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class SupabaseService extends GetxService {
+  static SupabaseService get to => Get.find();
+  late final SupabaseClient client;
+  
+  final RxBool _isAuthenticated = false.obs;
+  bool get isAuthenticated => _isAuthenticated.value;
+  
+  Future<SupabaseService> init() async {
+    await Supabase.initialize(
+      url: 'YOUR_SUPABASE_URL', // قم بتغيير هذا بعنوان URL الخاص بك
+      anonKey: 'YOUR_SUPABASE_ANON_KEY', // قم بتغيير هذا بمفتاحك
+    );
+    
+    client = Supabase.instance.client;
+    
+    // تحقق من حالة المصادقة الحالية
+    _isAuthenticated.value = client.auth.currentUser != null;
+    
+    // الاستماع لتغييرات حالة المصادقة
+    client.auth.onAuthStateChange.listen((data) {
+      final AuthChangeEvent event = data.event;
+      if (event == AuthChangeEvent.signedIn) {
+        _isAuthenticated.value = true;
+      } else if (event == AuthChangeEvent.signedOut) {
+        _isAuthenticated.value = false;
+      }
+    });
+    
+    return this;
+  }
+  
+  // تسجيل مستخدم جديد
+  Future<void> signUp({
+    required String email,
+    required String password,
+    Function(AuthResponse)? onSuccess,
+    Function(String)? onError,
+  }) async {
+    try {
+      final response = await client.auth.signUp(
+        email: email,
+        password: password,
+      );
+      if (onSuccess != null) onSuccess(response);
+    } on AuthException catch (e) {
+      if (onError != null) onError(e.message);
+    } catch (e) {
+      if (onError != null) onError(e.toString());
+    }
+  }
+  
+  // تسجيل الدخول
+  Future<void> signIn({
+    required String email,
+    required String password,
+    Function(AuthResponse)? onSuccess,
+    Function(String)? onError,
+  }) async {
+    try {
+      final response = await client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      if (onSuccess != null) onSuccess(response);
+    } on AuthException catch (e) {
+      if (onError != null) onError(e.message);
+    } catch (e) {
+      if (onError != null) onError(e.toString());
+    }
+  }
+  
+  // تسجيل الخروج
+  Future<void> signOut() async {
+    await client.auth.signOut();
+  }
+  
+  // الحصول على معرف المستخدم الحالي
+  String? get currentUserId => client.auth.currentUser?.id;
+}
+
+// 3. دعنا ننشئ نموذج البيانات للعادات
+// lib/models/habit_model.dart
+class Habit {
+  final String? id;
+  final String userId;
+  final String name;
+  bool completed;
+  final DateTime createdAt;
+  
+  Habit({
+    this.id,
+    required this.userId,
+    required this.name,
+    this.completed = false,
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
+  
+  factory Habit.fromJson(Map<String, dynamic> json) {
+    return Habit(
+      id: json['id'],
+      userId: json['user_id'],
+      name: json['name'],
+      completed: json['completed'] ?? false,
+      createdAt: DateTime.parse(json['created_at']),
+    );
+  }
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'user_id': userId,
+      'name': name,
+      'completed': completed,
+    };
+  }
+}
+
+// 4. خدمة للتعامل مع بيانات العادات في Supabase
+// lib/services/habit_service.dart
+import 'package:get/get.dart';
+import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/services/supabase_service.dart';
+
+class HabitService extends GetxService {
+  static HabitService get to => Get.find();
+  final SupabaseService _supabaseService = SupabaseService.to;
+  
+  // الحصول على كل العادات للمستخدم الحالي
+  Future<List<Habit>> getHabits() async {
+    final userId = _supabaseService.currentUserId;
+    if (userId == null) return [];
+    
+    final response = await _supabaseService.client
+        .from('habits')
+        .select()
+        .eq('user_id', userId)
+        .order('created_at');
+    
+    if (response.error != null) {
+      throw response.error!.message;
+    }
+    
+    return (response.data as List)
+        .map((item) => Habit.fromJson(item))
+        .toList();
+  }
+  
+  // إضافة عادة جديدة
+  Future<Habit> addHabit(String name) async {
+    final userId = _supabaseService.currentUserId;
+    if (userId == null) throw 'يجب تسجيل الدخول أولاً';
+    
+    final habit = Habit(
+      userId: userId,
+      name: name,
+    );
+    
+    final response = await _supabaseService.client
+        .from('habits')
+        .insert(habit.toJson())
+        .select()
+        .single();
+    
+    return Habit.fromJson(response.data);
+  }
+  
+  // تحديث حالة عادة
+  Future<void> toggleHabit(Habit habit) async {
+    if (habit.id == null) throw 'معرف العادة غير صحيح';
+    
+    await _supabaseService.client
+        .from('habits')
+        .update({'completed': !habit.completed})
+        .eq('id', habit.id);
+  }
+  
+  // تعديل اسم عادة
+  Future<void> updateHabitName(String habitId, String newName) async {
+    await _supabaseService.client
+        .from('habits')
+        .update({'name': newName})
+        .eq('id', habitId);
+  }
+  
+  // حذف عادة
+  Future<void> deleteHabit(String habitId) async {
+    await _supabaseService.client
+        .from('habits')
+        .delete()
+        .eq('id', habitId);
+  }
+  
+  // إعادة تعيين جميع العادات
+  Future<void> resetAllHabits() async {
+    final userId = _supabaseService.currentUserId;
+    if (userId == null) throw 'يجب تسجيل الدخول أولاً';
+    
+    await _supabaseService.client
+        .from('habits')
+        .update({'completed': false})
+        .eq('user_id', userId);
+  }
+  
+  // الحصول على عدد الأيام
+  Future<int> getDayCount() async {
+    final userId = _supabaseService.currentUserId;
+    if (userId == null) return 1;
+    
+    final response = await _supabaseService.client
+        .from('user_stats')
+        .select('day_count')
+        .eq('user_id', userId)
+        .maybeSingle();
+    
+    if (response.data == null) {
+      // إنشاء إحصائيات المستخدم إذا لم تكن موجودة
+      await _supabaseService.client
+          .from('user_stats')
+          .insert({
+            'user_id': userId,
+            'day_count': 1,
+            'last_reset_date': DateTime.now().toIso8601String()
+          });
+      return 1;
+    }
+    
+    return response.data['day_count'] ?? 1;
+  }
+  
+  // تحديث عدد الأيام
+  Future<void> updateDayCount(int dayCount) async {
+    final userId = _supabaseService.currentUserId;
+    if (userId == null) throw 'يجب تسجيل الدخول أولاً';
+    
+    await _supabaseService.client
+        .from('user_stats')
+        .update({
+          'day_count': dayCount,
+          'last_reset_date': DateTime.now().toIso8601String()
+        })
+        .eq('user_id', userId);
+  }
+  
+  // الحصول على تاريخ آخر إعادة ضبط
+  Future<DateTime?> getLastResetDate() async {
+    final userId = _supabaseService.currentUserId;
+    if (userId == null) return null;
+    
+    final response = await _supabaseService.client
+        .from('user_stats')
+        .select('last_reset_date')
+        .eq('user_id', userId)
+        .maybeSingle();
+    
+    if (response.data == null || response.data['last_reset_date'] == null) {
+      return null;
+    }
+    
+    return DateTime.parse(response.data['last_reset_date']);
+  }
+}
+
+// 5. تحديث وحدة التحكم HabitController لاستخدام Supabase
+// lib/controllers/habit_controller.dart
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/custom/myalartd.dart';
+import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/services/habit_service.dart';
+import 'package:habit_tracker/services/supabase_service.dart';
+
+class HabitController extends GetxController {
+  // المتغيرات
+  int? index;
+  final RxInt dayCount = 1.obs;
+  final RxList<Habit> habits = <Habit>[].obs;
+  final TextEditingController habitTextController = TextEditingController();
+  final HabitService _habitService = HabitService.to;
+  final SupabaseService _supabaseService = SupabaseService.to;
+  DateTime? lastResetDate;
+  Timer? _resetCheckTimer;
+  final RxBool isLoading = false.obs;
+
+  // مساعدات التصميم المتجاوب
+  bool isDesktop(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 1000.0;
+  bool isTablet(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 600.0 &&
+      MediaQuery.of(context).size.width < 1000.0;
+  bool isPhone(BuildContext context) =>
+      MediaQuery.of(context).size.width < 600.0;
+
+  @override
+  void onInit() {
+    super.onInit();
+    
+    // التحقق من حالة المصادقة قبل تحميل البيانات
+    ever(_supabaseService._isAuthenticated, (isAuthenticated) {
+      if (isAuthenticated) {
+        loadUserData();
+      } else {
+        habits.clear();
+        dayCount.value = 1;
+      }
+    });
+    
+    if (_supabaseService.isAuthenticated) {
+      loadUserData();
+    }
+  }
+
+  Future<void> loadUserData() async {
+    isLoading.value = true;
+    try {
+      // تحميل العادات
+      habits.value = await _habitService.getHabits();
+      
+      // تحميل عدد الأيام
+      dayCount.value = await _habitService.getDayCount();
+      
+      // تحميل تاريخ آخر إعادة ضبط والتحقق من تغيير اليوم
+      lastResetDate = await _habitService.getLastResetDate();
+      checkAndResetHabits();
+      
+      // ضبط مؤقت للتحقق من تغيير اليوم كل ساعة
+      _resetCheckTimer = Timer.periodic(
+        const Duration(hours: 1),
+        (_) => checkAndResetHabits(),
+      );
+    } catch (e) {
+      Get.snackbar(
+        'خطأ',
+        'حدث خطأ أثناء تحميل البيانات: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.7),
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void checkAndResetHabits() async {
+    final DateTime now = DateTime.now();
+    final DateTime today = DateTime(now.year, now.month, now.day);
+
+    if (lastResetDate == null || !_isSameDay(today, lastResetDate!)) {
+      // زيادة عداد الأيام قبل إعادة ضبط العادات
+      await incrementDayCount();
+      await resetAllHabits();
+      lastResetDate = today;
+      // حفظ تاريخ إعادة الضبط في Supabase
+      await _habitService.updateDayCount(dayCount.value);
+    }
+  }
+
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
+  // دالة جديدة لزيادة عداد الأيام وحفظه في Supabase
+  Future<void> incrementDayCount() async {
+    dayCount.value++;
+    await _habitService.updateDayCount(dayCount.value);
+  }
+
+  Future<void> resetAllHabits() async {
+    try {
+      await _habitService.resetAllHabits();
+      
+      // تحديث الحالة المحلية
+      for (var habit in habits) {
+        habit.completed = false;
+      }
+      habits.refresh();
+      
+      _showResetNotification();
+    } catch (e) {
+      Get.snackbar(
+        'خطأ',
+        'حدث خطأ أثناء إعادة ضبط العادات: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.7),
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void _showResetNotification() {
+    Get.snackbar(
+      'تم إعادة ضبط العادات',
+      'تم إعادة ضبط جميع العادات ليوم جديد - اليوم ${dayCount.value}',
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 5),
+      backgroundColor: Colors.green.withOpacity(0.7),
+      colorText: Colors.white,
+      margin: const EdgeInsets.all(10),
+    );
+  }
+
+  void toggleHabit(int index) async {
+    if (index >= 0 && index < habits.length) {
+      final habit = habits[index];
+      try {
+        // تحديث الحالة المحلية أولاً للاستجابة السريعة
+        habit.completed = !habit.completed;
+        habits.refresh();
+        
+        // ثم تحديث القاعدة البيانات
+        await _habitService.toggleHabit(habit);
+      } catch (e) {
+        // التراجع عن التغيير المحلي في حالة حدوث خطأ
+        habit.completed = !habit.completed;
+        habits.refresh();
+        
+        Get.snackbar(
+          'خطأ',
+          'حدث خطأ أثناء تحديث العادة: $e',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.7),
+          colorText: Colors.white,
+        );
+      }
+    }
+  }
+
+  void addHabit(BuildContext context) {
+    habitTextController.clear();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Myalartd(
+          hintText: 'إضافة عادة جديدة...',
+          controller: habitTextController,
+          onSave: () async {
+            final String habitName = habitTextController.text.trim();
+            if (habitName.isNotEmpty) {
+              try {
+                final newHabit = await _habitService.addHabit(habitName);
+                habits.add(newHabit);
+                Navigator.of(context).pop();
+              } catch (e) {
+                Get.snackbar(
+                  'خطأ',
+                  'حدث خطأ أثناء إضافة العادة: $e',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.red.withOpacity(0.7),
+                  colorText: Colors.white,
+                );
+              }
+            } else {
+              // عرض خطأ لاسم العادة الفارغ
+              Get.snackbar(
+                'خطأ',
+                'لا يمكن ترك اسم العادة فارغاً',
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.red.withOpacity(0.7),
+                colorText: Colors.white,
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+
+  void deleteHabit(int index, BuildContext context) {
+    if (index >= 0 && index < habits.length) {
+      // عرض مربع حوار التأكيد
+      Get.defaultDialog(
+        title: 'حذف العادة',
+        middleText: 'هل أنت متأكد من رغبتك في حذف هذه العادة؟',
+        textConfirm: 'حذف',
+        cancelTextColor: Theme.of(context).primaryColor,
+        buttonColor: Theme.of(context).colorScheme.primary,
+        confirmTextColor: Theme.of(context).colorScheme.onPrimary,
+        textCancel: 'إلغاء',
+        onCancel: () => Get.back(),
+        onConfirm: () async {
+          try {
+            final habit = habits[index];
+            if (habit.id != null) {
+              await _habitService.deleteHabit(habit.id!);
+              habits.removeAt(index);
+              Get.back();
+            }
+          } catch (e) {
+            Get.back();
+            Get.snackbar(
+              'خطأ',
+              'حدث خطأ أثناء حذف العادة: $e',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red.withOpacity(0.7),
+              colorText: Colors.white,
+            );
+          }
+        },
+      );
+    }
+  }
+
+  void editHabit(int index, BuildContext context) {
+    if (index >= 0 && index < habits.length) {
+      final habit = habits[index];
+      habitTextController.text = habit.name;
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Myalartd(
+            hintText: 'تعديل هذه العادة',
+            controller: habitTextController,
+            onSave: () async {
+              final String habitName = habitTextController.text.trim();
+              if (habitName.isNotEmpty) {
+                try {
+                  if (habit.id != null) {
+                    await _habitService.updateHabitName(habit.id!, habitName);
+                    // تحديث الاسم محلياً
+                    habits[index] = Habit(
+                      id: habit.id,
+                      userId: habit.userId,
+                      name: habitName,
+                      completed: habit.completed,
+                      createdAt: habit.createdAt,
+                    );
+                    habits.refresh();
+                    Navigator.of(context).pop();
+                  }
+                } catch (e) {
+                  Get.snackbar(
+                    'خطأ',
+                    'حدث خطأ أثناء تعديل العادة: $e',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.withOpacity(0.7),
+                    colorText: Colors.white,
+                  );
+                }
+              } else {
+                Get.snackbar(
+                  'خطأ',
+                  'لا يمكن ترك اسم العادة فارغاً',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.red.withOpacity(0.7),
+                  colorText: Colors.white,
+                );
+              }
+            },
+          );
+        },
+      );
+    }
+  }
+
+  void manualReset() {
+    Get.defaultDialog(
+      title: 'إعادة ضبط جميع العادات',
+      middleText:
+          'هل أنت متأكد من رغبتك في إعادة ضبط جميع العادات؟ سيتم تعليم جميع العادات كغير مكتملة.',
+      textConfirm: 'إعادة ضبط',
+      textCancel: 'إلغاء',
+      confirmTextColor: Colors.white,
+      onConfirm: () async {
+        try {
+          // لا نزيد dayCount في إعادة الضبط اليدوية
+          await resetAllHabits();
+          Get.back();
+        } catch (e) {
+          Get.back();
+          Get.snackbar(
+            'خطأ',
+            'حدث خطأ أثناء إعادة ضبط العادات: $e',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red.withOpacity(0.7),
+            colorText: Colors.white,
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void onClose() {
+    _resetCheckTimer?.cancel();
+    habitTextController.dispose();
+    super.onClose();
+  }
+}
+
+// 6. ملف لشاشة تسجيل الدخول
+// lib/screens/auth/login_screen.dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/services/supabase_service.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final SupabaseService _supabaseService = SupabaseService.to;
+  bool _isLoading = false;
+  bool _isLogin = true; // للتبديل بين تسجيل الدخول والتسجيل الجديد
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _toggleAuthMode() {
+    setState(() {
+      _isLogin = !_isLogin;
+    });
+  }
+
+  Future<void> _authenticate() async {
+    if (_emailController.text.trim().isEmpty ||
+        _passwordController.text.isEmpty) {
+      Get.snackbar(
+        'خطأ',
+        'الرجاء إدخال البريد الإلكتروني وكلمة المرور',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.7),
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      if (_isLogin) {
+        // تسجيل الدخول
+        await _supabaseService.signIn(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          onSuccess: (response) {
+            Get.offAllNamed('/home');
+          },
+          onError: (error) {
+            Get.snackbar(
+              'خطأ في تسجيل الدخول',
+              error,
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red.withOpacity(0.7),
+              colorText: Colors.white,
+            );
+          },
+        );
+      } else {
+        // إنشاء حساب جديد
+        await _supabaseService.signUp(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          onSuccess: (response) {
+            Get.snackbar(
+              'تم إنشاء الحساب',
+              'تم إنشاء حسابك بنجاح. يمكنك الآن تسجيل الدخول.',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green.withOpacity(0.7),
+              colorText: Colors.white,
+            );
+            setState(() {
+              _isLogin = true;
+            });
+          },
+          onError: (error) {
+            Get.snackbar(
+              'خطأ في إنشاء الحساب',
+              error,
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red.withOpacity(0.7),
+              colorText: Colors.white,
+            );
+          },
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_isLogin ? 'تسجيل الدخول' : 'إنشاء حساب'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                labelText: 'البريد الإلكتروني',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                labelText: 'كلمة المرور',
+                border: OutlineInputBorder(),
+              ),
+              obscureText: true,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _authenticate,
+              child: _isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : Text(_isLogin ? 'تسجيل الدخول' : 'إنشاء حساب'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+            TextButton(
+              onPressed: _toggleAuthMode,
+              child: Text(_isLogin
+                  ? 'إنشاء حساب جديد'
+                  : 'لديك حساب بالفعل؟ تسجيل الدخول'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// 7. تحديث main.dart لإعداد Supabase والخدمات
+// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controllers/habit_controller.dart';
+import 'package:habit_tracker/screens/auth/login_screen.dart';
+import 'package:habit_tracker/screens/home_screen.dart';
+import 'package:habit_tracker/services/habit_service.dart';
+import 'package:habit_tracker/services/supabase_service.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // تهيئة Hive (يمكنك إزالة هذا لاحقاً)
+  final appDocumentDirectory = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDirectory.path);
+  await Hive.openBox("Habit_db");
+  
+  // بدء تشغيل GetX وتسجيل الخدمات
+  await initServices();
+  
+  runApp(const MyApp());
+}
+
+Future<void> initServices() async {
+  // تهيئة خدمة Supabase
+  await Get.putAsync(() => SupabaseService().init());
+  // تسجيل خدمة العادات
+  Get.put(HabitService());
+  // تسجيل وحدة التحكم
+  Get.put(HabitController());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'تتبع العادات',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),

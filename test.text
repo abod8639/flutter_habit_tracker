@@ -1,0 +1,190 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/custom/myalartD.dart';
+import 'package:habit_tracker/data/habit_db.dart';
+import 'package:hive/hive.dart';
+
+class controller extends GetxController {
+  int dite = 1 ;
+  int? index;
+  Habitdb db = Habitdb();
+  final _myBox = Hive.box("Habit_db");
+  DateTime? lastResetDate;
+
+  bool isDesktop(BuildContext context) {
+    final double mwidth = MediaQuery.of(context).size.width;
+    return mwidth >= 1000.0;
+  }
+
+  bool isTablet(BuildContext context) {
+    final double mwidth = MediaQuery.of(context).size.width;
+    return mwidth >= 600.0 && mwidth < 1000.0;
+  }
+
+  bool isPhone(BuildContext context) {
+    final double mwidth = MediaQuery.of(context).size.width;
+    return mwidth < 600.0;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    
+    // إنشاء البيانات الافتراضية إذا لم تكن موجودة
+    if (_myBox.get("TODOLIST") == null) {
+      db.createDefaultData();
+      update();
+    } else {
+      db.loadData();
+      update();
+    }
+    
+    // تحميل تاريخ آخر إعادة ضبط من Hive
+    lastResetDate = _getLastResetDate();
+    
+    // فحص ما إذا كان اليوم جديدًا وإعادة ضبط العادات إذا لزم الأمر
+    checkAndResetHabits();
+    
+    // إعداد مؤقت للتحقق من تغيير اليوم كل ساعة
+    Timer.periodic(Duration(hours: 1), (timer) {
+      checkAndResetHabits();
+    });
+    
+    update();
+  }
+
+  // دالة للتحقق مما إذا كان اليوم الحالي مختلفًا عن آخر يوم تم فيه إعادة الضبط
+  void checkAndResetHabits() {
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    
+    // إذا لم يكن هناك تاريخ سابق أو كان اليوم الحالي مختلفًا عن آخر يوم تم فيه إعادة الضبط
+    if (lastResetDate == null || !_isSameDay(today, lastResetDate!)) {
+      resetAllHabits();
+      lastResetDate = today;
+      _saveLastResetDate(today);
+      update();
+    }
+  }
+
+  // دالة للتحقق مما إذا كان التاريخان يمثلان نفس اليوم
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && 
+           date1.month == date2.month && 
+           date1.day == date2.day;
+  }
+
+  // دالة لإعادة ضبط جميع العادات
+  void resetAllHabits() {
+    // الاحتفاظ بأسماء العادات مع إعادة ضبط حالتها إلى false
+    for (int i = 0; i < db.todaysHabitList.length; i++) {
+      db.todaysHabitList[i][1] = false;
+    }
+    
+      dite++;
+    // تحديث البيانات في Hive
+    db.updateData();
+    
+    // إظهار رسالة للمستخدم (اختياري)
+    Get.snackbar(
+      'إعادة ضبط العادات',
+      'تم إعادة ضبط حالة جميع العادات ليوم جديد',
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(minutes:  30),
+    );
+  }
+
+  // حفظ تاريخ آخر إعادة ضبط في Hive
+  void _saveLastResetDate(DateTime date) {
+    _myBox.put("LAST_RESET_DATE", date.toIso8601String());
+  }
+
+  // استرجاع تاريخ آخر إعادة ضبط من Hive
+  DateTime? _getLastResetDate() {
+    String? dateStr = _myBox.get("LAST_RESET_DATE");
+    if (dateStr != null) {
+      return DateTime.parse(dateStr);
+    }
+    return null;
+  }
+
+  void habitBox(bool? value, int index) {
+    db.todaysHabitList[index][1] = value;
+    db.updateData();
+    update();
+  }
+
+  final _habitController = TextEditingController();
+  
+  void addHabit(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Myalartd(
+          hintText: 'Add New Habit..',
+          controller: _habitController,
+          onSave: () {
+            db.todaysHabitList.add([_habitController.text, false]);
+            _habitController.clear();
+            Navigator.of(context).pop();
+            db.updateData();
+            update();
+          },
+        );
+      },
+    );
+    update();
+  }
+
+  void delete(int index) {
+    db.todaysHabitList.removeAt(index);
+    db.updateData();
+    update();
+  }
+
+  void editHabitController(int index, context) {
+    // تعيين القيمة الأولية للـ controller قبل فتح مربع الحوار
+    _habitController.text = db.todaysHabitList[index][0];
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Myalartd(
+          hintText: 'Edit Habit',
+          controller: _habitController,
+          onSave: () {
+            saveExistingHabit(index, context);
+            db.updateData();
+            update();
+          },
+        );
+      },
+    );
+  }
+
+  void saveExistingHabit(int index, context) {
+    db.todaysHabitList[index][0] = _habitController.text;
+    _habitController.clear();
+    Navigator.of(context).pop();
+    db.updateData();
+    update();
+  }
+
+  void get() {
+    _myBox.get("START_DAY");
+    update();
+  }
+
+  // دالة للمستخدم لإعادة ضبط العادات يدويًا (اختياري)
+  void manualReset() {
+    resetAllHabits();
+    update();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    _habitController.dispose();
+    update();
+  }
+}

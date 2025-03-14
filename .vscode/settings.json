@@ -1,0 +1,15 @@
+{
+  "cmake.ignoreCMakeListsMissing": true,
+  "files.readonlyInclude": {
+    "{**/.c4z/.extsrcs/*.PROTSYM.cbl,**/.c4z/.extsrcs/*.PROTSYM.listing}": true
+  },
+  "cSpell.words": [
+    "daysinbetwen",
+    "Habitcontroller",
+    "hetmapdateset",
+    "perctfordate",
+    "startdate",
+    "strungth",
+    "Taile"
+  ]
+}

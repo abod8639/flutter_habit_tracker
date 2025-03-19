@@ -54,14 +54,4 @@ class CompletedHabitsPage extends StatelessWidget {
   }
 }
 
-// ListTile(
-//             title: Text(incompleteHabits[index]["name"]),
-//             trailing: Checkbox(
-//               value: incompleteHabits[index]["completed"],
-//               onChanged: (bool? value) {
-//                 // تحديث حالة العادة عند تغيير القيمة
-//                 habitDb.todaysHabitList[index][1] = value;
-//                 habitDb.updateData();
-//               },
-//             ),
-//           );
+

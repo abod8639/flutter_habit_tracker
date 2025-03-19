@@ -1,3 +1,6 @@
+import 'dart:math' as Math;
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -353,10 +356,8 @@ class Cgraph extends StatelessWidget {
   }
 }
 //------------------------------------------
-
 class Lgraph extends StatelessWidget {
   const Lgraph({super.key, required this.chartData});
-
   final List<Map<String, dynamic>> chartData;
 
   @override
@@ -438,32 +439,46 @@ class Lgraph extends StatelessWidget {
           show: true,
           border: Border.all(color: Colors.grey.withOpacity(0.3)),
         ),
-        barGroups:
-            chartData.asMap().entries.map((entry) {
-              final int index = entry.key;
-              final Map<String, dynamic> habit = entry.value;
+        barGroups: chartData.asMap().entries.map((entry) {
+          final int index = entry.key;
+          final Map<String, dynamic> habit = entry.value;
+          
+          // استخدام قيمة ديناميكية لارتفاع الأعمدة
+          final double maxValue = cont.dayCount > 0 ? cont.dayCount.toDouble() : 5.0;
+          
+          // حساب القيمة بناءً على عدد الأيام المتتالية التي لم يتم فيها إنجاز العادة
+          double barValue;
+          if (habit['completed']) {
+            barValue = maxValue;
+          } else {
+            // التحقق من وجود قيمة للأيام المتتالية غير المنجزة
+            int consecutiveMisses = habit['consecutiveMisses'] ?? 1;
+            
+            // معامل التناقص - يمكن تعديله حسب الحاجة (مثلاً 0.8 يعني تناقص بنسبة 20% كل يوم)
+            double decayFactor = 0.8;
+            
+            // حساب القيمة المتناقصة تدريجياً
+            barValue = maxValue * Math.pow(decayFactor, consecutiveMisses).toDouble();
+            
+            // تعيين حد أدنى للقيمة لتجنب الأشرطة الصغيرة جداً
+            barValue = max(barValue, maxValue * 0.1);
+          }
 
-              // استخدام قيمة ديناميكية لارتفاع الأعمدة
-              final double maxValue =
-                  cont.dayCount > 0 ? cont.dayCount.toDouble() : 5.0;
-              final double barValue =
-                  habit['completed'] ? maxValue : maxValue * 0.3;
-
-              return BarChartGroupData(
-                x: index,
-                barRods: [
-                  BarChartRodData(
-                    toY: barValue,
-                    color:
-                        habit['completed']
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.error,
-                    width: 16,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ],
-              );
-            }).toList(),
+          return BarChartGroupData(
+            x: index,
+            barRods: [
+              BarChartRodData(
+                
+                toY: barValue,
+                color: habit['completed']
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.error,
+                width: 16,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ],
+          );
+        }).toList(),
       ),
     );
   }

@@ -6,7 +6,7 @@
 // class SupabaseService extends GetxService {
 //   static const String _supabaseUrl = 'YOUR_SUPABASE_URL';
 //   static const String _supabaseKey = 'YOUR_SUPABASE_KEY';
-//       anonKey:''
+//       // anonKey:''
 
 //   late final SupabaseClient _client;
 //   User? currentUser;

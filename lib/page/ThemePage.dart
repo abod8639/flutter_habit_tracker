@@ -70,6 +70,8 @@ class ThemePage extends StatelessWidget {
       ),
     );
   }
+
+  // منتقي السمة المخصصة
 /*
   // منتقي وضع الثيم (فاتح/داكن/تلقائي)
   Widget _buildThemeModeSelector(ThemeController controller) {
@@ -127,8 +129,6 @@ class ThemePage extends StatelessWidget {
     );
   }
 */
-
-  // منتقي السمة المخصصة
   Widget buildCustomThemeSelector(ThemeController controller) {
     return Obx(
       () => Card(

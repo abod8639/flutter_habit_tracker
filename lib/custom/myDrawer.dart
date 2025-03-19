@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/custom/MyListTile.dart';
-import 'package:habit_tracker/main.dart';
 import 'package:habit_tracker/page/CompletedHabitsPage.dart';
 import 'package:habit_tracker/page/HabitStatsPage.dart';
 import 'package:habit_tracker/page/IncompleteHabitsPage.dart';
@@ -77,12 +76,12 @@ class DrawerList extends StatelessWidget {
         MyListTile(
           icon: const Icon(color: Colors.blueGrey, Icons.settings ),
           onTap: () {
-            Get.to(()=>MyApp() );
+            // Get.to(()=>MyApp() );
 
-            // Get.back();
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   ErrorSnakBar(context,"Maybe Coming Soon"),
-            // );
+            Get.back();
+            ScaffoldMessenger.of(context).showSnackBar(
+              ErrorSnakBar(context,"Maybe Coming Soon"),
+            );
           },
           //  Get.to(const SettingsPage()),
           title: "Settings",

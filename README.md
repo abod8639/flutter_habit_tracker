@@ -1,6 +1,6 @@
 # habit_tracker
 
-A new Flutter project.
+A Habit tracker so 
 
 ## Getting Started
 

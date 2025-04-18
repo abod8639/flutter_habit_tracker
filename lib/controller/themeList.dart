@@ -1,4 +1,3 @@
-// ثوابت الألوان للثيمات المختلفة
 import 'package:flutter/material.dart';
 
 const Map<String, Map<String, Color>> themeColors = {
@@ -47,7 +46,6 @@ const Map<String, Map<String, Color>> themeColors = {
     'onPrimary': Color.fromARGB(255, 173, 173, 173),
     'onSecondary': Color(0xFF000000),
   },
-  // Other themes remain unchanged
   'forest': {
     'primary': Color(0xFF2E7D32),
     'secondary': Color(0xFF81C784),
@@ -130,26 +128,24 @@ const Map<String, Map<String, Color>> themeColors = {
     'onSecondary': Color(0xFF000000),
   },
   'catppuccin_frappe': {
-    'primary': Color.fromARGB(255, 122, 157, 239), // أزرق سماوي
-    'secondary': Color(0xFFEF9F76), // برتقالي دافئ
-    'background': Color(0xFF303446), // رمادي داكن
-    'surface': Color(0xFF414559), // رمادي أفتح قليلاً
-    'error': Color(0xFFE78284), // أحمر دافئ
-    'onPrimary': Color(0xFF1E1E2E), // داكن على الأساسي
-    'onSecondary': Color(0xFFFFFFFF), // أبيض على الثانوي
+    'primary': Color.fromARGB(255, 122, 157, 239),
+    'secondary': Color(0xFFEF9F76),
+    'background': Color(0xFF303446),
+    'surface': Color(0xFF414559),
+    'error': Color(0xFFE78284),
+    'onPrimary': Color(0xFF1E1E2E),
+    'onSecondary': Color(0xFFFFFFFF),
   },
   'catppuccin_macchiato': {
-    // داكن مائل للأرجواني
-    'primary': Color.fromARGB(255, 147, 158, 252), // أزرق بنفسجي
-    'secondary': Color(0xFFF5BDE6), // وردي ناعم
-    'background': Color(0xFF24273A), // بنفسجي غامق
-    'surface': Color(0xFF363A4F), // سطح أفتح
-    'error': Color(0xFFED8796), // أحمر ناعم
-    'onPrimary': Color(0xFF1E1E2E), // داكن على الأساسي
-    'onSecondary': Color(0xFFFFFFFF), // أبيض على الثانوي
+    'primary': Color.fromARGB(255, 147, 158, 252),
+    'secondary': Color(0xFFF5BDE6),
+    'background': Color(0xFF24273A),
+    'surface': Color(0xFF363A4F),
+    'error': Color(0xFFED8796),
+    'onPrimary': Color(0xFF1E1E2E),
+    'onSecondary': Color(0xFFFFFFFF),
   },
   'catppuccin_mocha': {
-    // داكن عميق
     'primary': Color.fromARGB(255, 114, 189, 251),
     'secondary': Color.fromARGB(255, 188, 133, 255),
     'background': Color(0xFF1E1E2E),
@@ -204,57 +200,57 @@ const Map<String, Map<String, Color>> themeColors = {
     'onSecondary': Color(0xFFFFFFFF),
   },
   'cyberpunk_neon': {
-    'primary': Color(0xFFFF007F), // وردي نيون
-    'secondary': Color.fromARGB(255, 123, 0, 255), // أزرق سماوي نيون
-    'background': Color(0xFF050A30), // كحلي داكن جدًا
-    'surface': Color(0xFF0A0F48), // كحلي فاتح
-    'error': Color(0xFFFF1744), // أحمر نيون
-    'onPrimary': Color(0xFF050A30), // داكن للتباين
-    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+    'primary': Color(0xFFFF007F),
+    'secondary': Color.fromARGB(255, 123, 0, 255),
+    'background': Color(0xFF050A30),
+    'surface': Color(0xFF0A0F48),
+    'error': Color(0xFFFF1744),
+    'onPrimary': Color(0xFF050A30),
+    'onSecondary': Color(0xFFFFFFFF),
   },
   'hologram': {
-    'primary': Color(0xFF29B6F6), // أزرق سماوي فاتح
-    'secondary': Color.fromARGB(255, 135, 71, 188), // بنفسجي فاتح
-    'background': Color(0xFF0F172A), // أزرق داكن جدًا
-    'surface': Color(0xFF1E293B), // رمادي مزرق
-    'error': Color(0xFFFF5252), // أحمر ساطع
-    'onPrimary': Color(0xFFFFFFFF), // أبيض للوضوح
-    'onSecondary': Color(0xFF0F172A), // داكن للتباين
+    'primary': Color(0xFF29B6F6),
+    'secondary': Color.fromARGB(255, 135, 71, 188),
+    'background': Color(0xFF0F172A),
+    'surface': Color(0xFF1E293B),
+    'error': Color(0xFFFF5252),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF0F172A),
   },
   'cyber_grid': {
-    'primary': Color(0xFF8A2BE2), // بنفسجي كهربائي
-    'secondary': Color.fromARGB(255, 0, 238, 255), // أخضر نيون
-    'background': Color(0xFF050A30), // كحلي غامق
-    'surface': Color(0xFF0A0F48), // أزرق داكن
-    'error': Color(0xFFFF1744), // أحمر ساطع
-    'onPrimary': Color(0xFF050A30), // داكن للتباين
-    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+    'primary': Color(0xFF8A2BE2),
+    'secondary': Color.fromARGB(255, 0, 238, 255),
+    'background': Color(0xFF050A30),
+    'surface': Color(0xFF0A0F48),
+    'error': Color(0xFFFF1744),
+    'onPrimary': Color(0xFF050A30),
+    'onSecondary': Color(0xFFFFFFFF),
   },
   'neo_tokyo': {
-    'primary': Color(0xFF00FFFF), // سماوي نيون
-    'secondary': Color.fromARGB(255, 162, 0, 255), // بنفسجي نيون
-    'background': Color(0xFF0D0D0D), // أسود داكن جدًا
-    'surface': Color(0xFF1A1A1A), // رمادي داكن
-    'error': Color(0xFFFF1744), // أحمر نيون
-    'onPrimary': Color(0xFF0D0D0D), // أسود للتباين
-    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+    'primary': Color(0xFF00FFFF),
+    'secondary': Color.fromARGB(255, 162, 0, 255),
+    'background': Color(0xFF0D0D0D),
+    'surface': Color(0xFF1A1A1A),
+    'error': Color(0xFFFF1744),
+    'onPrimary': Color(0xFF0D0D0D),
+    'onSecondary': Color(0xFFFFFFFF),
   },
   'neon_circuit': {
-    'primary': Color(0xFF00FFAA), // أخضر تركواز نيون
-    'secondary': Color.fromARGB(255, 68, 215, 255), // أصفر نيون
-    'background': Color(0xFF101820), // أزرق داكن جدًا
-    'surface': Color(0xFF1A2930), // رمادي مائل للأزرق
-    'error': Color(0xFFFF1744), // أحمر نيون
-    'onPrimary': Color(0xFF101820), // داكن للتباين
-    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+    'primary': Color(0xFF00FFAA),
+    'secondary': Color.fromARGB(255, 68, 215, 255),
+    'background': Color(0xFF101820),
+    'surface': Color(0xFF1A2930),
+    'error': Color(0xFFFF1744),
+    'onPrimary': Color(0xFF101820),
+    'onSecondary': Color(0xFFFFFFFF),
   },
   'futuristic_space': {
-    'primary': Color(0xFF3D5AFE), // أزرق نيوني
-    'secondary': Color.fromARGB(255, 201, 64, 255), // وردي نيون
-    'background': Color(0xFF000014), // أسود مائل للكحلي
-    'surface': Color(0xFF1A237E), // أزرق ملكي
-    'error': Color(0xFFD50000), // أحمر غامق
-    'onPrimary': Color(0xFFFFFFFF), // أبيض
-    'onSecondary': Color(0xFF000014), // داكن للتباين
+    'primary': Color(0xFF3D5AFE),
+    'secondary': Color.fromARGB(255, 201, 64, 255),
+    'background': Color(0xFF000014),
+    'surface': Color(0xFF1A237E),
+    'error': Color(0xFFD50000),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000014),
   },
 };

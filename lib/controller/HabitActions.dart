@@ -25,8 +25,8 @@ void showAddHabitDialog(
             update();
           } else {
             Get.snackbar(
-              'خطأ',
-              'لا يمكن ترك اسم العادة فارغاً',
+              'Error',
+              'Habit name cannot be empty',
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red.withOpacity(0.7),
               colorText: Colors.white,
@@ -63,7 +63,7 @@ void showEditHabitDialog(
             } else {
               Get.snackbar(
                 'Error :',
-                'The field can`t be empty :)',
+                'The field can’t be empty :)',
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Colors.red.withOpacity(0.7),
                 colorText: Colors.white,
@@ -82,8 +82,8 @@ void resetAllHabits(Habitdb db) {
   }
   db.updateData();
   Get.snackbar(
-    'تم إعادة ضبط العادات',
-    'تم إعادة ضبط جميع العادات ليوم جديد',
+    'Habits Reset',
+    'All habits have been reset for the new day',
     snackPosition: SnackPosition.BOTTOM,
     duration: const Duration(seconds: 5),
     backgroundColor: Colors.green.withOpacity(0.7),
@@ -130,11 +130,11 @@ void toggleHabitStatus(
 
 void showManualResetDialog(Habitdb db, VoidCallback update) {
   Get.defaultDialog(
-    title: 'إعادة ضبط جميع العادات',
+    title: 'Reset All Habits',
     middleText:
-        'هل أنت متأكد من رغبتك في إعادة ضبط جميع العادات؟ سيتم تعليم جميع العادات كغير مكتملة.',
-    textConfirm: 'إعادة ضبط',
-    textCancel: 'إلغاء',
+        'Are you sure you want to reset all habits? All habits will be marked as incomplete.',
+    textConfirm: 'Reset',
+    textCancel: 'Cancel',
     confirmTextColor: Colors.white,
     onConfirm: () {
       for (var habit in db.todaysHabitList) {

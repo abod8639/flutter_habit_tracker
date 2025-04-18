@@ -138,11 +138,11 @@ Widget BuildTrendChart(
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          const Text(
-            'Habit Completion Trend',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
+          // const SizedBox(height: 16),
+          // const Text(
+          //   'Habit Completion Trend',
+          //   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          // ),
         ],
       ),
     ),

@@ -1,93 +1,103 @@
 # Habit Tracker
 
-A modern, intuitive habit tracking application built with Flutter that helps you build and maintain positive habits in your daily life.
+A **beautiful**, **responsive**, and **intuitive** habit tracking app built with Flutter — designed to help you build positive daily routines with ease.
 
-## Features
+---
 
-- 📝 Create and manage daily habits
-- ✅ Track habit completion with simple checkmarks
-- 📊 View detailed statistics and progress
-- 📅 Monthly and weekly habit summaries
-- 🎨 Customizable themes
-- 💾 Local storage for data persistence
-- 📱 Cross-platform support ( iOS , Android , Desktop , Linux , Web )
+## ✨ Highlights
 
-## Screenshots
+- 📝 **Create & manage daily habits** with a smooth user experience  
+- ✅ **Track your progress** with simple checkmarks and visual feedback  
+- 📊 **View rich statistics** with animated and interactive charts  
+- 🗕️ **Weekly & monthly summaries** to visualize your growth over time  
+- 🎨 **Multiple beautiful themes** with support for dark/light modes and custom color pickers  
+- 🧀 **Animated UI transitions** and smooth interactions enhance the user experience  
+- 💾 **Local storage** powered by Hive for persistent, offline access  
+- 📱 **Fully responsive design** — works beautifully on phones, tablets, desktops, and web  
 
- Home page
-![Rainbow Snake](assets/image/image2.png)
+---
 
- Theme page
-![Rainbow Snake](assets/image/image4.png)
+## 📸 Screenshots
 
- Rate page 
-![Rainbow Snake](assets/image/image3.png) 
-![Rainbow Snake](assets/image/image.png)
+**Home Page**  
+![Home](assets/image/image2.png)
 
+**Theme Selection**  
+![Themes](assets/image/image4.png)
 
-## Installation
+**Rate Page**  
+![Rate](assets/image/image3.png)  
+![Rate](assets/image/image.png)
 
-1. Make sure you have Flutter installed on your machine. If not, follow the [official Flutter installation guide](https://docs.flutter.dev/get-started/install).
+---
 
-2. Clone this repository:
+## 🚀 Getting Started
+
+### 1. Install Flutter  
+Follow the [Flutter installation guide](https://docs.flutter.dev/get-started/install).
+
+### 2. Clone the Repository
 ```bash
-git clone https://github.com/abod8639/hapit_tracker.git
+git clone https://github.com/abod8639/habit_tracker.git
 cd habit_tracker
 ```
 
-3. Install dependencies:
+### 3. Install Dependencies
 ```bash
 flutter pub get
 ```
 
-4. Run the app:
+### 4. Run the App
 ```bash
 flutter run
 ```
 
-## Tech Stack
+---
 
-### Core Technologies
-- Flutter 3.x
-- Dart SDK ^3.7.0
-- Hive Database for local storage
-- Supabase for backend services
-- GetX for state management
+## 🛠️ Tech Stack
 
-### Key Dependencies
-- `fl_chart`: ^0.70.2 - For beautiful and responsive charts
-- `flutter_heatmap_calendar`: ^1.0.5 - For habit tracking visualization
-- `flutter_slidable`: ^4.0.0 - For swipeable list items
-- `get`: ^4.7.1 - State management and navigation
-- `hive` & `hive_flutter`: Local database solution
-- `flutter_secure_storage`: Secure data storage
-- `catppuccin_flutter`: ^1.0.0 - For theming
-- `flutter_colorpicker`: ^1.1.0 - For custom color selection
+### Core
+- **Flutter** 3.x
+- **Dart SDK** ^3.7.0
+- **Hive** for fast local storage
+- **Supabase** for backend (auth & sync)
+- **GetX** for state management & routing
 
-### Development Tools
-- `build_runner` - Code generation
-- `hive_generator` - Hive database code generation
-- `flutter_lints` - Code quality and style
+### Key Packages
+- [`fl_chart`](https://pub.dev/packages/fl_chart) — Responsive and animated charts  
+- [`flutter_heatmap_calendar`](https://pub.dev/packages/flutter_heatmap_calendar) — Visual heatmap for habits  
+- [`flutter_slidable`](https://pub.dev/packages/flutter_slidable) — Swipe-to-delete/edit functionality  
+- [`catppuccin_flutter`](https://pub.dev/packages/catppuccin_flutter) — Beautiful theme presets  
+- `flutter_colorpicker`, `flutter_secure_storage`, `hive_flutter`, and more
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🛆 Dev Tools
+- `build_runner` & `hive_generator` — Code generation
+- `flutter_lints` — Linting for clean, maintainable code
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+---
 
-## License
+## 🤝 Contributing
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Pull requests are welcome!
 
-## Acknowledgments
+1. Fork the repo  
+2. Create your feature branch (`git checkout -b feature/YourFeature`)  
+3. Commit your changes (`git commit -m "Add your feature"`)  
+4. Push (`git push origin feature/YourFeature`)  
+5. Open a Pull Request  
 
-- Flutter team for the amazing framework
-- All contributors who help improve this project
+---
 
-## Support
+## 📄 License
 
-If you encounter any issues or have questions, please file an issue on the GitHub repository.
+This project is licensed under the MIT License – see `LICENSE` for details.
+
+---
+
+## 🙌 Acknowledgments
+
+- Thanks to the Flutter team for this powerful toolkit  
+- Special thanks to everyone who contributes and supports the project
+

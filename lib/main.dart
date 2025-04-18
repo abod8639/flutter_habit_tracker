@@ -1,59 +1,140 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/controller.dart';
 import 'package:habit_tracker/controller/theme_controller.dart';
-import 'package:habit_tracker/page/Responsive/Phone.dart';
-import 'package:habit_tracker/page/Responsive/Tablet.dart';
+import 'package:habit_tracker/services/theme_storage.dart';
+import 'package:habit_tracker/view/homepage/Responsive/Phone.dart';
+import 'package:habit_tracker/view/homepage/Responsive/Tablet.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
- Future <void> main() async {
-  await Supabase.initialize(
-    url: 'https://wpuulmyghraznktpsvkg.supabase.co',
-    anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwdXVsbXlnaHJhem5rdHBzdmtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3MTA4OTYsImV4cCI6MjA1NzI4Njg5Nn0.4AHXRomMDX5hcOP7870t6CduDyFf7BzwBKUNPhpOwAY'
+// Constants for box names
+
+void main() {
+  runZonedGuarded(
+    () async {
+      await initializeApp();
+      runApp(const MyApp());
+    },
+    (error, stack) {
+      debugPrint('Error during app execution: $error');
+      debugPrint('Stack trace: $stack');
+      runApp(ErrorApp(error: error.toString()));
+    },
   );
-  //  todo add database
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox("Habit_db");
-  await Hive.openBox(ThemeController.themeBox);
-    // await initServices();
-
-  Get.put(HabitController());
-  Get.put(ThemeController());
-  runApp(const MyApp());
 }
 
-final supabase = Supabase.instance.client;
+Future<void> initializeApp() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // Initialize Hive
+    await Hive.initFlutter();
+
+    // Open all required boxes
+    await Future.wait([
+      Hive.openBox("Habit_db"),
+      Hive.openBox(ThemeStorageService.themeBox),
+    ]);
+
+    // Initialize Get services and controllers
+    await initializeServices();
+  } catch (e, stack) {
+    debugPrint('Error during initialization: $e');
+    debugPrint('Stack trace: $stack');
+    throw Exception('Failed to initialize app: $e');
+  }
+}
+
+Future<void> initializeServices() async {
+  // Initialize controllers
+  Get.put(HabitController());
+  Get.put(ThemeController());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setEnabledSystemUIMode(
-    //     SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
-    final ThemeController themeController = Get.put(ThemeController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: themeController.lightTheme.value,
-      darkTheme: themeController.darkTheme.value,
-      themeMode: themeController.themeMode.value,
-      home: 
-      // LoginPage()
-       GetBuilder<HabitController>(
-        init: HabitController(),
-        builder:
-            (controller) =>
-                controller.isPhone(context) ? const Phone() : const Tablet(),
+      title: 'Habit Tracker',
+      defaultTransition: Transition.fadeIn,
+      smartManagement: SmartManagement.full,
+      builder: (context, child) {
+        // Apply any global styling or error handlers here
+        return ScrollConfiguration(
+          behavior: ScrollBehavior().copyWith(
+            physics: const BouncingScrollPhysics(),
+          ),
+          child: child!,
+        );
+      },
+      home: const HomeScreen(),
+      getPages: [
+        // Add your routes here
+        GetPage(name: '/', page: () => const HomeScreen()),
+      ],
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<HabitController>(
+      builder: (controller) => _buildResponsiveLayout(context, controller),
+    );
+  }
+
+  Widget _buildResponsiveLayout(
+    BuildContext context,
+    HabitController controller,
+  ) {
+    return controller.isPhone(context) ? const Phone() : const Tablet();
+  }
+}
+
+class ErrorApp extends StatelessWidget {
+  final String error;
+
+  const ErrorApp({super.key, this.error = 'Failed to initialize app'});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 64, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(
+                'An error occurred',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  error,
+                  style: const TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
-// Future<void> initServices() async {
-//   // تهيئة خدمة Supabase
-//   await Get.putAsync(() => SupabaseService().init());
-//   // تسجيل خدمة العادات
-//   Get.put(HabitService());
-//   // تسجيل وحدة التحكم
-//   Get.put(HabitController());
-// }

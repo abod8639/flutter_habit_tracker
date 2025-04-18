@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/page/ThemePage.dart';
+import 'package:habit_tracker/view/ThemePage.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -8,10 +8,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Settings'),
-      ),
+      appBar: AppBar(centerTitle: true, title: const Text('Settings')),
       body: Center(
         child: Column(
           children: [
@@ -24,14 +21,13 @@ class SettingsPage extends StatelessWidget {
                   const Text('Change Theme'),
                 ],
               ),
-              onTap: (){
+              onTap: () {
                 Get.to(const ThemePage());
               },
-            )
+            ),
           ],
         ),
       ),
     );
-    
   }
 }

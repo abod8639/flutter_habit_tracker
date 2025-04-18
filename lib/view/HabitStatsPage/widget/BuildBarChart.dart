@@ -1,0 +1,104 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controller/controller.dart';
+
+Widget BuildBarChart(
+  BuildContext context,
+  List<Map<String, dynamic>> chartData,
+) {
+  final HabitController cont = Get.find<HabitController>();
+
+  if (chartData.isEmpty) {
+    return SizedBox(
+      height: 300,
+      child: Center(child: Text('No habit data available')),
+    );
+  }
+
+  return Card(
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
+        height: 300,
+        child: BarChart(
+          BarChartData(
+            alignment: BarChartAlignment.center,
+            minY: 0,
+            maxY: cont.dayCount > 0 ? cont.dayCount.toDouble() : 5.0,
+            titlesData: FlTitlesData(
+              show: true,
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                      "${value.toInt()}",
+                      style: const TextStyle(fontSize: 10),
+                    );
+                  },
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    if (value.toInt() < chartData.length) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          '${value.toInt() + 1}',
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      );
+                    }
+                    return const Text('');
+                  },
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            ),
+            gridData: FlGridData(
+              horizontalInterval: 1,
+              getDrawingHorizontalLine: (value) {
+                return FlLine(
+                  color: Colors.grey.withOpacity(0.3),
+                  strokeWidth: 1,
+                );
+              },
+            ),
+            borderData: FlBorderData(
+              show: true,
+              border: Border.all(color: Colors.grey.withOpacity(0.3)),
+            ),
+            barGroups:
+                chartData.asMap().entries.map((entry) {
+                  final int index = entry.key;
+                  final Map<String, dynamic> habit = entry.value;
+                  final double barValue =
+                      habit['completed'] ? cont.dayCount.toDouble() : 1.0;
+
+                  return BarChartGroupData(
+                    x: index,
+                    barRods: [
+                      BarChartRodData(
+                        toY: barValue,
+                        color:
+                            habit['completed']
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).colorScheme.error,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ],
+                  );
+                }).toList(),
+          ),
+        ),
+      ),
+    ),
+  );
+}

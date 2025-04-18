@@ -25,16 +25,22 @@ class _MyalartdState extends State<Myalartd> {
       content: RawKeyboardListener(
         focusNode: FocusNode(),
         onKey: (RawKeyEvent event) {
+          // Skip handling special keys like NumLock to avoid conflicts
+          if (event.physicalKey == PhysicalKeyboardKey.numLock) {
+            return;
+          }
+
           if (event is RawKeyDownEvent) {
             if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
               if (event.isControlPressed) {
                 // Add a new line when user presses Ctrl+Enter
                 final currentText = widget.controller.text;
                 final currentPosition = widget.controller.selection.base.offset;
-                
+
                 // Insert a newline at the current cursor position
-                final newText = '${currentText.substring(0, currentPosition)}\n${currentText.substring(currentPosition)}';
-                
+                final newText =
+                    '${currentText.substring(0, currentPosition)}\n${currentText.substring(currentPosition)}';
+
                 // Update the text and cursor position
                 widget.controller.value = TextEditingValue(
                   text: newText,
@@ -68,14 +74,17 @@ class _MyalartdState extends State<Myalartd> {
         child: TextFormField(
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSecondary),
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
           minLines: 1,
           maxLines: 4,
           decoration: InputDecoration(
             focusColor: Theme.of(context).colorScheme.onSecondary,
             fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
             hintText: widget.hintText,
-            hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+            hintStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
           ),
           autofocus: true,
           controller: widget.controller,

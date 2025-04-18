@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 final myBox = Hive.box("Habit_db");
 
-class Habitdb  {
+class Habitdb {
   List todaysHabitList = [];
   Map<DateTime, int> heatmapDateSet = {};
 
@@ -24,13 +24,10 @@ class Habitdb  {
   }
 
   void updateData() {
-    // تخزين القائمة الحالية
     myBox.put("TODOLIST", todaysHabitList);
-    
-    // تخزين قائمة اليوم بالتاريخ الحالي
+
     myBox.put(todaysDateFormatted(), todaysHabitList);
-    
-    // حساب نسبة الإنجاز ورسم الخريطة الحرارية
+
     habitCalculate();
     loadHeatmap();
   }
@@ -42,108 +39,77 @@ class Habitdb  {
         count++;
       }
     }
-    
-    // حساب النسبة المئوية للإنجاز
-    String date = todaysHabitList.isEmpty
-        ? "0.0"
-        : (count / todaysHabitList.length).toStringAsFixed(1);
-    
-    // تخزين النسبة مع مفتاح يحتوي على تاريخ اليوم
+
+    String date =
+        todaysHabitList.isEmpty
+            ? "0.0"
+            : (count / todaysHabitList.length).toStringAsFixed(1);
+
     myBox.put("TODAY_HABIT${todaysDateFormatted()}", date);
   }
- 
+
   List<Map<String, dynamic>> getIncompleteHabits() {
     return todaysHabitList
         .where((habit) => habit[1] == false) // فلترة العادات غير المكتملة
-        .map((habit) => {"name": habit[0], "completed": habit[1]}) // تحويلها إلى خريطة
-        .toList(); // تحويل النتيجة إلى قائمة
+        .map((habit) => {"name": habit[0], "completed": habit[1]})
+        .toList();
   }
+
   List<Map<String, dynamic>> getCompletedHabits() {
     return todaysHabitList
         .where((habit) => habit[1] == true) // فلترة العادات غير المكتملة
-        .map((habit) => {"name": habit[0], "completed": habit[1]}) // تحويلها إلى خريطة
-        .toList(); // تحويل النتيجة إلى قائمة
+        .map((habit) => {"name": habit[0], "completed": habit[1]})
+        .toList();
   }
-
-
 
   void loadHeatmap() {
     try {
-      // الحصول على تاريخ البداية
       String? startDateStr = myBox.get("START_DAY");
-      
-      // إذا لم يكن موجودًا، قم بإنشاء البيانات الافتراضية
-      if (startDateStr == null) {
-        createDefaultData();
-        startDateStr = myBox.get("START_DAY");
-        
-        // إذا استمرت المشكلة، استخدم تاريخ اليوم
-        if (startDateStr == null) {
-          startDateStr = todaysDateFormatted();
-          myBox.put("START_DAY", startDateStr);
-        }
-      }
-      
-      // تحويل النص إلى كائن DateTime
+
       DateTime startDate;
       try {
-        startDate = createDateTimeObject(startDateStr);
+        startDate = createDateTimeObject(startDateStr ?? todaysDateFormatted());
       } catch (e) {
-        // في حالة حدوث خطأ في التحويل، استخدم تاريخ اليوم
         startDateStr = todaysDateFormatted();
         myBox.put("START_DAY", startDateStr);
         startDate = DateTime.now();
       }
-      
-      // حساب عدد الأيام بين تاريخ البداية واليوم
+
       int daysInBetween = DateTime.now().difference(startDate).inDays;
-      
-      // تفريغ مجموعة البيانات قبل إعادة تحميلها
+
       heatmapDateSet = {};
 
-      // التحقق مما إذا كان اليوم قد تغير
       String lastSavedDate = myBox.get("LAST_SAVED_DATE", defaultValue: "");
       String todayDate = todaysDateFormatted();
 
       if (lastSavedDate != todayDate) {
-        // إعادة تعيين حالة العادات إلى false
         for (int i = 0; i < todaysHabitList.length; i++) {
           todaysHabitList[i][1] = false;
         }
-        // حفظ تاريخ اليوم كتاريخ آخر حفظ
         myBox.put("LAST_SAVED_DATE", todayDate);
       }
 
-      // إنشاء بيانات لكل يوم
       for (int i = 0; i < daysInBetween + 1; i++) {
         DateTime currentDate = startDate.add(Duration(days: i));
         String yyyymmdd = convertDateTimeToString(currentDate);
-        
-        // الحصول على قيمة الإنجاز لهذا اليوم
+
         String? habitStrength = myBox.get("TODAY_HABIT$yyyymmdd");
         double strength = 0.0;
 
-        
-        // محاولة تحويل النص إلى رقم
-        if (habitStrength != null) {
-          try {
-            strength = double.parse(habitStrength);
-          } catch (e) {
-            // في حالة حدوث خطأ في التحويل
-            strength = 0.0;
-          }
+        try {
+          strength = double.parse(habitStrength ?? '0.0');
+        } catch (e) {
+          strength = 0.0;
         }
-        
-        // إضافة البيانات إلى المجموعة
+
         final percentForDate = <DateTime, int>{
-          DateTime(currentDate.year, currentDate.month, currentDate.day): 
-              (strength * 10).toInt()
+          DateTime(currentDate.year, currentDate.month, currentDate.day):
+              (strength * 10).toInt(),
         };
-        
+
         heatmapDateSet.addEntries(percentForDate.entries);
       }
     } catch (e) {
-      // في حالة حدوث أي خطأ، إعادة تعيين البيانات
       print("Error in loadHeatmap: $e");
       heatmapDateSet = {};
     }

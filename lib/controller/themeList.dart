@@ -1,0 +1,260 @@
+// ثوابت الألوان للثيمات المختلفة
+import 'package:flutter/material.dart';
+
+const Map<String, Map<String, Color>> themeColors = {
+  'github_dark_green': {
+    'primary': Color(0xFF3FB950),
+    'secondary': Color(0xFF161B22),
+    'background': Color(0xFF0D1117),
+    'surface': Color(0xFF161B22),
+    'error': Color(0xFFFA4549),
+    'onPrimary': Color(0xFF0D1117),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'github': {
+    'primary': Color.fromARGB(255, 0, 102, 220),
+    'secondary': Color.fromARGB(255, 92, 140, 182),
+    'background': Color(0xFFFFFFFF),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFD73A49),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
+  },
+  'github_dark': {
+    'primary': Color.fromARGB(255, 0, 109, 233),
+    'secondary': Color(0xFF161B22),
+    'background': Color(0xFF0D1117),
+    'surface': Color(0xFF161B22),
+    'error': Color(0xFFFA4549),
+    'onPrimary': Color(0xFF0D1117),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'aquarium': {
+    'primary': Color(0xFF1A73E8),
+    'secondary': Color(0xFF03DAC6),
+    'background': Color(0xFFE0F7FA),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
+  },
+  'midnight': {
+    'primary': Color(0xFF6200EE),
+    'secondary': Color(0xFF03DAC6),
+    'background': Color(0xFF121212),
+    'surface': Color(0xFF1E1E1E),
+    'error': Color(0xFFCF6679),
+    'onPrimary': Color.fromARGB(255, 173, 173, 173),
+    'onSecondary': Color(0xFF000000),
+  },
+  // Other themes remain unchanged
+  'forest': {
+    'primary': Color(0xFF2E7D32),
+    'secondary': Color(0xFF81C784),
+    'background': Color(0xFFE8F5E9),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color.fromARGB(255, 135, 135, 135),
+    'onSecondary': Color(0xFF000000),
+  },
+  'sunset': {
+    'primary': Color(0xFFFF9800),
+    'secondary': Color(0xFFFF5722),
+    'background': Color(0xFFFFF3E0),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color(0xFF000000),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'lavender': {
+    'primary': Color(0xFF7E57C2),
+    'secondary': Color(0xFFB39DDB),
+    'background': Color(0xFFEDE7F6),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
+  },
+  'ruby': {
+    'primary': Color(0xFFC2185B),
+    'secondary': Color(0xFFF48FB1),
+    'background': Color(0xFFFCE4EC),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
+  },
+  'mint': {
+    'primary': Color(0xFF009688),
+    'secondary': Color(0xFF80CBC4),
+    'background': Color(0xFFE0F2F1),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
+  },
+  'gold': {
+    'primary': Color(0xFFFFC107),
+    'secondary': Color(0xFFFFD54F),
+    'background': Color(0xFFFFF8E1),
+    'surface': Color(0xFFFFFFFF),
+    'error': Color(0xFFB00020),
+    'onPrimary': Color(0xFF000000),
+    'onSecondary': Color(0xFF000000),
+  },
+  'carbon': {
+    'primary': Color(0xFF424242),
+    'secondary': Color(0xFF757575),
+    'background': Color(0xFF303030),
+    'surface': Color(0xFF424242),
+    'error': Color(0xFFCF6679),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'catppuccin': {
+    'primary': Color.fromARGB(255, 142, 201, 250),
+    'secondary': Color.fromARGB(255, 201, 158, 254),
+    'background': Color(0xFF1E1E2E),
+    'surface': Color(0xFF313244),
+    'error': Color(0xFFF28FAD),
+    'onPrimary': Color(0xFF1E1E2E),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'catppuccin_latte': {
+    'primary': Color(0xFF7287FD),
+    'secondary': Color.fromARGB(255, 156, 170, 250),
+    'background': Color(0xFFEFF1F5),
+    'surface': Color(0xFFDCE0E8),
+    'error': Color(0xFFD20F39),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
+  },
+  'catppuccin_frappe': {
+    'primary': Color.fromARGB(255, 122, 157, 239), // أزرق سماوي
+    'secondary': Color(0xFFEF9F76), // برتقالي دافئ
+    'background': Color(0xFF303446), // رمادي داكن
+    'surface': Color(0xFF414559), // رمادي أفتح قليلاً
+    'error': Color(0xFFE78284), // أحمر دافئ
+    'onPrimary': Color(0xFF1E1E2E), // داكن على الأساسي
+    'onSecondary': Color(0xFFFFFFFF), // أبيض على الثانوي
+  },
+  'catppuccin_macchiato': {
+    // داكن مائل للأرجواني
+    'primary': Color.fromARGB(255, 147, 158, 252), // أزرق بنفسجي
+    'secondary': Color(0xFFF5BDE6), // وردي ناعم
+    'background': Color(0xFF24273A), // بنفسجي غامق
+    'surface': Color(0xFF363A4F), // سطح أفتح
+    'error': Color(0xFFED8796), // أحمر ناعم
+    'onPrimary': Color(0xFF1E1E2E), // داكن على الأساسي
+    'onSecondary': Color(0xFFFFFFFF), // أبيض على الثانوي
+  },
+  'catppuccin_mocha': {
+    // داكن عميق
+    'primary': Color.fromARGB(255, 114, 189, 251),
+    'secondary': Color.fromARGB(255, 188, 133, 255),
+    'background': Color(0xFF1E1E2E),
+    'surface': Color(0xFF313244),
+    'error': Color(0xFFF28FAD),
+    'onPrimary': Color(0xFF1E1E2E),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'dracula': {
+    'primary': Color.fromARGB(255, 174, 118, 252),
+    'secondary': Color.fromARGB(255, 177, 162, 252),
+    'background': Color(0xFF282A36),
+    'surface': Color(0xFF44475A),
+    'error': Color(0xFFFF5555),
+    'onPrimary': Color(0xFF1E1E2E),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'nord': {
+    'primary': Color.fromARGB(255, 108, 187, 209),
+    'secondary': Color(0xFF81A1C1),
+    'background': Color(0xFF2E3440),
+    'surface': Color(0xFF3B4252),
+    'error': Color(0xFFD08770),
+    'onPrimary': Color(0xFF2E3440),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'tokyo_night': {
+    'primary': Color(0xFF7AA2F7),
+    'secondary': Color.fromARGB(255, 106, 206, 173),
+    'background': Color(0xFF1A1B26),
+    'surface': Color(0xFF2E3440),
+    'error': Color(0xFFF7768E),
+    'onPrimary': Color(0xFF1A1B26),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'one_dark': {
+    'primary': Color(0xFFE06C75),
+    'secondary': Color.fromARGB(255, 109, 197, 178),
+    'background': Color(0xFF282C34),
+    'surface': Color(0xFF3E4451),
+    'error': Color(0xFFBE5046),
+    'onPrimary': Color(0xFF282C34),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'sunset_theme': {
+    'primary': Color(0xFFFF6B6B),
+    'secondary': Color.fromARGB(255, 252, 162, 45),
+    'background': Color(0xFF2E1A47),
+    'surface': Color(0xFF3B2F5C),
+    'error': Color(0xFFD72638),
+    'onPrimary': Color(0xFF2E1A47),
+    'onSecondary': Color(0xFFFFFFFF),
+  },
+  'cyberpunk_neon': {
+    'primary': Color(0xFFFF007F), // وردي نيون
+    'secondary': Color.fromARGB(255, 123, 0, 255), // أزرق سماوي نيون
+    'background': Color(0xFF050A30), // كحلي داكن جدًا
+    'surface': Color(0xFF0A0F48), // كحلي فاتح
+    'error': Color(0xFFFF1744), // أحمر نيون
+    'onPrimary': Color(0xFF050A30), // داكن للتباين
+    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+  },
+  'hologram': {
+    'primary': Color(0xFF29B6F6), // أزرق سماوي فاتح
+    'secondary': Color.fromARGB(255, 135, 71, 188), // بنفسجي فاتح
+    'background': Color(0xFF0F172A), // أزرق داكن جدًا
+    'surface': Color(0xFF1E293B), // رمادي مزرق
+    'error': Color(0xFFFF5252), // أحمر ساطع
+    'onPrimary': Color(0xFFFFFFFF), // أبيض للوضوح
+    'onSecondary': Color(0xFF0F172A), // داكن للتباين
+  },
+  'cyber_grid': {
+    'primary': Color(0xFF8A2BE2), // بنفسجي كهربائي
+    'secondary': Color.fromARGB(255, 0, 238, 255), // أخضر نيون
+    'background': Color(0xFF050A30), // كحلي غامق
+    'surface': Color(0xFF0A0F48), // أزرق داكن
+    'error': Color(0xFFFF1744), // أحمر ساطع
+    'onPrimary': Color(0xFF050A30), // داكن للتباين
+    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+  },
+  'neo_tokyo': {
+    'primary': Color(0xFF00FFFF), // سماوي نيون
+    'secondary': Color.fromARGB(255, 162, 0, 255), // بنفسجي نيون
+    'background': Color(0xFF0D0D0D), // أسود داكن جدًا
+    'surface': Color(0xFF1A1A1A), // رمادي داكن
+    'error': Color(0xFFFF1744), // أحمر نيون
+    'onPrimary': Color(0xFF0D0D0D), // أسود للتباين
+    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+  },
+  'neon_circuit': {
+    'primary': Color(0xFF00FFAA), // أخضر تركواز نيون
+    'secondary': Color.fromARGB(255, 68, 215, 255), // أصفر نيون
+    'background': Color(0xFF101820), // أزرق داكن جدًا
+    'surface': Color(0xFF1A2930), // رمادي مائل للأزرق
+    'error': Color(0xFFFF1744), // أحمر نيون
+    'onPrimary': Color(0xFF101820), // داكن للتباين
+    'onSecondary': Color(0xFFFFFFFF), // أبيض للوضوح
+  },
+  'futuristic_space': {
+    'primary': Color(0xFF3D5AFE), // أزرق نيوني
+    'secondary': Color.fromARGB(255, 201, 64, 255), // وردي نيون
+    'background': Color(0xFF000014), // أسود مائل للكحلي
+    'surface': Color(0xFF1A237E), // أزرق ملكي
+    'error': Color(0xFFD50000), // أحمر غامق
+    'onPrimary': Color(0xFFFFFFFF), // أبيض
+    'onSecondary': Color(0xFF000014), // داكن للتباين
+  },
+};

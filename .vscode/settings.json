@@ -11,5 +11,6 @@
     "startdate",
     "strungth",
     "Taile"
-  ]
+  ],
+  "jdk.advanced.disable.nbjavac": false
 }

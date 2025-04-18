@@ -1,29 +1,92 @@
+// habit_controller.dart
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/custom/myalartD.dart';
+import 'package:habit_tracker/controller/HabitActions.dart';
 import 'package:habit_tracker/data/habit_db.dart';
+import 'package:habit_tracker/models/HabitUtils.dart';
+import 'package:habit_tracker/services/HamitStorage.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
-  // Constants
-  static const String _boxName = "Habit_db";
-  static const String _todoListKey = "TODOLIST";
-  static const String _lastResetDateKey = "LAST_RESET_DATE";
-  static const String _dayCountKey = "DAY_COUNT"; //
-  static const String _startDayKey = "START_DAY"; //
-
-  // Variables
-  int? index;
-  int dayCount = 1;
-  final TextEditingController habitTextController = TextEditingController();
   final Habitdb db = Habitdb();
+  final TextEditingController habitTextController = TextEditingController();
   late final Box _myBox;
-  DateTime? lastResetDate;
   Timer? _resetCheckTimer;
+  RxInt dayCount = 1.obs;
+  Rx<DateTime?> lastResetDate = Rx<DateTime?>(null);
+  RxInt index = 0.obs;
 
-  // Responsive design helpers
+  @override
+  void onInit() {
+    super.onInit();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    _myBox = Hive.box(HabitStorage.boxName);
+    initializeBox(_myBox, db);
+
+    // Load data with reactive variables
+    dayCount.value = _myBox.get(HabitStorage.dayCountKey) ?? 1;
+    lastResetDate.value = getLastResetDate(_myBox);
+
+    // Check for reset immediately
+    checkAndResetHabits();
+
+    // Set periodic check (using a more reasonable interval - 15 minutes)
+    _resetCheckTimer = Timer.periodic(
+      const Duration(minutes: 15),
+      (_) => checkAndResetHabits(),
+    );
+  }
+
+  void checkAndResetHabits() {
+    if (shouldResetHabits(lastResetDate.value)) {
+      incrementDayCount();
+      resetAllHabits(db);
+      lastResetDate.value = DateTime.now();
+      saveLastResetDate(_myBox, lastResetDate.value!);
+    }
+  }
+
+  void incrementDayCount() {
+    dayCount.value++;
+    _myBox.put(HabitStorage.dayCountKey, dayCount.value);
+  }
+
+  void addHabit(BuildContext context) {
+    habitTextController.clear();
+    showAddHabitDialog(context, habitTextController, db, update);
+  }
+
+  void editHabit(int index, BuildContext context) {
+    if (index < 0 || index >= db.todaysHabitList.length) return;
+    showEditHabitDialog(index, context, habitTextController, db, update);
+  }
+
+  void deleteHabit(int index, BuildContext context) {
+    if (index < 0 || index >= db.todaysHabitList.length) return;
+    showDeleteHabitDialog(index, context, db, update);
+  }
+
+  void toggleHabit(bool? value, int index) {
+    if (index < 0 || index >= db.todaysHabitList.length) return;
+    toggleHabitStatus(value, index, db, update);
+  }
+
+  void manualReset() {
+    showManualResetDialog(db, update);
+  }
+
+  @override
+  void onClose() {
+    _resetCheckTimer?.cancel();
+    habitTextController.dispose();
+    super.onClose();
+  }
+
   bool isDesktop(BuildContext context) =>
       MediaQuery.of(context).size.width >= 1000.0;
   bool isTablet(BuildContext context) =>
@@ -32,218 +95,7 @@ class HabitController extends GetxController {
   bool isPhone(BuildContext context) =>
       MediaQuery.of(context).size.width < 600.0;
 
-  @override
-  void onInit() {
-    super.onInit();
-    initializeBox();
-  }
-
-  Future<void> initializeBox() async {
-    _myBox = Hive.box(_boxName);
-
-    // Initialize data
-    if (_myBox.get(_todoListKey) == null) {
-      db.createDefaultData();
-      // تهيئة عداد الأيام بالقيمة الابتدائية
-      _myBox.put(_dayCountKey, 1);
-      dayCount = 1;
-    } else {
-      db.loadData();
-      // استرجاع قيمة عداد الأيام من التخزين
-      dayCount = _myBox.get(_dayCountKey) ?? 1;
-    }
-
-    // Load last reset date and check for day change
-    lastResetDate = _getLastResetDate();
-    checkAndResetHabits();
-
-    // Set timer to check for day change every hour
-    _resetCheckTimer = Timer.periodic(
-      const Duration(hours: 1),
-      (_) => checkAndResetHabits(),
-    );
-
-    update();
-  }
-
-  void get() {
-    _myBox.get(_startDayKey);
-    update();
-  }
-
-  void checkAndResetHabits() {
-    final DateTime now = DateTime.now();
-    final DateTime today = DateTime(now.year, now.month, now.day);
-
-    if (lastResetDate == null || !_isSameDay(today, lastResetDate!)) {
-      // زيادة عداد الأيام قبل إعادة ضبط العادات
-      incrementDayCount();
-      resetAllHabits();
-      lastResetDate = today;
-      _saveLastResetDate(today);
-    }
-  }
-
-  bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
-  }
-
-  // دالة جديدة لزيادة عداد الأيام وحفظه في Hive
-  void incrementDayCount() {
-    dayCount++;
-    _myBox.put(_dayCountKey, dayCount);
-    update();
-  }
-
-  void resetAllHabits() {
-    for (var habit in db.todaysHabitList) {
-      habit[1] = false;
-    }
-
-    db.updateData();
-
-    _showResetNotification();
-  }
-
-  void _showResetNotification() {
-    Get.snackbar(
-      'تم إعادة ضبط العادات',
-      'تم إعادة ضبط جميع العادات ليوم جديد - اليوم $dayCount',
-      snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 5),
-      backgroundColor: Colors.green.withOpacity(0.7),
-      colorText: Colors.white,
-      margin: const EdgeInsets.all(10),
-    );
-  }
-
-  void _saveLastResetDate(DateTime date) {
-    _myBox.put(_lastResetDateKey, date.toIso8601String());
-  }
-
-  DateTime? _getLastResetDate() {
-    final String? dateStr = _myBox.get(_lastResetDateKey);
-    return dateStr != null ? DateTime.parse(dateStr) : null;
-  }
-
-  void toggleHabit(bool? value, int index) {
-    if (index >= 0 && index < db.todaysHabitList.length) {
-      db.todaysHabitList[index][1] = value ?? false;
-      db.updateData();
-      update();
-    }
-  }
-
-  void addHabit(BuildContext context) {
-    habitTextController.clear();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Myalartd(
-          hintText: 'Add newHabit...',
-          controller: habitTextController,
-          onSave: () {
-            final String habitName = habitTextController.text.trim();
-            if (habitName.isNotEmpty) {
-              db.todaysHabitList.add([habitName, false]);
-              db.updateData();
-              Navigator.of(context).pop();
-              update();
-            } else {
-              // Show error for empty habit name
-              Get.snackbar(
-                'خطأ',
-                'لا يمكن ترك اسم العادة فارغاً',
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.red.withOpacity(0.7),
-                colorText: Colors.white,
-              );
-            }
-          },
-        );
-      },
-    );
-  }
-
-  void deleteHabit(int index, context) {
-    if (index >= 0 && index < db.todaysHabitList.length) {
-      // Show confirmation dialog
-
-      Get.defaultDialog(
-        title: 'Delete Habit', //delete
-        middleText:
-            'ar you sure you want to delete this habit ?', //ar you sure you want to delete this habit
-        textConfirm: 'Delete',
-        cancelTextColor: Theme.of(context).primaryColor,
-        buttonColor: Theme.of(context).colorScheme.primary,
-        confirmTextColor: Theme.of(context).colorScheme.onPrimary,
-        textCancel: 'Cancel',
-        onCancel: () => Get.back(),
-        onConfirm: () {
-          Get.back();
-          db.todaysHabitList.removeAt(index);
-          db.updateData();
-          update();
-        },
-      );
-    }
-  }
-
-  void editHabit(int index, BuildContext context) {
-    if (index >= 0 && index < db.todaysHabitList.length) {
-      habitTextController.text = db.todaysHabitList[index][0];
-      showDialog(
-        context: context,
-        builder: (context) {
-          return Myalartd(
-            hintText: 'Edit This Habit',
-            controller: habitTextController,
-            onSave: () {
-              final String habitName = habitTextController.text.trim();
-              if (habitName.isNotEmpty) {
-                db.todaysHabitList[index][0] = habitName;
-                db.updateData();
-                Navigator.of(context).pop();
-                update();
-              } else {
-                Get.snackbar(
-                  'Error :',
-                  'The field can`t be empty :)',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.red.withOpacity(0.7),
-                  colorText: Colors.white,
-                );
-              }
-            },
-          );
-        },
-      );
-    }
-  }
-
-  void manualReset() {
-    Get.defaultDialog(
-      title: 'إعادة ضبط جميع العادات',
-      middleText:
-          'هل أنت متأكد من رغبتك في إعادة ضبط جميع العادات؟ سيتم تعليم جميع العادات كغير مكتملة.',
-      textConfirm: 'إعادة ضبط',
-      textCancel: 'إلغاء',
-      confirmTextColor: Colors.white,
-      onConfirm: () {
-        // لا نزيد dayCount في إعادة الضبط اليدوية
-        resetAllHabits();
-        update();
-        Get.back();
-      },
-    );
-  }
-
-  @override
-  void onClose() {
-    _resetCheckTimer?.cancel();
-    habitTextController.dispose();
-    super.onClose();
+  String getStartDay() {
+    return _myBox.get(HabitStorage.startDayKey, defaultValue: "");
   }
 }

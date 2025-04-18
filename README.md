@@ -14,7 +14,16 @@ A modern, intuitive habit tracking application built with Flutter that helps you
 
 ## Screenshots
 
-[Coming soon]
+ Home page
+![Rainbow Snake](assets/image/image2.png)
+
+ Theme page
+![Rainbow Snake](assets/image/image4.png)
+
+ Rate page 
+![Rainbow Snake](assets/image/image3.png) 
+![Rainbow Snake](assets/image/image.png)
+
 
 ## Installation
 
@@ -22,7 +31,7 @@ A modern, intuitive habit tracking application built with Flutter that helps you
 
 2. Clone this repository:
 ```bash
-git clone 
+git clone https://github.com/abod8639/hapit_tracker.git
 cd habit_tracker
 ```
 

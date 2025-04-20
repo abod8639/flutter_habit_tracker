@@ -6,53 +6,61 @@ import 'package:habit_tracker/view/widget/TextTaile.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
 
-class Tablet extends StatelessWidget {
+class Tablet extends StatefulWidget {
   const Tablet({super.key});
 
+  @override
+  State<Tablet> createState() => _TabletState();
+}
+
+class _TabletState extends State<Tablet> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HabitController>(
       init: HabitController(),
-      builder:
-          (controller) => Scaffold(
-            drawer: const myDrawer(),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: myfloatingActionButton(
-              onPressed: () => controller.addHabit(context),
-            ),
-            body: Row(
-              children: [
-                // Left Side: Completed Habits List (Visible only on Desktop)
-                if (controller.isDesktop(context))
-                  Expanded(flex: 5, child: const DrawerList()),
+      builder: (controller) {
+        final habits = controller.db.todaysHabitList;
 
-                if (!controller.isDesktop(context)) const DrawerMenuButton(),
+        return Scaffold(
+          drawer: const myDrawer(),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: myfloatingActionButton(
+            onPressed: () => controller.addHabit(context),
+          ),
+          body: Row(
+            children: [
+              // Left Side: Completed Habits List (Visible only on Desktop)
+              if (controller.isDesktop(context))
+                Expanded(flex: 5, child: const DrawerList()),
 
-                // Middle: Monthly Summary
-                Expanded(
-                  flex: controller.isDesktop(context) ? 7 : 8,
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: ListView(
-                      key: ValueKey<String>(controller.getStartDay()),
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        MonthlySummary(
-                          datasets: controller.db.heatmapDateSet,
-                          startDate: controller.getStartDay(),
-                        ),
-                      ],
-                    ),
+              if (!controller.isDesktop(context)) const DrawerMenuButton(),
+
+              // Middle: Monthly Summary
+              Expanded(
+                flex: controller.isDesktop(context) ? 7 : 8,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: ListView(
+                    key: ValueKey<String>(controller.getStartDay()),
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      MonthlySummary(
+                        datasets: controller.db.heatmapDateSet,
+                        startDate: controller.getStartDay(),
+                      ),
+                    ],
                   ),
                 ),
+              ),
 
-                // Right Side: Habit Checklist
-                ExpandedCheckboxList(),
-              ],
-            ),
+              // Right Side: Habit Checklist
+              ExpandedCheckboxList(habits: habits),
+            ],
           ),
+        );
+      },
     );
   }
 }
@@ -87,8 +95,9 @@ class DrawerMenuButton extends StatelessWidget {
 }
 
 class ExpandedCheckboxList extends StatelessWidget {
-  const ExpandedCheckboxList({super.key});
+  const ExpandedCheckboxList({super.key, required this.habits});
 
+  final List<dynamic> habits;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HabitController>(
@@ -111,19 +120,16 @@ class ExpandedCheckboxList extends StatelessWidget {
                   ).animate(
                     CurvedAnimation(parent: animation, curve: Curves.easeOut),
                   ),
-                  child: TextTaile(
+                  child: MyTextTaile(
                     onTap: () {
-                      controller.toggleHabit(
-                        (controller.db.todaysHabitList[index][1] == false),
-                        index,
-                      );
+                      controller.toggleHabit(!habits[index][1], index);
                       controller.db.updateData();
                     },
                     onDelete:
                         (context) => controller.deleteHabit(index, context),
                     onEdit: (context) => controller.editHabit(index, context),
-                    habitName: controller.db.todaysHabitList[index][0],
-                    habitCompleted: controller.db.todaysHabitList[index][1],
+                    habitName: habits[index][0],
+                    habitCompleted: habits[index][1],
                     onChanged: (value) {
                       controller.toggleHabit(value, index);
                       controller.db.updateData();

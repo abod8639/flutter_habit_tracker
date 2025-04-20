@@ -29,6 +29,14 @@ class _MyalartdState extends State<Myalartd> {
           if (event.physicalKey == PhysicalKeyboardKey.numLock) {
             return;
           }
+          if (event is RawKeyUpEvent) {
+            if (event.isKeyPressed(LogicalKeyboardKey.exit)) {
+              // Close the dialog when user presses Escape
+              Navigator.of(context).pop();
+              widget.controller.clear();
+            }
+            return;
+          }
 
           if (event is RawKeyDownEvent) {
             if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
@@ -45,7 +53,7 @@ class _MyalartdState extends State<Myalartd> {
                 widget.controller.value = TextEditingValue(
                   text: newText,
                   selection: TextSelection.collapsed(
-                    offset: currentPosition + 1,
+                    offset: currentPosition + 0,
                   ),
                 );
               } else {
@@ -72,6 +80,7 @@ class _MyalartdState extends State<Myalartd> {
           }
         },
         child: TextFormField(
+          mouseCursor: MouseCursor.uncontrolled,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.onSecondary,

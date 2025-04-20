@@ -14,9 +14,9 @@ class Phone extends StatefulWidget {
 }
 
 class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
-  final HabitController _controller = Get.find<HabitController>();
-  late AnimationController _menuAnimationController;
-  late Animation<double> _menuRotationAnimation;
+  final HabitController controller = Get.find<HabitController>();
+  late final AnimationController _menuAnimationController;
+  late final Animation<double> _menuRotationAnimation;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -26,12 +26,10 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _menuRotationAnimation = Tween<double>(begin: 0, end: 0.125).animate(
-      CurvedAnimation(
-        parent: _menuAnimationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _menuRotationAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(_menuAnimationController);
   }
 
   @override
@@ -44,109 +42,115 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: myDrawer(),
+      drawer: const myDrawer(),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: myfloatingActionButton(
-        onPressed: () => _controller.addHabit(context),
+        onPressed: () => controller.addHabit(context),
       ),
-      body: GetBuilder<HabitController>(
-        builder:
-            (controller) => Stack(
-              children: [
-                CustomScrollView(
-                  controller: _scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 60),
-                        child: MonthlySummary(
-                          datasets: controller.db.heatmapDateSet,
-                          startDate: controller.getStartDay(),
-                        ),
-                      ),
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        controller.index.value = index;
-                        // Add staggered animation to list items
-                        return AnimatedBuilder(
-                          animation: _scrollController,
-                          builder: (context, child) {
-                            return TweenAnimationBuilder<double>(
-                              tween: Tween(begin: 0.0, end: 1.0),
-                              duration: Duration(
-                                milliseconds: 300 + (index * 50),
-                              ),
-                              curve: Curves.easeOutQuint,
-                              builder: (context, value, child) {
-                                return Transform.translate(
-                                  offset: Offset(0, 20 * (1 - value)),
-                                  child: Opacity(opacity: value, child: child),
-                                );
-                              },
-                              child: TextTaile(
-                                onTap: () {
-                                  controller.toggleHabit(
-                                    (controller.db.todaysHabitList[index][1] ==
-                                        false),
-                                    index,
-                                  );
-                                  controller.db.updateData();
-                                },
-                                onDelete:
-                                    (context) =>
-                                        controller.deleteHabit(index, context),
-                                onEdit:
-                                    (context) =>
-                                        controller.editHabit(index, context),
-                                habitName:
-                                    controller.db.todaysHabitList[index][0],
-                                habitCompleted:
-                                    controller.db.todaysHabitList[index][1],
-                                onChanged: (value) {
-                                  controller.toggleHabit(value, index);
-                                  controller.db.updateData();
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      }, childCount: controller.db.todaysHabitList.length),
-                    ),
-                  ],
-                ),
-                SafeArea(
-                  child: Positioned(
-                    top: 5,
-                    left: 5,
-                    child: Builder(
-                      builder: (context) {
-                        return AnimatedBuilder(
-                          animation: _menuAnimationController,
-                          builder: (context, child) {
-                            return Transform.rotate(
-                              angle: _menuRotationAnimation.value * 2 * 3.14159,
-                              child: IconButton(
-                                onPressed: () {
-                                  _menuAnimationController.forward().then((_) {
-                                    _menuAnimationController.reverse();
-                                    Scaffold.of(context).openDrawer();
-                                  });
-                                },
-                                icon: const Icon(Icons.drag_handle),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+      body: SafeArea(
+        child: GetBuilder<HabitController>(
+          builder: (controller) {
+            final habits = controller.db.todaysHabitList;
+            return CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                _appBar(),
+
+                SliverToBoxAdapter(
+                  child: MonthlySummary(
+                    datasets: controller.db.heatmapDateSet,
+                    startDate: controller.getStartDay(),
                   ),
                 ),
+
+                _chikList(habits: habits),
               ],
-            ),
+            );
+          },
+        ),
       ),
+    );
+  }
+}
+
+class _appBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      automaticallyImplyLeading: true,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: Colors.transparent,
+      foregroundColor: Colors.transparent,
+      floating: true,
+      backgroundColor: Colors.transparent,
+      leading: Builder(
+        builder: (context) {
+          final state = context.findAncestorStateOfType<_PhoneState>();
+          return AnimatedBuilder(
+            animation: state!._menuRotationAnimation,
+            builder: (context, child) {
+              return Transform.rotate(
+                angle: state._menuRotationAnimation.value * 0.5,
+                child: IconButton(
+                  icon: Icon(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    Icons.menu,
+                  ),
+                  onPressed: () {
+                    state._menuAnimationController.forward().then((_) {
+                      state._menuAnimationController.reverse();
+                      Scaffold.of(context).openDrawer();
+                    });
+                  },
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _chikList extends StatelessWidget {
+  const _chikList({required this.habits});
+
+  final List<dynamic> habits;
+
+  @override
+  Widget build(BuildContext context) {
+    final HabitController controller = Get.find<HabitController>();
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: Duration(milliseconds: 300 + (index * 50)),
+          curve: Curves.easeOutQuint,
+          builder: (context, value, child) {
+            return Transform.translate(
+              offset: Offset(0, 20 * (1 - value)),
+              child: Opacity(opacity: value, child: child),
+            );
+          },
+          child: MyTextTaile(
+            habitName: habits[index][0],
+            habitCompleted: habits[index][1],
+            onTap: () {
+              controller.toggleHabit(!habits[index][1], index);
+              controller.db.updateData();
+            },
+            onDelete: (context) => controller.deleteHabit(index, context),
+            onEdit: (context) => controller.editHabit(index, context),
+            onChanged: (value) {
+              controller.toggleHabit(value, index);
+              controller.db.updateData();
+            },
+          ),
+        );
+      }, childCount: habits.length),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class TextTaile extends StatefulWidget {
+class MyTextTaile extends StatefulWidget {
   final String habitName;
   final bool habitCompleted;
   final Function(BuildContext)? onDelete;
@@ -9,7 +9,7 @@ class TextTaile extends StatefulWidget {
   final Function(bool?)? onChanged;
   final Function()? onTap;
 
-  const TextTaile({
+  const MyTextTaile({
     required this.habitCompleted,
     required this.onChanged,
     required this.onDelete,
@@ -20,10 +20,10 @@ class TextTaile extends StatefulWidget {
   });
 
   @override
-  State<TextTaile> createState() => _TextTaileState();
+  State<MyTextTaile> createState() => _MyTextTaileState();
 }
 
-class _TextTaileState extends State<TextTaile>
+class _MyTextTaileState extends State<MyTextTaile>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -46,7 +46,7 @@ class _TextTaileState extends State<TextTaile>
   }
 
   @override
-  void didUpdateWidget(TextTaile oldWidget) {
+  void didUpdateWidget(MyTextTaile oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.habitCompleted != oldWidget.habitCompleted) {
       if (widget.habitCompleted) {

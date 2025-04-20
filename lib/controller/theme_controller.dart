@@ -1,3 +1,5 @@
+import 'dart:math' as Math;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/themeList.dart';
@@ -41,7 +43,8 @@ class ThemeController extends GetxController {
     try {
       // Load saved settings
       currentTheme.value = _storage.getThemeName(defaultTheme);
-      themeMode.value = _storage.getThemeMode();
+      themeMode.value = ThemeMode.light;
+      // _storage.getThemeMode();
       useCustomBackground.value = _storage.getUseCustomBackground();
 
       final savedBgColor = _storage.getCustomBackgroundColor();
@@ -127,7 +130,7 @@ class ThemeController extends GetxController {
     final themeData = themeColors[currentTheme.value];
     if (themeData == null) return;
 
-    final isDarkTheme = _isDarkOrientedTheme(currentTheme.value);
+    final isDarkTheme = _isDarkTheme(themeData);
     final customBg =
         useCustomBackground.value ? customBackgroundColor.value : null;
 
@@ -146,28 +149,60 @@ class ThemeController extends GetxController {
     );
   }
 
-  bool _isDarkOrientedTheme(String themeName) {
-    const darkThemes = [
-      'github_dark_green',
-      'github_dark',
-      'midnight',
-      'carbon',
-      'catppuccin',
-      'catppuccin_frappe',
-      'catppuccin_macchiato',
-      'catppuccin_mocha',
-      'dracula',
-      'nord',
-      'tokyo_night',
-      'one_dark',
-      'sunset_theme',
-      'cyberpunk_neon',
-      'hologram',
-      'cyber_grid',
-      'neo_tokyo',
-      'neon_circuit',
-      'futuristic_space',
-    ];
-    return darkThemes.contains(themeName);
+  // New method to automatically detect if a theme is dark based on its colors
+  bool _isDarkTheme(Map<String, dynamic> themeColors) {
+    // Check if the theme explicitly defines if it's dark
+    if (themeColors.containsKey('isDark')) {
+      return themeColors['isDark'] == true;
+    }
+
+    // If not explicitly defined, analyze the colors to determine if it's dark
+    // Get the primary or background color to analyze
+    Color colorToAnalyze;
+
+    if (themeColors.containsKey('backgroundColor')) {
+      // If backgroundColor is available, use it
+      colorToAnalyze = _parseColor(themeColors['backgroundColor']);
+    } else if (themeColors.containsKey('primaryColor')) {
+      // Otherwise use primaryColor
+      colorToAnalyze = _parseColor(themeColors['primaryColor']);
+    } else if (themeColors.containsKey('scaffoldBackgroundColor')) {
+      // Or scaffoldBackgroundColor
+      colorToAnalyze = _parseColor(themeColors['scaffoldBackgroundColor']);
+    } else {
+      // Default to considering it light if we can't determine
+      return false;
+    }
+
+    // Calculate the brightness using the HSP color model
+    // (perceived brightness) which is more accurate than just luminance
+    double r = colorToAnalyze.r / 255;
+    double g = colorToAnalyze.g / 255;
+    double b = colorToAnalyze.b / 255;
+
+    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    double hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+
+    // If perceived brightness is less than 0.5, consider it dark
+    return hsp < 0.5;
+  }
+
+  // Helper method to parse color from various formats
+  Color _parseColor(dynamic colorValue) {
+    if (colorValue is Color) {
+      return colorValue;
+    } else if (colorValue is int) {
+      return Color(colorValue);
+    } else if (colorValue is String && colorValue.startsWith('#')) {
+      // Parse hex color string
+      String hex = colorValue.replaceAll('#', '');
+      if (hex.length == 6) {
+        hex = 'FF$hex'; // Add alpha if not present
+      }
+      return Color(int.parse(hex, radix: 16));
+    }
+
+    // Default fallback
+    return Colors.grey;
   }
 }

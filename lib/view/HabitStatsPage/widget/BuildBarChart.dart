@@ -25,50 +25,14 @@ Widget BuildBarChart(
             'ToDay Progress',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+
           const SizedBox(height: 16),
+
           SizedBox(
             height: 300,
             child: BarChart(
               BarChartData(
-                barTouchData: BarTouchData(
-                  enabled: true,
-                  touchTooltipData: BarTouchTooltipData(
-                    fitInsideHorizontally: true,
-                    fitInsideVertically: true,
-                    tooltipPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    tooltipMargin: 8,
-                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                      final Map<String, dynamic> habit = chartData[groupIndex];
-                      final String name = habit['habit'] ?? 'Unnamed';
-                      final bool completed = habit['completed'] ?? false;
-
-                      return BarTooltipItem(
-                        name,
-                        const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: '\n${completed ? 'Completed' : 'Incomplete'}',
-                            style: TextStyle(
-                              color:
-                                  completed
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Theme.of(context).colorScheme.error,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
+                barTouchData: _MyBarTouchData(chartData, context),
                 alignment: BarChartAlignment.center,
                 minY: 0,
                 maxY: cont.dayCount > 0 ? cont.dayCount.toDouble() : 5.0,
@@ -157,6 +121,48 @@ Widget BuildBarChart(
           ),
         ],
       ),
+    ),
+  );
+}
+
+BarTouchData _MyBarTouchData(
+  List<Map<String, dynamic>> chartData,
+  BuildContext context,
+) {
+  return BarTouchData(
+    enabled: true,
+    touchTooltipData: BarTouchTooltipData(
+      fitInsideHorizontally: true,
+      fitInsideVertically: true,
+      tooltipPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      tooltipMargin: 8,
+      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+        final Map<String, dynamic> habit = chartData[groupIndex];
+        final String name = habit['habit'] ?? 'Unnamed';
+        final bool completed = habit['completed'] ?? false;
+
+        return BarTooltipItem(
+          name,
+          const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+          children: [
+            TextSpan(
+              text: '\n${completed ? 'Completed' : 'Go do it now'}',
+              style: TextStyle(
+                color:
+                    completed
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.error.withRed(255),
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      },
     ),
   );
 }

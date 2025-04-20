@@ -26,8 +26,8 @@ A **beautiful**, **responsive**, and **intuitive** habit tracking app built with
 ![Themes](assets/image/4.png)
 
 **Rate Page**  
-![Rate](assets/image/3.png)  
-![Rate](assets/image/2.png)
+![Rate](assets/image/2.png)  
+![Rate](assets/image/3.png)
 
 ---
 

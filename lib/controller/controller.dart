@@ -64,6 +64,8 @@ class HabitController extends GetxController {
   void editHabit(int index, BuildContext context) {
     if (index < 0 || index >= db.todaysHabitList.length) return;
     showEditHabitDialog(index, context, habitTextController, db, update);
+    db.updateData();
+    update();
   }
 
   void deleteHabit(int index, BuildContext context) {
@@ -74,6 +76,8 @@ class HabitController extends GetxController {
   void toggleHabit(bool? value, int index) {
     if (index < 0 || index >= db.todaysHabitList.length) return;
     toggleHabitStatus(value, index, db, update);
+    db.updateData();
+    update();
   }
 
   void manualReset() {

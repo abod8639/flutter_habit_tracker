@@ -15,12 +15,13 @@ Widget BuildHabitListCard(
           ),
           SizedBox(height: 16),
           SizedBox(
-            height: chartData.length > 5 ? 300 : null,
+            height: chartData.length * 50,
             child: ListView.builder(
               physics:
-                  chartData.length > 5
-                      ? const AlwaysScrollableScrollPhysics()
-                      : const NeverScrollableScrollPhysics(),
+                  // chartData.length > 5
+                  //     ? const AlwaysScrollableScrollPhysics()
+                  //     :
+                  const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: chartData.length,
               itemBuilder: (context, index) {

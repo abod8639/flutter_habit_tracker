@@ -21,8 +21,8 @@ void showAddHabitDialog(
           if (habitName.isNotEmpty) {
             db.todaysHabitList.add([habitName, false]);
             db.updateData();
-            Navigator.of(context).pop();
             update();
+            Navigator.of(context).pop();
           } else {
             Get.snackbar(
               'Error',

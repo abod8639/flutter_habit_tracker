@@ -44,7 +44,7 @@ class _TabletState extends State<Tablet> {
                   duration: const Duration(milliseconds: 300),
                   child: ListView(
                     key: ValueKey<String>(controller.getStartDay()),
-                    scrollDirection: Axis.vertical,
+                    scrollDirection: Axis.horizontal,
                     children: [
                       MonthlySummary(
                         datasets: controller.db.heatmapDateSet,
@@ -109,6 +109,7 @@ class ExpandedCheckboxList extends StatelessWidget {
               child: SizedBox(
                 height: double.infinity,
                 child: AnimatedList(
+                  scrollDirection: Axis.vertical,
                   initialItemCount: controller.db.todaysHabitList.length,
                   itemBuilder: (context, index, animation) {
                     controller.index.value = index;
@@ -128,20 +129,20 @@ class ExpandedCheckboxList extends StatelessWidget {
                         ),
                       ),
                       child: MyTextTaile(
-                        onTap: () {
-                          controller.toggleHabit(!habits[index][1], index);
-                          controller.db.updateData();
-                        },
+                        onTap:
+                            () => controller.toggleHabit(
+                              !habits[index][1],
+                              index,
+                            ),
+
                         onDelete:
                             (context) => controller.deleteHabit(index, context),
                         onEdit:
                             (context) => controller.editHabit(index, context),
                         habitName: habits[index][0],
                         habitCompleted: habits[index][1],
-                        onChanged: (value) {
-                          controller.toggleHabit(value, index);
-                          controller.db.updateData();
-                        },
+                        onChanged:
+                            (value) => controller.toggleHabit(value, index),
                       ),
                     );
                   },

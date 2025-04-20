@@ -30,6 +30,45 @@ Widget BuildBarChart(
             height: 300,
             child: BarChart(
               BarChartData(
+                barTouchData: BarTouchData(
+                  enabled: true,
+                  touchTooltipData: BarTouchTooltipData(
+                    fitInsideHorizontally: true,
+                    fitInsideVertically: true,
+                    tooltipPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    tooltipMargin: 8,
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      final Map<String, dynamic> habit = chartData[groupIndex];
+                      final String name = habit['habit'] ?? 'Unnamed';
+                      final bool completed = habit['completed'] ?? false;
+
+                      return BarTooltipItem(
+                        name,
+                        const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '\n${completed ? 'Completed' : 'Incomplete'}',
+                            style: TextStyle(
+                              color:
+                                  completed
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.error,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
                 alignment: BarChartAlignment.center,
                 minY: 0,
                 maxY: cont.dayCount > 0 ? cont.dayCount.toDouble() : 5.0,

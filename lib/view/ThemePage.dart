@@ -11,17 +11,19 @@ class ThemePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeController themeController = Get.find<ThemeController>();
 
-    return RawKeyboardListener(
+    return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKey: (RawKeyEvent event) {
+      onKeyEvent: (KeyEvent event) {
         // Skip handling special keys like NumLock to avoid conflicts
         if (event.physicalKey == PhysicalKeyboardKey.numLock) {
           return;
         }
 
-        if (event.isKeyPressed(LogicalKeyboardKey.escape) ||
-            event.isKeyPressed(LogicalKeyboardKey.backspace)) {
+        if ((event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.escape) ||
+            (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.backspace)) {
           Get.back();
         }
       },

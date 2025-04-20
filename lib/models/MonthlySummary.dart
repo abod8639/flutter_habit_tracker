@@ -92,9 +92,20 @@ class _MonthlySummaryState extends State<MonthlySummary>
             onClick: (value) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.primary.withAlpha(100),
                   duration: const Duration(seconds: 1),
-                  content: Text(value.toString()),
+                  content: Center(
+                    child: Text(
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      value.toString().replaceAll("00:00:00.000", " "),
+                    ),
+                  ),
                 ),
               );
             },

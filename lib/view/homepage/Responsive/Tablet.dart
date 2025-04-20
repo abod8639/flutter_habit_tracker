@@ -43,6 +43,7 @@ class _TabletState extends State<Tablet> {
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: ListView(
+                    reverse: true,
                     key: ValueKey<String>(controller.getStartDay()),
                     scrollDirection: Axis.horizontal,
                     children: [

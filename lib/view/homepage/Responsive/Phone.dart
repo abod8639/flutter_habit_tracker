@@ -53,14 +53,21 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
           builder: (controller) {
             final habits = controller.db.todaysHabitList;
             return CustomScrollView(
+              // shrinkWrap: true,
               controller: _scrollController,
               slivers: [
                 _appBar(),
 
                 SliverToBoxAdapter(
-                  child: MonthlySummary(
-                    datasets: controller.db.heatmapDateSet,
-                    startDate: controller.getStartDay(),
+                  child: Center(
+                    child: SingleChildScrollView(
+                      reverse: true,
+                      scrollDirection: Axis.horizontal,
+                      child: MonthlySummary(
+                        datasets: controller.db.heatmapDateSet,
+                        startDate: controller.getStartDay(),
+                      ),
+                    ),
                   ),
                 ),
 

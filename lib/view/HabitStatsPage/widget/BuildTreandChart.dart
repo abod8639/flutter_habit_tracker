@@ -76,8 +76,7 @@ Widget BuildTrendChart(
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
+                                color: Theme.of(context).colorScheme.onPrimary,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -101,8 +100,7 @@ Widget BuildTrendChart(
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
+                                color: Theme.of(context).colorScheme.onPrimary,
                               ),
                               textAlign: TextAlign.right,
                             ),

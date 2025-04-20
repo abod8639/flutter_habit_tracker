@@ -100,6 +100,9 @@ void showDeleteHabitDialog(
 ) {
   if (index >= 0 && index < db.todaysHabitList.length) {
     Get.defaultDialog(
+      buttonColor: Theme.of(context).colorScheme.secondary,
+      cancelTextColor: Theme.of(context).colorScheme.primary,
+      confirmTextColor: Theme.of(context).colorScheme.error,
       title: 'Delete Habit',
       middleText: 'Are you sure you want to delete this habit?',
       textConfirm: 'Delete',

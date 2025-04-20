@@ -43,7 +43,7 @@ Widget BuildBarChart(
                           "${value.toInt()}",
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 11,
                           ),
                         );
@@ -61,8 +61,7 @@ Widget BuildBarChart(
                               '${value.toInt() + 1}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 fontSize: 11,
                               ),
                             ),

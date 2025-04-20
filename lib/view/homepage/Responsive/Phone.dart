@@ -131,7 +131,10 @@ class _chikList extends StatelessWidget {
     final HabitController controller = Get.find<HabitController>();
 
     return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
+      delegate: SliverChildBuilderDelegate(childCount: habits.length, (
+        context,
+        index,
+      ) {
         return TweenAnimationBuilder<double>(
           tween: Tween(begin: 0.0, end: 1.0),
           duration: Duration(milliseconds: 300 + (index * 50)),
@@ -145,19 +148,13 @@ class _chikList extends StatelessWidget {
           child: MyTextTaile(
             habitName: habits[index][0],
             habitCompleted: habits[index][1],
-            onTap: () {
-              controller.toggleHabit(!habits[index][1], index);
-              controller.db.updateData();
-            },
+            onTap: () => controller.toggleHabit(!habits[index][1], index),
             onDelete: (context) => controller.deleteHabit(index, context),
             onEdit: (context) => controller.editHabit(index, context),
-            onChanged: (value) {
-              controller.toggleHabit(value, index);
-              controller.db.updateData();
-            },
+            onChanged: (value) => controller.toggleHabit(value, index),
           ),
         );
-      }, childCount: habits.length),
+      }),
     );
   }
 }

@@ -48,6 +48,7 @@ class _myfloatingActionButtonState extends State<myfloatingActionButton>
           return Transform.scale(scale: _scaleAnimation.value, child: child);
         },
         child: FloatingActionButton(
+          tooltip: 'Add Habit',
           autofocus: true,
           focusColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
           isExtended: true,

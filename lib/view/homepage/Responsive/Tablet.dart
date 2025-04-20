@@ -33,13 +33,13 @@ class _TabletState extends State<Tablet> {
             children: [
               // Left Side: Completed Habits List (Visible only on Desktop)
               if (controller.isDesktop(context))
-                Expanded(flex: 5, child: const DrawerList()),
+                Expanded(flex: 4, child: const DrawerList()),
 
               if (!controller.isDesktop(context)) const DrawerMenuButton(),
 
               // Middle: Monthly Summary
               Expanded(
-                flex: controller.isDesktop(context) ? 7 : 8,
+                flex: controller.isDesktop(context) ? 8 : 9,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: ListView(
@@ -104,7 +104,7 @@ class ExpandedCheckboxList extends StatelessWidget {
     return GetBuilder<HabitController>(
       builder:
           (controller) => Expanded(
-            flex: controller.isDesktop(context) ? 10 : 14,
+            flex: controller.isDesktop(context) ? 9 : 13,
             child: Padding(
               padding: const EdgeInsets.only(top: 40.0),
               child: SizedBox(

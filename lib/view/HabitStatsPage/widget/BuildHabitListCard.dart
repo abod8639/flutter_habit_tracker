@@ -15,7 +15,7 @@ Widget BuildHabitListCard(
           ),
           SizedBox(height: 16),
           SizedBox(
-            height: chartData.length * 50,
+            height: chartData.length * 55,
             child: ListView.builder(
               physics:
                   // chartData.length > 5

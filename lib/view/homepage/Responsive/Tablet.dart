@@ -104,39 +104,49 @@ class ExpandedCheckboxList extends StatelessWidget {
       builder:
           (controller) => Expanded(
             flex: controller.isDesktop(context) ? 10 : 14,
-            child: AnimatedList(
-              initialItemCount: controller.db.todaysHabitList.length,
-              itemBuilder: (context, index, animation) {
-                controller.index.value = index;
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: SizedBox(
+                height: double.infinity,
+                child: AnimatedList(
+                  initialItemCount: controller.db.todaysHabitList.length,
+                  itemBuilder: (context, index, animation) {
+                    controller.index.value = index;
 
-                if (index >= controller.db.todaysHabitList.length) {
-                  return const SizedBox.shrink();
-                }
+                    if (index >= controller.db.todaysHabitList.length) {
+                      return const SizedBox.shrink();
+                    }
 
-                return SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(1, 0),
-                    end: Offset.zero,
-                  ).animate(
-                    CurvedAnimation(parent: animation, curve: Curves.easeOut),
-                  ),
-                  child: MyTextTaile(
-                    onTap: () {
-                      controller.toggleHabit(!habits[index][1], index);
-                      controller.db.updateData();
-                    },
-                    onDelete:
-                        (context) => controller.deleteHabit(index, context),
-                    onEdit: (context) => controller.editHabit(index, context),
-                    habitName: habits[index][0],
-                    habitCompleted: habits[index][1],
-                    onChanged: (value) {
-                      controller.toggleHabit(value, index);
-                      controller.db.updateData();
-                    },
-                  ),
-                );
-              },
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1, 0),
+                        end: Offset.zero,
+                      ).animate(
+                        CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOut,
+                        ),
+                      ),
+                      child: MyTextTaile(
+                        onTap: () {
+                          controller.toggleHabit(!habits[index][1], index);
+                          controller.db.updateData();
+                        },
+                        onDelete:
+                            (context) => controller.deleteHabit(index, context),
+                        onEdit:
+                            (context) => controller.editHabit(index, context),
+                        habitName: habits[index][0],
+                        habitCompleted: habits[index][1],
+                        onChanged: (value) {
+                          controller.toggleHabit(value, index);
+                          controller.db.updateData();
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
     );

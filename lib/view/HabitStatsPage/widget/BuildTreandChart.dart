@@ -70,12 +70,14 @@ Widget BuildTrendChart(
                         final index = value.toInt();
                         if (index >= 0 && index < trendLabels.length) {
                           return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsets.only(top: 2.0),
                             child: Text(
                               trendLabels[index],
-                              style: const TextStyle(
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
                                 fontSize: 12,
-                                color: Colors.grey,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -96,9 +98,11 @@ Widget BuildTrendChart(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Text(
                               value.toInt().toString(),
-                              style: const TextStyle(
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
                                 fontSize: 12,
-                                color: Colors.grey,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                               textAlign: TextAlign.right,
                             ),

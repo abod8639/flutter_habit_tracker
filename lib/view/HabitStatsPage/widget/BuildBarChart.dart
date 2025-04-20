@@ -41,7 +41,11 @@ Widget BuildBarChart(
                       getTitlesWidget: (value, meta) {
                         return Text(
                           "${value.toInt()}",
-                          style: const TextStyle(fontSize: 10),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 11,
+                          ),
                         );
                       },
                     ),
@@ -52,10 +56,15 @@ Widget BuildBarChart(
                       getTitlesWidget: (value, meta) {
                         if (value.toInt() < chartData.length) {
                           return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsets.only(top: 3.0),
                             child: Text(
                               '${value.toInt() + 1}',
-                              style: const TextStyle(fontSize: 10),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 11,
+                              ),
                             ),
                           );
                         }

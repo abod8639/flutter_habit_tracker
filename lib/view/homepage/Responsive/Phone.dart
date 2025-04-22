@@ -26,10 +26,12 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _menuRotationAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(_menuAnimationController);
+    _menuRotationAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _menuAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override
@@ -49,39 +51,132 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
         onPressed: () => controller.addHabit(context),
       ),
       body: SafeArea(
-        child: GetBuilder<HabitController>(
-          builder: (controller) {
-            final habits = controller.db.todaysHabitList;
-            return CustomScrollView(
-              // shrinkWrap: true,
-              controller: _scrollController,
-              slivers: [
-                _appBar(),
+        child: Obx(() {
+          // Show loading indicator during initialization
+          if (controller.isLoading.value) {
+            return _buildLoadingScreen();
+          }
 
-                SliverToBoxAdapter(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      reverse: true,
-                      scrollDirection: Axis.horizontal,
-                      child: MonthlySummary(
-                        datasets: controller.db.heatmapDateSet,
-                        startDate: controller.getStartDay(),
+          // Show error message if initialization failed
+          if (controller.errorMessage.value.isNotEmpty) {
+            return _buildErrorScreen(controller.errorMessage.value);
+          }
+
+          return GetBuilder<HabitController>(
+            builder: (controller) {
+              final habits = controller.db.todaysHabitList;
+              return CustomScrollView(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  _AppBar(),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        reverse: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: MonthlySummary(
+                            datasets: controller.db.heatmapDateSet,
+                            startDate: controller.getStartDay(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  _HabitList(habits: habits),
+                ],
+              );
+            },
+          );
+        }),
+      ),
+    );
+  }
 
-                _chikList(habits: habits),
-              ],
-            );
-          },
+  Widget _buildLoadingScreen() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.primary,
+            strokeWidth: 3,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'Loading your habits...',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Just a moment',
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorScreen(String errorMessage) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Something went wrong',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              errorMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                // Recreate the controller to reinitialize
+                Get.delete<HabitController>();
+                Get.put(HabitController());
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Text('Try Again'),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _appBar extends StatelessWidget {
+class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -117,18 +212,69 @@ class _appBar extends StatelessWidget {
           );
         },
       ),
+      // actions: [
+      //   IconButton(
+      //     icon: Icon(
+      //       Icons.nightlight_round,
+      //       color: Theme.of(context).colorScheme.onSurface,
+      //     ),
+      //     onPressed:
+      //         () => Get.changeThemeMode(
+      //           Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
+      //         ),
+      //   ),
+      // ],
     );
   }
 }
 
-class _chikList extends StatelessWidget {
-  const _chikList({required this.habits});
+class _HabitList extends StatelessWidget {
+  const _HabitList({required this.habits});
 
   final List<dynamic> habits;
 
   @override
   Widget build(BuildContext context) {
     final HabitController controller = Get.find<HabitController>();
+
+    if (habits.isEmpty) {
+      return SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.sentiment_satisfied_alt,
+                size: 80,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No habits yet',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withOpacity(0.7),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Add your first habit with the + button',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withOpacity(0.5),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(childCount: habits.length, (

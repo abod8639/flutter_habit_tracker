@@ -29,8 +29,22 @@ class ThemePage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            color: Theme.of(context).colorScheme.onSurface,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Get.back();
+            },
+          ),
           centerTitle: true,
-          title: const Text('Theme Settings'),
+          title: Text(
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            'Theme Settings',
+          ),
           elevation: 1,
         ),
         body: SingleChildScrollView(

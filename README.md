@@ -36,6 +36,7 @@ A **beautiful**, **responsive**, and **intuitive** habit tracking app built with
 ### 1. Install Flutter  
 Follow the [Flutter installation guide](https://docs.flutter.dev/get-started/install).
 
+
 ### 2. Clone the Repository
 ```bash
 git clone https://github.com/abod8639/habit_tracker.git

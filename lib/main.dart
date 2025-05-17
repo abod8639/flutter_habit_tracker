@@ -131,6 +131,10 @@ class ErrorApp extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
+              ElevatedButton(
+                onPressed: () => Get.offAll(HomeScreen()),
+                child: Text("Restart"),
+              ),
             ],
           ),
         ),

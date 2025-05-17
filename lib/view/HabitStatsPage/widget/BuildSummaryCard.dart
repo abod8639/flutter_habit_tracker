@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controller/controller.dart';
 
 Widget BuildSummaryCard(Map<String, dynamic> stats) {
   return Card(
@@ -12,11 +14,15 @@ Widget BuildSummaryCard(Map<String, dynamic> stats) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Habits Summary',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              // SizedBox(width: 5),
+              Center(
+                child: const Text(
+                  'Habits Summary',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
               _buildStreakBadge(stats['streak']),
+              // SizedBox(width: 5),s
             ],
           ),
           const SizedBox(height: 16),
@@ -50,6 +56,7 @@ Widget BuildSummaryCard(Map<String, dynamic> stats) {
 }
 
 Widget _buildStatItem(String title, String value, IconData icon, Color color) {
+  final controller = Get.find<HabitController>();
   return Expanded(
     child: Builder(
       builder: (context) {
@@ -58,12 +65,17 @@ Widget _buildStatItem(String title, String value, IconData icon, Color color) {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, size: 18, color: color),
+                Icon(
+                  icon,
+
+                  size: controller.isPhone(context) ? 18 : 22,
+                  color: color,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: controller.isPhone(context) ? 12 : 18,
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),

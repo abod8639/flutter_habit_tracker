@@ -215,7 +215,7 @@ const Map<String, Map<String, Color>> themeColors = {
     'surface': Color(0xFF1E293B),
     'error': Color(0xFFFF5252),
     'onPrimary': Color(0xFFFFFFFF),
-    'onSecondary': Color(0xFF0F172A),
+    'onSecondary': Color.fromARGB(255, 255, 255, 255),
   },
   'cyber_grid': {
     'primary': Color(0xFF8A2BE2),

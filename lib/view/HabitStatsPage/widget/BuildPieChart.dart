@@ -8,7 +8,7 @@ Widget BuildPieChart(
 ) {
   if (totalHabits <= 0) {
     return SizedBox(
-      height: 300,
+      height: 330,
       child: Center(child: Text('No habits to display')),
     );
   }
@@ -17,7 +17,7 @@ Widget BuildPieChart(
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
-        height: 300,
+        height: 350,
         child: PieChart(
           PieChartData(
             centerSpaceRadius: 40,

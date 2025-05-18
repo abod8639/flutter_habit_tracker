@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/controller.dart';
 import 'package:habit_tracker/models/MonthlySummary.dart';
-import 'package:habit_tracker/view/widget/TextTaile.dart';
+import 'package:habit_tracker/view/homepage/widget/DrawerMenuButton.dart';
+import 'package:habit_tracker/view/homepage/widget/ExpandedCheckboxList.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
 
@@ -62,95 +63,6 @@ class _TabletState extends State<Tablet> {
           ),
         );
       },
-    );
-  }
-}
-
-class DrawerMenuButton extends StatelessWidget {
-  const DrawerMenuButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        Builder(
-          builder: (context) {
-            return Row(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  child: IconButton(
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: const Icon(Icons.drag_handle),
-                    tooltip: 'Open menu',
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class ExpandedCheckboxList extends StatelessWidget {
-  const ExpandedCheckboxList({super.key, required this.habits});
-
-  final List<dynamic> habits;
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<HabitController>(
-      builder:
-          (controller) => Expanded(
-            flex: controller.isDesktop(context) ? 9 : 13,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: SizedBox(
-                height: double.infinity,
-                child: AnimatedList(
-                  scrollDirection: Axis.vertical,
-                  initialItemCount: controller.db.todaysHabitList.length,
-                  itemBuilder: (context, index, animation) {
-                    controller.index.value = index;
-
-                    if (index >= controller.db.todaysHabitList.length) {
-                      return const SizedBox.shrink();
-                    }
-
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(1, 0),
-                        end: Offset.zero,
-                      ).animate(
-                        CurvedAnimation(
-                          parent: animation,
-                          curve: Curves.easeOut,
-                        ),
-                      ),
-                      child: MyTextTaile(
-                        onTap:
-                            () => controller.toggleHabit(
-                              !habits[index][1],
-                              index,
-                            ),
-
-                        onDelete:
-                            (context) => controller.deleteHabit(index, context),
-                        onEdit:
-                            (context) => controller.editHabit(index, context),
-                        habitName: habits[index][0],
-                        habitCompleted: habits[index][1],
-                        onChanged:
-                            (value) => controller.toggleHabit(value, index),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
     );
   }
 }

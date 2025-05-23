@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         );
       },
       home: const HomeScreen(),
-      getPages: [GetPage(name: '/', page: () => const HomeScreen())],
+      // getPages: [GetPage(name: '/', page: () => const HomeScreen())],
     );
   }
 }

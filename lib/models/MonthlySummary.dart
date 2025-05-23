@@ -68,6 +68,12 @@ class _MonthlySummaryState extends State<MonthlySummary>
       10: primaryColor.withOpacity(1.0),
     };
 
+    // Removed unused and erroneous MediaQuerysize function.
+
+    final double topPadding = MediaQuery.of(context).size.width * 0.05;
+    final double HeatMapSize =
+        MediaQuery.of(context).size.width > 600 ? 47 : 37;
+
     return FadeTransition(
       opacity: _fadeAnimation,
       child: SlideTransition(
@@ -76,7 +82,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
           end: Offset.zero,
         ).animate(_animationController),
         child: Container(
-          padding: const EdgeInsets.only(top: 25, bottom: 25),
+          padding: EdgeInsets.only(top: topPadding, bottom: 25),
           child: HeatMap(
             startDate: startDateTime,
             endDate: DateTime.now().add(const Duration(days: 0)),
@@ -87,7 +93,8 @@ class _MonthlySummaryState extends State<MonthlySummary>
             showColorTip: false,
             showText: true,
             scrollable: true,
-            size: 37,
+            size: HeatMapSize,
+            // size: topPadding,
             colorsets: colorsets,
             onClick: (value) {
               ScaffoldMessenger.of(context).showSnackBar(

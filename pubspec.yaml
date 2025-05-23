@@ -10,7 +10,7 @@ environment:
 dependencies:
   catppuccin_flutter: ^1.0.0
   cupertino_icons: ^1.0.8
-  fl_chart: ^0.70.2
+  fl_chart: ^1.0.0
   flutter:
     sdk: flutter
   flutter_colorpicker: ^1.1.0

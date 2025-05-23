@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/view/HabitStatsPage/page/HabitStatsPage.dart';
+import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage.dart';
 import 'package:habit_tracker/view/ThemePage.dart';
 import 'package:habit_tracker/view/widget/MyListTile.dart';

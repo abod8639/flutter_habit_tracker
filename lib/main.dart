@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.fadeIn,
       smartManagement: SmartManagement.full,
       builder: (context, child) {
-        // Apply any global styling or error handlers here
         return ScrollConfiguration(
           behavior: ScrollBehavior().copyWith(
             physics: const BouncingScrollPhysics(),

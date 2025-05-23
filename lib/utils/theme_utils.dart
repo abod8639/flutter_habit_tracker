@@ -65,7 +65,7 @@ class ThemeUtils {
         foregroundColor: colors['onPrimary'],
         elevation: 0,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: surfaceColor,
         shadowColor: colors['primary']!.withOpacity(0.3),
         elevation: 3,

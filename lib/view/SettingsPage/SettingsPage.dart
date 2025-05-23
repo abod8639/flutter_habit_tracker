@@ -1,9 +1,10 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/ThemePage.dart';
+
+import 'widget/buildAnimatedSettingTile.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -58,8 +59,14 @@ class _SettingsPageState extends State<SettingsPage>
         ),
         body: ListView(
           children: [
-            _buildAnimatedSectionHeader(context, 'Appearance', 0),
-            _buildAnimatedSettingTile(
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              'Appearance',
+              0,
+            ),
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 1,
               icon: Icons.color_lens,
@@ -73,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage>
                   ),
             ),
 
-            // _buildAnimatedSettingTile(
+            // buildAnimatedSettingTile(
             //   context,
             //   index: 2,
             //   icon: Icons.dark_mode,
@@ -91,8 +98,14 @@ class _SettingsPageState extends State<SettingsPage>
             //   ),
             //   onTap: () {},
             // ),
-            _buildAnimatedSectionHeader(context, 'Notifications', 3),
-            _buildAnimatedSettingTile(
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              'Notifications',
+              3,
+            ),
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 4,
               icon: Icons.notifications,
@@ -114,8 +127,14 @@ class _SettingsPageState extends State<SettingsPage>
               onTap: () {},
             ),
 
-            _buildAnimatedSectionHeader(context, 'Data', 5),
-            _buildAnimatedSettingTile(
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              'Data',
+              5,
+            ),
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 6,
               icon: Icons.backup,
@@ -131,7 +150,8 @@ class _SettingsPageState extends State<SettingsPage>
                 );
               },
             ),
-            _buildAnimatedSettingTile(
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 7,
               icon: Icons.restore,
@@ -147,7 +167,8 @@ class _SettingsPageState extends State<SettingsPage>
                 );
               },
             ),
-            _buildAnimatedSettingTile(
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 8,
               icon: Icons.delete_outline,
@@ -178,8 +199,14 @@ class _SettingsPageState extends State<SettingsPage>
               },
             ),
 
-            _buildAnimatedSectionHeader(context, 'About', 9),
-            _buildAnimatedSettingTile(
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              'About',
+              9,
+            ),
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 10,
               icon: Icons.info_outline,
@@ -196,7 +223,8 @@ class _SettingsPageState extends State<SettingsPage>
                 );
               },
             ),
-            _buildAnimatedSettingTile(
+            buildAnimatedSettingTile(
+              animationController: _animationController,
               context,
               index: 11,
               icon: Icons.star_outline,
@@ -214,119 +242,6 @@ class _SettingsPageState extends State<SettingsPage>
             ),
             const SizedBox(height: 24), // Add space at the bottom
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAnimatedSectionHeader(
-    BuildContext context,
-    String title,
-    int index,
-  ) {
-    final Animation<double> animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.05 * (index % 10),
-        math.min(0.05 * (index % 10) + 0.5, 1.0),
-        curve: Curves.easeOut,
-      ),
-    );
-
-    return FadeTransition(
-      opacity: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(-0.2, 0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-          child: Text(
-            title,
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAnimatedSettingTile(
-    BuildContext context, {
-    required int index,
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required Function() onTap,
-    Widget? trailing,
-    Color? textColor,
-  }) {
-    final Animation<double> animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.05 * (index % 10),
-        math.min(0.05 * (index % 10) + 0.5, 1.0),
-        curve: Curves.easeOut,
-      ),
-    );
-
-    return FadeTransition(
-      opacity: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0.3, 0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.05),
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            leading: Icon(icon, color: Theme.of(context).primaryColor),
-            title: Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.w600, color: textColor),
-            ),
-            subtitle: Text(subtitle),
-            trailing: trailing,
-            onTap: () {
-              // Apply a scale animation on tap
-              final RenderBox? box = context.findRenderObject() as RenderBox?;
-              if (box != null) {
-                // final position = box.localToGlobal(Offset.zero);
-                // final size = box.size;
-
-                Get.showOverlay(
-                  asyncFunction: () async {
-                    await Future.delayed(const Duration(milliseconds: 100));
-                    onTap();
-                  },
-                  loadingWidget: const SizedBox(),
-                  opacityColor: Colors.transparent,
-                  opacity: 0,
-                );
-              } else {
-                onTap();
-              }
-            },
-          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:habit_tracker/controller/controller.dart';
 import 'package:habit_tracker/models/MonthlySummary.dart';
 import 'package:habit_tracker/view/homepage/widget/HabitList.dart';
 import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
+import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
 
@@ -96,37 +97,6 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
-  Widget buildLoadingScreen() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.primary,
-            strokeWidth: 3,
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'Loading your habits...',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Just a moment',
-            style: TextStyle(
-              fontSize: 14,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _AppBar extends StatelessWidget {
@@ -165,18 +135,6 @@ class _AppBar extends StatelessWidget {
           );
         },
       ),
-      // actions: [
-      //   IconButton(
-      //     icon: Icon(
-      //       Icons.nightlight_round,
-      //       color: Theme.of(context).colorScheme.onSurface,
-      //     ),
-      //     onPressed:
-      //         () => Get.changeThemeMode(
-      //           Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-      //         ),
-      //   ),
-      // ],
     );
   }
 }

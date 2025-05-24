@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
-import 'package:habit_tracker/view/ThemePage.dart';
+import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
 import 'widget/buildAnimatedSettingTile.dart';
 

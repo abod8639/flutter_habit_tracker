@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controller/theme_controller.dart';
+import 'package:habit_tracker/view/ThemePage/widget/buildCustomThemeSelector.dart';
+import 'package:habit_tracker/view/ThemePage/widget/buildSectionTitle.dart';
+
+class ThemePage extends StatelessWidget {
+  const ThemePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeController themeController = Get.find<ThemeController>();
+
+    return KeyboardListener(
+      autofocus: true,
+      focusNode: FocusNode(),
+      onKeyEvent: (KeyEvent event) {
+        // Skip handling special keys like NumLock to avoid conflicts
+        if (event.physicalKey == PhysicalKeyboardKey.numLock) {
+          return;
+        }
+
+        if ((event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.escape) ||
+            (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.backspace)) {
+          Get.back();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            color: Theme.of(context).colorScheme.onSurface,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          centerTitle: true,
+          title: Text(
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            'Theme Settings',
+          ),
+          elevation: 1,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildSectionTitle('Custom Theme'),
+              const SizedBox(height: 8),
+              buildCustomThemeSelector(themeController),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

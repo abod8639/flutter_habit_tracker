@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/controller.dart';
 import 'package:habit_tracker/models/MonthlySummary.dart';
 import 'package:habit_tracker/view/homepage/widget/HabitList.dart';
+import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
 
@@ -54,12 +55,12 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
         child: Obx(() {
           // Show loading indicator during initialization
           if (controller.isLoading.value) {
-            return _buildLoadingScreen();
+            return buildLoadingScreen();
           }
 
           // Show error message if initialization failed
           if (controller.errorMessage.value.isNotEmpty) {
-            return _buildErrorScreen(controller.errorMessage.value);
+            return buildErrorScreen(controller.errorMessage.value);
           }
 
           return GetBuilder<HabitController>(
@@ -96,7 +97,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildLoadingScreen() {
+  Widget buildLoadingScreen() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -123,54 +124,6 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildErrorScreen(String errorMessage) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'Something went wrong',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              errorMessage,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-              ),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                // Recreate the controller to reinitialize
-                Get.delete<HabitController>();
-                Get.put(HabitController());
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Text('Try Again'),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -32,16 +32,8 @@ class MyApp extends StatelessWidget {
       title: 'Habit Tracker',
       defaultTransition: Transition.fadeIn,
       smartManagement: SmartManagement.full,
-      builder: (context, child) {
-        return ScrollConfiguration(
-          behavior: ScrollBehavior().copyWith(
-            physics: const BouncingScrollPhysics(),
-          ),
-          child: child!,
-        );
-      },
+
       home: const HomeScreen(),
-      // getPages: [GetPage(name: '/', page: () => const HomeScreen())],
     );
   }
 }

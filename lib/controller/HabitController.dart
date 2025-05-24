@@ -3,10 +3,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitActions.dart';
 import 'package:habit_tracker/data/habit_db.dart';
+import 'package:habit_tracker/functions/HabitActions.dart';
+import 'package:habit_tracker/functions/HabitUtils.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
-import 'package:habit_tracker/models/HabitUtils.dart';
 import 'package:habit_tracker/services/HamitStorage.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
 import 'package:hive/hive.dart';

@@ -21,18 +21,6 @@ class ThemeStorageService {
     return _box.get(themeNameKey, defaultValue: defaultTheme);
   }
 
-  // ThemeMode getThemeMode() {
-  //   final String? mode = _box.get(themeModeKey);
-  //   switch (mode) {
-  //     case "ThemeMode.dark":
-  //       return ThemeMode.dark;
-  //     case "ThemeMode.light":
-  //       return ThemeMode.light;
-  //     default:
-  //       return ThemeMode.system;
-  //   }
-  // }
-
   bool getUseCustomBackground() {
     return _box.get(useCustomBgKey, defaultValue: false);
   }

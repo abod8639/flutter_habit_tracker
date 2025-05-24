@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/controller.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 
 Widget BuildSummaryCard(Map<String, dynamic> stats) {
   return Card(

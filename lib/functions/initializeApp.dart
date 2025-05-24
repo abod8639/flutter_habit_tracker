@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/controller.dart';
-import 'package:habit_tracker/controller/theme_controller.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/controller/ThemeController.dart';
 import 'package:habit_tracker/services/theme_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

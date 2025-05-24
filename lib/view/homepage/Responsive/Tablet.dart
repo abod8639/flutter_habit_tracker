@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/controller.dart';
-import 'package:habit_tracker/models/MonthlySummary.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/view/homepage/widget/DrawerMenuButton.dart';
 import 'package:habit_tracker/view/homepage/widget/ExpandedCheckboxList.dart';
+import 'package:habit_tracker/view/widget/MonthlySummary.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
 

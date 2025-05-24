@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/initializeApp.dart';
+import 'package:habit_tracker/functions/initializeApp.dart';
 import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
 

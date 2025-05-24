@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:habit_tracker/controller/controller.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTreandChart.dart';
 
 List<FlSpot> prepareTrendData() {

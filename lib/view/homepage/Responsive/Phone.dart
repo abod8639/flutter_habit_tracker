@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/controller.dart';
-import 'package:habit_tracker/models/MonthlySummary.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/view/homepage/widget/HabitList.dart';
+import 'package:habit_tracker/view/widget/MonthlySummary.dart';
 import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
 import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';

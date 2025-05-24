@@ -71,7 +71,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  _AppBar(),
+                  MyAppBar(),
                   SliverToBoxAdapter(
                     child: Center(
                       child: SingleChildScrollView(
@@ -99,7 +99,9 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
   }
 }
 
-class _AppBar extends StatelessWidget {
+class MyAppBar extends StatelessWidget {
+  const MyAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(

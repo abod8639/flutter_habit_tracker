@@ -80,30 +80,13 @@ class _SettingsPageState extends State<SettingsPage>
                   ),
             ),
 
-            // buildAnimatedSettingTile(
-            //   context,
-            //   index: 2,
-            //   icon: Icons.dark_mode,
-            //   title: 'Dark Mode',
-            //   subtitle: 'Toggle between light and dark mode',
-            //   trailing: Obx(
-            //     () => Switch(
-            //       value: themeController.themeMode.value == ThemeMode.dark,
-            //       onChanged: (value) {
-            //         themeController.changeThemeMode(
-            //           value ? ThemeMode.dark : ThemeMode.light,
-            //         );
-            //       },
-            //     ),
-            //   ),
-            //   onTap: () {},
-            // ),
             buildAnimatedSectionHeader(
               _animationController,
               context,
               'Notifications',
               3,
             ),
+
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
@@ -115,13 +98,7 @@ class _SettingsPageState extends State<SettingsPage>
                 value: false, // Connect to actual notification settings
                 onChanged: (value) {
                   // Implement notification toggle
-                  Get.snackbar(
-                    'Coming Soon',
-                    'Notification feature will be available in future updates',
-                    snackPosition: SnackPosition.BOTTOM,
-                    duration: const Duration(seconds: 2),
-                    animationDuration: const Duration(milliseconds: 500),
-                  );
+                  showComingSoon();
                 },
               ),
               onTap: () {},
@@ -141,13 +118,7 @@ class _SettingsPageState extends State<SettingsPage>
               title: 'Backup Data',
               subtitle: 'Export your habit data',
               onTap: () {
-                Get.snackbar(
-                  'Coming Soon',
-                  'Backup feature will be available in future updates',
-                  snackPosition: SnackPosition.BOTTOM,
-                  duration: const Duration(seconds: 2),
-                  animationDuration: const Duration(milliseconds: 500),
-                );
+                showComingSoon();
               },
             ),
             buildAnimatedSettingTile(
@@ -157,15 +128,7 @@ class _SettingsPageState extends State<SettingsPage>
               icon: Icons.restore,
               title: 'Restore Data',
               subtitle: 'Import previously exported data',
-              onTap: () {
-                Get.snackbar(
-                  'Coming Soon',
-                  'Restore feature will be available in future updates',
-                  snackPosition: SnackPosition.BOTTOM,
-                  duration: const Duration(seconds: 2),
-                  animationDuration: const Duration(milliseconds: 500),
-                );
-              },
+              onTap: () {},
             ),
             buildAnimatedSettingTile(
               animationController: _animationController,
@@ -187,13 +150,7 @@ class _SettingsPageState extends State<SettingsPage>
                   onConfirm: () {
                     // Implement data clearing functionality
                     Get.back();
-                    Get.snackbar(
-                      'Coming Soon',
-                      'Clear data feature will be available in future updates',
-                      snackPosition: SnackPosition.BOTTOM,
-                      duration: const Duration(seconds: 2),
-                      animationDuration: const Duration(milliseconds: 500),
-                    );
+                    showComingSoon();
                   },
                 );
               },
@@ -213,14 +170,7 @@ class _SettingsPageState extends State<SettingsPage>
               title: 'About',
               subtitle: 'App version and information',
               onTap: () {
-                Get.defaultDialog(
-                  title: 'Habit Tracker',
-                  middleText:
-                      'Version 1.0.0\n\nA simple app to track your daily habits.',
-                  textConfirm: 'OK',
-                  confirmTextColor: Colors.white,
-                  onConfirm: () => Get.back(),
-                );
+                showComingSoon();
               },
             ),
             buildAnimatedSettingTile(
@@ -231,13 +181,7 @@ class _SettingsPageState extends State<SettingsPage>
               title: 'Rate App',
               subtitle: 'If you enjoy using this app, please rate it',
               onTap: () {
-                Get.snackbar(
-                  'Coming Soon',
-                  'Rating feature will be available in future updates',
-                  snackPosition: SnackPosition.BOTTOM,
-                  duration: const Duration(seconds: 2),
-                  animationDuration: const Duration(milliseconds: 500),
-                );
+                showComingSoon();
               },
             ),
             const SizedBox(height: 24), // Add space at the bottom
@@ -246,4 +190,14 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     );
   }
+}
+
+void showComingSoon() {
+  Get.snackbar(
+    'Coming Soon',
+    'Restore feature will be available in future updates',
+    snackPosition: SnackPosition.BOTTOM,
+    duration: const Duration(seconds: 2),
+    animationDuration: const Duration(milliseconds: 500),
+  );
 }

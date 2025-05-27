@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
-import 'package:habit_tracker/services/HamitStorage.dart';
+import 'package:habit_tracker/services/HabitStorage.dart';
 import 'package:hive/hive.dart';
 
 /// Database box reference
@@ -78,9 +78,9 @@ class Habitdb {
   void loadData() {
     try {
       debugPrint('📥 Loading habit data');
-      if (myBox.get(HabitStorage.todoListKey) != null) {
+      if (myBox.get(HabitStorage.habitListKey) != null) {
         // Convert from old format
-        List data = myBox.get(HabitStorage.todoListKey);
+        List data = myBox.get(HabitStorage.habitListKey);
         _habits = data.map((item) => HabitModel.fromLocalFormat(item)).toList();
         debugPrint('📋 Loaded ${_habits.length} habits');
       } else {
@@ -108,7 +108,7 @@ class Habitdb {
   void updateData() {
     try {
       // Save in the old format for backward compatibility
-      myBox.put(HabitStorage.todoListKey, todaysHabitList);
+      myBox.put(HabitStorage.habitListKey, todaysHabitList);
 
       // Also save today's data with date
       myBox.put(todaysDateFormatted(), todaysHabitList);

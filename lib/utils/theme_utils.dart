@@ -7,9 +7,9 @@ class ThemeUtils {
 
   static bool _shouldUseDarkText(Color backgroundColor) {
     final brightness =
-        (backgroundColor.r * 299 +
-            backgroundColor.g * 587 +
-            backgroundColor.b * 114) /
+        (backgroundColor.red * 299 +
+            backgroundColor.green * 587 +
+            backgroundColor.blue * 114) /
         1000;
     return brightness > 138;
   }

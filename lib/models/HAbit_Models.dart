@@ -17,7 +17,7 @@ class HabitModel {
     return HabitModel(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
-      isCompleted: map['is_completed'] ?? false,
+      isCompleted: map['isCompleted'] ?? false,
       createdAt:
           map['created_at'] != null
               ? DateTime.parse(map['created_at'])
@@ -33,7 +33,7 @@ class HabitModel {
     return {
       'id': id,
       'name': name,
-      'is_completed': isCompleted,
+      'isCompleted': isCompleted,
       'created_at': createdAt.toIso8601String(),
       'completed_at': completedAt?.toIso8601String(),
     };

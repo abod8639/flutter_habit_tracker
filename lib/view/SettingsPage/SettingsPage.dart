@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/functions/clearAllHabitData.dart';
+import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
@@ -138,22 +140,21 @@ class _SettingsPageState extends State<SettingsPage>
               title: 'Clear All Data',
               subtitle: 'Delete all habits and settings',
               textColor: Colors.red,
-              onTap: () {
-                Get.defaultDialog(
-                  title: 'Clear All Data',
-                  middleText:
-                      'Are you sure you want to delete all your habits and settings? This action cannot be undone.',
-                  textConfirm: 'Delete',
-                  textCancel: 'Cancel',
-                  confirmTextColor: Colors.white,
-                  buttonColor: Colors.red,
-                  onConfirm: () {
-                    // Implement data clearing functionality
-                    Get.back();
-                    showComingSoon();
-                  },
-                );
-              },
+              onTap: () async => await clearAppDataAndRestart(context),
+              //  {
+              //   Get.defaultDialog(
+              //     title: 'Clear All Data',
+              //     middleText:
+              //         'Are you sure you want to delete all your habits and settings? This action cannot be undone.',
+              //     textConfirm: 'Delete',
+              //     textCancel: 'Cancel',
+              //     confirmTextColor: Colors.white,
+              //     buttonColor: Colors.red,
+              //     onConfirm: () async {
+              //       // clearAppDataAndRestart(context);
+              //     },
+              //   );
+              // },
             ),
 
             buildAnimatedSectionHeader(
@@ -200,4 +201,8 @@ void showComingSoon() {
     duration: const Duration(seconds: 2),
     animationDuration: const Duration(milliseconds: 500),
   );
+}
+
+void restart() {
+  RestartWidget.restartApp(Get.context!);
 }

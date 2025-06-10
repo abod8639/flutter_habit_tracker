@@ -3,10 +3,11 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/services/lang_storage.dart';
+import 'package:intl/intl.dart';
 
 class Langcontroller extends GetxController {
   late final LangStorage _storage;
-  var language = 'en'.obs;
+  var language = Intl.getCurrentLocale().obs;
 
   @override
   void onInit() {
@@ -24,7 +25,8 @@ class Langcontroller extends GetxController {
       language.value = savedLang;
 
       // Update app locale
-      Get.updateLocale(Get.locale ?? const Locale('en'));
+      Intl.getCurrentLocale();
+      Get.updateLocale(Get.locale ?? Locale(Intl.getCurrentLocale()));
     } catch (e) {
       debugPrint('Error initializing language controller: $e');
       // Fallback to default language

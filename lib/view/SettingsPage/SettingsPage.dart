@@ -99,6 +99,7 @@ class _SettingsPageState extends State<SettingsPage>
                 icon: Icons.language,
                 currentValue: controllerlanguage.language.value,
                 entries: const [
+                  DropdownMenuEntry(value: "sys", label: "  System Language  "),
                   DropdownMenuEntry(value: "ar", label: "  العربية "),
                   DropdownMenuEntry(value: "en", label: "  English  "),
                 ],

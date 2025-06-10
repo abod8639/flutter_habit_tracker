@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 
-final HabitController habitController = Get.find<HabitController>();
+final HabitController habitController = Get.put(HabitController());
 
 Widget BuildTrendChart(
   BuildContext context,

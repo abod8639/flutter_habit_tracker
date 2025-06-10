@@ -10,7 +10,7 @@ class HabitList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HabitController controller = Get.find<HabitController>();
+    final HabitController controller = Get.put(HabitController());
 
     if (habits.isEmpty) {
       return SliverFillRemaining(

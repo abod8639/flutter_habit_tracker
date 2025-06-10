@@ -10,7 +10,7 @@ class ThemePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Get.find<ThemeController>();
+    final ThemeController themeController = Get.put(ThemeController());
 
     return KeyboardListener(
       autofocus: true,

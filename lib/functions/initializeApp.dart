@@ -14,6 +14,8 @@ Future<void> initializeApp() async {
       Hive.openBox(HabitStorage.boxName),
       Hive.openBox(ThemeStorageService.themeBox),
     ]);
+
+    Get.put(HabitController());
     Get.put(HabitController());
     Get.put(ThemeController());
   } catch (e, stack) {

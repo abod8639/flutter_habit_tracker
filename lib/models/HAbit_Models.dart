@@ -6,12 +6,12 @@ class HabitModel {
   DateTime? completedAt;
 
   HabitModel({
-    required this.id,
+    String? id,
     required this.name,
     required this.isCompleted,
     required this.createdAt,
     this.completedAt,
-  });
+  }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString();
 
   factory HabitModel.fromMap(Map<String, dynamic> map) {
     return HabitModel(

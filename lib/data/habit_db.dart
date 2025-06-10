@@ -16,7 +16,7 @@ class Habitdb {
   Map<DateTime, int> heatmapDateSet = {};
 
   /// Cache to reduce redundant calculations
-  int _completedCount = 0;
+  int _completedCount = 1;
   bool _dataChanged = false;
 
   /// For backward compatibility - convert HabitModel list to the old format
@@ -34,17 +34,17 @@ class Habitdb {
   void createDefaultData() {
     try {
       debugPrint('🆕 Creating default habit data');
-      _habits =
-          HabitStorage.defaultHabits
-              .map(
-                (habit) => HabitModel(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: habit["name"],
-                  isCompleted: habit["isCompleted"],
-                  createdAt: DateTime.now(),
-                ),
-              )
-              .toList();
+      _habits = HabitStorage.defaultHabits;
+      HabitStorage.defaultHabits
+          .map(
+            (habit) => HabitModel(
+              id: DateTime.now().second.toString(),
+              name: habit.name,
+              isCompleted: habit.isCompleted,
+              createdAt: DateTime.now(),
+            ),
+          )
+          .toList();
 
       // Save the start day
       myBox.put(HabitStorage.startDayKey, todaysDateFormatted());
@@ -289,7 +289,6 @@ class Habitdb {
     if (index >= 0 && index < _habits.length) {
       _habits.removeAt(index);
       _dataChanged = true;
-      _updateCache();
       updateData();
     }
   }
@@ -298,13 +297,8 @@ class Habitdb {
   void toggleHabitByIndex(int index, bool value) {
     if (index >= 0 && index < _habits.length) {
       _habits[index].isCompleted = value;
-      if (value) {
-        _habits[index].completedAt = DateTime.now();
-      } else {
-        _habits[index].completedAt = null;
-      }
+      _habits[index].completedAt = value ? DateTime.now() : null;
       _dataChanged = true;
-      _updateCache();
       updateData();
     }
   }

@@ -7,7 +7,7 @@ Widget BuildBarChart(
   BuildContext context,
   List<Map<String, dynamic>> chartData,
 ) {
-  final HabitController cont = Get.find<HabitController>();
+  final HabitController cont = Get.put(HabitController());
 
   if (chartData.isEmpty) {
     return SizedBox(

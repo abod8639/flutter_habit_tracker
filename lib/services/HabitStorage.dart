@@ -1,5 +1,6 @@
 // habit_storage.dart
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
@@ -18,11 +19,23 @@ class HabitStorage {
 
   // Default values
   static const int defaultDayCount = 1;
-  static const List<Map<String, dynamic>> defaultHabits = [
-    {"name": "Install the app", "isCompleted": true},
-    {"name": "Drink water", "isCompleted": false},
-    {"name": "Read a Book", "isCompleted": false},
-    {"name": "Learn Something New", "isCompleted": false},
+  static List<HabitModel> defaultHabits = [
+    HabitModel(
+      name: "install the app",
+      isCompleted: true,
+      createdAt: DateTime.now(),
+    ),
+
+    HabitModel(
+      name: "💧 Drink water",
+      isCompleted: false,
+      createdAt: DateTime.now(),
+    ),
+    HabitModel(
+      name: "🎯 Learn something new",
+      isCompleted: false,
+      createdAt: DateTime.now(),
+    ),
   ];
 }
 

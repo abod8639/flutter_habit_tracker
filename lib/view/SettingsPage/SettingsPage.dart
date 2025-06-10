@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/langController.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
 import 'widget/buildAnimatedSettingTile.dart';
@@ -38,6 +41,7 @@ class _SettingsPageState extends State<SettingsPage>
   @override
   Widget build(BuildContext context) {
     // final ThemeController themeController = Get.find<ThemeController>();
+    final Langcontroller controllerlanguage = Get.put(Langcontroller());
 
     return KeyboardListener(
       autofocus: true,
@@ -56,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage>
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Settings'),
+          title: Text(S.of(context).SettingPageTitle),
           elevation: 0,
         ),
         body: ListView(
@@ -64,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              'Appearance',
+              S.of(context).Appearance,
               0,
             ),
             buildAnimatedSettingTile(
@@ -73,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage>
               index: 1,
               icon: Icons.color_lens,
               title: 'Theme',
-              subtitle: 'Change app theme and colors',
+              subtitle: S.of(context).Changeapptheme,
               onTap:
                   () => Get.to(
                     () => const ThemePage(),
@@ -85,7 +89,35 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              'Notifications',
+              S.of(context).lan,
+              3,
+            ),
+
+            Obx(
+              () => buildAnimatedSettinglang(
+                context,
+                icon: Icons.language,
+                currentValue: controllerlanguage.language.value,
+                entries: const [
+                  DropdownMenuEntry(value: "ar", label: "  العربية "),
+                  DropdownMenuEntry(value: "en", label: "  English  "),
+                ],
+                onChanged: (value) async {
+                  if (value != null) {
+                    await controllerlanguage.changeLanguage(value);
+                    restart(); // Restart to apply language change
+                  }
+                },
+                textColor: Theme.of(context).colorScheme.onSecondary,
+                animationController: _animationController,
+                index: 2,
+              ),
+            ),
+
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              S.of(context).Notifications,
               3,
             ),
 
@@ -94,13 +126,13 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 4,
               icon: Icons.notifications,
-              title: 'Daily Reminder',
-              subtitle: 'Set a daily reminder for your habits',
+              title: S.of(context).DailyReminder,
+              subtitle: S.of(context).SetDailyReminder,
               trailing: Switch(
                 value: false, // Connect to actual notification settings
                 onChanged: (value) {
                   // Implement notification toggle
-                  showComingSoon();
+                  showComingSoon(context);
                 },
               ),
               onTap: () {},
@@ -117,10 +149,10 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 6,
               icon: Icons.backup,
-              title: 'Backup Data',
-              subtitle: 'Export your habit data',
+              title: S.of(context).BackupData,
+              subtitle: S.of(context).Exportyourhabitdata,
               onTap: () {
-                showComingSoon();
+                showComingSoon(context);
               },
             ),
             buildAnimatedSettingTile(
@@ -128,8 +160,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 7,
               icon: Icons.restore,
-              title: 'Restore Data',
-              subtitle: 'Import previously exported data',
+              title: S.of(context).RestoreData,
+              subtitle: S.of(context).Importpreviouslyexporteddata,
               onTap: () {},
             ),
             buildAnimatedSettingTile(
@@ -137,8 +169,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 8,
               icon: Icons.delete_outline,
-              title: 'Clear All Data',
-              subtitle: 'Delete all habits and settings',
+              title: S.of(context).ClearAllData,
+              subtitle: S.of(context).Deleteallhabitsandsettings,
               textColor: Colors.red,
               onTap: () async => await clearAppDataAndRestart(context),
               //  {
@@ -160,7 +192,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              'About',
+              S.of(context).About,
               9,
             ),
             buildAnimatedSettingTile(
@@ -168,23 +200,23 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 10,
               icon: Icons.info_outline,
-              title: 'About',
-              subtitle: 'App version and information',
+              title: S.of(context).About,
+              subtitle: S.of(context).Appversionandinformation,
               onTap: () {
-                showComingSoon();
+                showComingSoon(context);
               },
             ),
-            buildAnimatedSettingTile(
-              animationController: _animationController,
-              context,
-              index: 11,
-              icon: Icons.star_outline,
-              title: 'Rate App',
-              subtitle: 'If you enjoy using this app, please rate it',
-              onTap: () {
-                showComingSoon();
-              },
-            ),
+            // buildAnimatedSettingTile(
+            //   animationController: _animationController,
+            //   context,
+            //   index: 11,
+            //   icon: Icons.star_outline,
+            //   title: 'Rate App',
+            //   subtitle: 'If you enjoy using this app, please rate it',
+            //   onTap: () {
+            //     showComingSoon(context);
+            //   },
+            // ),
             const SizedBox(height: 24), // Add space at the bottom
           ],
         ),
@@ -193,10 +225,10 @@ class _SettingsPageState extends State<SettingsPage>
   }
 }
 
-void showComingSoon() {
+void showComingSoon(context) {
   Get.snackbar(
-    'Coming Soon',
-    'Restore feature will be available in future updates',
+    S.of(context).ComingSoon,
+    S.of(context).Restorefeaturewillbeavailableinfutureupdates,
     snackPosition: SnackPosition.BOTTOM,
     duration: const Duration(seconds: 2),
     animationDuration: const Duration(milliseconds: 500),

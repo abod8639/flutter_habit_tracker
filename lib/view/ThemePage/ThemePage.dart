@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/ThemeController.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildCustomThemeSelector.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildSectionTitle.dart';
 
@@ -44,7 +45,7 @@ class ThemePage extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-            'Theme Settings',
+            S.of(context).themepagetitle,
           ),
           elevation: 1,
         ),
@@ -53,7 +54,7 @@ class ThemePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildSectionTitle('Custom Theme'),
+              buildSectionTitle(S.of(context).themepage),
               const SizedBox(height: 8),
               buildCustomThemeSelector(themeController),
             ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/FadeAnimateonSummaryCard.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/FadeAnimationChartsSection.dart';
@@ -66,7 +67,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
               fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.onSurface,
             ),
-            'Habit Statistics',
+            S.of(context).ratepagetitle,
           ),
           centerTitle: true,
           elevation: 0,

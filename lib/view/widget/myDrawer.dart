@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
@@ -40,7 +41,7 @@ class DrawerList extends StatelessWidget {
             Get.back();
             Get.to(() => ThemePage());
           },
-          title: "Theme Color",
+          title: S.of(context).drawerTheme,
         ),
 
         MyListTile(
@@ -49,7 +50,7 @@ class DrawerList extends StatelessWidget {
             Get.back();
             Get.to(() => HabitStatsPage());
           },
-          title: "Rate",
+          title: S.of(context).drawerReat,
         ),
 
         MyListTile(
@@ -57,7 +58,7 @@ class DrawerList extends StatelessWidget {
           onTap: () {
             Get.to(() => SettingsPage());
           },
-          title: "Settings",
+          title: S.of(context).drawerSetting,
         ),
 
         // MyListTile(

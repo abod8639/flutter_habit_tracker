@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 
 Widget BuildHabitListCard(
   BuildContext context,
@@ -9,80 +10,84 @@ Widget BuildHabitListCard(
   final incompleteHabits =
       chartData.where((habit) => habit['completed'] == false).toList();
 
-  return Card(
-    elevation: 2.0,
-    margin: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Habit Status',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
+  return Builder(
+    builder: (context) {
+      return Card(
+        elevation: 2.0,
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                S.of(context).success,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
 
-          if (completedHabits.isNotEmpty) ...[
-            Row(
-              children: [
-                Icon(Icons.check_circle, color: Colors.green, size: 18),
-                const SizedBox(width: 8),
-                Text(
-                  'Completed (${completedHabits.length})',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _buildHabitList(context, completedHabits, true),
-            const SizedBox(height: 16),
-          ],
-
-          if (incompleteHabits.isNotEmpty) ...[
-            Row(
-              children: [
-                Icon(Icons.pending_actions, color: Colors.orange, size: 18),
-                const SizedBox(width: 8),
-                Text(
-                  'Pending (${incompleteHabits.length})',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _buildHabitList(context, incompleteHabits, false),
-          ],
-
-          if (chartData.isEmpty)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
+              if (completedHabits.isNotEmpty) ...[
+                Row(
                   children: [
-                    Icon(
-                      Icons.pending_actions,
-                      size: 48,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'No habits tracked yet',
-                      style: TextStyle(color: Colors.grey),
+                    Icon(Icons.check_circle, color: Colors.green, size: 18),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${S.of(context).Completed} (${completedHabits.length})',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ),
-        ],
-      ),
-    ),
+                const SizedBox(height: 8),
+                _buildHabitList(context, completedHabits, true),
+                const SizedBox(height: 16),
+              ],
+
+              if (incompleteHabits.isNotEmpty) ...[
+                Row(
+                  children: [
+                    Icon(Icons.pending_actions, color: Colors.orange, size: 18),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${S.of(context).Incomplete} (${incompleteHabits.length})',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                _buildHabitList(context, incompleteHabits, false),
+              ],
+
+              if (chartData.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.pending_actions,
+                          size: 48,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          S.of(context).isEmpty,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      );
+    },
   );
 }
 

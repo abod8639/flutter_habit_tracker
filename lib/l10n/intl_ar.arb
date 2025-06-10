@@ -1,0 +1,57 @@
+{
+  "drawer": "",
+
+  "drawerTheme": "لون الثيم",
+  "drawerReat": "تقييم التطبيق",
+  "drawerSetting": "الإعدادات",
+
+  "themepagetitle": "إعدادات الثيم",
+  "themepage": "تخصيص الثيم",
+
+  "Summary": "ملخص العادات",
+  "ratepagetitle": "إحصائيات العادات",
+
+  "total": "المجموع",
+  "completed": "مكتمل",
+  "success": "معدل النجاح",
+  "today": "تقدم اليوم",
+  "monthly": "تقدم الشهري",
+  "hambitstate": "حالة العادة",
+  "pending": "قيد الانتظار",
+  "isEmpty": "لا توجد عادات مسجلة بعد",
+  "BarChartisEmpty": "لا توجد بيانات متاحة",
+  "PieChartisEmpty": "لا توجد عادات لعرضها",
+  "TrendCharisEmpty": "بيانات غير كافية لعرض الإحصائيات",
+  "Completed": "مكتمل",
+  "Incomplete": "غير مكتمل",
+  "TooltipItemCompleted": "تم إنجازه",
+  "TooltipItem": "نفذه الآن",
+
+  "SettingPageTitle": "الإعدادات",
+  "Appearance": "المظهر",
+  "Changeapptheme": "تغيير ثيم ولون التطبيق",
+  "Notifications": "الإشعارات",
+  "DailyReminder": "التذكير اليومي",
+  "SetDailyReminder": "تعيين تذكير يومي للعادات",
+  "BackupData": "نسخ احتياطي",
+  "Exportyourhabitdata": "تصدير بيانات العادات",
+  "RestoreData": "استعادة البيانات",
+  "Importpreviouslyexporteddata": "استيراد بيانات محفوظة مسبقاً",
+  "lan": "اللغة",
+
+  "ClearAllData": "مسح جميع البيانات",
+  "Deleteallhabitsandsettings": "حذف جميع العادات والإعدادات",
+  "ComingSoon": "قريباً",
+  "Restorefeaturewillbeavailableinfutureupdates": "ستتوفر ميزة الاستعادة في التحديثات القادمة",
+  "About": "حول التطبيق",
+  "Appversionandinformation": "هذا التطبيق من تطوير دكستر",
+
+  "Cancel": "إلغاء",
+  "Add": "إضافة",
+  "Thefieldcanybeempty": "لا يمكن ترك الحقل فارغاً",
+  "Addnewhabit": "إضافة عادة جديدة...",
+  "EditThisHabit": "تعديل هذه العادة",
+  "Error": "خطأ",
+  "DeleteHabit": "حذف العادة",
+  "areyousureyouwanttothishabit": "هل أنت متأكد من رغبتك في حذف هذه العادة؟"
+}

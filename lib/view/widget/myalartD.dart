@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 
 class Myalartd extends StatefulWidget {
   final Function()? onSave;
@@ -66,9 +67,9 @@ class _MyalartdState extends State<Myalartd> {
                     SnackBar(
                       backgroundColor: Theme.of(context).colorScheme.error,
                       duration: const Duration(seconds: 2),
-                      content: const Center(
+                      content: Center(
                         child: Text(
-                          "The field can't be empty :)",
+                          S.of(context).Thefieldcanybeempty,
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -106,7 +107,7 @@ class _MyalartdState extends State<Myalartd> {
             widget.controller.clear();
           },
           child: Text(
-            'Cancel',
+            S.of(context).Cancel,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).colorScheme.error.withOpacity(0.8),
@@ -123,9 +124,9 @@ class _MyalartdState extends State<Myalartd> {
                 SnackBar(
                   backgroundColor: Theme.of(context).colorScheme.error,
                   duration: const Duration(seconds: 2),
-                  content: const Center(
+                  content: Center(
                     child: Text(
-                      "The field can't be empty :)",
+                      S.of(context).Thefieldcanybeempty,
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -134,7 +135,7 @@ class _MyalartdState extends State<Myalartd> {
             }
           },
           child: Text(
-            'Add',
+            S.of(context).Add,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).primaryColor,

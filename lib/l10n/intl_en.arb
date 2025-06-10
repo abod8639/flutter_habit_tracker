@@ -1,0 +1,64 @@
+
+{
+
+   "drawer":"",
+
+   "drawerTheme" : "Theme Color",
+   "drawerReat" : "Rate",
+   "drawerSetting" : "Setting",
+
+
+   "themepagetitle":"Theme Setting",
+   "themepage":"Custom Theme",
+
+
+   "Summary":"Habit Summary",
+   "ratepagetitle":"Habit Statistics",
+
+   "total":"Total",
+   "completed":"Completed",
+   "success":"Habit Success",
+   "today":"Today Progress",
+   "monthly":"Monthly Progress",
+   "hambitstate":"Habit State",
+   "pending":"Pending",
+   "isEmpty":"No habits tracked yet",
+   "BarChartisEmpty":"No habit data available",
+   "PieChartisEmpty":"No habits to display",
+   "TrendCharisEmpty":"Not enough data to display trends",
+   "Completed":"Completed",
+   "Incomplete":"Incomplete",
+   "TooltipItemCompleted":"Completed",
+   "TooltipItem":"Go do it now",
+
+   "SettingPageTitle":"Settings",
+   "Appearance":"Appearance",
+   "Changeapptheme" : "Change app theme and color",
+   "Notifications":"Notifications",
+   "DailyReminder":"Daily Reminder",
+   "SetDailyReminder":"Set a daily reminder for your habits",
+   "BackupData":"Backup Data",
+   "Exportyourhabitdata":"Export your habit data",
+   "RestoreData":"Restore Data",
+   "Importpreviouslyexporteddata":"Import previously exported data",
+   "lan":"Languig",
+
+   "ClearAllData":"Clear All Data",
+   "Deleteallhabitsandsettings":"Delete all habits and settings",
+   "ComingSoon":"Coming Soon",
+   "Restorefeaturewillbeavailableinfutureupdates":"Restore feature will be available in future updates",
+   "About":"About",
+   "Appversionandinformation":"This app made by dexter ",
+
+   "Cancel":"Cancel",
+   "Add":"Add",
+   "Thefieldcanybeempty":"The field can't be empty :)",
+   "Addnewhabit":"Add new Habit...",
+   "EditThisHabit":"Edit This Habit",
+   "Error":"Error",
+   "DeleteHabit":"Delete Habit",
+   "areyousureyouwanttothishabit":"Are you sure you want to delete this habit?"
+
+   
+
+}

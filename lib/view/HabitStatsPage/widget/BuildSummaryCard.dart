@@ -1,62 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 
 Widget BuildSummaryCard(Map<String, dynamic> stats) {
-  return Card(
-    elevation: 2.0,
-    margin: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  return Builder(
+    builder: (context) {
+      return Card(
+        elevation: 2.0,
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SizedBox(width: 5),
-              Center(
-                child: const Text(
-                  'Habits Summary',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // SizedBox(width: 5),
+                  Center(
+                    child: Text(
+                      S.of(context).Summary,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  _buildStreakBadge(stats['streak']),
+                  // SizedBox(width: 5),s
+                ],
               ),
-              _buildStreakBadge(stats['streak']),
-              // SizedBox(width: 5),s
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildStatItem(
+                    S.of(context).total,
+                    stats['totalHabits'].toString(),
+                    Icons.list_alt,
+                    Colors.blue,
+                  ),
+                  _buildStatItem(
+                    S.of(context).completed,
+                    stats['completedHabits'].toString(),
+                    Icons.check_circle_outline,
+                    Colors.green,
+                  ),
+                  _buildStatItem(
+                    S.of(context).success,
+                    '${stats['completionRate'].toStringAsFixed(1)}%',
+                    Icons.trending_up,
+                    stats['completionRate'] > 50 ? Colors.green : Colors.orange,
+                  ),
+                ],
+              ),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildStatItem(
-                'Total',
-                stats['totalHabits'].toString(),
-                Icons.list_alt,
-                Colors.blue,
-              ),
-              _buildStatItem(
-                'Completed',
-                stats['completedHabits'].toString(),
-                Icons.check_circle_outline,
-                Colors.green,
-              ),
-              _buildStatItem(
-                'Success',
-                '${stats['completionRate'].toStringAsFixed(1)}%',
-                Icons.trending_up,
-                stats['completionRate'] > 50 ? Colors.green : Colors.orange,
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
+        ),
+      );
+    },
   );
 }
 
 Widget _buildStatItem(String title, String value, IconData icon, Color color) {
-  final controller = Get.find<HabitController>();
+  final controller = Get.put(HabitController());
   return Expanded(
     child: Builder(
       builder: (context) {

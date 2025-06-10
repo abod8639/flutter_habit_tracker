@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/data/habit_db.dart';
 import 'package:habit_tracker/functions/HabitActions.dart';
 import 'package:habit_tracker/functions/HabitUtils.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/services/HabitStorage.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
@@ -135,7 +136,7 @@ class HabitController extends GetxController {
       context: context,
       builder: (context) {
         return Myalartd(
-          hintText: 'Add new Habit...',
+          hintText: S.of(context).Addnewhabit,
           controller: habitTextController,
           onSave: () {
             final String habitName = habitTextController.text.trim();
@@ -145,8 +146,8 @@ class HabitController extends GetxController {
               Navigator.of(context).pop();
             } else {
               Get.snackbar(
-                'Error',
-                'Habit name cannot be empty',
+                S.of(context).Error,
+                S.of(context).Thefieldcanybeempty,
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Colors.red.withOpacity(0.7),
                 colorText: Colors.white,
@@ -167,7 +168,7 @@ class HabitController extends GetxController {
       context: context,
       builder: (context) {
         return Myalartd(
-          hintText: 'Edit This Habit',
+          hintText: S.of(context).EditThisHabit,
           controller: habitTextController,
           onSave: () {
             final String habitName = habitTextController.text.trim();
@@ -177,8 +178,8 @@ class HabitController extends GetxController {
               Navigator.of(context).pop();
             } else {
               Get.snackbar(
-                'Error',
-                'The field can\'t be empty',
+                S.of(context).Error,
+                S.of(context).Thefieldcanybeempty,
                 snackPosition: SnackPosition.BOTTOM,
                 backgroundColor: Colors.red.withOpacity(0.7),
                 colorText: Colors.white,
@@ -197,10 +198,10 @@ class HabitController extends GetxController {
       buttonColor: Theme.of(context).colorScheme.secondary,
       cancelTextColor: Theme.of(context).colorScheme.primary,
       confirmTextColor: Theme.of(context).colorScheme.error,
-      title: 'Delete Habit',
-      middleText: 'Are you sure you want to delete this habit?',
-      textConfirm: 'Delete',
-      textCancel: 'Cancel',
+      title: S.of(context).DeleteHabit,
+      middleText: S.of(context).areyousureyouwanttothishabit,
+      textConfirm: S.of(context).DeleteHabit,
+      textCancel: S.of(context).Cancel,
       onCancel: () => Get.back(),
       onConfirm: () {
         db.deleteHabitByIndex(index);

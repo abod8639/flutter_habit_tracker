@@ -130,6 +130,31 @@ class HabitController extends GetxController {
     _myBox.put(HabitStorage.dayCountKey, dayCount.value);
   }
 
+  void incrementDayManually() {
+    // Increment the day count
+    incrementDayCount();
+
+    // Update last reset date
+    lastResetDate.value = DateTime. now();
+    saveLastResetDate(_myBox, lastResetDate.value!);
+
+    // Update habit stats
+    db.habitCalculate();
+    db.loadHeatmap();
+
+    update();
+
+    // Show success message
+    Get.snackbar(
+      'Day Count Updated',
+      'Day count is now: ${dayCount.value}',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green.withOpacity(0.7),
+      colorText: Colors.white,
+      duration: const Duration(seconds: 2),
+    );
+  }
+
   void addHabit(BuildContext context) {
     habitTextController.clear();
     showDialog(

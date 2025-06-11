@@ -4,7 +4,7 @@ import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildBarChart.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildPieChart.dart';
-import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTreandChart.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 Widget buildChartsSection(
   BuildContext context,

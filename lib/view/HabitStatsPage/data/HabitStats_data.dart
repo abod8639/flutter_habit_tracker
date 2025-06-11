@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
-import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTreandChart.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 List<FlSpot> prepareTrendData() {
   final Map<DateTime, int> heatmapData = habitController.db.heatmapDateSet;

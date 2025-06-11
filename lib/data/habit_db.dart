@@ -111,7 +111,14 @@ class Habitdb {
       myBox.put(HabitStorage.habitListKey, todaysHabitList);
 
       // Also save today's data with date
-      myBox.put(todaysDateFormatted(), todaysHabitList);
+      final String today = todaysDateFormatted();
+      myBox.put(today, todaysHabitList);
+
+      // Save individual habit history
+      for (var habit in _habits) {
+        final String historyKey = "${habit.name}_$today";
+        myBox.put(historyKey, habit.isCompleted);
+      }
 
       habitCalculate();
       loadHeatmap();

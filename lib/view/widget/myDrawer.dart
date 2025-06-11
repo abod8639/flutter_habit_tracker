@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
@@ -29,6 +30,8 @@ class DrawerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HabitController controller = Get.put(HabitController());
+
     return ListView(
       children: [
         SizedBox(height: 20),
@@ -61,18 +64,14 @@ class DrawerList extends StatelessWidget {
           title: S.of(context).drawerSetting,
         ),
 
-        // MyListTile(
-        //   icon: const Icon(color: Colors.blueGrey, Icons.settings),
-        //   onTap: () {
-        //     // Get.to(()=>MyApp() );
-        //     Get.back();
-        //     ScaffoldMessenger.of(
-        //       context,
-        //     ).showSnackBar(ErrorSnakBar(context, "Maybe Coming Soon"));
-        //   },
-        //   //  Get.to(const SettingsPage()),
-        //   title: "Settings",
-        // ),
+        MyListTile(
+          icon: const Icon(color: Colors.greenAccent, Icons.add_circle),
+          onTap: () {
+            controller.checkAndResetHabits();
+            controller.incrementDayManually();
+          },
+          title: "Add Day (+1)",
+        ),
       ],
     );
   }

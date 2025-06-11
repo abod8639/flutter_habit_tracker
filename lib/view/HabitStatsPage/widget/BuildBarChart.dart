@@ -123,7 +123,7 @@ Widget BuildBarChart(
                                     habit['completed']
                                         ? Theme.of(context).primaryColor
                                         : Theme.of(context).colorScheme.error,
-                                width: 16,
+                                width: 20,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                             ],

@@ -81,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
     "drawer": MessageLookupByLibrary.simpleMessage(""),
-    "drawerReat": MessageLookupByLibrary.simpleMessage("تقييم التطبيق"),
+    "drawerReat": MessageLookupByLibrary.simpleMessage("الإحصائيات"),
     "drawerSetting": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "drawerTheme": MessageLookupByLibrary.simpleMessage("لون الثيم"),
     "hambitstate": MessageLookupByLibrary.simpleMessage("حالة العادة"),

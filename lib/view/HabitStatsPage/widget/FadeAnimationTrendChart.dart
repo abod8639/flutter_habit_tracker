@@ -35,7 +35,11 @@ class FadeAnimationTrendChart extends StatelessWidget {
             curve: const Interval(0.4, 0.9, curve: Curves.easeOut),
           ),
         ),
-        child: BuildTrendChart(context, trendSpots, trendLabels, maxTrendValue),
+        child: BuildTrendChart(
+          trendSpots: trendSpots,
+          trendLabels: trendLabels,
+          maxTrendValue: maxTrendValue,
+        ),
       ),
     );
   }

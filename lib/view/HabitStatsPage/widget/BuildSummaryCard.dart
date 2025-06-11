@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/BuildStatItem.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/BuildStreakBadge.dart';
 
 Widget BuildSummaryCard(Map<String, dynamic> stats) {
   return Builder(
     builder: (context) {
       return Card(
         elevation: 2.0,
-        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // SizedBox(width: 5),
@@ -27,27 +29,28 @@ Widget BuildSummaryCard(Map<String, dynamic> stats) {
                       ),
                     ),
                   ),
-                  _buildStreakBadge(stats['streak']),
+                  BuildStreakBadge(stats['streak']),
                   // SizedBox(width: 5),s
                 ],
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _buildStatItem(
+                  BuildStatItem(
                     S.of(context).total,
                     stats['totalHabits'].toString(),
                     Icons.list_alt,
                     Colors.blue,
                   ),
-                  _buildStatItem(
+                  BuildStatItem(
                     S.of(context).completed,
                     stats['completedHabits'].toString(),
                     Icons.check_circle_outline,
                     Colors.green,
                   ),
-                  _buildStatItem(
+                  BuildStatItem(
                     S.of(context).success,
                     '${stats['completionRate'].toStringAsFixed(1)}%',
                     Icons.trending_up,
@@ -57,81 +60,6 @@ Widget BuildSummaryCard(Map<String, dynamic> stats) {
               ),
             ],
           ),
-        ),
-      );
-    },
-  );
-}
-
-Widget _buildStatItem(String title, String value, IconData icon, Color color) {
-  final controller = Get.put(HabitController());
-  return Expanded(
-    child: Builder(
-      builder: (context) {
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
-
-                  size: controller.isPhone(context) ? 18 : 22,
-                  color: color,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: controller.isPhone(context) ? 12 : 18,
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: color,
-              ),
-            ),
-          ],
-        );
-      },
-    ),
-  );
-}
-
-Widget _buildStreakBadge(int streak) {
-  return Builder(
-    builder: (context) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary.withAlpha(40),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Theme.of(context).colorScheme.secondary),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.local_fire_department,
-              color: Theme.of(context).colorScheme.secondary,
-              size: 18,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              'Day $streak',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            ),
-          ],
         ),
       );
     },

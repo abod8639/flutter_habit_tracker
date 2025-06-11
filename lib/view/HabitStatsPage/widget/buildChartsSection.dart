@@ -24,10 +24,9 @@ Widget buildChartsSection(
               const SizedBox(width: 10),
               Expanded(
                 child: BuildTrendChart(
-                  context,
-                  trendSpots,
-                  trendLabels,
-                  maxTrendValue,
+                  trendSpots: trendSpots,
+                  trendLabels: trendLabels,
+                  maxTrendValue: maxTrendValue,
                 ),
               ),
               const SizedBox(width: 10),

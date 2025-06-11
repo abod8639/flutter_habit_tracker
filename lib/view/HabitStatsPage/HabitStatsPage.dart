@@ -110,6 +110,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
                           const SizedBox(height: 20),
 
                         FadeAnimationTrendChart(
+                          chartData: chartData,
                           animationController: _animationController,
                           trendSpots: trendSpots,
                           trendLabels: trendLabels,

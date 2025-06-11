@@ -19,7 +19,9 @@ Widget BuildTrendChart({
   required List<FlSpot> trendSpots,
   required List<String> trendLabels,
   required double maxTrendValue,
+  required List<Map<String, dynamic>> chartData,
 }) {
+  // final List<Map<String, dynamic>> chartData;
   final chartState = Get.put(TrendChartState());
 
   // Skip if no data is available
@@ -82,7 +84,7 @@ Widget BuildTrendChart({
                       ),
                     ),
                     Obx(
-                      () => TextButton.icon(
+                      () => IconButton(
                         onPressed: chartState.toggleView,
                         icon: Icon(
                           chartState.showIndividualProgress.value
@@ -90,14 +92,14 @@ Widget BuildTrendChart({
                               : Icons.view_list,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        label: Text(
-                          chartState.showIndividualProgress.value
-                              ? 'Overall Progress'
-                              : 'Individual Progress',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
+                        // label: Text(
+                        //   chartState.showIndividualProgress.value
+                        //       ? 'Overall Progress'
+                        //       : 'Individual Progress',
+                        //   style: TextStyle(
+                        //     color: Theme.of(context).colorScheme.primary,
+                        //   ),
+                        // ),
                       ),
                     ),
                   ],

@@ -1,45 +1,51 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 
 Map<String, List<double>> getHabitProgressionData() {
-  final HabitController habitController = Get.put(HabitController());
+  final controller = Get.find<HabitController>();
+  final Map<String, List<double>> habitData = {};
+  final habits = controller.db.todaysHabitList;
 
-  Map<String, List<double>> habitData = {};
+  if (habits.isEmpty) return habitData;
 
-  // Get current habits
-  final habits = habitController.db.todaysHabitList;
-  if (habits.isEmpty) {
-    return habitData;
-  }
-
-  // Calculate date range for progression data
+  // Get the dates to show in the chart (last 7 days)
   final now = DateTime.now();
-  final int dayCount = habitController.dayCount.value;
-  final List<DateTime> recentDates = List.generate(
-    dayCount,
-    (index) => now.subtract(Duration(days: dayCount - 1 - index)),
+  final List<DateTime> dates = List.generate(
+    7, // Show last 7 days
+    (index) => now.subtract(Duration(days: 6 - index)), // Count up to today
   );
 
-  // Get completion history for each habit
-  for (var habit in habits) {
+  // Initialize progress tracking for each habit
+  for (final habit in habits) {
     final String habitName = habit[0];
-    final List<double> progressionData = [];
-    habitData[habitName] = progressionData;
+    habitData[habitName] = List<double>.filled(7, 0.0);
+  }
 
-    for (final date in recentDates) {
-      // Normalize date to start of day for consistent comparison
-      final normalizedDate = DateTime(date.year, date.month, date.day);
+  // For each date, check each habit's completion status
+  for (var i = 0; i < dates.length; i++) {
+    final date = dates[i];
+    final normalizedDate = DateTime(date.year, date.month, date.day);
 
-      // Get completion data from heatmap (scaled between 0 and 1)
-      final int? completionValue =
-          habitController.db.heatmapDateSet[normalizedDate];
-      final double completionRate =
-          completionValue != null
-              ? (completionValue / 10.0).clamp(0.0, 10.0)
-              : 0.0;
-      progressionData.add(completionRate);
+    for (final habit in habits) {
+      final String habitName = habit[0];
+      // Check if the habit was completed on this date using the heatmap data
+      final int? completionValue = controller.db.heatmapDateSet[normalizedDate];
+
+      if (completionValue != null) {
+        // If we have data for this date, mark as completed (1.0) if strength > 0.5
+        habitData[habitName]![i] = completionValue > 5 ? 1.0 : 0.0;
+      }
     }
   }
+
+  debugPrint(
+    '📊 Habit progression data calculated for ${habitData.length} habits',
+  );
+
+  debugPrint(
+    '📊 Habit progression data calculated for ${habitData.length} habits',
+  );
 
   return habitData;
 }

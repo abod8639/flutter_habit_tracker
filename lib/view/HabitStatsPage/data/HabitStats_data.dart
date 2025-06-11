@@ -1,61 +1,53 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
-import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 List<FlSpot> prepareTrendData() {
-  final Map<DateTime, int> heatmapData = habitController.db.heatmapDateSet;
-  if (heatmapData.isEmpty) {
+  final controller = Get.put(HabitController());
+  final habits = controller.db.todaysHabitList;
+
+  if (habits.isEmpty) {
     return [const FlSpot(0, 0)];
   }
 
-  final List<DateTime> sortedDates =
-      heatmapData.keys.toList()..sort((a, b) => a.compareTo(b));
-
-  final int daysToShow = sortedDates.length > 10 ? 10 : sortedDates.length;
-  final List<DateTime> recentDates = sortedDates.sublist(
-    sortedDates.length - daysToShow,
+  // Get the last 7 days
+  final now = DateTime.now();
+  final List<DateTime> dates = List.generate(
+    7,
+    (index) => now.subtract(Duration(days: 6 - index)),
   );
 
   List<FlSpot> trendSpots = [];
 
-  for (int i = 0; i < recentDates.length; i++) {
-    final DateTime date = recentDates[i];
-    final int value = heatmapData[date] ?? 0;
-    final double percentage = value.toDouble();
-    trendSpots.add(FlSpot(i.toDouble(), percentage));
+  // For each day, calculate the overall completion percentage
+  for (int i = 0; i < dates.length; i++) {
+    final date = dates[i];
+    final normalizedDate = DateTime(date.year, date.month, date.day);
+
+    // Get completion data from heatmap
+    final int? completionValue = controller.db.heatmapDateSet[normalizedDate];
+    final double percentage =
+        completionValue != null ? completionValue / 10.0 : 0.0;
+
+    trendSpots.add(FlSpot(i.toDouble(), percentage.clamp(0.0, 1.0)));
   }
 
   return trendSpots;
 }
 
 List<String> prepareTrendLabels() {
-  final Map<DateTime, int> heatmapData = habitController.db.heatmapDateSet;
-  if (heatmapData.isEmpty) {
-    return ['No data'];
-  }
+  final now = DateTime.now();
 
-  final List<DateTime> sortedDates =
-      heatmapData.keys.toList()..sort((a, b) => a.compareTo(b));
-
-  final int daysToShow = sortedDates.length > 10 ? 10 : sortedDates.length;
-  final List<DateTime> recentDates = sortedDates.sublist(
-    sortedDates.length - daysToShow,
-  );
-
-  return recentDates.map((date) => '${date.day}/${date.month}').toList();
+  // Get last 7 days for consistent labeling
+  return List.generate(7, (index) {
+    final date = now.subtract(Duration(days: 6 - index));
+    return '${date.day}/${date.month}';
+  });
 }
 
 double getMaxTrendValue() {
-  final Map<DateTime, int> heatmapData = habitController.db.heatmapDateSet;
-  if (heatmapData.isEmpty) return 70;
-
-  double maxValue = 0;
-  for (final value in heatmapData.values) {
-    if (value > maxValue) {
-      maxValue = value.toDouble();
-    }
-  }
-  return maxValue + 20 > 100 ? 100 : maxValue + 20;
+  // We now use a fixed max value of 1.0 (100%) since we're showing percentages
+  return 1.0;
 }
 
 Map<String, dynamic> calculateStats(HabitController controller) {

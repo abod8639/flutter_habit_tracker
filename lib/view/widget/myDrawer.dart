@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
@@ -30,7 +29,7 @@ class DrawerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HabitController controller = Get.put(HabitController());
+    // HabitController controller = Get.put(HabitController());
 
     return ListView(
       children: [

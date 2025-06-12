@@ -8,14 +8,9 @@ import 'package:habit_tracker/view/widget/MonthlySummary.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
 
-class Tablet extends StatefulWidget {
+class Tablet extends StatelessWidget {
   const Tablet({super.key});
 
-  @override
-  State<Tablet> createState() => _TabletState();
-}
-
-class _TabletState extends State<Tablet> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HabitController>(
@@ -58,8 +53,12 @@ class _TabletState extends State<Tablet> {
                 ),
               ),
 
-              // Right Side: Habit Checklist
-              ExpandedCheckboxList(habits: habits),
+              Expanded(
+                flex: controller.isDesktop(context) ? 9 : 13,
+                child: // Right Side: Habit Checklist
+                    CheckboxList(),
+                // HabitList(habits: habits),
+              ),
             ],
           ),
         );

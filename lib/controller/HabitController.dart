@@ -152,12 +152,6 @@ class HabitController extends GetxController {
     );
   }
 
-  void toggleHabit(bool? value, int index) {
-    if (db.getHabitByIndex(index) == null) return;
-    db.toggleHabitByIndex(index, value ?? false);
-    update();
-  }
-
   void manualReset() {
     Get.defaultDialog(
       title: 'Reset All Habits',

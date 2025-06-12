@@ -89,7 +89,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  HabitList(habits: habits),
+                  HabitList(),
                 ],
               );
             },

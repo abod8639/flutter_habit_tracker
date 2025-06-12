@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/functions/deleteHabit.dart';
+import 'package:habit_tracker/functions/editHabit.dart';
+import 'package:habit_tracker/functions/toggleHabit.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
 class HabitList extends StatelessWidget {
-  const HabitList({super.key, required this.habits});
-
-  final List<dynamic> habits;
+  const HabitList({super.key});
 
   @override
   Widget build(BuildContext context) {
     final HabitController controller = Get.put(HabitController());
+
+    final List habits = controller.db.todaysHabitList;
 
     if (habits.isEmpty) {
       return SliverFillRemaining(
@@ -69,10 +72,10 @@ class HabitList extends StatelessWidget {
           child: MyTextTaile(
             habitName: habits[index][0],
             habitCompleted: habits[index][1],
-            onTap: () => controller.toggleHabit(!habits[index][1], index),
-            onDelete: (context) => controller.deleteHabit(index, context),
-            onEdit: (context) => controller.editHabit(index, context),
-            onChanged: (value) => controller.toggleHabit(value, index),
+            onTap: () => toggleHabit(!habits[index][1], index),
+            onDelete: (context) => deleteHabit(index, context),
+            onEdit: (context) => editHabit(index, context),
+            onChanged: (value) => toggleHabit(value, index),
           ),
         );
       }),

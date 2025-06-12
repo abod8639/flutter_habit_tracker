@@ -16,8 +16,6 @@ class Tablet extends StatelessWidget {
     return GetBuilder<HabitController>(
       init: HabitController(),
       builder: (controller) {
-        final habits = controller.db.todaysHabitList;
-
         return Scaffold(
           drawer: const myDrawer(),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

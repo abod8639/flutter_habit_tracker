@@ -68,6 +68,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
           scrolledUnderElevation: 2.0,
         ),
         body: GetBuilder<HabitController>(
+          init: HabitController(),
           builder: (controller) {
             final stats = calculateStats();
             final chartData = prepareChartData();
@@ -110,6 +111,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
                           trendLabels: trendLabels,
                           maxTrendValue: maxTrendValue,
                         ),
+
                         const SizedBox(height: 20),
 
                         FaedAnimationHabitListCard(

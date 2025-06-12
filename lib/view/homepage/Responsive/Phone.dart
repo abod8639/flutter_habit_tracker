@@ -67,7 +67,6 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
 
           return GetBuilder<HabitController>(
             builder: (controller) {
-              final habits = controller.db.todaysHabitList;
               return CustomScrollView(
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),

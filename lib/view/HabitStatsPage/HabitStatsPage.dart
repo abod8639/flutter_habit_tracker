@@ -32,12 +32,6 @@ class _HabitStatsPageState extends State<HabitStatsPage>
   }
 
   @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return KeyboardListener(
       autofocus: true,
@@ -75,8 +69,8 @@ class _HabitStatsPageState extends State<HabitStatsPage>
         ),
         body: GetBuilder<HabitController>(
           builder: (controller) {
-            final stats = calculateStats(controller);
-            final chartData = prepareChartData(controller);
+            final stats = calculateStats();
+            final chartData = prepareChartData();
             final trendSpots = prepareTrendData();
             final trendLabels = prepareTrendLabels();
             final maxTrendValue = getMaxTrendValue();
@@ -132,5 +126,11 @@ class _HabitStatsPageState extends State<HabitStatsPage>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

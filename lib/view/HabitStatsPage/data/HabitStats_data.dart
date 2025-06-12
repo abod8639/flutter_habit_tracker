@@ -50,7 +50,9 @@ double getMaxTrendValue() {
   return 1.0;
 }
 
-Map<String, dynamic> calculateStats(HabitController controller) {
+Map<String, dynamic> calculateStats() {
+  final controller = Get.put(HabitController());
+
   // Use public methods to get habits data instead of accessing private fields
   final int totalHabits = controller.db.todaysHabitList.length;
   final int completedHabits = controller.db.getCompletedHabits().length;
@@ -65,7 +67,9 @@ Map<String, dynamic> calculateStats(HabitController controller) {
   };
 }
 
-List<Map<String, dynamic>> prepareChartData(HabitController controller) {
+List<Map<String, dynamic>> prepareChartData() {
+  final controller = Get.put(HabitController());
+
   // Use the public methods instead of directly accessing private fields
   final List<dynamic> habitsList = controller.db.todaysHabitList;
 

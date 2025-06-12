@@ -135,7 +135,7 @@ class HabitController extends GetxController {
     incrementDayCount();
 
     // Update last reset date
-    lastResetDate.value = DateTime. now();
+    lastResetDate.value = DateTime.now();
     saveLastResetDate(_myBox, lastResetDate.value!);
 
     // Update habit stats
@@ -155,35 +155,7 @@ class HabitController extends GetxController {
     );
   }
 
-  void addHabit(BuildContext context) {
-    habitTextController.clear();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Myalartd(
-          hintText: S.of(context).Addnewhabit,
-          controller: habitTextController,
-          onSave: () {
-            final String habitName = habitTextController.text.trim();
-            if (habitName.isNotEmpty) {
-              db.addHabit(habitName);
-              update();
-              Navigator.of(context).pop();
-            } else {
-              Get.snackbar(
-                S.of(context).Error,
-                S.of(context).Thefieldcanybeempty,
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.red.withOpacity(0.7),
-                colorText: Colors.white,
-              );
-            }
-          },
-        );
-      },
-    );
-  }
-
+  // addHabit( context,)
   void editHabit(int index, BuildContext context) {
     HabitModel? habit = db.getHabitByIndex(index);
     if (habit == null) return;

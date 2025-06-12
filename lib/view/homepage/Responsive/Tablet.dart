@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/functions/addHabit.dart';
 import 'package:habit_tracker/view/homepage/widget/DrawerMenuButton.dart';
 import 'package:habit_tracker/view/homepage/widget/ExpandedCheckboxList.dart';
 import 'package:habit_tracker/view/widget/MonthlySummary.dart';
@@ -28,7 +29,7 @@ class _TabletState extends State<Tablet> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: myfloatingActionButton(
-            onPressed: () => controller.addHabit(context),
+            onPressed: () => addHabit(context, controller),
           ),
           body: Row(
             children: [

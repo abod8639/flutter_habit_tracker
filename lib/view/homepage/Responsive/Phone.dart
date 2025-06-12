@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/functions/addHabit.dart';
 import 'package:habit_tracker/view/homepage/widget/HabitList.dart';
 import 'package:habit_tracker/view/widget/MonthlySummary.dart';
 import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
@@ -50,7 +51,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: myfloatingActionButton(
-        onPressed: () => controller.addHabit(context),
+        onPressed: () => addHabit(context, controller),
       ),
       body: SafeArea(
         child: Obx(() {

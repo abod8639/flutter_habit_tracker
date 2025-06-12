@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/functions/deleteHabit.dart';
 import 'package:habit_tracker/functions/editHabit.dart';
+import 'package:habit_tracker/functions/toggleHabit.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
 class ExpandedCheckboxList extends StatelessWidget {
@@ -40,18 +41,13 @@ class ExpandedCheckboxList extends StatelessWidget {
                         ),
                       ),
                       child: MyTextTaile(
-                        onTap:
-                            () => controller.toggleHabit(
-                              !habits[index][1],
-                              index,
-                            ),
+                        onTap: () => toggleHabit(!habits[index][1], index),
 
                         onDelete: (context) => deleteHabit(index, context),
                         onEdit: (context) => editHabit(index, context),
                         habitName: habits[index][0],
                         habitCompleted: habits[index][1],
-                        onChanged:
-                            (value) => controller.toggleHabit(value, index),
+                        onChanged: (value) => toggleHabit(value, index),
                       ),
                     );
                   },

@@ -6,10 +6,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/data/habit_db.dart';
 import 'package:habit_tracker/functions/HabitActions.dart';
 import 'package:habit_tracker/functions/HabitUtils.dart';
-import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/services/HabitStorage.dart';
-import 'package:habit_tracker/view/widget/myalartD.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
@@ -152,59 +149,6 @@ class HabitController extends GetxController {
       backgroundColor: Colors.green.withOpacity(0.7),
       colorText: Colors.white,
       duration: const Duration(seconds: 2),
-    );
-  }
-
-  // addHabit( context,)
-  void editHabit(int index, BuildContext context) {
-    HabitModel? habit = db.getHabitByIndex(index);
-    if (habit == null) return;
-
-    habitTextController.text = habit.name;
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Myalartd(
-          hintText: S.of(context).EditThisHabit,
-          controller: habitTextController,
-          onSave: () {
-            final String habitName = habitTextController.text.trim();
-            if (habitName.isNotEmpty) {
-              db.editHabitByIndex(index, habitName);
-              update();
-              Navigator.of(context).pop();
-            } else {
-              Get.snackbar(
-                S.of(context).Error,
-                S.of(context).Thefieldcanybeempty,
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.red.withOpacity(0.7),
-                colorText: Colors.white,
-              );
-            }
-          },
-        );
-      },
-    );
-  }
-
-  void deleteHabit(int index, BuildContext context) {
-    if (db.getHabitByIndex(index) == null) return;
-
-    Get.defaultDialog(
-      buttonColor: Theme.of(context).colorScheme.secondary,
-      cancelTextColor: Theme.of(context).colorScheme.primary,
-      confirmTextColor: Theme.of(context).colorScheme.error,
-      title: S.of(context).DeleteHabit,
-      middleText: S.of(context).areyousureyouwanttothishabit,
-      textConfirm: S.of(context).DeleteHabit,
-      textCancel: S.of(context).Cancel,
-      onCancel: () => Get.back(),
-      onConfirm: () {
-        db.deleteHabitByIndex(index);
-        update();
-        Get.back();
-      },
     );
   }
 

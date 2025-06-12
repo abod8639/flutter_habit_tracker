@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/functions/deleteHabit.dart';
+import 'package:habit_tracker/functions/editHabit.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
 class ExpandedCheckboxList extends StatelessWidget {
@@ -44,10 +46,8 @@ class ExpandedCheckboxList extends StatelessWidget {
                               index,
                             ),
 
-                        onDelete:
-                            (context) => controller.deleteHabit(index, context),
-                        onEdit:
-                            (context) => controller.editHabit(index, context),
+                        onDelete: (context) => deleteHabit(index, context),
+                        onEdit: (context) => editHabit(index, context),
                         habitName: habits[index][0],
                         habitCompleted: habits[index][1],
                         onChanged:

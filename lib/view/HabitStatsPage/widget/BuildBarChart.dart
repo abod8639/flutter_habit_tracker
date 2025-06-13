@@ -5,7 +5,7 @@ import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 
-Widget BuildBarChart(BuildContext context) {
+Widget BuildBarChart() {
   final List<Map<String, dynamic>> chartData = prepareChartData();
   final HabitController cont = Get.put(HabitController());
 

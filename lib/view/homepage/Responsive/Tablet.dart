@@ -37,21 +37,18 @@ class Tablet extends StatelessWidget {
                 flex: controller.isDesktop(context) ? 8 : 9,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: ListView(
+                  child: SingleChildScrollView(
                     reverse: true,
                     key: ValueKey<String>(controller.getStartDay()),
                     scrollDirection: Axis.horizontal,
-                    children: [MonthlySummary()],
+                    child: MonthlySummary(),
                   ),
                 ),
               ),
 
               Expanded(
                 flex: controller.isDesktop(context) ? 9 : 13,
-                child: // Right Side: Habit Checklist
-                    CheckboxList(),
-                // HabitList(),
-                // HabitList(habits: habits),
+                child: CheckboxList(),
               ),
             ],
           ),

@@ -1,11 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
-import 'package:habit_tracker/view/HabitStatsPage/data/calculateOverallProgress.dart';
-import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
-import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 class LineChartBox extends StatelessWidget {
   const LineChartBox({
@@ -19,21 +15,23 @@ class LineChartBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chartState = Get.put(TrendChartState());
+    // final chartState = Get.put(TrendChartState());
     final List<String> trendLabels = prepareTrendLabels();
-    final Map<String, List<double>> habitProgression =
-        getHabitProgressionData();
+    // final Map<String, List<double>> habitProgression =
+    //     getHabitProgressionData();
 
-    final Map<String, List<double>> progression =
-        chartState.showIndividualProgress.value
-            ? habitProgression
-            : {'Overall': calculateOverallProgress(habitProgression)};
+    // final Map<String, List<double>> progression =
+    //     chartState.showIndividualProgress.value
+    //         ? habitProgression
+    //         : {'Overall': calculateOverallProgress(habitProgression)};
 
-    final List<Map<String, dynamic>> chartData = prepareChartData();
-    final completedHabits =
-        chartData.where((habit) => habit['completed'] == true).toList();
-    final incompleteHabits =
-        chartData.where((habit) => habit['completed'] == false).toList();
+    // final List<Map<String, dynamic>> chartData = prepareChartData();
+    // final Map<String, dynamic> stats = calculateStats();
+
+    // final int completedHabits = stats['completedHabits'];
+    // final int totalHabits = stats['totalHabits'];
+
+    final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends();
     return SizedBox(
       height: 300,
       child: LineChart(
@@ -108,20 +106,12 @@ class LineChartBox extends StatelessWidget {
           maxY: 1.0,
           lineBarsData: [
             for (int i = 0; i < habitNames.length; i++)
-              myLineChartBarData(
-                spots: List.generate(
-                  progression[habitNames[i]]!.length,
-                  (index) => FlSpot(
-                    index.toDouble(),
-                    // i.toDouble() /
-                    //     progression[habitNames[i]]![index].toDouble(),
-                    // 0.5,
-                    progression[habitNames[i]]![index],
-                  ),
+              if (progression.containsKey(habitNames[i]))
+                myLineChartBarData(
+                  spots: progression[habitNames[i]]!,
+                  color: i < lineColors.length ? lineColors[i] : Colors.grey,
+                  label: habitNames[i],
                 ),
-                color: lineColors[i % lineColors.length],
-                habitName: habitNames[i],
-              ),
           ],
         ),
       ),

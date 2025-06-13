@@ -7,6 +7,7 @@ import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/data/habit_db.dart';
 import 'package:habit_tracker/functions/HabitActions.dart';
 import 'package:habit_tracker/functions/HabitUtils.dart';
+import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
@@ -17,6 +18,10 @@ class HabitController extends GetxController {
   RxInt dayCount = 1.obs;
   Rx<DateTime?> lastResetDate = Rx<DateTime?>(null);
   RxInt index = 0.obs;
+
+  // Map to store habit completion history
+  final Rx<Map<String, Map<DateTime, bool>>> habitHistoryMap =
+      Rx<Map<String, Map<DateTime, bool>>>({});
 
   // Status indicators
   final RxBool isInitialized = false.obs;
@@ -68,6 +73,9 @@ class HabitController extends GetxController {
 
     // Load last reset date
     lastResetDate.value = getLastResetDate(_myBox);
+
+    // Load habit history
+    _loadHabitHistory();
   }
 
   /// Set up periodic checking for habit resets
@@ -112,10 +120,51 @@ class HabitController extends GetxController {
     try {
       if (shouldResetHabits(lastResetDate.value)) {
         debugPrint('🔄 Resetting habits for new day');
+
+        // Save current state to history before reset
+        final habits = db.todaysHabitList;
+        final now = DateTime.now();
+        final normalizedDate = DateTime(now.year, now.month, now.day);
+        final currentHistory = Map<String, Map<DateTime, bool>>.from(
+          habitHistoryMap.value,
+        );
+        final todayStr = convertDateTimeToString(normalizedDate);
+
+        // Save each habit's current state to history
+        for (var habit in habits) {
+          final String habitName = habit[0];
+          final bool isCompleted = habit[1];
+
+          // Save to history map
+          if (!currentHistory.containsKey(habitName)) {
+            currentHistory[habitName] = {};
+          }
+          currentHistory[habitName]![normalizedDate] = isCompleted;
+
+          // Save to database
+          final String historyKey = "${habitName}_$todayStr";
+          _myBox.put(historyKey, isCompleted);
+        }
+        habitHistoryMap.value = currentHistory;
+
+        // Perform reset
         incrementDayCount();
         resetAllHabits(db);
         lastResetDate.value = DateTime.now();
         saveLastResetDate(_myBox, lastResetDate.value!);
+
+        // Make sure all habits start as not completed for the new day
+        final newDate = DateTime.now();
+        final newNormalizedDate = DateTime(
+          newDate.year,
+          newDate.month,
+          newDate.day,
+        );
+        for (var habit in habits) {
+          final String habitName = habit[0];
+          currentHistory[habitName]![newNormalizedDate] = false;
+        }
+        habitHistoryMap.value = currentHistory;
       }
     } catch (e) {
       debugPrint('❌ Error checking/resetting habits: $e');
@@ -185,5 +234,42 @@ class HabitController extends GetxController {
 
   String getStartDay() {
     return _myBox.get(HabitStorage.startDayKey, defaultValue: "");
+  }
+
+  /// Load habit history from storage
+  void _loadHabitHistory() {
+    try {
+      final Map<String, Map<DateTime, bool>> history = {};
+      final habits = db.todaysHabitList;
+      final startDate = createDateTimeObject(getStartDay());
+      final today = DateTime.now();
+
+      for (var habit in habits) {
+        final String habitName = habit[0];
+        final Map<DateTime, bool> habitData = {};
+
+        for (
+          var date = startDate;
+          date.isBefore(today) || date.isAtSameMomentAs(today);
+          date = date.add(const Duration(days: 1))
+        ) {
+          final normalizedDate = DateTime(date.year, date.month, date.day);
+          final String formattedDate = convertDateTimeToString(normalizedDate);
+          final String historyKey = "${habitName}_$formattedDate";
+          final bool? completed = _myBox.get(historyKey);
+          if (completed != null) {
+            habitData[normalizedDate] = completed;
+          }
+        }
+
+        history[habitName] = habitData;
+      }
+
+      habitHistoryMap.value = history;
+      debugPrint('📊 Loaded history for ${history.length} habits');
+    } catch (e) {
+      debugPrint('❌ Error loading habit history: $e');
+      habitHistoryMap.value = {};
+    }
   }
 }

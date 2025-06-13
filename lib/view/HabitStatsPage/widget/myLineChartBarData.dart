@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 LineChartBarData myLineChartBarData({
   required List<FlSpot> spots,
   required Color color,
-  String? habitName,
+  String? label,
 }) {
   return LineChartBarData(
     show: true,

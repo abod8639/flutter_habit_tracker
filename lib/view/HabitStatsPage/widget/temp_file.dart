@@ -104,39 +104,35 @@ Widget BuildTrendChart() {
                 ),
               ),
               const SizedBox(height: 16),
-              Obx(() {
-                if (!chartState.showIndividualProgress.value) {
-                  return const SizedBox.shrink();
-                }
-                return Wrap(
-                  spacing: 16,
-                  runSpacing: 8,
-                  children: [
-                    for (int i = 0; i < habitNames.length; i++)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 16,
-                            height: 16,
-                            decoration: BoxDecoration(
-                              color: lineColors[i % lineColors.length],
-                              shape: BoxShape.circle,
-                            ),
+
+              Wrap(
+                spacing: 16,
+                runSpacing: 8,
+                children: [
+                  for (int i = 0; i < habitNames.length; i++)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 16,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: lineColors[i % lineColors.length],
+                            shape: BoxShape.circle,
                           ),
-                          const SizedBox(width: 4),
-                          Text(
-                            habitNames[i],
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          habitNames[i],
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.onSecondary,
                           ),
-                        ],
-                      ),
-                  ],
-                );
-              }),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ],
           ),
         ),

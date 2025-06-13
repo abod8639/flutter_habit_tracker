@@ -303,8 +303,16 @@ class Habitdb {
   /// Toggle a habit completion status by index
   void toggleHabitByIndex(int index, bool value) {
     if (index >= 0 && index < _habits.length) {
-      _habits[index].isCompleted = value;
-      _habits[index].completedAt = value ? DateTime.now() : null;
+      final habit = _habits[index];
+      habit.isCompleted = value;
+      habit.completedAt = value ? DateTime.now() : null;
+
+      // Save current status to history
+      final now = DateTime.now();
+      final todayStr = convertDateTimeToString(now);
+      final historyKey = "${habit.name}_$todayStr";
+      myBox.put(historyKey, value);
+
       _dataChanged = true;
       updateData();
     }

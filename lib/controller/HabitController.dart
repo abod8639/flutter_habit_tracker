@@ -217,25 +217,6 @@ class HabitController extends GetxController {
     );
   }
 
-  @override
-  void onClose() {
-    _resetCheckTimer?.cancel();
-    habitTextController.dispose();
-    super.onClose();
-  }
-
-  bool isDesktop(BuildContext context) =>
-      MediaQuery.of(context).size.width >= 1000.0;
-  bool isTablet(BuildContext context) =>
-      MediaQuery.of(context).size.width >= 600.0 &&
-      MediaQuery.of(context).size.width < 1000.0;
-  bool isPhone(BuildContext context) =>
-      MediaQuery.of(context).size.width < 600.0;
-
-  String getStartDay() {
-    return _myBox.get(HabitStorage.startDayKey, defaultValue: "");
-  }
-
   /// Load habit history from storage
   void _loadHabitHistory() {
     try {
@@ -271,5 +252,24 @@ class HabitController extends GetxController {
       debugPrint('❌ Error loading habit history: $e');
       habitHistoryMap.value = {};
     }
+  }
+
+  @override
+  void onClose() {
+    _resetCheckTimer?.cancel();
+    habitTextController.dispose();
+    super.onClose();
+  }
+
+  bool isDesktop(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 1000.0;
+  bool isTablet(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 600.0 &&
+      MediaQuery.of(context).size.width < 1000.0;
+  bool isPhone(BuildContext context) =>
+      MediaQuery.of(context).size.width < 600.0;
+
+  String getStartDay() {
+    return _myBox.get(HabitStorage.startDayKey, defaultValue: "");
   }
 }

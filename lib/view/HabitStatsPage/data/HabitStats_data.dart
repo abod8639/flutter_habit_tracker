@@ -119,7 +119,7 @@ Map<String, List<FlSpot>> prepareTodayHabitTrends() {
         spots.add(FlSpot(i.toDouble(), habit[1] ? 1.0 : 0.0));
       } else {
         // For other days or if history exists, use the history data
-        spots.add(FlSpot(i.toDouble(), completed == true ? 1.0 : 0.0));
+        spots.add(FlSpot(i.toDouble(), completed == true ? 1.0 : 0.00));
       }
     }
 

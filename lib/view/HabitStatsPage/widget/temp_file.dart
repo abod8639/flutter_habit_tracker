@@ -6,6 +6,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/LineChartBox.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/WarpHabitNames.dart';
 
 final HabitController habitController = Get.put(HabitController());
 // final myBox = Hive.box('Habit_db');
@@ -18,7 +19,6 @@ class TrendChartState extends GetxController {
 Widget BuildTrendChart() {
   final chartState = Get.put(TrendChartState());
   final List<FlSpot> trendSpots = prepareTrendData();
-  // final double maxTrendValue = getMaxTrendValue();
   // Skip if no data is available
   if (trendSpots.isEmpty ||
       trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0)) {
@@ -105,34 +105,7 @@ Widget BuildTrendChart() {
               ),
               const SizedBox(height: 16),
 
-              Wrap(
-                spacing: 16,
-                runSpacing: 8,
-                children: [
-                  for (int i = 0; i < habitNames.length; i++)
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 16,
-                          height: 16,
-                          decoration: BoxDecoration(
-                            color: lineColors[i % lineColors.length],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          habitNames[i],
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
+              WarpHabitNames(lineColors: lineColors),
             ],
           ),
         ),

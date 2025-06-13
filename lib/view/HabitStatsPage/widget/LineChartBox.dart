@@ -66,6 +66,7 @@ class LineChartBox extends StatelessWidget {
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
+
                   interval: 0.25,
                   getTitlesWidget: (value, meta) {
                     return Padding(
@@ -74,14 +75,14 @@ class LineChartBox extends StatelessWidget {
                         '${(value * 100).toInt()}%',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 12,
+                          fontSize: 10,
                           color: Theme.of(context).colorScheme.onSecondary,
                         ),
                         textAlign: TextAlign.right,
                       ),
                     );
                   },
-                  reservedSize: 40,
+                  reservedSize: 45,
                 ),
               ),
               rightTitles: const AxisTitles(
@@ -93,8 +94,8 @@ class LineChartBox extends StatelessWidget {
             ),
             minX: 0,
             maxX: trendLabels.length - 1.0,
-            minY: 0,
-            maxY: 1.0,
+            minY: -0.05,
+            maxY: 1.05,
             lineBarsData: [
               if (chartState.showIndividualProgress == false)
                 myLineChartBarData(

@@ -8,7 +8,7 @@ LineChartBarData myLineChartBarData({
 }) {
   return LineChartBarData(
     show: true,
-    // curveSmoothness: 0.10,
+    curveSmoothness: 0.30,
     spots: spots,
     isCurved: true,
     color: color,

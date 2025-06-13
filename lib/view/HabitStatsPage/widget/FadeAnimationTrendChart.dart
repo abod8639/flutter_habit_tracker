@@ -7,16 +7,13 @@ class FadeAnimationTrendChart extends StatelessWidget {
   const FadeAnimationTrendChart({
     super.key,
     required AnimationController animationController,
-    // required this.trendLabels,
-    required this.maxTrendValue,
   }) : _animationController = animationController;
 
   final AnimationController _animationController;
-  final double maxTrendValue;
-  // final List<Map<String, dynamic>> chartData;
 
   @override
   Widget build(BuildContext context) {
+    final double maxTrendValue = getMaxTrendValue();
     final List<String> trendLabels = prepareTrendLabels();
     final List<FlSpot> trendSpots = prepareTrendData();
     return FadeTransition(

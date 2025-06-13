@@ -72,9 +72,9 @@ class _HabitStatsPageState extends State<HabitStatsPage>
           builder: (controller) {
             final stats = calculateStats();
             // final chartData = prepareChartData();
-            final trendSpots = prepareTrendData();
-            final trendLabels = prepareTrendLabels();
-            final maxTrendValue = getMaxTrendValue();
+            // final trendSpots = prepareTrendData();
+            // final trendLabels = prepareTrendLabels();
+            // final maxTrendValue = getMaxTrendValue();
 
             return AnimatedBuilder(
               animation: _animationController,
@@ -88,14 +88,12 @@ class _HabitStatsPageState extends State<HabitStatsPage>
                       children: [
                         FadeAnimateonSummaryCard(
                           animationController: _animationController,
-                          // stats: stats,
                         ),
 
                         const SizedBox(height: 20),
 
                         FadeAnimationChartsSection(
                           animationController: _animationController,
-                          // stats: stats,
                         ),
 
                         const SizedBox(height: 20),
@@ -105,9 +103,6 @@ class _HabitStatsPageState extends State<HabitStatsPage>
 
                         FadeAnimationTrendChart(
                           animationController: _animationController,
-                          trendSpots: trendSpots,
-                          trendLabels: trendLabels,
-                          maxTrendValue: maxTrendValue,
                         ),
 
                         const SizedBox(height: 20),

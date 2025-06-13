@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/MyBarTouchData.dart';
 
 Widget BuildBarChart() {
   final List<Map<String, dynamic>> chartData = prepareChartData();
@@ -38,7 +39,7 @@ Widget BuildBarChart() {
                 height: 300,
                 child: BarChart(
                   BarChartData(
-                    barTouchData: _MyBarTouchData(chartData, context),
+                    barTouchData: MyBarTouchData(context),
                     alignment: BarChartAlignment.center,
                     minY: 0,
                     maxY: cont.dayCount > 0 ? cont.dayCount.toDouble() : 5.0,
@@ -136,48 +137,5 @@ Widget BuildBarChart() {
         ),
       );
     },
-  );
-}
-
-BarTouchData _MyBarTouchData(
-  List<Map<String, dynamic>> chartData,
-  BuildContext context,
-) {
-  return BarTouchData(
-    enabled: true,
-    touchTooltipData: BarTouchTooltipData(
-      fitInsideHorizontally: true,
-      fitInsideVertically: true,
-      tooltipPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      tooltipMargin: 8,
-      getTooltipItem: (group, groupIndex, rod, rodIndex) {
-        final Map<String, dynamic> habit = chartData[groupIndex];
-        final String name = habit['habit'] ?? 'Unnamed';
-        final bool completed = habit['completed'] ?? false;
-
-        return BarTooltipItem(
-          name,
-          const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          children: [
-            TextSpan(
-              text:
-                  '\n${completed ? S.of(context).TooltipItemCompleted : S.of(context).TooltipItem}',
-              style: TextStyle(
-                color:
-                    completed
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.error.withRed(255),
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        );
-      },
-    ),
   );
 }

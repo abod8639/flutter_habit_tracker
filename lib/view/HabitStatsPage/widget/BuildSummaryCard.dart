@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildStatItem.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildStreakBadge.dart';
 
-Widget BuildSummaryCard(Map<String, dynamic> stats) {
+Widget BuildSummaryCard() {
+  final Map<String, dynamic> stats = calculateStats();
   return Builder(
     builder: (context) {
       return Card(

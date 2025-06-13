@@ -5,11 +5,11 @@ class FadeAnimateonSummaryCard extends StatelessWidget {
   const FadeAnimateonSummaryCard({
     super.key,
     required AnimationController animationController,
-    required this.stats,
+    // required this.stats,
   }) : _animationController = animationController;
 
   final AnimationController _animationController;
-  final Map<String, dynamic> stats;
+  // final Map<String, dynamic> stats;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class FadeAnimateonSummaryCard extends StatelessWidget {
             curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
           ),
         ),
-        child: BuildSummaryCard(stats),
+        child: BuildSummaryCard(),
       ),
     );
   }

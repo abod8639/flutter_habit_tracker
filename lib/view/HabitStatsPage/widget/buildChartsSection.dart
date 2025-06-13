@@ -21,7 +21,6 @@ Widget buildChartsSection(BuildContext context, Map<String, dynamic> stats) {
               const SizedBox(width: 10),
               Expanded(
                 child: BuildTrendChart(
-                  // chartData: chartData,
                   trendSpots: trendSpots,
                   trendLabels: trendLabels,
                   maxTrendValue: maxTrendValue,

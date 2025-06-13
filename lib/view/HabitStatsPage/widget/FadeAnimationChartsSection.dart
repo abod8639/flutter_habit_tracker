@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/buildChartsSection.dart';
 
 class FadeAnimationChartsSection extends StatelessWidget {
   const FadeAnimationChartsSection({
     super.key,
     required AnimationController animationController,
-    required this.stats,
+    // required this.stats,
     // required this.chartData,
     // required this.controller,
   }) : _animationController = animationController;
 
   final AnimationController _animationController;
-  final Map<String, dynamic> stats;
   // final List<Map<String, dynamic>> chartData;
   // final HabitController controller = ;
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> stats = calculateStats();
     return FadeTransition(
       opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(

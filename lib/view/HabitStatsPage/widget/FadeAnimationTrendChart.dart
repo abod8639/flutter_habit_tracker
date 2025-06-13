@@ -1,25 +1,24 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 class FadeAnimationTrendChart extends StatelessWidget {
   const FadeAnimationTrendChart({
     super.key,
     required AnimationController animationController,
-    required this.trendSpots,
-    required this.trendLabels,
+    // required this.trendLabels,
     required this.maxTrendValue,
-    // required this.chartData,
   }) : _animationController = animationController;
 
   final AnimationController _animationController;
-  final List<FlSpot> trendSpots;
-  final List<String> trendLabels;
   final double maxTrendValue;
   // final List<Map<String, dynamic>> chartData;
 
   @override
   Widget build(BuildContext context) {
+    final List<String> trendLabels = prepareTrendLabels();
+    final List<FlSpot> trendSpots = prepareTrendData();
     return FadeTransition(
       opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(

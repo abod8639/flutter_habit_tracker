@@ -28,6 +28,12 @@ class LineChartBox extends StatelessWidget {
         chartState.showIndividualProgress.value
             ? habitProgression
             : {'Overall': calculateOverallProgress(habitProgression)};
+
+    final List<Map<String, dynamic>> chartData = prepareChartData();
+    final completedHabits =
+        chartData.where((habit) => habit['completed'] == true).toList();
+    final incompleteHabits =
+        chartData.where((habit) => habit['completed'] == false).toList();
     return SizedBox(
       height: 300,
       child: LineChart(
@@ -107,6 +113,8 @@ class LineChartBox extends StatelessWidget {
                   progression[habitNames[i]]!.length,
                   (index) => FlSpot(
                     index.toDouble(),
+                    // i.toDouble() /
+                    //     progression[habitNames[i]]![index].toDouble(),
                     // 0.5,
                     progression[habitNames[i]]![index],
                   ),

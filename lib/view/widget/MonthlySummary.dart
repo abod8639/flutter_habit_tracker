@@ -5,14 +5,10 @@ import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/models/date_time.dart';
 
 class MonthlySummary extends StatefulWidget {
-  // final Map<DateTime, int> datasets;
+  final Map<DateTime, int> datasets;
   // final String startDate;
 
-  const MonthlySummary({
-    super.key,
-    // required this.datasets,
-    // required this.startDate,
-  });
+  const MonthlySummary({super.key, required this.datasets});
 
   @override
   State<MonthlySummary> createState() => _MonthlySummaryState();
@@ -21,7 +17,7 @@ class MonthlySummary extends StatefulWidget {
 class _MonthlySummaryState extends State<MonthlySummary>
     with SingleTickerProviderStateMixin {
   final habitController = Get.put(HabitController());
-  late final datasets = habitController.db.heatmapDateSet;
+  // late final datasets = habitController.db.heatmapDateSet;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -90,7 +86,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
           child: HeatMap(
             startDate: startDateTime,
             endDate: DateTime.now().add(const Duration(days: 0)),
-            datasets: datasets,
+            datasets: widget.datasets,
             colorMode: ColorMode.color,
             defaultColor: Colors.grey[400]!,
             textColor: themeColors.onSurface,

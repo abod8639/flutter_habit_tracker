@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
 
-void addHabit(BuildContext context, controller) {
+void addHabit(BuildContext context) {
+  final controller = Get.find<HabitController>();
   controller.habitTextController.clear();
   showDialog(
     context: context,

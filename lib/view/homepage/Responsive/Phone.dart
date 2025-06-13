@@ -51,7 +51,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: myfloatingActionButton(
-        onPressed: () => addHabit(context, controller),
+        onPressed: () => addHabit(context),
       ),
       body: SafeArea(
         child: Obx(() {
@@ -80,7 +80,9 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
                         physics: const BouncingScrollPhysics(),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: MonthlySummary(),
+                          child: MonthlySummary(
+                            datasets: controller.db.heatmapDateSet,
+                          ),
                         ),
                       ),
                     ),

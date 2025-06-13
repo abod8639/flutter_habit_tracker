@@ -1,35 +1,43 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/calculateOverallProgress.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 class LineChartBox extends StatelessWidget {
   const LineChartBox({
     super.key,
     required this.habitNames,
-    required this.habitProgression,
     required this.lineColors,
-    required this.trendLabels,
-    required this.maxTrendValue,
   });
 
   final List<String> habitNames;
-  final Map<String, List<double>> habitProgression;
   final List<Color> lineColors;
-  final List<String> trendLabels;
-  final double maxTrendValue;
 
   @override
   Widget build(BuildContext context) {
+    final chartState = Get.put(TrendChartState());
+    final List<String> trendLabels = prepareTrendLabels();
+    final Map<String, List<double>> habitProgression =
+        getHabitProgressionData();
+
+    final Map<String, List<double>> progression =
+        chartState.showIndividualProgress.value
+            ? habitProgression
+            : {'Overall': calculateOverallProgress(habitProgression)};
     return SizedBox(
       height: 300,
       child: LineChart(
         LineChartData(
           gridData: FlGridData(
             show: true,
-            horizontalInterval: 0.25,
+            horizontalInterval: 0.20,
             getDrawingHorizontalLine: (value) {
               return FlLine(
-                color: Colors.grey.withOpacity(0.3),
+                color: Colors.grey.withOpacity(0.1),
                 strokeWidth: 1,
               );
             },
@@ -91,15 +99,16 @@ class LineChartBox extends StatelessWidget {
           minX: 0,
           maxX: trendLabels.length - 1.0,
           minY: 0,
-          maxY: maxTrendValue,
+          maxY: 1.0,
           lineBarsData: [
             for (int i = 0; i < habitNames.length; i++)
               myLineChartBarData(
                 spots: List.generate(
-                  habitProgression[habitNames[i]]!.length,
+                  progression[habitNames[i]]!.length,
                   (index) => FlSpot(
                     index.toDouble(),
-                    habitProgression[habitNames[i]]![index],
+                    // 0.5,
+                    progression[habitNames[i]]![index],
                   ),
                 ),
                 color: lineColors[i % lineColors.length],

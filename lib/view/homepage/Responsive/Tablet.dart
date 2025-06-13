@@ -22,7 +22,7 @@ class Tablet extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: myfloatingActionButton(
-            onPressed: () => addHabit(context, controller),
+            onPressed: () => addHabit(context),
           ),
           body: Row(
             children: [
@@ -41,7 +41,9 @@ class Tablet extends StatelessWidget {
                     reverse: true,
                     key: ValueKey<String>(controller.getStartDay()),
                     scrollDirection: Axis.horizontal,
-                    child: MonthlySummary(),
+                    child: MonthlySummary(
+                      datasets: controller.db.heatmapDateSet,
+                    ),
                   ),
                 ),
               ),

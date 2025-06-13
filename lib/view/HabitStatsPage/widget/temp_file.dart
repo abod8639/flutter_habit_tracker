@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
-import 'package:habit_tracker/view/HabitStatsPage/data/calculateOverallProgress.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/LineChartBox.dart';
 
@@ -20,7 +19,6 @@ Widget BuildTrendChart() {
   final chartState = Get.put(TrendChartState());
   final List<FlSpot> trendSpots = prepareTrendData();
   // final double maxTrendValue = getMaxTrendValue();
-  final List<String> trendLabels = prepareTrendLabels();
   // Skip if no data is available
   if (trendSpots.isEmpty ||
       trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0)) {
@@ -48,6 +46,7 @@ Widget BuildTrendChart() {
   final Map<String, List<double>> habitProgression = getHabitProgressionData();
   final List<String> habitNames = habitProgression.keys.toList();
   final List<Color> lineColors = [
+    // Theme.of(context).primaryColor,
     Colors.purple,
     Colors.blue,
     Colors.green,
@@ -89,14 +88,6 @@ Widget BuildTrendChart() {
                               : Icons.view_list,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        // label: Text(
-                        //   chartState.showIndividualProgress.value
-                        //       ? 'Overall Progress'
-                        //       : 'Individual Progress',
-                        //   style: TextStyle(
-                        //     color: Theme.of(context).colorScheme.primary,
-                        //   ),
-                        // ),
                       ),
                     ),
                   ],
@@ -105,20 +96,10 @@ Widget BuildTrendChart() {
               const SizedBox(height: 16),
               Obx(
                 () => LineChartBox(
-                  maxTrendValue: 1.0,
-                  trendLabels: trendLabels,
                   habitNames:
                       chartState.showIndividualProgress.value
                           ? habitNames
                           : ['Overall'],
-                  habitProgression:
-                      chartState.showIndividualProgress.value
-                          ? habitProgression
-                          : {
-                            'Overall': calculateOverallProgress(
-                              habitProgression,
-                            ),
-                          },
                   lineColors: lineColors,
                 ),
               ),

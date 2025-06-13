@@ -16,7 +16,7 @@ class Habitdb {
   Map<DateTime, int> heatmapDateSet = {};
 
   /// Cache to reduce redundant calculations
-  int _completedCount = 1;
+  int _completedCount = 0;
   bool _dataChanged = false;
 
   /// For backward compatibility - convert HabitModel list to the old format
@@ -291,7 +291,7 @@ class Habitdb {
     }
   }
 
-  /// Delete a habit by index
+  // / Delete a habit by index
   void deleteHabitByIndex(int index) {
     if (index >= 0 && index < _habits.length) {
       _habits.removeAt(index);

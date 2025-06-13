@@ -41,12 +41,7 @@ class Tablet extends StatelessWidget {
                     reverse: true,
                     key: ValueKey<String>(controller.getStartDay()),
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      MonthlySummary(
-                        datasets: controller.db.heatmapDateSet,
-                        startDate: controller.getStartDay(),
-                      ),
-                    ],
+                    children: [MonthlySummary()],
                   ),
                 ),
               ),
@@ -55,6 +50,7 @@ class Tablet extends StatelessWidget {
                 flex: controller.isDesktop(context) ? 9 : 13,
                 child: // Right Side: Habit Checklist
                     CheckboxList(),
+                // HabitList(),
                 // HabitList(habits: habits),
               ),
             ],

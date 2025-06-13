@@ -80,10 +80,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
                         physics: const BouncingScrollPhysics(),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: MonthlySummary(
-                            datasets: controller.db.heatmapDateSet,
-                            startDate: controller.getStartDay(),
-                          ),
+                          child: MonthlySummary(),
                         ),
                       ),
                     ),

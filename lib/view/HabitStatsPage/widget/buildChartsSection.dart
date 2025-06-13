@@ -19,13 +19,7 @@ Widget buildChartsSection(BuildContext context, Map<String, dynamic> stats) {
             children: [
               Expanded(child: BuildBarChart(context)),
               const SizedBox(width: 10),
-              Expanded(
-                child: BuildTrendChart(
-                  trendSpots: trendSpots,
-                  trendLabels: trendLabels,
-                  maxTrendValue: maxTrendValue,
-                ),
-              ),
+              Expanded(child: BuildTrendChart()),
               const SizedBox(width: 10),
               Expanded(
                 child: BuildPieChart(

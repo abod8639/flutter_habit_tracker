@@ -71,10 +71,6 @@ class _HabitStatsPageState extends State<HabitStatsPage>
           init: HabitController(),
           builder: (controller) {
             final stats = calculateStats();
-            // final chartData = prepareChartData();
-            // final trendSpots = prepareTrendData();
-            // final trendLabels = prepareTrendLabels();
-            // final maxTrendValue = getMaxTrendValue();
 
             return AnimatedBuilder(
               animation: _animationController,

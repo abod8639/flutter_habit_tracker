@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/models/date_time.dart';
 
 class MonthlySummary extends StatefulWidget {
-  final Map<DateTime, int> datasets;
-  final String startDate;
+  // final Map<DateTime, int> datasets;
+  // final String startDate;
 
   const MonthlySummary({
     super.key,
-    required this.datasets,
-    required this.startDate,
+    // required this.datasets,
+    // required this.startDate,
   });
 
   @override
@@ -18,6 +20,8 @@ class MonthlySummary extends StatefulWidget {
 
 class _MonthlySummaryState extends State<MonthlySummary>
     with SingleTickerProviderStateMixin {
+  final habitController = Get.put(HabitController());
+  late final datasets = habitController.db.heatmapDateSet;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -47,7 +51,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
   Widget build(BuildContext context) {
     DateTime startDateTime;
     try {
-      startDateTime = createDateTimeObject(widget.startDate);
+      startDateTime = createDateTimeObject(habitController.getStartDay());
     } catch (e) {
       startDateTime = DateTime.now().subtract(const Duration(days: 30));
     }
@@ -86,7 +90,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
           child: HeatMap(
             startDate: startDateTime,
             endDate: DateTime.now().add(const Duration(days: 0)),
-            datasets: widget.datasets,
+            datasets: datasets,
             colorMode: ColorMode.color,
             defaultColor: Colors.grey[400]!,
             textColor: themeColors.onSurface,

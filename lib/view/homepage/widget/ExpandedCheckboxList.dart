@@ -6,9 +6,14 @@ import 'package:habit_tracker/functions/editHabit.dart';
 import 'package:habit_tracker/functions/toggleHabit.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
-class CheckboxList extends StatelessWidget {
+class CheckboxList extends StatefulWidget {
   const CheckboxList({super.key});
 
+  @override
+  State<CheckboxList> createState() => _CheckboxListState();
+}
+
+class _CheckboxListState extends State<CheckboxList> {
   @override
   Widget build(BuildContext context) {
     final HabitController controller = Get.put(HabitController());
@@ -36,12 +41,11 @@ class CheckboxList extends StatelessWidget {
                 CurvedAnimation(parent: animation, curve: Curves.easeOut),
               ),
               child: MyTextTaile(
-                onTap: () => toggleHabit(!habits[index][1], index),
-
-                onDelete: (context) => deleteHabit(index, context),
-                onEdit: (context) => editHabit(index, context),
                 habitName: habits[index][0],
                 habitCompleted: habits[index][1],
+                onTap: () => toggleHabit(!habits[index][1], index),
+                onDelete: (context) => deleteHabit(index, context),
+                onEdit: (context) => editHabit(index, context),
                 onChanged: (value) => toggleHabit(value, index),
               ),
             );

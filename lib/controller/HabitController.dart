@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/data/habit_db.dart';
-import 'package:habit_tracker/functions/HabitActions.dart';
-import 'package:habit_tracker/functions/HabitUtils.dart';
+import 'package:habit_tracker/functions/checkAndResetHabits.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
   final Habitdb db = Habitdb();
   final TextEditingController habitTextController = TextEditingController();
-  late final Box _myBox;
+  late final Box myBox;
   Timer? _resetCheckTimer;
   RxInt dayCount = 1.obs;
   Rx<DateTime?> lastResetDate = Rx<DateTime?>(null);
@@ -41,10 +40,10 @@ class HabitController extends GetxController {
       errorMessage.value = '';
 
       // Get the Hive box
-      _myBox = Hive.box(HabitStorage.boxName);
+      myBox = Hive.box(HabitStorage.boxName);
 
       // Initialize the database and load data
-      await initializeBox(_myBox, db);
+      await initializeBox(myBox, db);
 
       // Initialize reactive variables
       _initializeReactiveState();
@@ -69,10 +68,10 @@ class HabitController extends GetxController {
   void _initializeReactiveState() {
     // Load day count with a default value if not found
     dayCount.value =
-        _myBox.get(HabitStorage.dayCountKey) ?? HabitStorage.defaultDayCount;
+        myBox.get(HabitStorage.dayCountKey) ?? HabitStorage.defaultDayCount;
 
     // Load last reset date
-    lastResetDate.value = getLastResetDate(_myBox);
+    lastResetDate.value = getLastResetDate(myBox);
 
     // Load habit history
     _loadHabitHistory();
@@ -99,7 +98,7 @@ class HabitController extends GetxController {
       // Attempt to initialize with default values
       dayCount.value = HabitStorage.defaultDayCount;
       lastResetDate.value = DateTime.now();
-      saveLastResetDate(_myBox, lastResetDate.value!);
+      saveLastResetDate(myBox, lastResetDate.value!);
 
       // Create default data
       db.createDefaultData();
@@ -115,106 +114,9 @@ class HabitController extends GetxController {
     }
   }
 
-  /// Check if habits need to be reset for a new day
-  void checkAndResetHabits() {
-    try {
-      if (shouldResetHabits(lastResetDate.value)) {
-        debugPrint('🔄 Resetting habits for new day');
-
-        // Save current state to history before reset
-        final habits = db.todaysHabitList;
-        final now = DateTime.now();
-        final normalizedDate = DateTime(now.year, now.month, now.day);
-        final currentHistory = Map<String, Map<DateTime, bool>>.from(
-          habitHistoryMap.value,
-        );
-        final todayStr = convertDateTimeToString(normalizedDate);
-
-        // Save each habit's current state to history
-        for (var habit in habits) {
-          final String habitName = habit[0];
-          final bool isCompleted = habit[1];
-
-          // Save to history map
-          if (!currentHistory.containsKey(habitName)) {
-            currentHistory[habitName] = {};
-          }
-          currentHistory[habitName]![normalizedDate] = isCompleted;
-
-          // Save to database
-          final String historyKey = "${habitName}_$todayStr";
-          _myBox.put(historyKey, isCompleted);
-        }
-        habitHistoryMap.value = currentHistory;
-
-        // Perform reset
-        incrementDayCount();
-        resetAllHabits(db);
-        lastResetDate.value = DateTime.now();
-        saveLastResetDate(_myBox, lastResetDate.value!);
-
-        // Make sure all habits start as not completed for the new day
-        final newDate = DateTime.now();
-        final newNormalizedDate = DateTime(
-          newDate.year,
-          newDate.month,
-          newDate.day,
-        );
-        for (var habit in habits) {
-          final String habitName = habit[0];
-          currentHistory[habitName]![newNormalizedDate] = false;
-        }
-        habitHistoryMap.value = currentHistory;
-      }
-    } catch (e) {
-      debugPrint('❌ Error checking/resetting habits: $e');
-    }
-  }
-
   void incrementDayCount() {
     dayCount.value++;
-    _myBox.put(HabitStorage.dayCountKey, dayCount.value);
-  }
-
-  void incrementDayManually() {
-    // Increment the day count
-    incrementDayCount();
-
-    // Update last reset date
-    lastResetDate.value = DateTime.now();
-    saveLastResetDate(_myBox, lastResetDate.value!);
-
-    // Update habit stats
-    db.habitCalculate();
-    db.loadHeatmap();
-
-    update();
-
-    // Show success message
-    Get.snackbar(
-      'Day Count Updated',
-      'Day count is now: ${dayCount.value}',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green.withOpacity(0.7),
-      colorText: Colors.white,
-      duration: const Duration(seconds: 2),
-    );
-  }
-
-  void manualReset() {
-    Get.defaultDialog(
-      title: 'Reset All Habits',
-      middleText:
-          'Are you sure you want to reset all habits? All habits will be marked as incomplete.',
-      textConfirm: 'Reset',
-      textCancel: 'Cancel',
-      confirmTextColor: Colors.white,
-      onConfirm: () {
-        resetAllHabits(db);
-        update();
-        Get.back();
-      },
-    );
+    myBox.put(HabitStorage.dayCountKey, dayCount.value);
   }
 
   /// Load habit history from storage
@@ -237,7 +139,7 @@ class HabitController extends GetxController {
           final normalizedDate = DateTime(date.year, date.month, date.day);
           final String formattedDate = convertDateTimeToString(normalizedDate);
           final String historyKey = "${habitName}_$formattedDate";
-          final bool? completed = _myBox.get(historyKey);
+          final bool? completed = myBox.get(historyKey);
           if (completed != null) {
             habitData[normalizedDate] = completed;
           }
@@ -270,6 +172,6 @@ class HabitController extends GetxController {
       MediaQuery.of(context).size.width < 600.0;
 
   String getStartDay() {
-    return _myBox.get(HabitStorage.startDayKey, defaultValue: "");
+    return myBox.get(HabitStorage.startDayKey, defaultValue: "");
   }
 }

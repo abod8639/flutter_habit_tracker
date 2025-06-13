@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
-import 'package:habit_tracker/services/HabitStorage.dart';
 import 'package:hive/hive.dart';
 
 /// Database box reference

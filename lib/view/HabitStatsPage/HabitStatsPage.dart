@@ -96,7 +96,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
                         FadeAnimationChartsSection(
                           animationController: _animationController,
                           stats: stats,
-                          chartData: chartData,
+                          // chartData: chartData,
                         ),
 
                         const SizedBox(height: 20),
@@ -105,7 +105,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
                           const SizedBox(height: 20),
 
                         FadeAnimationTrendChart(
-                          chartData: chartData,
+                          // chartData: chartData,
                           animationController: _animationController,
                           trendSpots: trendSpots,
                           trendLabels: trendLabels,
@@ -116,7 +116,6 @@ class _HabitStatsPageState extends State<HabitStatsPage>
 
                         FaedAnimationHabitListCard(
                           animationController: _animationController,
-                          chartData: chartData,
                         ),
                       ],
                     ),

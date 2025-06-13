@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 
-Widget BuildBarChart(
-  BuildContext context,
-  List<Map<String, dynamic>> chartData,
-) {
+Widget BuildBarChart(BuildContext context) {
+  final List<Map<String, dynamic>> chartData = prepareChartData();
   final HabitController cont = Get.put(HabitController());
 
   if (chartData.isEmpty) {

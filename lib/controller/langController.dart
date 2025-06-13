@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/services/lang_storage.dart';
+import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:intl/intl.dart';
 
 class Langcontroller extends GetxController {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildHabitList.dart';
 
-Widget BuildHabitListCard(
-  BuildContext context,
-  List<Map<String, dynamic>> chartData,
-) {
+Widget BuildHabitListCard(BuildContext context) {
+  final List<Map<String, dynamic>> chartData = prepareChartData();
   final completedHabits =
       chartData.where((habit) => habit['completed'] == true).toList();
   final incompleteHabits =

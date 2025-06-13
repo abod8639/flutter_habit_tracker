@@ -19,8 +19,8 @@ Widget BuildTrendChart({
   required List<FlSpot> trendSpots,
   required List<String> trendLabels,
   required double maxTrendValue,
-  required List<Map<String, dynamic>> chartData,
 }) {
+  // final List<Map<String, dynamic>> chartData = prepareChartData();
   // final List<Map<String, dynamic>> chartData;
   final chartState = Get.put(TrendChartState());
 

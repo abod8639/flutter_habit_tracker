@@ -5,11 +5,11 @@ class FaedAnimationHabitListCard extends StatelessWidget {
   const FaedAnimationHabitListCard({
     super.key,
     required AnimationController animationController,
-    required this.chartData,
+    // required this.chartData,
   }) : _animationController = animationController;
 
   final AnimationController _animationController;
-  final List<Map<String, dynamic>> chartData;
+  // final List<Map<String, dynamic>> chartData;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class FaedAnimationHabitListCard extends StatelessWidget {
             curve: const Interval(0.6, 1.0, curve: Curves.easeOut),
           ),
         ),
-        child: BuildHabitListCard(context, chartData),
+        child: BuildHabitListCard(context),
       ),
     );
   }

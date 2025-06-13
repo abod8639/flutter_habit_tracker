@@ -6,11 +6,8 @@ import 'package:habit_tracker/view/HabitStatsPage/widget/BuildBarChart.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildPieChart.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
-Widget buildChartsSection(
-  BuildContext context,
-  Map<String, dynamic> stats,
-  List<Map<String, dynamic>> chartData,
-) {
+Widget buildChartsSection(BuildContext context, Map<String, dynamic> stats) {
+  // final List<Map<String, dynamic>> chartData = prepareChartData();
   final trendSpots = prepareTrendData();
   final trendLabels = prepareTrendLabels();
   final maxTrendValue = getMaxTrendValue();
@@ -20,11 +17,11 @@ Widget buildChartsSection(
       return controller.isDesktop(context)
           ? Row(
             children: [
-              Expanded(child: BuildBarChart(context, chartData)),
+              Expanded(child: BuildBarChart(context)),
               const SizedBox(width: 10),
               Expanded(
                 child: BuildTrendChart(
-                  chartData: chartData,
+                  // chartData: chartData,
                   trendSpots: trendSpots,
                   trendLabels: trendLabels,
                   maxTrendValue: maxTrendValue,
@@ -42,7 +39,7 @@ Widget buildChartsSection(
           )
           : Column(
             children: [
-              BuildBarChart(context, chartData),
+              BuildBarChart(context),
               const SizedBox(height: 16),
               BuildPieChart(
                 context,

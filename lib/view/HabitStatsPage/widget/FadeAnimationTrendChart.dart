@@ -9,14 +9,14 @@ class FadeAnimationTrendChart extends StatelessWidget {
     required this.trendSpots,
     required this.trendLabels,
     required this.maxTrendValue,
-    required this.chartData,
+    // required this.chartData,
   }) : _animationController = animationController;
 
   final AnimationController _animationController;
   final List<FlSpot> trendSpots;
   final List<String> trendLabels;
   final double maxTrendValue;
-  final List<Map<String, dynamic>> chartData;
+  // final List<Map<String, dynamic>> chartData;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class FadeAnimationTrendChart extends StatelessWidget {
           ),
         ),
         child: BuildTrendChart(
-          chartData: chartData,
+          // chartData: chartData,
           trendSpots: trendSpots,
           trendLabels: trendLabels,
           maxTrendValue: maxTrendValue,

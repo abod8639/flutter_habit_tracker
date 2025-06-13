@@ -2,7 +2,7 @@ import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/services/theme_storage.dart';
+import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:habit_tracker/utils/themeList.dart';
 import 'package:habit_tracker/utils/theme_utils.dart';
 

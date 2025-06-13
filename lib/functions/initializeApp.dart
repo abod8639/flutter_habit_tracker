@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/controller/ThemeController.dart';
 import 'package:habit_tracker/controller/langController.dart';
-import 'package:habit_tracker/services/HabitStorage.dart';
-import 'package:habit_tracker/services/lang_storage.dart';
-import 'package:habit_tracker/services/theme_storage.dart';
+import 'package:habit_tracker/data/HabitStorage.dart';
+import 'package:habit_tracker/data/lang_storage.dart';
+import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> initializeApp() async {

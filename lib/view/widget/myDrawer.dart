@@ -62,15 +62,6 @@ class DrawerList extends StatelessWidget {
           },
           title: S.of(context).drawerSetting,
         ),
-
-        // MyListTile(
-        //   icon: const Icon(color: Colors.greenAccent, Icons.add_circle),
-        //   onTap: () {
-        //     controller.checkAndResetHabits();
-        //     controller.incrementDayManually();
-        //   },
-        //   title: "Add Day (+1)",
-        // ),
       ],
     );
   }

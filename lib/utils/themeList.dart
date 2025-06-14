@@ -17,7 +17,7 @@ const Map<String, Map<String, Color>> themeColors = {
     'surface': Color(0xFFFFFFFF),
     'error': Color(0xFFD73A49),
     'onPrimary': Color(0xFFFFFFFF),
-    'onSecondary': Color(0xFFFFFFFF),
+    'onSecondary': Color.fromARGB(255, 0, 0, 0),
   },
   'github_dark': {
     'primary': Color.fromARGB(255, 0, 109, 233),

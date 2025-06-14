@@ -92,60 +92,28 @@ void resetAllHabits(Habitdb db) {
   );
 }
 
-// void showDeleteHabitDialog(
-//   int index,
-//   BuildContext context,
-//   Habitdb db,
-//   VoidCallback update,
-// ) {
-//   if (index >= 0 && index < db.todaysHabitList.length) {
-//     Get.defaultDialog(
-//       buttonColor: Theme.of(context).colorScheme.secondary,
-//       cancelTextColor: Theme.of(context).colorScheme.primary,
-//       confirmTextColor: Theme.of(context).colorScheme.error,
-//       title: 'Delete Habit',
-//       middleText: 'Are you sure you want to delete this habit?',
-//       textConfirm: 'Delete',
-//       textCancel: 'Cancel',
-//       onCancel: () => Get.back(),
-//       onConfirm: () {
-//         db.todaysHabitList.removeAt(index);
-//         db.updateData();
-//         update();
-//         Get.back();
-//       },
-//     );
-//   }
-// }
-
-// void toggleHabitStatus(
-//   bool? value,
-//   int index,
-//   Habitdb db,
-//   VoidCallback update,
-// ) {
-//   if (index >= 0 && index < db.todaysHabitList.length) {
-//     db.todaysHabitList[index][1] = value ?? false;
-//     db.updateData();
-//     update();
-//   }
-// }
-
-// void showManualResetDialog(Habitdb db, VoidCallback update) {
-//   Get.defaultDialog(
-//     title: 'Reset All Habits',
-//     middleText:
-//         'Are you sure you want to reset all habits? All habits will be marked as incomplete.',
-//     textConfirm: 'Reset',
-//     textCancel: 'Cancel',
-//     confirmTextColor: Colors.white,
-//     onConfirm: () {
-//       for (var habit in db.todaysHabitList) {
-//         habit[1] = false;
-//       }
-//       db.updateData();
-//       update();
-//       Get.back();
-//     },
-//   );
-// }
+void showDeleteHabitDialog(
+  int index,
+  BuildContext context,
+  Habitdb db,
+  VoidCallback update,
+) {
+  if (index >= 0 && index < db.todaysHabitList.length) {
+    Get.defaultDialog(
+      buttonColor: Theme.of(context).colorScheme.secondary,
+      cancelTextColor: Theme.of(context).colorScheme.primary,
+      confirmTextColor: Theme.of(context).colorScheme.error,
+      title: 'Delete Habit',
+      middleText: 'Are you sure you want to delete this habit?',
+      textConfirm: 'Delete',
+      textCancel: 'Cancel',
+      onCancel: () => Get.back(),
+      onConfirm: () {
+        db.todaysHabitList.removeAt(index);
+        db.updateData();
+        update();
+        Get.back();
+      },
+    );
+  }
+}

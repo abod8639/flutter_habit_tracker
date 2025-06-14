@@ -5,10 +5,11 @@ import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 /// Database box reference
-final myBox = Hive.box(HabitStorage.boxName);
 
 /// Main database class for managing habits
 class Habitdb {
+  final myBox = Hive.box(HabitStorage.boxName);
+
   /// Internal list of habit objects
   List<HabitModel> _habits = [];
 
@@ -16,7 +17,7 @@ class Habitdb {
   Map<DateTime, int> heatmapDateSet = {};
 
   /// Cache to reduce redundant calculations
-  int _completedCount = 0;
+  int _completedCount = 1;
   bool _dataChanged = false;
 
   /// For backward compatibility - convert HabitModel list to the old format
@@ -66,7 +67,7 @@ class Habitdb {
       HabitModel(
         id: '1',
         name: "Read a Book",
-        isCompleted: false,
+        isCompleted: true,
         createdAt: DateTime.now(),
       ),
     ];

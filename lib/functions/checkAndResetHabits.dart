@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
-import 'package:habit_tracker/functions/HabitActions.dart';
 import 'package:habit_tracker/functions/HabitUtils.dart';
+import 'package:habit_tracker/functions/resetAllHabits.dart';
 import 'package:habit_tracker/models/date_time.dart';
 
 /// Check if habits need to be reset for a new day

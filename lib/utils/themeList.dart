@@ -44,7 +44,7 @@ const Map<String, Map<String, Color>> themeColors = {
     'surface': Color(0xFF1E1E1E),
     'error': Color(0xFFCF6679),
     'onPrimary': Color.fromARGB(255, 173, 173, 173),
-    'onSecondary': Color(0xFF000000),
+    'onSecondary': Color.fromARGB(255, 255, 255, 255),
   },
   'forest': {
     'primary': Color(0xFF2E7D32),
@@ -73,15 +73,7 @@ const Map<String, Map<String, Color>> themeColors = {
     'onPrimary': Color(0xFFFFFFFF),
     'onSecondary': Color(0xFF000000),
   },
-  'ruby': {
-    'primary': Color(0xFFC2185B),
-    'secondary': Color(0xFFF48FB1),
-    'background': Color(0xFFFCE4EC),
-    'surface': Color(0xFFFFFFFF),
-    'error': Color(0xFFB00020),
-    'onPrimary': Color(0xFFFFFFFF),
-    'onSecondary': Color(0xFF000000),
-  },
+
   'mint': {
     'primary': Color(0xFF009688),
     'secondary': Color(0xFF80CBC4),
@@ -91,24 +83,7 @@ const Map<String, Map<String, Color>> themeColors = {
     'onPrimary': Color(0xFFFFFFFF),
     'onSecondary': Color(0xFF000000),
   },
-  // 'gold': {
-  //   'primary': Color(0xFFFFC107),
-  //   'secondary': Color(0xFFFFD54F),
-  //   'background': Color(0xFFFFF8E1),
-  //   'surface': Color(0xFFFFFFFF),
-  //   'error': Color(0xFFB00020),
-  //   'onPrimary': Color(0xFF000000),
-  //   'onSecondary': Color(0xFF000000),
-  // },
-  // 'carbon': {
-  //   'primary': Color(0xFF424242),
-  //   'secondary': Color(0xFF757575),
-  //   'background': Color(0xFF303030),
-  //   'surface': Color(0xFF424242),
-  //   'error': Color(0xFFCF6679),
-  //   'onPrimary': Color(0xFFFFFFFF),
-  //   'onSecondary': Color(0xFFFFFFFF),
-  // },
+
   'catppuccin': {
     'primary': Color.fromARGB(255, 142, 201, 250),
     'secondary': Color.fromARGB(255, 201, 158, 254),
@@ -181,33 +156,7 @@ const Map<String, Map<String, Color>> themeColors = {
     'onPrimary': Color(0xFF1A1B26),
     'onSecondary': Color(0xFFFFFFFF),
   },
-  'one_dark': {
-    'primary': Color(0xFFE06C75),
-    'secondary': Color.fromARGB(255, 109, 197, 178),
-    'background': Color(0xFF282C34),
-    'surface': Color(0xFF3E4451),
-    'error': Color(0xFFBE5046),
-    'onPrimary': Color(0xFF282C34),
-    'onSecondary': Color(0xFFFFFFFF),
-  },
-  'sunset_theme': {
-    'primary': Color(0xFFFF6B6B),
-    'secondary': Color.fromARGB(255, 252, 162, 45),
-    'background': Color(0xFF2E1A47),
-    'surface': Color(0xFF3B2F5C),
-    'error': Color(0xFFD72638),
-    'onPrimary': Color(0xFF2E1A47),
-    'onSecondary': Color(0xFFFFFFFF),
-  },
-  'cyberpunk_neon': {
-    'primary': Color(0xFFFF007F),
-    'secondary': Color.fromARGB(255, 123, 0, 255),
-    'background': Color(0xFF050A30),
-    'surface': Color(0xFF0A0F48),
-    'error': Color(0xFFFF1744),
-    'onPrimary': Color(0xFF050A30),
-    'onSecondary': Color(0xFFFFFFFF),
-  },
+
   'hologram': {
     'primary': Color(0xFF29B6F6),
     'secondary': Color.fromARGB(255, 135, 71, 188),
@@ -243,14 +192,5 @@ const Map<String, Map<String, Color>> themeColors = {
     'error': Color(0xFFFF1744),
     'onPrimary': Color(0xFF101820),
     'onSecondary': Color(0xFFFFFFFF),
-  },
-  'futuristic_space': {
-    'primary': Color(0xFF3D5AFE),
-    'secondary': Color.fromARGB(255, 201, 64, 255),
-    'background': Color(0xFF000014),
-    'surface': Color(0xFF1A237E),
-    'error': Color(0xFFD50000),
-    'onPrimary': Color(0xFFFFFFFF),
-    'onSecondary': Color(0xFF000014),
   },
 };

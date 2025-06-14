@@ -4,6 +4,7 @@ import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/functions/addHabit.dart';
 import 'package:habit_tracker/view/homepage/widget/DrawerMenuButton.dart';
 import 'package:habit_tracker/view/homepage/widget/ExpandedCheckboxList.dart';
+import 'package:habit_tracker/view/homepage/widget/Nohabitsyet.dart';
 import 'package:habit_tracker/view/widget/MonthlySummary.dart';
 import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
 import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
@@ -23,8 +24,9 @@ class Tablet extends StatelessWidget {
 
       // Show error message if initialization failed
       if (controller.errorMessage.value.isNotEmpty) {
-        return buildErrorScreen(controller.errorMessage.value);
+        return buildErrorScreen();
       }
+
       return Scaffold(
         drawer: const myDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -61,7 +63,10 @@ class Tablet extends StatelessWidget {
 
                   Expanded(
                     flex: controller.isDesktop(context) ? 9 : 13,
-                    child: CheckboxList(),
+                    child:
+                        controller.db.todaysHabitList.isEmpty
+                            ? Nohabitsyet()
+                            : CheckboxList(),
                   ),
                 ],
               ),

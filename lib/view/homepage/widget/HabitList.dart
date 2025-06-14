@@ -4,6 +4,7 @@ import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/functions/deleteHabit.dart';
 import 'package:habit_tracker/functions/editHabit.dart';
 import 'package:habit_tracker/functions/toggleHabit.dart';
+import 'package:habit_tracker/view/homepage/widget/Nohabitsyet.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
 class HabitList extends StatelessWidget {
@@ -16,42 +17,7 @@ class HabitList extends StatelessWidget {
     final List habits = controller.db.todaysHabitList;
 
     if (habits.isEmpty) {
-      return SliverFillRemaining(
-        hasScrollBody: false,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.sentiment_satisfied_alt,
-                size: 80,
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'No habits yet',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withOpacity(0.7),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Add your first habit with the + button',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withOpacity(0.5),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      return SliverFillRemaining(hasScrollBody: false, child: Nohabitsyet());
     }
 
     return SliverList(

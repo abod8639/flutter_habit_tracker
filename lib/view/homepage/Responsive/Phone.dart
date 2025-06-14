@@ -62,7 +62,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
 
           // Show error message if initialization failed
           if (controller.errorMessage.value.isNotEmpty) {
-            return buildErrorScreen(controller.errorMessage.value);
+            return buildErrorScreen();
           }
 
           return GetBuilder<HabitController>(

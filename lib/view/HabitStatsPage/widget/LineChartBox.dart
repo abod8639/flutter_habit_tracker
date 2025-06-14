@@ -92,14 +92,14 @@ class LineChartBox extends StatelessWidget {
             minY: -0.05,
             maxY: 1.05,
             lineBarsData: [
-              if (chartState.showIndividualProgress == false)
+              if (chartState.showIndividualProgress == true)
                 myLineChartBarData(
                   color: Theme.of(context).primaryColor,
                   spots: prepareTrendData(),
                   label: 'Overall',
                 ),
 
-              if (chartState.showIndividualProgress == true)
+              if (chartState.showIndividualProgress == false)
                 for (int i = 0; i < habitNames.length; i++)
                   if (progression.containsKey(habitNames[i]))
                     myLineChartBarData(

@@ -3,41 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/data/habit_db.dart';
 
-// void showAddHabitDialog(
-//   BuildContext context,
-//   TextEditingController controller,
-//   Habitdb db,
-//   VoidCallback update,
-// ) {
-
-//   showDialog(
-//     context: context,
-//     builder: (context) {
-//       return Myalartd(
-//         hintText: 'Add new Habit...',
-//         controller: controller,
-//         onSave: () {
-//           final String habitName = controller.text.trim();
-//           if (habitName.isNotEmpty) {
-//             db.todaysHabitList.add([habitName, false]);
-//             db.updateData();
-//             update();
-//             Navigator.of(context).pop();
-//           } else {
-//             Get.snackbar(
-//               'Error',
-//               'Habit name cannot be empty',
-//               snackPosition: SnackPosition.BOTTOM,
-//               backgroundColor: Colors.red.withOpacity(0.7),
-//               colorText: Colors.white,
-//             );
-//           }
-//         },
-//       );
-//     },
-//   );
-// }
-
 void resetAllHabits(Habitdb db) {
   for (var habit in db.todaysHabitList) {
     habit[1] = false;

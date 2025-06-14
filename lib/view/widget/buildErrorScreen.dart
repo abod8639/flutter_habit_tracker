@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 
-Widget buildErrorScreen(String errorMessage) {
+Widget buildErrorScreen() {
+  final HabitController controller = Get.put(HabitController());
+  final String errorMessage = controller.errorMessage.value;
   return Builder(
     builder: (context) {
       return Center(

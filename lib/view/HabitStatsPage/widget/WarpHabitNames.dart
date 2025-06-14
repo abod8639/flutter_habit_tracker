@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 class WarpHabitNames extends StatelessWidget {
-  const WarpHabitNames({
-    super.key,
-    // required this.habitNames,
-    required this.lineColors,
-  });
-
-  // final List<String> habitNames;
-  final List<Color> lineColors;
+  const WarpHabitNames({super.key});
 
   @override
   Widget build(BuildContext context) {

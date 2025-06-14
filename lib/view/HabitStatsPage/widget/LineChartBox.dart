@@ -2,26 +2,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
 class LineChartBox extends StatelessWidget {
-  const LineChartBox({
-    super.key,
-    required this.habitNames,
-    required this.lineColors,
-  });
-
-  final List<String> habitNames;
-  final List<Color> lineColors;
+  const LineChartBox({super.key});
 
   @override
   Widget build(BuildContext context) {
     final chartState = Get.put(TrendChartState());
     final List<String> trendLabels = prepareTrendLabels();
-    // final int totalHabits = stats['totalHabits'];
-
     final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends();
+    final List<String> habitNameslist = getHabitProgressionData().keys.toList();
+    final habitNames =
+        chartState.showIndividualProgress.value ? habitNameslist : ['Overall'];
     return SizedBox(
       height: 300,
       child: Obx(

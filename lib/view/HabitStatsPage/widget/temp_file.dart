@@ -4,12 +4,25 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
-import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/LineChartBox.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/WarpHabitNames.dart';
 
 final HabitController habitController = Get.put(HabitController());
 // final myBox = Hive.box('Habit_db');
+
+final List<Color> lineColors = [
+  // Theme.of(context).primaryColor,
+  Colors.purple,
+  Colors.blue,
+  Colors.green,
+  Colors.orange,
+  Colors.red,
+  Colors.teal,
+  Colors.pink,
+  Colors.greenAccent,
+  Colors.yellowAccent,
+  Colors.purpleAccent,
+];
 
 class TrendChartState extends GetxController {
   final RxBool showIndividualProgress = true.obs;
@@ -43,21 +56,6 @@ Widget BuildTrendChart() {
   }
 
   // Get progression data for individual habits
-  final Map<String, List<double>> habitProgression = getHabitProgressionData();
-  final List<String> habitNames = habitProgression.keys.toList();
-  final List<Color> lineColors = [
-    // Theme.of(context).primaryColor,
-    Colors.purple,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.red,
-    Colors.teal,
-    Colors.pink,
-    Colors.greenAccent,
-    Colors.yellowAccent,
-    Colors.purpleAccent,
-  ];
 
   return Builder(
     builder: (context) {
@@ -94,18 +92,12 @@ Widget BuildTrendChart() {
                 ),
               ),
               const SizedBox(height: 16),
-              Obx(
-                () => LineChartBox(
-                  habitNames:
-                      chartState.showIndividualProgress.value
-                          ? habitNames
-                          : ['Overall'],
-                  lineColors: lineColors,
-                ),
-              ),
+
+              LineChartBox(),
+
               const SizedBox(height: 16),
 
-              WarpHabitNames(lineColors: lineColors),
+              WarpHabitNames(),
             ],
           ),
         ),

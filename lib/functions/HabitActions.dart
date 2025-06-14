@@ -91,29 +91,3 @@ void resetAllHabits(Habitdb db) {
     margin: const EdgeInsets.all(10),
   );
 }
-
-void showDeleteHabitDialog(
-  int index,
-  BuildContext context,
-  Habitdb db,
-  VoidCallback update,
-) {
-  if (index >= 0 && index < db.todaysHabitList.length) {
-    Get.defaultDialog(
-      buttonColor: Theme.of(context).colorScheme.secondary,
-      cancelTextColor: Theme.of(context).colorScheme.primary,
-      confirmTextColor: Theme.of(context).colorScheme.error,
-      title: 'Delete Habit',
-      middleText: 'Are you sure you want to delete this habit?',
-      textConfirm: 'Delete',
-      textCancel: 'Cancel',
-      onCancel: () => Get.back(),
-      onConfirm: () {
-        db.todaysHabitList.removeAt(index);
-        db.updateData();
-        update();
-        Get.back();
-      },
-    );
-  }
-}

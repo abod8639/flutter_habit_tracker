@@ -6,14 +6,9 @@ import 'package:habit_tracker/functions/editHabit.dart';
 import 'package:habit_tracker/functions/toggleHabit.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
-class CheckboxList extends StatefulWidget {
+class CheckboxList extends StatelessWidget {
   const CheckboxList({super.key});
 
-  @override
-  State<CheckboxList> createState() => _CheckboxListState();
-}
-
-class _CheckboxListState extends State<CheckboxList> {
   @override
   Widget build(BuildContext context) {
     final HabitController controller = Get.put(HabitController());

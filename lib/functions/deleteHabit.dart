@@ -4,9 +4,9 @@ import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 
 void deleteHabit(int index, BuildContext context) {
-  HabitController controller = Get.put(HabitController());
+  HabitController c = Get.put(HabitController());
 
-  if (controller.db.getHabitByIndex(index) == null) return;
+  if (c.db.getHabitByIndex(index) == null) return;
 
   Get.defaultDialog(
     buttonColor: Theme.of(context).colorScheme.secondary,
@@ -18,8 +18,8 @@ void deleteHabit(int index, BuildContext context) {
     textCancel: S.of(context).Cancel,
     onCancel: () => Get.back(),
     onConfirm: () {
-      controller.db.deleteHabitByIndex(index);
-      controller.update();
+      c.db.deleteHabitByIndex(index);
+      c.update();
       Get.back();
     },
   );

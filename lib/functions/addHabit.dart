@@ -5,19 +5,19 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
 
 void addHabit(BuildContext context) {
-  final controller = Get.find<HabitController>();
-  controller.habitTextController.clear();
+  final c = Get.find<HabitController>();
+  c.habitTextController.clear();
   showDialog(
     context: context,
     builder: (context) {
       return Myalartd(
         hintText: S.of(context).Addnewhabit,
-        controller: controller.habitTextController,
+        controller: c.habitTextController,
         onSave: () {
-          final String habitName = controller.habitTextController.text.trim();
+          final String habitName = c.habitTextController.text.trim();
           if (habitName.isNotEmpty) {
-            controller.db.addHabit(habitName);
-            controller.update();
+            c.db.addHabit(habitName);
+            c.update();
             Navigator.of(context).pop();
           } else {
             Get.snackbar(
@@ -27,7 +27,7 @@ void addHabit(BuildContext context) {
               backgroundColor: Colors.red.withOpacity(0.7),
               colorText: Colors.white,
             );
-            controller.update();
+            c.update();
           }
         },
       );

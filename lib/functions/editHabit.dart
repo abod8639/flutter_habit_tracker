@@ -6,22 +6,22 @@ import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
 
 void editHabit(int index, BuildContext context) {
-  HabitController controller = Get.put(HabitController());
-  HabitModel? habit = controller.db.getHabitByIndex(index);
+  HabitController c = Get.put(HabitController());
+  HabitModel? habit = c.db.getHabitByIndex(index);
   if (habit == null) return;
 
-  controller.habitTextController.text = habit.name;
+  c.habitTextController.text = habit.name;
   showDialog(
     context: context,
     builder: (context) {
       return Myalartd(
         hintText: S.of(context).EditThisHabit,
-        controller: controller.habitTextController,
+        controller: c.habitTextController,
         onSave: () {
-          final String habitName = controller.habitTextController.text.trim();
+          final String habitName = c.habitTextController.text.trim();
           if (habitName.isNotEmpty) {
-            controller.db.editHabitByIndex(index, habitName);
-            controller.update();
+            c.db.editHabitByIndex(index, habitName);
+            c.update();
             Navigator.of(context).pop();
           } else {
             Get.snackbar(

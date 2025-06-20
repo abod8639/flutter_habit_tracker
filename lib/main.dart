@@ -9,10 +9,16 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Constants for box names
 
-void main() {
+Future<void> main() async {
+  await Supabase.initialize(
+    url: 'https://dydnmakiydczgbrkxxlf.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZG5tYWtpeWRjemdicmt4eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzODI1MDIsImV4cCI6MjA2NTk1ODUwMn0.K3oaQytier4iZI8iY3AT7-W1BSP6ePheImj_MpuK0PU',
+  );
   runZonedGuarded(
     () async {
       await initializeApp();
@@ -25,6 +31,8 @@ void main() {
     },
   );
 }
+
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

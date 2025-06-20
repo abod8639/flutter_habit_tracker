@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/langController.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/services/syncHiveToSupabase.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
@@ -152,7 +153,18 @@ class _SettingsPageState extends State<SettingsPage>
               icon: Icons.backup,
               title: S.of(context).BackupData,
               subtitle: S.of(context).Exportyourhabitdata,
-              onTap: () {
+              onTap: () async {
+                try {
+                  await syncHiveToSupabase();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('تمت المزامنة بنجاح')),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('فشل التزامن: $e')));
+                }
+
                 showComingSoon(context);
               },
             ),

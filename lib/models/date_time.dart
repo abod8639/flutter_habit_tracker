@@ -26,41 +26,41 @@ String todaysDateFormatted() {
 
 // return a DateTime object representing the given date in yyyymmdd format
 
-  DateTime createDateTimeObject(String yyyymmdd){
-    // year
-    int yyyy = int.parse(yyyymmdd.substring(0, 4));
+DateTime createDateTimeObject(String yyyymmdd) {
+  // year
+  int yyyy = int.parse(yyyymmdd.substring(0, 4));
 
-    // month
-    int mm = int.parse(yyyymmdd.substring(4, 6));
+  // month
+  int mm = int.parse(yyyymmdd.substring(4, 6));
 
-    // day
-    int dd = int.parse(yyyymmdd.substring(6, 8));
+  // day
+  int dd = int.parse(yyyymmdd.substring(6, 8));
 
-    // create DateTime object
-    DateTime dateTimeObject = DateTime(yyyy, mm, dd);
+  // create DateTime object
+  DateTime dateTimeObject = DateTime(yyyy, mm, dd);
 
-    return dateTimeObject;
-  }
+  return dateTimeObject;
+}
 
 // convert DateTime object to string yyyymmdd
 String convertDateTimeToString(DateTime dateTime) {
-    // year in the format yyyy
-    String year = dateTime.year.toString();
+  // year in the format yyyy
+  String year = dateTime.year.toString();
 
-    // month in the format mm
-    String month = dateTime.month.toString();
-    if (month.length == 1) {
-        month = '0$month';
-    }
+  // month in the format mm
+  String month = dateTime.month.toString();
+  if (month.length == 1) {
+    month = '0$month';
+  }
 
-    // day in the format dd
-    String day = dateTime.day.toString();
-    if (day.length == 1) {
-        day = '0$day';
-    }
+  // day in the format dd
+  String day = dateTime.day.toString();
+  if (day.length == 1) {
+    day = '0$day';
+  }
 
-    // final format
-    String yyyymmdd = year + month + day;
+  // final format
+  String yyyymmdd = year + month + day;
 
-    return yyyymmdd;
+  return yyyymmdd;
 }

@@ -71,8 +71,9 @@ class _MonthlySummaryState extends State<MonthlySummary>
     // Removed unused and erroneous MediaQuerysize function.
 
     final double topPadding = MediaQuery.of(context).size.width * 0.05;
-    final double HeatMapSize =
-        MediaQuery.of(context).size.width > 600 ? 47 : 37;
+    final double mHeatMapSize = MediaQuery.of(context).size.height * 0.075;
+    final double heatMapSize =
+        MediaQuery.of(context).size.width > 600 ? mHeatMapSize : 37;
 
     return FadeTransition(
       opacity: _fadeAnimation,
@@ -81,42 +82,64 @@ class _MonthlySummaryState extends State<MonthlySummary>
           begin: const Offset(0, 0.1),
           end: Offset.zero,
         ).animate(_animationController),
-        child: Container(
-          padding: EdgeInsets.only(top: topPadding, bottom: 25),
-          child: HeatMap(
-            startDate: startDateTime,
-            endDate: DateTime.now().add(const Duration(days: 0)),
-            datasets: widget.datasets,
-            colorMode: ColorMode.color,
-            defaultColor: Colors.grey[400]!,
-            textColor: themeColors.onSurface,
-            showColorTip: false,
-            showText: true,
-            scrollable: true,
-            size: HeatMapSize,
-            // size: topPadding,
-            colorsets: colorsets,
-            onClick: (value) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primary.withAlpha(100),
-                  duration: const Duration(seconds: 1),
-                  content: Center(
-                    child: Text(
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.onPrimary,
+        child: Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 2, top: topPadding, bottom: 25),
+              child: HeatMap(
+                startDate: startDateTime,
+                fontSize: 16,
+                endDate: DateTime.now().add(const Duration(days: 15)),
+                colorMode: ColorMode.color,
+                defaultColor: Colors.grey[400]!.withAlpha(20),
+                textColor: themeColors.onSurface,
+                showColorTip: false,
+                showText: true,
+                scrollable: true,
+                size: heatMapSize,
+                // size: topPadding,
+                colorsets: colorsets,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 2.6, top: topPadding, bottom: 25),
+              child: HeatMap(
+                startDate: startDateTime,
+                fontSize: 16,
+                endDate: DateTime.now().add(const Duration(days: 0)),
+                datasets: widget.datasets,
+                colorMode: ColorMode.color,
+                defaultColor: Colors.grey[400]!,
+                textColor: themeColors.onSurface,
+                showColorTip: false,
+                showText: true,
+                scrollable: true,
+                size: heatMapSize,
+                // size: topPadding,
+                colorsets: colorsets,
+                onClick: (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary.withAlpha(100),
+                      duration: const Duration(seconds: 1),
+                      content: Center(
+                        child: Text(
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          value.toString().replaceAll("00:00:00.000", " "),
+                        ),
                       ),
-                      value.toString().replaceAll("00:00:00.000", " "),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

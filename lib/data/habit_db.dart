@@ -1,67 +1,159 @@
+// 2. Updated Habitdb class with Supabase integration
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
+import 'package:habit_tracker/services/syncHiveToSupabase.dart';
 import 'package:hive/hive.dart';
 
-/// Database box reference
-
-/// Main database class for managing habits
 class Habitdb {
   final myBox = Hive.box(HabitStorage.boxName);
 
-  /// Internal list of habit objects
-  List<HabitModel> _habits = [];
+  // User ID for Supabase (you should implement proper user authentication)
+  String get userId => myBox.get('user_id', defaultValue: 'default_user');
 
-  /// Heatmap data for calendar visualization
+  List<HabitModel> _habits = [];
   Map<DateTime, int> heatmapDateSet = {};
 
-  /// Cache to reduce redundant calculations
   int _completedCount = 1;
   bool _dataChanged = false;
+  bool _isOnline = false;
 
-  /// For backward compatibility - convert HabitModel list to the old format
+  // Check if device is online
+  Future<void> _checkConnectivity() async {
+    _isOnline = await SupabaseService.hasInternetConnection();
+  }
+
+  // Sync data with Supabase
+  Future<void> syncWithSupabase() async {
+    try {
+      await _checkConnectivity();
+
+      if (!_isOnline) {
+        debugPrint('⚠️ Device is offline, skipping sync');
+        return;
+      }
+
+      debugPrint('🔄 Starting sync with Supabase...');
+
+      // Upload current habits to Supabase
+      final uploadSuccess = await SupabaseService.uploadHabits(_habits, userId);
+
+      if (uploadSuccess) {
+        // Upload heatmap data
+        await SupabaseService.uploadHeatmapData(heatmapDateSet, userId);
+
+        // Mark last sync time
+        myBox.put('last_sync', DateTime.now().toIso8601String());
+
+        debugPrint('✅ Sync completed successfully');
+      }
+    } catch (e) {
+      debugPrint('❌ Error during sync: $e');
+    }
+  }
+
+  // Download data from Supabase (for app restoration or multi-device sync)
+  Future<void> downloadFromSupabase() async {
+    try {
+      await _checkConnectivity();
+
+      if (!_isOnline) {
+        debugPrint('⚠️ Device is offline, cannot download');
+        return;
+      }
+
+      debugPrint('📥 Downloading data from Supabase...');
+
+      // Download habits
+      final cloudHabits = await SupabaseService.downloadHabits(userId);
+
+      // Download heatmap
+      final cloudHeatmap = await SupabaseService.downloadHeatmapData(userId);
+
+      if (cloudHabits.isNotEmpty) {
+        _habits = cloudHabits;
+        _updateCache();
+
+        // Save to local storage
+        updateData();
+      }
+
+      if (cloudHeatmap.isNotEmpty) {
+        heatmapDateSet = cloudHeatmap;
+      }
+
+      debugPrint('✅ Download completed successfully');
+    } catch (e) {
+      debugPrint('❌ Error during download: $e');
+    }
+  }
+
+  // Auto-sync when data changes
+  Future<void> _autoSync() async {
+    try {
+      // Only sync if online and data has changed
+      if (_dataChanged && _isOnline) {
+        await syncWithSupabase();
+      }
+    } catch (e) {
+      debugPrint('⚠️ Auto-sync failed: $e');
+    }
+  }
+
+  // Modified updateData to include sync
+  void updateData() async {
+    try {
+      // Save to local storage first (original functionality)
+      myBox.put(HabitStorage.habitListKey, todaysHabitList);
+
+      final String today = todaysDateFormatted();
+      myBox.put(today, todaysHabitList);
+
+      for (var habit in _habits) {
+        final String historyKey = "${habit.name}_$today";
+        myBox.put(historyKey, habit.isCompleted);
+      }
+
+      habitCalculate();
+      loadHeatmap();
+
+      _dataChanged = false;
+
+      // Auto-sync with Supabase
+      await _autoSync();
+    } catch (e) {
+      debugPrint('❌ Error updating habit data: $e');
+    }
+  }
+
+  // Rest of the original methods remain the same...
   List get todaysHabitList {
     return _habits.map((habit) => habit.toLocalFormat()).toList();
   }
 
-  /// Add a setter to update the internal habits list from the old format
   set todaysHabitList(List value) {
     _habits = value.map((item) => HabitModel.fromLocalFormat(item)).toList();
     _updateCache();
   }
 
-  /// Create default data for first-time users
   void createDefaultData() {
     try {
       debugPrint('🆕 Creating default habit data');
       _habits = HabitStorage.defaultHabits;
-      HabitStorage.defaultHabits
-          .map(
-            (habit) => HabitModel(
-              id: DateTime.now().second.toString(),
-              name: habit.name,
-              isCompleted: habit.isCompleted,
-              createdAt: DateTime.now(),
-            ),
-          )
-          .toList();
 
-      // Save the start day
       myBox.put(HabitStorage.startDayKey, todaysDateFormatted());
-
-      // Save the initial data
       updateData();
 
       debugPrint('✅ Default data created successfully');
     } catch (e) {
       debugPrint('❌ Error creating default data: $e');
-      // Fallback to basic data
       _createMinimalDefaultData();
     }
   }
 
-  /// Minimal default data creation as fallback
   void _createMinimalDefaultData() {
     _habits = [
       HabitModel(
@@ -75,12 +167,10 @@ class Habitdb {
     updateData();
   }
 
-  /// Load existing data from storage
   void loadData() {
     try {
       debugPrint('📥 Loading habit data');
       if (myBox.get(HabitStorage.habitListKey) != null) {
-        // Convert from old format
         List data = myBox.get(HabitStorage.habitListKey);
         _habits = data.map((item) => HabitModel.fromLocalFormat(item)).toList();
         debugPrint('📋 Loaded ${_habits.length} habits');
@@ -93,47 +183,18 @@ class Habitdb {
       loadHeatmap();
     } catch (e) {
       debugPrint('❌ Error loading habit data: $e');
-      // Recover with empty data
       _habits = [];
       heatmapDateSet = {};
     }
   }
 
-  /// Update cache values for quick access
   void _updateCache() {
     _completedCount = _habits.where((habit) => habit.isCompleted).length;
     _dataChanged = true;
   }
 
-  /// Save data to persistent storage
-  void updateData() {
-    try {
-      // Save in the old format for backward compatibility
-      myBox.put(HabitStorage.habitListKey, todaysHabitList);
-
-      // Also save today's data with date
-      final String today = todaysDateFormatted();
-      myBox.put(today, todaysHabitList);
-
-      // Save individual habit history
-      for (var habit in _habits) {
-        final String historyKey = "${habit.name}_$today";
-        myBox.put(historyKey, habit.isCompleted);
-      }
-
-      habitCalculate();
-      loadHeatmap();
-
-      _dataChanged = false;
-    } catch (e) {
-      debugPrint('❌ Error updating habit data: $e');
-    }
-  }
-
-  /// Calculate habit completion rate for the day
   void habitCalculate() {
     try {
-      // Use cached count when possible
       if (!_dataChanged) {
         debugPrint('📊 Using cached completion count');
       } else {
@@ -142,7 +203,6 @@ class Habitdb {
 
       double completionRate =
           _habits.isEmpty ? 0.0 : _completedCount / _habits.length;
-
       String rateString = completionRate.toStringAsFixed(1);
 
       final dateKey =
@@ -155,7 +215,6 @@ class Habitdb {
     }
   }
 
-  /// Get list of incomplete habits
   List<Map<String, dynamic>> getIncompleteHabits() {
     return _habits
         .where((habit) => !habit.isCompleted)
@@ -169,7 +228,6 @@ class Habitdb {
         .toList();
   }
 
-  /// Get list of completed habits
   List<Map<String, dynamic>> getCompletedHabits() {
     return _habits
         .where((habit) => habit.isCompleted)
@@ -183,7 +241,6 @@ class Habitdb {
         .toList();
   }
 
-  /// Load heatmap data for visualization
   void loadHeatmap() {
     try {
       String? startDateStr = myBox.get(HabitStorage.startDayKey);
@@ -200,7 +257,6 @@ class Habitdb {
 
       int daysInBetween = DateTime.now().difference(startDate).inDays;
 
-      // Ensure we have a reasonable number of days (protect against bad data)
       if (daysInBetween < 0 || daysInBetween > 366) {
         debugPrint(
           '⚠️ Invalid days between: $daysInBetween, resetting to today',
@@ -221,7 +277,6 @@ class Habitdb {
 
       if (lastSavedDate != todayDate) {
         debugPrint('📅 New day detected, resetting habits');
-        // Reset all habits to false for the new day
         for (var habit in _habits) {
           habit.isCompleted = false;
         }
@@ -229,7 +284,6 @@ class Habitdb {
         myBox.put(HabitStorage.lastSavedDateKey, todayDate);
       }
 
-      // Build the heatmap
       for (int i = 0; i < daysInBetween + 1; i++) {
         DateTime currentDate = startDate.add(Duration(days: i));
         String yyyymmdd = convertDateTimeToString(currentDate);
@@ -261,7 +315,6 @@ class Habitdb {
     }
   }
 
-  /// Get a single habit by index
   HabitModel? getHabitByIndex(int index) {
     if (index >= 0 && index < _habits.length) {
       return _habits[index];
@@ -269,7 +322,6 @@ class Habitdb {
     return null;
   }
 
-  /// Add a new habit
   void addHabit(String name) {
     _habits.add(
       HabitModel(
@@ -283,7 +335,6 @@ class Habitdb {
     updateData();
   }
 
-  /// Edit a habit by index
   void editHabitByIndex(int index, String newName) {
     if (index >= 0 && index < _habits.length) {
       _habits[index].name = newName;
@@ -292,7 +343,6 @@ class Habitdb {
     }
   }
 
-  // / Delete a habit by index
   void deleteHabitByIndex(int index) {
     if (index >= 0 && index < _habits.length) {
       _habits.removeAt(index);
@@ -301,14 +351,12 @@ class Habitdb {
     }
   }
 
-  /// Toggle a habit completion status by index
   void toggleHabitByIndex(int index, bool value) {
     if (index >= 0 && index < _habits.length) {
       final habit = _habits[index];
       habit.isCompleted = value;
       habit.completedAt = value ? DateTime.now() : null;
 
-      // Save current status to history
       final now = DateTime.now();
       final todayStr = convertDateTimeToString(now);
       final historyKey = "${habit.name}_$todayStr";
@@ -317,5 +365,230 @@ class Habitdb {
       _dataChanged = true;
       updateData();
     }
+  }
+
+  // Additional utility methods for Supabase integration
+
+  // Force sync with Supabase
+  Future<void> forceSyncWithSupabase() async {
+    _dataChanged = true;
+    await syncWithSupabase();
+  }
+
+  // Get last sync time
+  DateTime? getLastSyncTime() {
+    final lastSyncStr = myBox.get('last_sync');
+    if (lastSyncStr != null) {
+      return DateTime.parse(lastSyncStr);
+    }
+    return null;
+  }
+}
+// 3. Main app initialization (add to main.dart)
+// import 'package:flutter/material.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   // Initialize Hive first
+//   await Hive.initFlutter();
+//   await Hive.openBox(HabitStorage.boxName);
+
+//   // Initialize Supabase
+//   try {
+//     await SupabaseService.initialize();
+//   } catch (e) {
+//     debugPrint('⚠️ Supabase initialization failed, app will work offline: $e');
+//   }
+
+//   runApp(MyApp());
+// }
+
+// 4. Usage examples in your UI
+class HabitListWidget extends StatefulWidget {
+  @override
+  _HabitListWidgetState createState() => _HabitListWidgetState();
+}
+
+class _HabitListWidgetState extends State<HabitListWidget> {
+  final Habitdb habitdb = Habitdb();
+  bool _isSyncing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    // Load local data first
+    habitdb.loadData();
+
+    // Check if we need to sync with cloud
+    // if (habitdb.needsSync()) {
+    //   await _syncData();
+    // }
+
+    setState(() {});
+  }
+
+  Future<void> _syncData() async {
+    setState(() => _isSyncing = true);
+
+    try {
+      await habitdb.syncWithSupabase();
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('✅ Data synced successfully')));
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('❌ Sync failed: $e')));
+    }
+
+    setState(() => _isSyncing = false);
+  }
+
+  Future<void> _downloadFromCloud() async {
+    setState(() => _isSyncing = true);
+
+    try {
+      await habitdb.downloadFromSupabase();
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('✅ Data downloaded from cloud')));
+      setState(() {});
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('❌ Download failed: $e')));
+    }
+
+    setState(() => _isSyncing = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Habit Tracker'),
+        actions: [
+          if (_isSyncing)
+            Center(child: CircularProgressIndicator(color: Colors.white))
+          else
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                switch (value) {
+                  case 'sync':
+                    _syncData();
+                    break;
+                  case 'download':
+                    _downloadFromCloud();
+                    break;
+                  case 'force_sync':
+                    habitdb.forceSyncWithSupabase();
+                    break;
+                }
+              },
+              itemBuilder:
+                  (context) => [
+                    PopupMenuItem(
+                      value: 'sync',
+                      child: Row(
+                        children: [
+                          Icon(Icons.sync),
+                          SizedBox(width: 8),
+                          Text('Sync to Cloud'),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'download',
+                      child: Row(
+                        children: [
+                          Icon(Icons.download),
+                          SizedBox(width: 8),
+                          Text('Download from Cloud'),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'force_sync',
+                      child: Row(
+                        children: [
+                          Icon(Icons.sync_alt),
+                          SizedBox(width: 8),
+                          Text('Force Sync'),
+                        ],
+                      ),
+                    ),
+                  ],
+            ),
+        ],
+      ),
+      body: Column(
+        children: [
+          // Sync status indicator
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(8),
+            color: _getSyncStatusColor(),
+            child: Text(
+              _getSyncStatusText(),
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+          ),
+          // Your existing habit list UI here
+          Expanded(
+            child: ListView.builder(
+              itemCount: habitdb.todaysHabitList.length,
+              itemBuilder: (context, index) {
+                final habit = habitdb.getHabitByIndex(index);
+                return ListTile(
+                  title: Text(habit?.name ?? ''),
+                  trailing: Checkbox(
+                    value: habit?.isCompleted ?? false,
+                    onChanged: (value) {
+                      habitdb.toggleHabitByIndex(index, value ?? false);
+                      setState(() {});
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getSyncStatusColor() {
+    if (_isSyncing) return Colors.orange;
+
+    final lastSync = habitdb.getLastSyncTime();
+    if (lastSync == null) return Colors.red;
+
+    final timeDifference = DateTime.now().difference(lastSync);
+    if (timeDifference.inHours > 24) return Colors.red;
+    if (timeDifference.inHours > 1) return Colors.orange;
+
+    return Colors.green;
+  }
+
+  String _getSyncStatusText() {
+    if (_isSyncing) return 'Syncing...';
+
+    final lastSync = habitdb.getLastSyncTime();
+    if (lastSync == null) return 'Never synced - Tap sync to backup';
+
+    final timeDifference = DateTime.now().difference(lastSync);
+    if (timeDifference.inMinutes < 60) {
+      return 'Last synced: ${timeDifference.inMinutes}m ago';
+    }
+    if (timeDifference.inHours < 24) {
+      return 'Last synced: ${timeDifference.inHours}h ago';
+    }
+    return 'Last synced: ${timeDifference.inDays}d ago';
   }
 }

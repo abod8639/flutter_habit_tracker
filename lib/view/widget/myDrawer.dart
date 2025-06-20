@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/data/habit_db.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/services/SupaEmailAuth.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
@@ -69,7 +70,8 @@ class DrawerList extends StatelessWidget {
             Icons.settings_accessibility_sharp,
           ),
           onTap: () {
-            Get.to(() => SupaEmailAuthWidget());
+            // Get.to(() => SupaEmailAuthWidget());
+            Get.to(() => HabitListWidget());
           },
           title: "Test page",
         ),

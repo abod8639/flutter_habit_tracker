@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/controller/langController.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
 import 'package:habit_tracker/generated/l10n.dart';
@@ -13,6 +14,11 @@ import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 import 'widget/buildAnimatedSettingTile.dart';
 
 class SettingsPage extends StatefulWidget {
+  //   try {
+  //   await SupabaseService.initialize();
+  // } catch (e) {
+  //   debugPrint('⚠️ Supabase initialization failed, app will work offline: $e');
+  // }
   const SettingsPage({super.key});
 
   @override
@@ -41,6 +47,8 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
+    // final habitController = Get.put(HabitController());
+
     // final ThemeController themeController = Get.find<ThemeController>();
     final Langcontroller controllerlanguage = Get.put(Langcontroller());
 
@@ -154,17 +162,12 @@ class _SettingsPageState extends State<SettingsPage>
               title: S.of(context).BackupData,
               subtitle: S.of(context).Exportyourhabitdata,
               onTap: () async {
-                try {
-                  await syncHiveToSupabase();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تمت المزامنة بنجاح')),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('فشل التزامن: $e')));
-                }
+                //                 SupabaseService.uploadHabits(
+                //   habitController.db.todaysHabitList,
+                // "1234"
+                //                   // Get.put(SupabaseService()).client.auth.currentUser!.id,
 
+                //                 );
                 showComingSoon(context);
               },
             ),

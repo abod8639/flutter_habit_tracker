@@ -2,50 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 
-Map<String, List<double>> getHabitProgressionData() {
+/// ترجع تقدم العادات لعدد معين من الأيام الماضية
+Map<String, List<double>> getHabitProgressionDataForDays(int days) {
   final controller = Get.find<HabitController>();
   final Map<String, List<double>> habitData = {};
   final habits = controller.db.todaysHabitList;
 
   if (habits.isEmpty) return habitData;
 
-  // Get the dates to show in the chart (last 7 days)
   final now = DateTime.now();
   final List<DateTime> dates = List.generate(
-    7, // Show last 7 days
-    (index) => now.subtract(Duration(days: 6 - index)), // Count up to today
+    days,
+    (index) => DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).subtract(Duration(days: days - 1 - index)),
   );
 
-  // Initialize progress tracking for each habit
   for (final habit in habits) {
     final String habitName = habit[0];
-    habitData[habitName] = List<double>.filled(7, 0.0);
+    habitData[habitName] = List<double>.filled(days, 0.0);
   }
 
-  // For each date, check each habit's completion status
   for (var i = 0; i < dates.length; i++) {
     final date = dates[i];
-    final normalizedDate = DateTime(date.year, date.month, date.day);
 
     for (final habit in habits) {
       final String habitName = habit[0];
-      // Check if the habit was completed on this date using the heatmap data
-      final int? completionValue = controller.db.heatmapDateSet[normalizedDate];
+      final int? completionValue = controller.db.heatmapDateSet[date];
 
       if (completionValue != null) {
-        // If we have data for this date, mark as completed (1.0) if strength > 0.5
         habitData[habitName]![i] = completionValue > 5 ? 1.0 : 0.0;
       }
     }
   }
 
   debugPrint(
-    '📊 Habit progression data calculated for ${habitData.length} habits',
-  );
-
-  debugPrint(
-    '📊 Habit progression data calculated for ${habitData.length} habits',
+    '📊 Habit progression for last $days days calculated (${habitData.length} habits)',
   );
 
   return habitData;
+}
+
+/// بيانات آخر 7 أيام
+Map<String, List<double>> getLast7DaysHabitProgression() {
+  return getHabitProgressionDataForDays(7);
+}
+
+/// بيانات آخر 30 يومًا
+Map<String, List<double>> getLast30DaysHabitProgression() {
+  return getHabitProgressionDataForDays(30);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
@@ -7,7 +8,12 @@ class WarpHabitNames extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> habitNames = getHabitProgressionData().keys.toList();
+    final chartState = Get.put(TrendChartState());
+
+    final List<String> habitNames =
+        chartState.isweekly.value
+            ? getLast30DaysHabitProgression().keys.toList()
+            : getLast7DaysHabitProgression().keys.toList();
 
     return Wrap(
       spacing: 16,

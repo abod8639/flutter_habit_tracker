@@ -25,6 +25,7 @@ final List<Color> lineColors = [
 ];
 
 class TrendChartState extends GetxController {
+  final RxBool isweekly = false.obs;
   final RxBool showIndividualProgress = true.obs;
   void toggleView() => showIndividualProgress.toggle();
 }
@@ -67,18 +68,29 @@ Widget BuildTrendChart() {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      S.of(context).monthly,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                child: Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          chartState.isweekly.value =
+                              !chartState.isweekly.value;
+                        },
+                        child: Text(
+                          chartState.isweekly.value
+                              ?
+                              // ? S.of(context).trendchartWeekly
+                              // : S.of(context).trendchartMonthly,
+                              S.of(context).weekly
+                              : S.of(context).monthly,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                    Obx(
-                      () => IconButton(
+                      IconButton(
                         onPressed: chartState.toggleView,
                         icon: Icon(
                           chartState.showIndividualProgress.value
@@ -87,8 +99,8 @@ Widget BuildTrendChart() {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 16),

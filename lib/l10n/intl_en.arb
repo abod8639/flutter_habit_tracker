@@ -20,6 +20,7 @@
    "success":"Habit Success",
    "today":"Today Progress",
    "monthly":"Monthly Progress",
+   "weekly":"weekly Progress",
    "hambitstate":"Habit State",
    "pending":"Pending",
    "isEmpty":"No habits tracked yet",

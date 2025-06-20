@@ -12,11 +12,21 @@ class LineChartBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chartState = Get.put(TrendChartState());
+
     final List<String> trendLabels = prepareTrendLabels();
     final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends();
-    final List<String> habitNameslist = getHabitProgressionData().keys.toList();
-    final habitNames =
-        chartState.showIndividualProgress.value ? habitNameslist : ['Overall'];
+
+    final last7DaysHabits = getLast7DaysHabitProgression().keys.toList();
+    final last30DaysHabits = getLast30DaysHabitProgression().keys.toList();
+
+    final bool isWeekly = chartState.isweekly.value;
+    final bool showIndividual = chartState.showIndividualProgress.value;
+
+    final List<String> habitNames =
+        showIndividual
+            ? (isWeekly ? last30DaysHabits : last7DaysHabits)
+            : ['Overall'];
+
     return SizedBox(
       height: 300,
       child: Obx(

@@ -95,5 +95,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "themepagetitle": MessageLookupByLibrary.simpleMessage("Theme Setting"),
     "today": MessageLookupByLibrary.simpleMessage("Today Progress"),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
+    "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress"),
   };
 }

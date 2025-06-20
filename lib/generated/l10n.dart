@@ -134,6 +134,11 @@ class S {
     );
   }
 
+  /// `weekly Progress`
+  String get weekly {
+    return Intl.message('weekly Progress', name: 'weekly', desc: '', args: []);
+  }
+
   /// `Habit State`
   String get hambitstate {
     return Intl.message('Habit State', name: 'hambitstate', desc: '', args: []);

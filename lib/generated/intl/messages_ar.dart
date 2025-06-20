@@ -95,5 +95,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "themepagetitle": MessageLookupByLibrary.simpleMessage("إعدادات الثيم"),
     "today": MessageLookupByLibrary.simpleMessage("تقدم اليوم"),
     "total": MessageLookupByLibrary.simpleMessage("المجموع"),
+    "weekly": MessageLookupByLibrary.simpleMessage("تقدم الأسبوعي"),
   };
 }

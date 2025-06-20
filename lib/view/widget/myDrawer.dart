@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/services/SupaEmailAuth.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
@@ -61,6 +62,16 @@ class DrawerList extends StatelessWidget {
             Get.to(() => SettingsPage());
           },
           title: S.of(context).drawerSetting,
+        ),
+        MyListTile(
+          icon: const Icon(
+            color: Colors.blueGrey,
+            Icons.settings_accessibility_sharp,
+          ),
+          onTap: () {
+            Get.to(() => SupaEmailAuthWidget());
+          },
+          title: "Test page",
         ),
       ],
     );

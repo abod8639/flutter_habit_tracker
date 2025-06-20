@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/langController.dart';
 import 'package:habit_tracker/functions/initializeApp.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/services/SupaEmailAuth.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.fadeIn,
       smartManagement: SmartManagement.full,
 
+      // home: const SupaEmailAuthWidget(),
       home: const HomeScreen(),
     );
   }

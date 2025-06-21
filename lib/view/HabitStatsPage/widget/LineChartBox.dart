@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,14 +15,16 @@ class LineChartBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final chartState = Get.put(TrendChartState());
 
-    final List<String> trendLabels = prepareTrendLabels();
     final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends();
 
     final last7DaysHabits = getLast7DaysHabitProgression().keys.toList();
     final last30DaysHabits = getLast30DaysHabitProgression().keys.toList();
-
     final bool isWeekly = chartState.isweekly.value;
     final bool showIndividual = chartState.showIndividualProgress.value;
+
+    // chartState.isweekly.value
+    //     ? chartState.days.value = 7
+    //     : chartState.days.value = 30;
 
     final List<String> habitNames =
         showIndividual
@@ -29,14 +33,20 @@ class LineChartBox extends StatelessWidget {
 
     return SizedBox(
       height: 300,
-      child: Obx(
-        () => LineChart(
+      child: Obx(() {
+        final List<String> trendLabels = prepareTrendLabels(
+          chartState.days.value,
+        );
+        return LineChart(
           LineChartData(
             gridData: FlGridData(
               show: true,
-              horizontalInterval: 0.20,
+              // drawVerticalLine: false,
+              // horizontalInterval: 0.20,
+              // verticalInterval: 0.20,
               getDrawingHorizontalLine: (value) {
                 return FlLine(
+                  // dashArray: const [5, 5],
                   color: Colors.grey.withOpacity(0.1),
                   strokeWidth: 1,
                 );
@@ -45,11 +55,12 @@ class LineChartBox extends StatelessWidget {
             titlesData: FlTitlesData(
               show: true,
               bottomTitles: AxisTitles(
+                // drawBelowEverything: false,
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    final index = value.toInt();
-                    if (index >= 0 && index < trendLabels.length) {
+                    final index = value.toInt() ~/ 3;
+                    if (index >= 0 && index <= trendLabels.length) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: Text(
@@ -68,10 +79,10 @@ class LineChartBox extends StatelessWidget {
                   reservedSize: 20,
                 ),
               ),
+
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-
                   interval: 0.25,
                   getTitlesWidget: (value, meta) {
                     return Padding(
@@ -90,13 +101,17 @@ class LineChartBox extends StatelessWidget {
                   reservedSize: 45,
                 ),
               ),
+
               rightTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
+
               topTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
             ),
+
+            clipData: FlClipData.vertical(),
             minX: 0,
             maxX: trendLabels.length - 1.0,
             minY: -0.05,
@@ -120,8 +135,8 @@ class LineChartBox extends StatelessWidget {
                     ),
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

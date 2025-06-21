@@ -25,9 +25,23 @@ final List<Color> lineColors = [
 ];
 
 class TrendChartState extends GetxController {
-  final RxBool isweekly = false.obs;
+  final RxBool isweekly = true.obs;
   final RxBool showIndividualProgress = true.obs;
+  final RxInt days = 30.obs;
+
   void toggleView() => showIndividualProgress.toggle();
+
+  void toggle() {
+    isweekly.value = !isweekly.value;
+    if (isweekly.value) {
+      toggleWeekly();
+    } else {
+      toggleMonthly();
+    }
+  }
+
+  void toggleWeekly() => days.value = 7;
+  void toggleMonthly() => days.value = 30;
 }
 
 Widget BuildTrendChart() {
@@ -74,8 +88,7 @@ Widget BuildTrendChart() {
                     children: [
                       TextButton(
                         onPressed: () {
-                          chartState.isweekly.value =
-                              !chartState.isweekly.value;
+                          chartState.toggle();
                         },
                         child: Text(
                           chartState.isweekly.value

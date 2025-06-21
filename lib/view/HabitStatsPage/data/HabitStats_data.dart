@@ -35,11 +35,11 @@ List<FlSpot> prepareTrendData() {
   return trendSpots;
 }
 
-List<String> prepareTrendLabels() {
+List<String> prepareTrendLabels(int day) {
   final now = DateTime.now();
 
   // Get last 7 days for consistent labeling
-  return List.generate(7, (index) {
+  return List.generate(day, (index) {
     final date = now.subtract(Duration(days: 6 - index));
     return '${date.day}/${date.month}';
   });

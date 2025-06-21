@@ -7,6 +7,7 @@ Map<String, List<double>> getHabitProgressionDataForDays(int days) {
   final controller = Get.find<HabitController>();
   final Map<String, List<double>> habitData = {};
   final habits = controller.db.todaysHabitList;
+  // final habits = controller.db.
 
   if (habits.isEmpty) return habitData;
 
@@ -25,7 +26,7 @@ Map<String, List<double>> getHabitProgressionDataForDays(int days) {
     habitData[habitName] = List<double>.filled(days, 0.0);
   }
 
-  for (var i = 0; i < dates.length; i++) {
+  for (int i = 0; i < dates.length; i++) {
     final date = dates[i];
 
     for (final habit in habits) {

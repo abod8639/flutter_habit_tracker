@@ -54,12 +54,12 @@ class LineChartBox extends StatelessWidget {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    final index = value.toInt() ~/ 3;
-                    if (index >= 0 && index <= trendLabels.length) {
+                    final index = value.toInt();
+                    if (index >= 0 && index <= habitNames.length) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: Text(
-                          trendLabels[index],
+                          habitNames[index],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
@@ -69,7 +69,7 @@ class LineChartBox extends StatelessWidget {
                         ),
                       );
                     }
-                    return const Text('');
+                    return const Text('error');
                   },
                   reservedSize: 20,
                 ),

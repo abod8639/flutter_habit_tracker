@@ -55,11 +55,11 @@ class LineChartBox extends StatelessWidget {
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
                     final index = value.toInt();
-                    if (index >= 0 && index <= habitNames.length) {
+                    if (index >= 0 && index <= trendLabels.length) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: Text(
-                          habitNames[index],
+                          trendLabels[index],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
@@ -115,7 +115,7 @@ class LineChartBox extends StatelessWidget {
               if (chartState.showIndividualProgress == true)
                 myLineChartBarData(
                   color: Theme.of(context).primaryColor,
-                  spots: prepareTrendData(),
+                  spots: prepareTrendData(chartState.days.value),
                   label: 'Overall',
                 ),
 

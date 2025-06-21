@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.dart';
 
-List<FlSpot> prepareTrendData() {
+List<FlSpot> prepareTrendData(int days) {
   final controller = Get.put(HabitController());
   final habits = controller.db.todaysHabitList;
 
@@ -13,8 +13,8 @@ List<FlSpot> prepareTrendData() {
   // Get the last 7 days
   final now = DateTime.now();
   final List<DateTime> dates = List.generate(
-    7,
-    (index) => now.subtract(Duration(days: 6 - index)),
+    days,
+    (index) => now.subtract(Duration(days: days - index)),
   );
 
   List<FlSpot> trendSpots = [];

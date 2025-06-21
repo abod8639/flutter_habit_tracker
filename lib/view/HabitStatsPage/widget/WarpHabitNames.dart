@@ -4,6 +4,26 @@ import 'package:habit_tracker/controller/TrendChartState.Getx.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
+// 3. Main app initialization (add to main.dart)
+// import 'package:flutter/material.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   // Initialize Hive first
+//   await Hive.initFlutter();
+//   await Hive.openBox(HabitStorage.boxName);
+
+//   // Initialize Supabase
+//   try {
+//     await SupabaseService.initialize();
+//   } catch (e) {
+//     debugPrint('⚠️ Supabase initialization failed, app will work offline: $e');
+//   }
+
+//   runApp(MyApp());
+// }
+
 class WarpHabitNames extends StatelessWidget {
   const WarpHabitNames({super.key});
 

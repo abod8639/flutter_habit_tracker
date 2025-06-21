@@ -27,7 +27,7 @@ final List<Color> lineColors = [
 
 Widget BuildTrendChart() {
   final chartState = Get.put(TrendChartState());
-  final List<FlSpot> trendSpots = prepareTrendData();
+  final List<FlSpot> trendSpots = prepareTrendData(chartState.days.value);
   // Skip if no data is available
   if (trendSpots.isEmpty ||
       trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0)) {

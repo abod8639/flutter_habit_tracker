@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
 import 'package:habit_tracker/controller/langController.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/services/syncHiveToSupabase.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';

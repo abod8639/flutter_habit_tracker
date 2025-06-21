@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class TrendChartState extends GetxController {
-  final RxBool isweekly = true.obs;
+  final RxBool isweekly = false.obs;
   final RxBool showIndividualProgress = true.obs;
   final RxInt days = 30.obs;
 

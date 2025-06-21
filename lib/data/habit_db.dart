@@ -406,6 +406,8 @@ class Habitdb {
 
 // 4. Usage examples in your UI
 class HabitListWidget extends StatefulWidget {
+  const HabitListWidget({super.key});
+
   @override
   _HabitListWidgetState createState() => _HabitListWidgetState();
 }

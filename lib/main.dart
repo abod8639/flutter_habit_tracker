@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/langController.dart';
 import 'package:habit_tracker/functions/initializeApp.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/services/syncHiveToSupabase.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
@@ -20,12 +19,6 @@ Future<void> main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZG5tYWtpeWRjemdicmt4eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzODI1MDIsImV4cCI6MjA2NTk1ODUwMn0.K3oaQytier4iZI8iY3AT7-W1BSP6ePheImj_MpuK0PU',
   );
-
-  //   try {
-  //   await SupabaseService.initialize();
-  // } catch (e) {
-  //   debugPrint('⚠️ Supabase initialization failed, app will work offline: $e');
-  // }
 
   runZonedGuarded(
     () async {

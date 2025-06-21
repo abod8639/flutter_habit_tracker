@@ -1,11 +1,10 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/TrendChartState.Getx.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/prepareTodayHabitTrends.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
 
@@ -16,20 +15,18 @@ class LineChartBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final chartState = Get.put(TrendChartState());
 
-    final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends();
+    final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends(
+      chartState.days.value,
+    );
 
     final last7DaysHabits = getLast7DaysHabitProgression().keys.toList();
     final last30DaysHabits = getLast30DaysHabitProgression().keys.toList();
     final bool isWeekly = chartState.isweekly.value;
     final bool showIndividual = chartState.showIndividualProgress.value;
 
-    // chartState.isweekly.value
-    //     ? chartState.days.value = 7
-    //     : chartState.days.value = 30;
-
     final List<String> habitNames =
         showIndividual
-            ? (isWeekly ? last30DaysHabits : last7DaysHabits)
+            ? (isWeekly ? last7DaysHabits : last30DaysHabits)
             : ['Overall'];
 
     return SizedBox(
@@ -42,9 +39,6 @@ class LineChartBox extends StatelessWidget {
           LineChartData(
             gridData: FlGridData(
               show: true,
-              // drawVerticalLine: false,
-              // horizontalInterval: 0.20,
-              // verticalInterval: 0.20,
               getDrawingHorizontalLine: (value) {
                 return FlLine(
                   // dashArray: const [5, 5],

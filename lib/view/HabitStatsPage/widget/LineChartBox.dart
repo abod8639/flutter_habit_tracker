@@ -115,7 +115,7 @@ class LineChartBox extends StatelessWidget {
               if (chartState.showIndividualProgress == true)
                 myLineChartBarData(
                   color: Theme.of(context).primaryColor,
-                  spots: prepareTrendData(chartState.days.value),
+                  spots: prepareTrendData(7),
                   label: 'Overall',
                 ),
 

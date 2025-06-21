@@ -14,7 +14,7 @@ List<FlSpot> prepareTrendData(int days) {
   final now = DateTime.now();
   final List<DateTime> dates = List.generate(
     days,
-    (index) => now.subtract(Duration(days: days - index)),
+    (index) => now.subtract(Duration(days: days - 1 - index)),
   );
 
   List<FlSpot> trendSpots = [];

@@ -40,7 +40,7 @@ class ThemeStorageService {
     await _box.put(themeModeKey, mode.toString());
     await _box.put(useCustomBgKey, useCustomBg);
     if (customBgColor != null) {
-      await _box.put(customBgColorKey, customBgColor.value);
+      await _box.put(customBgColorKey, customBgColor);
     }
   }
 }

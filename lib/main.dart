@@ -19,7 +19,6 @@ Future<void> main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZG5tYWtpeWRjemdicmt4eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzODI1MDIsImV4cCI6MjA2NTk1ODUwMn0.K3oaQytier4iZI8iY3AT7-W1BSP6ePheImj_MpuK0PU',
   );
-
   runZonedGuarded(
     () async {
       await initializeApp();
@@ -43,7 +42,6 @@ class MyApp extends StatelessWidget {
     final Langcontroller controllerlanguage = Get.put(Langcontroller());
     return GetMaterialApp(
       locale: Locale(controllerlanguage.language.value),
-      // const Locale('ar'),
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

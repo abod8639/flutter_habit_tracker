@@ -48,6 +48,7 @@ CREATE POLICY "Users can only access their own heatmap data" ON habit_heatmap
 
 // 1. Supabase Service Class
 // import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -58,6 +59,14 @@ import 'package:habit_tracker/models/date_time.dart';
 class SupabaseService {
   // static const String supabaseUrl = 'YOUR_SUPABASE_URL';
   // static const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+
+  static Future<void> initialize() async {
+    await dotenv.load(fileName: ".env");
+    await Supabase.initialize(
+      url: dotenv.env['SUPABASE_URL']!,
+      anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    );
+  }
 
   static SupabaseClient get client => Supabase.instance.client;
 

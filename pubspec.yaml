@@ -8,6 +8,8 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
+  flutter_dotenv: ^5.2.1
+
   catppuccin_flutter: ^1.0.0
   cupertino_icons: ^1.0.8
   fl_chart: ^1.0.0
@@ -39,6 +41,7 @@ dev_dependencies:
 flutter:
   # uses-asset-bundle-paths: true
   assets:
+    - .env
     - assets/image/
 
   uses-material-design: true

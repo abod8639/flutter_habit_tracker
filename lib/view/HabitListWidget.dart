@@ -1,5 +1,4 @@
 // 4. Usage examples in your UI
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/data/habit_db.dart';
 

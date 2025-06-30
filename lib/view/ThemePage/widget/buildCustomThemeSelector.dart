@@ -4,7 +4,8 @@ import 'package:habit_tracker/controller/ThemeController.dart';
 import 'package:habit_tracker/utils/themeList.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildThemeColorPreview.dart';
 
-Widget buildCustomThemeSelector(ThemeController controller) {
+Widget buildCustomThemeSelector() {
+  final ThemeController themeController = Get.put(ThemeController());
   return Builder(
     builder: (context) {
       return Obx(
@@ -19,10 +20,10 @@ Widget buildCustomThemeSelector(ThemeController controller) {
               child: DropdownButton<String>(
                 autofocus: true,
                 isExpanded: true,
-                value: controller.currentTheme.value,
+                value: themeController.currentTheme.value,
                 icon: Icon(Icons.palette, color: Get.theme.primaryColor),
                 items:
-                    controller.availableThemes.map((themeName) {
+                    themeController.availableThemes.map((themeName) {
                       return DropdownMenuItem(
                         value: themeName,
                         child: Row(
@@ -36,7 +37,7 @@ Widget buildCustomThemeSelector(ThemeController controller) {
                     }).toList(),
                 onChanged: (value) {
                   if (value != null) {
-                    controller.changeCustomTheme(value);
+                    themeController.changeCustomTheme(value);
                   }
                 },
               ),

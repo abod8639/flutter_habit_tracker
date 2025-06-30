@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/HabitListWidget.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 import 'package:habit_tracker/view/widget/MyListTile.dart';
 
-class myDrawer extends StatelessWidget {
-  const myDrawer({super.key});
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
   bool isPhone(BuildContext context) {
     final double mwidth = MediaQuery.of(context).size.width;
     return mwidth < 600.0;
@@ -35,7 +34,7 @@ class DrawerList extends StatelessWidget {
     return ListView(
       children: [
         SizedBox(height: 20),
-        MyListTile(
+        MyDrawerListTile(
           icon: Icon(
             color: Theme.of(context).primaryColor,
             Icons.color_lens_outlined,
@@ -47,7 +46,7 @@ class DrawerList extends StatelessWidget {
           title: S.of(context).drawerTheme,
         ),
 
-        MyListTile(
+        MyDrawerListTile(
           icon: Icon(color: Colors.blueAccent, Icons.auto_graph_sharp),
           onTap: () {
             Get.back();
@@ -56,24 +55,24 @@ class DrawerList extends StatelessWidget {
           title: S.of(context).drawerReat,
         ),
 
-        MyListTile(
+        MyDrawerListTile(
           icon: const Icon(color: Colors.blueGrey, Icons.settings),
           onTap: () {
             Get.to(() => SettingsPage());
           },
           title: S.of(context).drawerSetting,
         ),
-        MyListTile(
-          icon: const Icon(
-            color: Colors.blueGrey,
-            Icons.settings_accessibility_sharp,
-          ),
-          onTap: () {
-            // Get.to(() => SupaEmailAuthWidget());
-            Get.to(() => HabitListWidget());
-          },
-          title: "Test page",
-        ),
+        // MyDrawerListTile(
+        //   icon: const Icon(
+        //     color: Colors.blueGrey,
+        //     Icons.settings_accessibility_sharp,
+        //   ),
+        //   onTap: () {
+        //     // Get.to(() => SupaEmailAuthWidget());
+        //     Get.to(() => HabitListWidget());
+        //   },
+        //   title: "Test page",
+        // ),
       ],
     );
   }

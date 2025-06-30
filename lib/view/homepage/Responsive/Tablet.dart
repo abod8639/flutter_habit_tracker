@@ -28,7 +28,7 @@ class Tablet extends StatelessWidget {
       }
 
       return Scaffold(
-        drawer: const myDrawer(),
+        drawer: const MyDrawer(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: myfloatingActionButton(

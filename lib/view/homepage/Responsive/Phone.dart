@@ -18,28 +18,10 @@ class Phone extends StatefulWidget {
 
 class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
   final HabitController controller = Get.put(HabitController());
-  late final AnimationController _menuAnimationController;
-  late final Animation<double> _menuRotationAnimation;
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-    _menuAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _menuRotationAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _menuAnimationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-  }
-
-  @override
   void dispose() {
-    _menuAnimationController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -47,7 +29,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const myDrawer(),
+      drawer: const MyDrawer(),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: myfloatingActionButton(
@@ -71,6 +53,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 slivers: [
+                  // DrawerMenuButton(),
                   MyAppBar(),
                   SliverToBoxAdapter(
                     child: Center(
@@ -113,25 +96,13 @@ class MyAppBar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       leading: Builder(
         builder: (context) {
-          final state = context.findAncestorStateOfType<_PhoneState>();
-          return AnimatedBuilder(
-            animation: state!._menuRotationAnimation,
-            builder: (context, child) {
-              return Transform.rotate(
-                angle: state._menuRotationAnimation.value * 0.5,
-                child: IconButton(
-                  icon: Icon(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    Icons.menu,
-                  ),
-                  onPressed: () {
-                    state._menuAnimationController.forward().then((_) {
-                      state._menuAnimationController.reverse();
-                      Scaffold.of(context).openDrawer();
-                    });
-                  },
-                ),
-              );
+          return IconButton(
+            icon: Icon(
+              color: Theme.of(context).colorScheme.onSurface,
+              Icons.menu,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
             },
           );
         },

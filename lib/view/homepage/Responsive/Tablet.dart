@@ -37,36 +37,66 @@ class Tablet extends StatelessWidget {
         body: GetBuilder<HabitController>(
           init: controller,
           builder:
-              (controller) => Row(
+              (controller) => Stack(
                 children: [
-                  // Left Side: Completed Habits List (Visible only on Desktop)
-                  if (controller.isDesktop(context))
-                    Expanded(flex: 4, child: const DrawerList()),
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.purple.shade900,
+                              Colors.blue.shade900,
+                              Colors.teal.shade700,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // مثال بسيط
+                              SizedBox(height: 40),
 
-                  if (!controller.isDesktop(context)) const DrawerMenuButton(),
-
-                  // Middle: Monthly Summary
-                  Expanded(
-                    flex: controller.isDesktop(context) ? 8 : 9,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: SingleChildScrollView(
-                        reverse: true,
-                        key: ValueKey<String>(controller.getStartDay()),
-                        scrollDirection: Axis.horizontal,
-                        child: MonthlySummary(
-                          datasets: controller.db.heatmapDateSet,
+                              // مثال متقدم
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
 
-                  Expanded(
-                    flex: controller.isDesktop(context) ? 9 : 13,
-                    child:
-                        controller.db.todaysHabitList.isEmpty
-                            ? Nohabitsyet()
-                            : CheckboxList(),
+                      // Left Side: Completed Habits List (Visible only on Desktop)
+                      if (controller.isDesktop(context))
+                        Expanded(flex: 4, child: const DrawerList()),
+
+                      if (!controller.isDesktop(context))
+                        const DrawerMenuButton(),
+
+                      // Middle: Monthly Summary
+                      Expanded(
+                        flex: controller.isDesktop(context) ? 8 : 9,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: SingleChildScrollView(
+                            reverse: true,
+                            key: ValueKey<String>(controller.getStartDay()),
+                            scrollDirection: Axis.horizontal,
+                            child: MonthlySummary(
+                              datasets: controller.db.heatmapDateSet,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Expanded(
+                        flex: controller.isDesktop(context) ? 9 : 13,
+                        child:
+                            controller.db.todaysHabitList.isEmpty
+                                ? Nohabitsyet()
+                                : CheckboxList(),
+                      ),
+                    ],
                   ),
                 ],
               ),

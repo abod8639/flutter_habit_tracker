@@ -69,7 +69,7 @@ class DrawerList extends StatelessWidget {
         //   ),
         //   onTap: () {
         //     // Get.to(() => SupaEmailAuthWidget());
-        //     Get.to(() => HabitListWidget());
+        //     Get.to(() => LiquidGlassExample());
         //   },
         //   title: "Test page",
         // ),

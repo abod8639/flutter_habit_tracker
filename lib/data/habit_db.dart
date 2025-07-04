@@ -1,100 +1,72 @@
-// 2. Updated Habitdb class with Supabase integration
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:habit_tracker/data/HabitLocalDataSource.dart';
+import 'package:habit_tracker/data/HabitRemoteDataSource.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
-import 'package:habit_tracker/services/syncHiveToSupabase.dart';
 import 'package:hive/hive.dart';
 
-class Habitdb {
-  final myBox = Hive.box(HabitStorage.boxName);
 
-  // User ID for Supabase (you should implement proper user authentication)
-  String get userId => myBox.get('user_id', defaultValue: 'default_user');
+
+class Habitdb {
+  late final HabitLocalDataSource _localDataSource;
+  late final HabitRemoteDataSource _remoteDataSource;
 
   List<HabitModel> _habits = [];
   Map<DateTime, int> heatmapDateSet = {};
 
-  int _completedCount = 1;
+  int _completedCount = 0;
   bool _dataChanged = false;
-  final bool _isOnline = false;
+  final bool _isOnline =
+      false; // This should be managed by the remote data source.
 
-  // Check if device is online
-  Future<void> _checkConnectivity() async {
-    // _isOnline = await SupabaseService.hasInternetConnection();
+  Habitdb() {
+    final myBox = Hive.box(HabitStorage.boxName);
+    _localDataSource = HabitLocalDataSource(myBox);
+    _remoteDataSource = HabitRemoteDataSource();
   }
 
-  // Sync data with Supabase
+  String get userId => _localDataSource.userId;
+
+
+  // --- Supabase Sync ---
+
   Future<void> syncWithSupabase() async {
-    try {
-      await _checkConnectivity();
-
-      if (!_isOnline) {
-        debugPrint('⚠️ Device is offline, skipping sync');
-        return;
-      }
-
-      debugPrint('🔄 Starting sync with Supabase...');
-
-      // Upload current habits to Supabase
-      final uploadSuccess = await SupabaseService.uploadHabits(_habits, userId);
-
-      if (uploadSuccess) {
-        // Upload heatmap data
-        await SupabaseService.uploadHeatmapData(heatmapDateSet, userId);
-
-        // Mark last sync time
-        myBox.put('last_sync', DateTime.now().toIso8601String());
-
-        debugPrint('✅ Sync completed successfully');
-      }
-    } catch (e) {
-      debugPrint('❌ Error during sync: $e');
+    final success =
+        await _remoteDataSource.syncWithSupabase(_habits, heatmapDateSet, userId);
+    if (success) {
+      await _localDataSource.markLastSyncTime();
     }
   }
 
-  // Download data from Supabase (for app restoration or multi-device sync)
   Future<void> downloadFromSupabase() async {
     try {
-      await _checkConnectivity();
-
-      if (!_isOnline) {
-        debugPrint('⚠️ Device is offline, cannot download');
-        return;
-      }
-
       debugPrint('📥 Downloading data from Supabase...');
+      final data = await _remoteDataSource.downloadFromSupabase(userId);
 
-      // Download habits
-      final cloudHabits = await SupabaseService.downloadHabits(userId);
+      if (data.isNotEmpty) {
+        final cloudHabits = data['habits'] as List<HabitModel>?;
+        final cloudHeatmap = data['heatmap'] as Map<DateTime, int>?;
 
-      // Download heatmap
-      final cloudHeatmap = await SupabaseService.downloadHeatmapData(userId);
+        if (cloudHabits != null && cloudHabits.isNotEmpty) {
+          _habits = cloudHabits;
+          _updateCache();
+          updateData();
+        }
 
-      if (cloudHabits.isNotEmpty) {
-        _habits = cloudHabits;
-        _updateCache();
-
-        // Save to local storage
-        updateData();
+        if (cloudHeatmap != null && cloudHeatmap.isNotEmpty) {
+          heatmapDateSet = cloudHeatmap;
+        }
+        debugPrint('✅ Download completed successfully');
       }
-
-      if (cloudHeatmap.isNotEmpty) {
-        heatmapDateSet = cloudHeatmap;
-      }
-
-      debugPrint('✅ Download completed successfully');
     } catch (e) {
       debugPrint('❌ Error during download: $e');
     }
   }
 
-  // Auto-sync when data changes
   Future<void> _autoSync() async {
     try {
-      // Only sync if online and data has changed
       if (_dataChanged && _isOnline) {
         await syncWithSupabase();
       }
@@ -103,33 +75,31 @@ class Habitdb {
     }
   }
 
-  // Modified updateData to include sync
+  Future<void> forceSyncWithSupabase() async {
+    _dataChanged = true;
+    await syncWithSupabase();
+  }
+
+  DateTime? getLastSyncTime() {
+    return _localDataSource.getLastSyncTime();
+  }
+
+
+
+  // --- Data Management ---
+
   void updateData() async {
     try {
-      // Save to local storage first (original functionality)
-      myBox.put(HabitStorage.habitListKey, todaysHabitList);
-
-      final String today = todaysDateFormatted();
-      myBox.put(today, todaysHabitList);
-
-      for (var habit in _habits) {
-        final String historyKey = "${habit.name}_$today";
-        myBox.put(historyKey, habit.isCompleted);
-      }
-
+      _localDataSource.saveHabits(_habits);
       habitCalculate();
       loadHeatmap();
-
       _dataChanged = false;
-
-      // Auto-sync with Supabase
       await _autoSync();
     } catch (e) {
       debugPrint('❌ Error updating habit data: $e');
     }
   }
 
-  // Rest of the original methods remain the same...
   List get todaysHabitList {
     return _habits.map((habit) => habit.toLocalFormat()).toList();
   }
@@ -143,10 +113,8 @@ class Habitdb {
     try {
       debugPrint('🆕 Creating default habit data');
       _habits = HabitStorage.defaultHabits;
-
-      myBox.put(HabitStorage.startDayKey, todaysDateFormatted());
+      _localDataSource.setStartDate();
       updateData();
-
       debugPrint('✅ Default data created successfully');
     } catch (e) {
       debugPrint('❌ Error creating default data: $e');
@@ -157,28 +125,24 @@ class Habitdb {
   void _createMinimalDefaultData() {
     _habits = [
       HabitModel(
-        id: '1',
-        name: "Read a Book",
-        isCompleted: true,
-        createdAt: DateTime.now(),
-      ),
+          id: '1',
+          name: "Read a Book",
+          isCompleted: true,
+          createdAt: DateTime.now()),
     ];
-    myBox.put(HabitStorage.startDayKey, todaysDateFormatted());
+    _localDataSource.setStartDate();
     updateData();
   }
 
   void loadData() {
     try {
       debugPrint('📥 Loading habit data');
-      if (myBox.get(HabitStorage.habitListKey) != null) {
-        List data = myBox.get(HabitStorage.habitListKey);
-        _habits = data.map((item) => HabitModel.fromLocalFormat(item)).toList();
+      _habits = _localDataSource.loadHabits();
+      if (_habits.isNotEmpty) {
         debugPrint('📋 Loaded ${_habits.length} habits');
       } else {
         debugPrint('⚠️ No habit data found, using empty list');
-        _habits = [];
       }
-
       _updateCache();
       loadHeatmap();
     } catch (e) {
@@ -193,6 +157,8 @@ class Habitdb {
     _dataChanged = true;
   }
 
+  // --- Business Logic ---
+
   void habitCalculate() {
     try {
       if (!_dataChanged) {
@@ -205,10 +171,7 @@ class Habitdb {
           _habits.isEmpty ? 0.0 : _completedCount / _habits.length;
       String rateString = completionRate.toStringAsFixed(1);
 
-      final dateKey =
-          "${HabitStorage.habitStrengthPrefix}${todaysDateFormatted()}";
-      myBox.put(dateKey, rateString);
-
+      _localDataSource.saveHabitStrength(todaysDateFormatted(), rateString);
       debugPrint('📊 Habit completion rate: $rateString');
     } catch (e) {
       debugPrint('❌ Error calculating habit completion: $e');
@@ -218,61 +181,43 @@ class Habitdb {
   List<Map<String, dynamic>> getIncompleteHabits() {
     return _habits
         .where((habit) => !habit.isCompleted)
-        .map(
-          (habit) => {
-            "id": habit.id,
-            "name": habit.name,
-            "completed": habit.isCompleted,
-          },
-        )
+        .map((habit) =>
+            {"id": habit.id, "name": habit.name, "completed": habit.isCompleted})
         .toList();
   }
 
   List<Map<String, dynamic>> getCompletedHabits() {
     return _habits
         .where((habit) => habit.isCompleted)
-        .map(
-          (habit) => {
-            "id": habit.id,
-            "name": habit.name,
-            "completed": habit.isCompleted,
-          },
-        )
+        .map((habit) =>
+            {"id": habit.id, "name": habit.name, "completed": habit.isCompleted})
         .toList();
   }
 
   void loadHeatmap() {
     try {
-      String? startDateStr = myBox.get(HabitStorage.startDayKey);
-
+      String startDateStr = _localDataSource.getStartDate();
       DateTime startDate;
       try {
-        startDate = createDateTimeObject(startDateStr ?? todaysDateFormatted());
+        startDate = createDateTimeObject(startDateStr);
       } catch (e) {
         debugPrint('⚠️ Error parsing start date: $e');
         startDateStr = todaysDateFormatted();
-        myBox.put(HabitStorage.startDayKey, startDateStr);
+        _localDataSource.updateStartDate(startDateStr);
         startDate = DateTime.now();
       }
 
       int daysInBetween = DateTime.now().difference(startDate).inDays;
-
       if (daysInBetween < 0 || daysInBetween > 366) {
-        debugPrint(
-          '⚠️ Invalid days between: $daysInBetween, resetting to today',
-        );
+        debugPrint('⚠️ Invalid days between: $daysInBetween, resetting to today');
         startDateStr = todaysDateFormatted();
-        myBox.put(HabitStorage.startDayKey, startDateStr);
-        startDate = DateTime.now();
+        _localDataSource.updateStartDate(startDateStr);
         daysInBetween = 0;
       }
 
       heatmapDateSet = {};
 
-      String lastSavedDate = myBox.get(
-        HabitStorage.lastSavedDateKey,
-        defaultValue: "",
-      );
+      String lastSavedDate = _localDataSource.getLastSavedDate();
       String todayDate = todaysDateFormatted();
 
       if (lastSavedDate != todayDate) {
@@ -281,39 +226,35 @@ class Habitdb {
           habit.isCompleted = false;
         }
         _updateCache();
-        myBox.put(HabitStorage.lastSavedDateKey, todayDate);
+        _localDataSource.setLastSavedDate(todayDate);
       }
 
       for (int i = 0; i < daysInBetween + 1; i++) {
         DateTime currentDate = startDate.add(Duration(days: i));
         String yyyymmdd = convertDateTimeToString(currentDate);
 
-        String? habitStrength = myBox.get(
-          "${HabitStorage.habitStrengthPrefix}$yyyymmdd",
-        );
+        String? habitStrength = _localDataSource.getHabitStrength(yyyymmdd);
         double strength = 0.0;
-
         try {
-          strength = double.parse(habitStrength ?? '0.0');
+          strength = double.parse(habitStrength ??"0.0.1.0.0");
         } catch (e) {
           debugPrint('⚠️ Error parsing strength for date $yyyymmdd: $e');
-          strength = 0.0;
         }
 
         final percentForDate = <DateTime, int>{
           DateTime(currentDate.year, currentDate.month, currentDate.day):
               (strength * 10).toInt(),
         };
-
         heatmapDateSet.addEntries(percentForDate.entries);
       }
-
       debugPrint('📊 Heatmap loaded with ${heatmapDateSet.length} days');
     } catch (e) {
       debugPrint('❌ Error loading heatmap: $e');
       heatmapDateSet = {};
     }
   }
+
+  // --- Habit CRUD ---
 
   HabitModel? getHabitByIndex(int index) {
     if (index >= 0 && index < _habits.length) {
@@ -357,30 +298,10 @@ class Habitdb {
       habit.isCompleted = value;
       habit.completedAt = value ? DateTime.now() : null;
 
-      final now = DateTime.now();
-      final todayStr = convertDateTimeToString(now);
-      final historyKey = "${habit.name}_$todayStr";
-      myBox.put(historyKey, value);
+      _localDataSource.saveHabitCompletionHistory(habit.name, value);
 
       _dataChanged = true;
       updateData();
     }
-  }
-
-  // Additional utility methods for Supabase integration
-
-  // Force sync with Supabase
-  Future<void> forceSyncWithSupabase() async {
-    _dataChanged = true;
-    await syncWithSupabase();
-  }
-
-  // Get last sync time
-  DateTime? getLastSyncTime() {
-    final lastSyncStr = myBox.get('last_sync');
-    if (lastSyncStr != null) {
-      return DateTime.parse(lastSyncStr);
-    }
-    return null;
   }
 }

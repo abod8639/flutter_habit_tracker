@@ -3,7 +3,6 @@ import 'package:hive/hive.dart';
 
 Future<List<Map<String, dynamic>>> readHiveData() async {
   final box = await Hive.openBox<HabitModel>('my_model');
-  // تحويل كل كائن إلى Map حسب الحقول المطلوبة في قاعدة Supabase
   return box.values
       .map(
         (model) => {

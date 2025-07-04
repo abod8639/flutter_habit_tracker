@@ -40,7 +40,7 @@ List<String> prepareTrendLabels(int day) {
 
   // Get last 7 days for consistent labeling
   return List.generate(day, (index) {
-    final date = now.subtract(Duration(days: 6 - index));
+    final date = now.subtract(Duration(days: day - 1 - index));
     return '${date.day}/${date.month}';
   });
 }

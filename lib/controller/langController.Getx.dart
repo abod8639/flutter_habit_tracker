@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:intl/intl.dart';
 
-class Langcontroller extends GetxController {
+class LangController extends GetxController {
   late final LangStorage _storage;
   var language = Intl.getCurrentLocale().obs;
 

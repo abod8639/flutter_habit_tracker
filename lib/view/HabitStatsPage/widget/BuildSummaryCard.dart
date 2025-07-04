@@ -40,6 +40,9 @@ Widget BuildSummaryCard() {
               ),
               const SizedBox(height: 16),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                
                 children: [
                   BuildStatItem(
                     S.of(context).total,

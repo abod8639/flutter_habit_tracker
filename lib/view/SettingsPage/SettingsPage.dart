@@ -48,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage>
     // final habitController = Get.put(HabitController());
 
     // final ThemeController themeController = Get.find<ThemeController>();
-    final Langcontroller controllerlanguage = Get.put(Langcontroller());
+    final LangController controllerlanguage = Get.put(LangController());
 
     return KeyboardListener(
       autofocus: true,

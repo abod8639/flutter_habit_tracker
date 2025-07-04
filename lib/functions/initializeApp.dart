@@ -20,7 +20,7 @@ Future<void> initializeApp() async {
 
     Get.put(HabitController());
     Get.put(ThemeController());
-    Get.put(Langcontroller());
+    Get.put(LangController());
   } catch (e, stack) {
     debugPrint('Error during initialization: $e');
     debugPrint('Stack trace: $stack');

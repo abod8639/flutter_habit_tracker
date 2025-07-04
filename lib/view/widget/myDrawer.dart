@@ -77,17 +77,17 @@ class DrawerList extends StatelessWidget {
     );
   }
 
-  SnackBar ErrorSnakBar(BuildContext context, String text) {
-    return SnackBar(
-      backgroundColor: Theme.of(context).colorScheme.error.withOpacity(0.5),
-      duration: const Duration(milliseconds: 1500),
-      content: Text(
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).colorScheme.onPrimary,
-        ),
-        text,
-      ),
-    );
-  }
+  // SnackBar errorSnakBar(BuildContext context, String text) {
+  //   return SnackBar(
+  //     backgroundColor: Theme.of(context).colorScheme.error.withOpacity(0.5),
+  //     duration: const Duration(milliseconds: 1500),
+  //     content: Text(
+  //       style: TextStyle(
+  //         fontWeight: FontWeight.w600,
+  //         color: Theme.of(context).colorScheme.onPrimary,
+  //       ),
+  //       text,
+  //     ),
+  //   );
+  // }
 }

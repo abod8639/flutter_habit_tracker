@@ -11,8 +11,6 @@ import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Constants for box names
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SupabaseService.initialize();
@@ -37,9 +35,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LangController controllerlanguage = Get.put(LangController());
+    final LangController controllerLanguage = Get.put(LangController());
     return GetMaterialApp(
-      locale: Locale(controllerlanguage.language.value),
+      locale: Locale(controllerLanguage.language.value),
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

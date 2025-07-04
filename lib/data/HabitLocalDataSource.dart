@@ -6,10 +6,6 @@ import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 
-// =================================================================
-// DATA SOURCES
-// =================================================================
-
 class HabitLocalDataSource {
   final Box _myBox;
 

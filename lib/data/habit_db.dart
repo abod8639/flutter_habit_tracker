@@ -19,11 +19,11 @@ class Habitdb {
 
   int _completedCount = 1;
   bool _dataChanged = false;
-  bool _isOnline = false;
+  final bool _isOnline = false;
 
   // Check if device is online
   Future<void> _checkConnectivity() async {
-    _isOnline = await SupabaseService.hasInternetConnection();
+    // _isOnline = await SupabaseService.hasInternetConnection();
   }
 
   // Sync data with Supabase
@@ -384,4 +384,3 @@ class Habitdb {
     return null;
   }
 }
-

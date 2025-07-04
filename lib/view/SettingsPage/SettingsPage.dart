@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/langController.dart';
+import 'package:habit_tracker/controller/langController.Getx.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
-import 'package:habit_tracker/controller/ThemeController.dart';
-import 'package:habit_tracker/controller/langController.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/controller/ThemeController.Getx.dart';
+import 'package:habit_tracker/controller/langController.Getx.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';

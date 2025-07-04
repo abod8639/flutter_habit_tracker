@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
 
 List<FlSpot> prepareTrendData(int days) {
   final controller = Get.put(HabitController());

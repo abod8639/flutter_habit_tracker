@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
 
 void toggleHabit(bool? value, int index) {
   HabitController controller = Get.put(HabitController());

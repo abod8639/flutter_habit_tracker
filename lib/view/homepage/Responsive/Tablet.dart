@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
 import 'package:habit_tracker/functions/addHabit.dart';
 import 'package:habit_tracker/view/homepage/widget/DrawerMenuButton.dart';
 import 'package:habit_tracker/view/homepage/widget/ExpandedCheckboxList.dart';

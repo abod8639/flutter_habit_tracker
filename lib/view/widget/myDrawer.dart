@@ -62,17 +62,17 @@ class DrawerList extends StatelessWidget {
           },
           title: S.of(context).drawerSetting,
         ),
-        // MyDrawerListTile(
-        //   icon: const Icon(
-        //     color: Colors.blueGrey,
-        //     Icons.settings_accessibility_sharp,
-        //   ),
-        //   onTap: () {
-        //     // Get.to(() => SupaEmailAuthWidget());
-        //     Get.to(() => LiquidGlassExample());
-        //   },
-        //   title: "Test page",
-        // ),
+        MyDrawerListTile(
+          icon: const Icon(
+            color: Colors.blueGrey,
+            Icons.settings_accessibility_sharp,
+          ),
+          onTap: () {
+            // Get.to(() => SupaEmailAuthWidget());
+            // Get.to(() => LiquidGlassExamplePage());
+          },
+          title: "Test page",
+        ),
       ],
     );
   }

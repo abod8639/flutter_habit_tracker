@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
 
 void editHabit(int index, BuildContext context) {
   HabitController c = Get.put(HabitController());
-  HabitModel? habit = c.db.getHabitByIndex(index);
-  if (habit == null) return;
+  // HabitModel? habit = c.db.getHabitByIndex(index);
 
-  c.habitTextController.text = habit.name;
+  // c.habitTextController.text = habit.name;
   showDialog(
     context: context,
     builder: (context) {

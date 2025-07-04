@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
 
 Widget BuildStatItem(String title, String value, IconData icon, Color color) {
   final controller = Get.put(HabitController());

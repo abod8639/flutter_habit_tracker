@@ -4,9 +4,11 @@ import 'package:habit_tracker/controller/HabitController.Getx.dart';
 
 Widget BuildStatItem(String title, String value, IconData icon, Color color) {
   final controller = Get.put(HabitController());
+
   return Expanded(
     child: Builder(
       builder: (context) {
+        final mSize = MediaQuery.of(context).size.width *.030;
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,7 +27,7 @@ Widget BuildStatItem(String title, String value, IconData icon, Color color) {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: controller.isPhone(context) ? 12 : 18,
+                    fontSize: controller.isPhone(context) ? mSize : 18,
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),

@@ -17,28 +17,29 @@ Widget BuildSummaryCard() {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // SizedBox(width: 5),
-                  Center(
-                    child: Text(
-                      S.of(context).Summary,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // SizedBox(width: 5),
+                    Center(
+                      child: Text(
+                        S.of(context).Summary,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  BuildStreakBadge(stats['streak']),
-                  // SizedBox(width: 5),s
-                ],
+                    BuildStreakBadge(stats['streak']),
+                    // SizedBox(width: 5),s
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   BuildStatItem(
                     S.of(context).total,

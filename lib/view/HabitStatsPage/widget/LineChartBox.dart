@@ -83,7 +83,8 @@ class LineChartBox extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
-                        '${(value * 100).toInt()}%',
+                        
+                        '${(value * 100 ).toInt() }%'.replaceAll("110%", "").replaceAll("114%", "").replaceAll("-10%", ""),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 10,
@@ -106,11 +107,12 @@ class LineChartBox extends StatelessWidget {
               ),
             ),
 
-            clipData: FlClipData.vertical(),
-            minX: 0,
+            clipData: FlClipData.vertical( ),
+            baselineX:10 ,
+            minX: 0.10,
             maxX: trendLabels.length - 1.0,
-            minY: -0.05,
-            maxY: 1.05,
+            minY: -.10,
+            maxY: 1.15,
             lineBarsData: [
               if (chartState.showIndividualProgress == true)
                 myLineChartBarData(

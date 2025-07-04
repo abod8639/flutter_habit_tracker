@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 class LangStorage {
   static const String boxName = "Lang_db";
   static const String languageKey = "CURRENT_LANGUAGE";
-  static const String defaultLanguage = "en";
+  static const String defaultLanguage = "sys";
 
   final Box _box;
 

@@ -5,7 +5,7 @@ import 'package:habit_tracker/services/syncHiveToSupabase.dart';
 
 
 class HabitRemoteDataSource {
-  bool _isOnline = false;
+  final bool _isOnline = false;
 
   Future<void> _checkConnectivity() async {
     // In a real app, this would check for internet connection.

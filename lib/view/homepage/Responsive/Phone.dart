@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.Getx.dart';
 import 'package:habit_tracker/functions/addHabit.dart';
 import 'package:habit_tracker/view/homepage/widget/HabitList.dart';
-import 'package:habit_tracker/view/widget/MonthlySummary.dart';
+import 'package:habit_tracker/view/homepage/widget/SliverMonthlySummary.dart';
 import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
 import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
@@ -62,33 +62,6 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
             },
           );
         }),
-      ),
-    );
-  }
-}
-
-class SliverMonthlySummary extends StatelessWidget {
-  const SliverMonthlySummary({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-      final HabitController controller = Get.put(HabitController());
-
-    return SliverToBoxAdapter(
-      child: Center(
-        child: SingleChildScrollView(
-          reverse: true,
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: MonthlySummary(
-              datasets: controller.db.heatmapDateSet,
-            ),
-          ),
-        ),
       ),
     );
   }

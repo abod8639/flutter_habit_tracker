@@ -12,10 +12,10 @@ void deleteHabit(int index, BuildContext context) {
     buttonColor: Theme.of(context).colorScheme.secondary,
     cancelTextColor: Theme.of(context).colorScheme.primary,
     confirmTextColor: Theme.of(context).colorScheme.error,
-    title: S.of(context).DeleteHabit,
-    middleText: S.of(context).areyousureyouwanttothishabit,
-    textConfirm: S.of(context).DeleteHabit,
-    textCancel: S.of(context).Cancel,
+    title: S.current.DeleteHabit,
+    middleText: S.current.areyousureyouwanttothishabit,
+    textConfirm: S.current.DeleteHabit,
+    textCancel: S.current.Cancel,
     onCancel: () => Get.back(),
     onConfirm: () {
       c.db.deleteHabitByIndex(index);

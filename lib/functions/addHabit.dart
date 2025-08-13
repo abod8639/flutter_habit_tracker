@@ -11,7 +11,7 @@ void addHabit(BuildContext context) {
     context: context,
     builder: (context) {
       return Myalartd(
-        hintText: S.of(context).Addnewhabit,
+        hintText: S.current.Addnewhabit,
         controller: c.habitTextController,
         onSave: () {
           final String habitName = c.habitTextController.text.trim();
@@ -21,8 +21,8 @@ void addHabit(BuildContext context) {
             Navigator.of(context).pop();
           } else {
             Get.snackbar(
-              S.of(context).Error,
-              S.of(context).Thefieldcanybeempty,
+              S.current.Error,
+              S.current.Thefieldcanybeempty,
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red.withOpacity(0.7),
               colorText: Colors.white,

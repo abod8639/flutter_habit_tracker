@@ -67,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage>
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(S.of(context).SettingPageTitle),
+          title: Text(S.current.SettingPageTitle),
           elevation: 0,
         ),
         body: ListView(
@@ -75,7 +75,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.of(context).Appearance,
+              S.current.Appearance,
               0,
             ),
             buildAnimatedSettingTile(
@@ -84,7 +84,7 @@ class _SettingsPageState extends State<SettingsPage>
               index: 1,
               icon: Icons.color_lens,
               title: 'Theme',
-              subtitle: S.of(context).Changeapptheme,
+              subtitle: S.current.Changeapptheme,
               onTap:
                   () => Get.to(
                     () => const ThemePage(),
@@ -96,7 +96,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.of(context).lan,
+              S.current.lan,
               3,
             ),
 
@@ -125,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.of(context).Notifications,
+              S.current.Notifications,
               3,
             ),
 
@@ -134,8 +134,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 4,
               icon: Icons.notifications,
-              title: S.of(context).DailyReminder,
-              subtitle: S.of(context).SetDailyReminder,
+              title: S.current.DailyReminder,
+              subtitle: S.current.SetDailyReminder,
               trailing: Switch(
                 value: false, // Connect to actual notification settings
                 onChanged: (value) {
@@ -157,8 +157,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 6,
               icon: Icons.backup,
-              title: S.of(context).BackupData,
-              subtitle: S.of(context).Exportyourhabitdata,
+              title: S.current.BackupData,
+              subtitle: S.current.Exportyourhabitdata,
               onTap: () async {
                 //                 SupabaseService.uploadHabits(
                 //   habitController.db.todaysHabitList,
@@ -174,8 +174,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 7,
               icon: Icons.restore,
-              title: S.of(context).RestoreData,
-              subtitle: S.of(context).Importpreviouslyexporteddata,
+              title: S.current.RestoreData,
+              subtitle: S.current.Importpreviouslyexporteddata,
               onTap: () {},
             ),
             buildAnimatedSettingTile(
@@ -183,8 +183,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 8,
               icon: Icons.delete_outline,
-              title: S.of(context).ClearAllData,
-              subtitle: S.of(context).Deleteallhabitsandsettings,
+              title: S.current.ClearAllData,
+              subtitle: S.current.Deleteallhabitsandsettings,
               textColor: Colors.red,
               onTap: () async => await clearAppDataAndRestart(context),
               //  {
@@ -206,7 +206,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.of(context).About,
+              S.current.About,
               9,
             ),
             buildAnimatedSettingTile(
@@ -214,8 +214,8 @@ class _SettingsPageState extends State<SettingsPage>
               context,
               index: 10,
               icon: Icons.info_outline,
-              title: S.of(context).About,
-              subtitle: S.of(context).Appversionandinformation,
+              title: S.current.About,
+              subtitle: S.current.Appversionandinformation,
               onTap: () {
                 showComingSoon(context);
               },
@@ -241,8 +241,8 @@ class _SettingsPageState extends State<SettingsPage>
 
 void showComingSoon(context) {
   Get.snackbar(
-    S.of(context).ComingSoon,
-    S.of(context).Restorefeaturewillbeavailableinfutureupdates,
+    S.current.ComingSoon,
+    S.current.Restorefeaturewillbeavailableinfutureupdates,
     snackPosition: SnackPosition.BOTTOM,
     duration: const Duration(seconds: 2),
     animationDuration: const Duration(milliseconds: 500),

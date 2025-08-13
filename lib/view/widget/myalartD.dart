@@ -69,7 +69,7 @@ class _MyalartdState extends State<Myalartd> {
                       duration: const Duration(seconds: 2),
                       content: Center(
                         child: Text(
-                          S.of(context).Thefieldcanybeempty,
+                          S.current.Thefieldcanybeempty,
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -107,7 +107,7 @@ class _MyalartdState extends State<Myalartd> {
             widget.controller.clear();
           },
           child: Text(
-            S.of(context).Cancel,
+            S.current.Cancel,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).colorScheme.error.withOpacity(0.8),
@@ -126,7 +126,7 @@ class _MyalartdState extends State<Myalartd> {
                   duration: const Duration(seconds: 2),
                   content: Center(
                     child: Text(
-                      S.of(context).Thefieldcanybeempty,
+                      S.current.Thefieldcanybeempty,
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -135,7 +135,7 @@ class _MyalartdState extends State<Myalartd> {
             }
           },
           child: Text(
-            S.of(context).Add,
+            S.current.Add,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).primaryColor,

@@ -26,7 +26,7 @@ Widget BuildSummaryCard() {
                     // SizedBox(width: 5),
                     Center(
                       child: Text(
-                        S.of(context).Summary,
+                        S.current.Summary,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -45,19 +45,19 @@ Widget BuildSummaryCard() {
                 
                 children: [
                   BuildStatItem(
-                    S.of(context).total,
+                    S.current.total,
                     stats['totalHabits'].toString(),
                     Icons.list_alt,
                     Colors.blue,
                   ),
                   BuildStatItem(
-                    S.of(context).completed,
+                    S.current.completed,
                     stats['completedHabits'].toString(),
                     Icons.check_circle_outline,
                     Colors.green,
                   ),
                   BuildStatItem(
-                    S.of(context).success,
+                    S.current.success,
                     '${stats['completionRate'].toStringAsFixed(1)}%',
                     Icons.trending_up,
                     stats['completionRate'] > 50 ? Colors.green : Colors.orange,

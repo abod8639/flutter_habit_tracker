@@ -61,7 +61,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
               fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.onSurface,
             ),
-            S.of(context).ratepagetitle,
+            S.current.ratepagetitle,
           ),
           centerTitle: true,
           elevation: 0,

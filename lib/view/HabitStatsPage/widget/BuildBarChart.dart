@@ -15,7 +15,7 @@ Widget BuildBarChart() {
       builder: (context) {
         return SizedBox(
           height: 300,
-          child: Center(child: Text(S.of(context).BarChartisEmpty)),
+          child: Center(child: Text(S.current.BarChartisEmpty)),
         );
       },
     );
@@ -29,7 +29,7 @@ Widget BuildBarChart() {
           child: Column(
             children: [
               Text(
-                S.of(context).today,
+                S.current.today,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
 

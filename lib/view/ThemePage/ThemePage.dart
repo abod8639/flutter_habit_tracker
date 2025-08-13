@@ -42,7 +42,7 @@ class ThemePage extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-            S.of(context).themepagetitle,
+            S.current.themepagetitle,
           ),
           elevation: 1,
         ),
@@ -51,7 +51,7 @@ class ThemePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildSectionTitle(S.of(context).themepage),
+              buildSectionTitle(S.current.themepage),
               const SizedBox(height: 8),
               buildCustomThemeSelector(),
             ],

@@ -21,7 +21,7 @@ Widget BuildHabitListCard(BuildContext context) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                S.of(context).success,
+                S.current.success,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
@@ -32,7 +32,7 @@ Widget BuildHabitListCard(BuildContext context) {
                     Icon(Icons.check_circle, color: Colors.green, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      '${S.of(context).Completed} (${completedHabits.length})',
+                      '${S.current.Completed} (${completedHabits.length})',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -51,7 +51,7 @@ Widget BuildHabitListCard(BuildContext context) {
                     Icon(Icons.pending_actions, color: Colors.orange, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      '${S.of(context).Incomplete} (${incompleteHabits.length})',
+                      '${S.current.Incomplete} (${incompleteHabits.length})',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -76,7 +76,7 @@ Widget BuildHabitListCard(BuildContext context) {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          S.of(context).isEmpty,
+                          S.current.isEmpty,
                           style: TextStyle(color: Colors.grey),
                         ),
                       ],

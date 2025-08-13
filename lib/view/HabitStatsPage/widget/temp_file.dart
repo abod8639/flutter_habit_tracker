@@ -40,7 +40,7 @@ Widget BuildTrendChart() {
               height: 300,
               child: Center(
                 child: Text(
-                  S.of(context).TrendCharisEmpty,
+                  S.current.TrendCharisEmpty,
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
               ),
@@ -74,10 +74,10 @@ Widget BuildTrendChart() {
                         child: Text(
                           chartState.isweekly.value
                               ?
-                              // ? S.of(context).trendchartWeekly
-                              // : S.of(context).trendchartMonthly,
-                              S.of(context).weekly
-                              : S.of(context).monthly,
+                              // ? S.current.trendchartWeekly
+                              // : S.current.trendchartMonthly,
+                              S.current.weekly
+                              : S.current.monthly,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

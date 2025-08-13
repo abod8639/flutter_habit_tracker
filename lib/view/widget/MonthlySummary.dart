@@ -65,7 +65,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
       7: primaryColor.withOpacity(0.7),
       8: primaryColor.withOpacity(0.8),
       9: primaryColor.withOpacity(0.9),
-      10: primaryColor.withOpacity(1.0),
+     10: primaryColor.withOpacity(1.0),
     };
 
     // Removed unused and erroneous MediaQuerysize function.

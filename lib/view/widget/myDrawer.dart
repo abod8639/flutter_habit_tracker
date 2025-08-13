@@ -43,7 +43,7 @@ class DrawerList extends StatelessWidget {
             Get.back();
             Get.to(() => ThemePage());
           },
-          title: S.of(context).drawerTheme,
+          title: S.current.drawerTheme,
         ),
 
         MyDrawerListTile(
@@ -52,7 +52,7 @@ class DrawerList extends StatelessWidget {
             Get.back();
             Get.to(() => HabitStatsPage());
           },
-          title: S.of(context).drawerReat,
+          title: S.current.drawerReat,
         ),
 
         MyDrawerListTile(
@@ -60,7 +60,7 @@ class DrawerList extends StatelessWidget {
           onTap: () {
             Get.to(() => SettingsPage());
           },
-          title: S.of(context).drawerSetting,
+          title: S.current.drawerSetting,
         ),
         MyDrawerListTile(
           icon: const Icon(

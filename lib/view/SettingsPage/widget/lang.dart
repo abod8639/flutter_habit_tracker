@@ -51,7 +51,7 @@ Widget buildAnimatedSettinglang(
               const SizedBox(width: 16),
               Expanded(
                 child: DropdownButtonFormField<String>(
-                  value: currentValue,
+                  initialValue: currentValue,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,

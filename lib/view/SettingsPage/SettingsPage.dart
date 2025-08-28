@@ -122,29 +122,29 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ),
 
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.Notifications,
-              3,
-            ),
+            // buildAnimatedSectionHeader(
+            //   _animationController,
+            //   context,
+            //   S.current.Notifications,
+            //   3,
+            // ),
 
-            buildAnimatedSettingTile(
-              animationController: _animationController,
-              context,
-              index: 4,
-              icon: Icons.notifications,
-              title: S.current.DailyReminder,
-              subtitle: S.current.SetDailyReminder,
-              trailing: Switch(
-                value: false, // Connect to actual notification settings
-                onChanged: (value) {
-                  // Implement notification toggle
-                  showComingSoon(context);
-                },
-              ),
-              onTap: () {},
-            ),
+            // buildAnimatedSettingTile(
+            //   animationController: _animationController,
+            //   context,
+            //   index: 4,
+            //   icon: Icons.notifications,
+            //   title: S.current.DailyReminder,
+            //   subtitle: S.current.SetDailyReminder,
+            //   trailing: Switch(
+            //     value: false, // Connect to actual notification settings
+            //     onChanged: (value) {
+            //       // Implement notification toggle
+            //       showComingSoon(context);
+            //     },
+            //   ),
+            //   onTap: () {},
+            // ),
 
             buildAnimatedSectionHeader(
               _animationController,
@@ -217,7 +217,7 @@ class _SettingsPageState extends State<SettingsPage>
               title: S.current.About,
               subtitle: S.current.Appversionandinformation,
               onTap: () {
-                showComingSoon(context);
+                // showComingSoon(context);
               },
             ),
             // buildAnimatedSettingTile(

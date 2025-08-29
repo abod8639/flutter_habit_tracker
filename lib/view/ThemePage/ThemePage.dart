@@ -14,7 +14,6 @@ class ThemePage extends StatelessWidget {
       autofocus: true,
       focusNode: FocusNode(),
       onKeyEvent: (KeyEvent event) {
-        // Skip handling special keys like NumLock to avoid conflicts
         if (event.physicalKey == PhysicalKeyboardKey.numLock) {
           return;
         }

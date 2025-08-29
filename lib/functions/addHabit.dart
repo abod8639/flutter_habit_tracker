@@ -16,7 +16,7 @@ void addHabit(BuildContext context) {
         onSave: () {
           final String habitName = c.habitTextController.text.trim();
           if (habitName.isNotEmpty) {
-            c.db.addHabit(habitName);
+            c.db.dbAddHabit(habitName);
             c.update();
             Navigator.of(context).pop();
           } else {

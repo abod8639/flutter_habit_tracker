@@ -33,6 +33,7 @@ dependencies:
   supabase_auth_ui: ^0.5.5
   supabase_flutter: ^2.9.1
   internet_connection_checker: ^3.0.1
+  home_widget: ^0.8.0
   # liquid_glass_renderer: ^0.1.1-dev.9
   # glass: ^2.0.0+2
 dev_dependencies:

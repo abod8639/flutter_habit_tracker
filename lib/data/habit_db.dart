@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/data/HabitLocalDataSource.dart';
-import 'package:habit_tracker/data/HabitRemoteDataSource.dart';
+// import 'package:habit_tracker/data/HabitRemoteDataSource.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
@@ -121,17 +121,17 @@ class Habitdb {
     }
   }
 
-  void _createMinimalDefaultData() {
-    _habits = [
-      HabitModel(
-          id: '1',
-          name: "Read a Book",
-          isCompleted: true,
-          createdAt: DateTime.now()),
-    ];
-    _localDataSource.setStartDate();
-    updateData();
-  }
+  // void _createMinimalDefaultData() {
+  //   _habits = [
+  //     HabitModel(
+  //         id: '1',
+  //         name: "Read a Book",
+  //         isCompleted: true,
+  //         createdAt: DateTime.now()),
+  //   ];
+  //   _localDataSource.setStartDate();
+  //   updateData();
+  // }
 
   void loadData() {
     try {
@@ -207,12 +207,12 @@ class Habitdb {
       }
 
       int daysInBetween = DateTime.now().difference(startDate).inDays;
-      if (daysInBetween < 0 || daysInBetween > 366) {
-        debugPrint('⚠️ Invalid days between: $daysInBetween, resetting to today');
-        startDateStr = todaysDateFormatted();
-        _localDataSource.updateStartDate(startDateStr);
-        daysInBetween = 0;
-      }
+      // if (daysInBetween < 0 || daysInBetween > 366) {
+      //   debugPrint('⚠️ Invalid days between: $daysInBetween, resetting to today');
+      //   startDateStr = todaysDateFormatted();
+      //   _localDataSource.updateStartDate(startDateStr);
+      //   daysInBetween = 0;
+      // }
 
       heatmapDateSet = {};
 
@@ -235,7 +235,7 @@ class Habitdb {
         String? habitStrength = _localDataSource.getHabitStrength(yyyymmdd);
         double strength = 0.0;
         try {
-          strength = double.parse(habitStrength ??"0.0.1.0.0");
+          strength = double.parse(habitStrength ?? "00000000");
         } catch (e) {
           debugPrint('⚠️ Error parsing strength for date $yyyymmdd: $e');
         }
@@ -262,7 +262,7 @@ class Habitdb {
     return null;
   }
 
-  void addHabit(String name) {
+  void dbAddHabit(String name) {
     _habits.add(
       HabitModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -275,7 +275,7 @@ class Habitdb {
     updateData();
   }
 
-  void editHabitByIndex(int index, String newName) {
+  void dbEditHabitByIndex(int index, String newName) {
     if (index >= 0 && index < _habits.length) {
       _habits[index].name = newName;
       _dataChanged = true;

@@ -283,7 +283,7 @@ class Habitdb {
     }
   }
 
-  void deleteHabitByIndex(int index) {
+  void dbDeleteHabitByIndex(int index) {
     if (index >= 0 && index < _habits.length) {
       _habits.removeAt(index);
       _dataChanged = true;

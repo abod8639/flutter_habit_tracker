@@ -18,7 +18,7 @@ void deleteHabit(int index, BuildContext context) {
     textCancel: S.current.Cancel,
     onCancel: () => Get.back(),
     onConfirm: () {
-      c.db.deleteHabitByIndex(index);
+      c.db.dbDeleteHabitByIndex(index);
       c.update();
       Get.back();
     },

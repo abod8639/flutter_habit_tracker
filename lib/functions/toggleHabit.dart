@@ -7,7 +7,7 @@ void toggleHabit(bool? value, int index) {
   if (habit == null) return;
 
   // Toggle habit in database
-  controller.db.toggleHabitByIndex(index, value ?? false);
+  controller.db.dbToggleHabitByIndex(index, value ?? false);
 
   // Update history
   final now = DateTime.now();

@@ -291,7 +291,7 @@ class Habitdb {
     }
   }
 
-  void toggleHabitByIndex(int index, bool value) {
+  void dbToggleHabitByIndex(int index, bool value) {
     if (index >= 0 && index < _habits.length) {
       final habit = _habits[index];
       habit.isCompleted = value;

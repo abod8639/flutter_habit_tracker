@@ -36,6 +36,7 @@ class LineChartBox extends StatelessWidget {
           chartState.days.value,
         );
         return LineChart(
+
           LineChartData(
             gridData: FlGridData(
               show: true,
@@ -108,7 +109,7 @@ class LineChartBox extends StatelessWidget {
             ),
 
             clipData: FlClipData.vertical( ),
-            baselineX:10 ,
+            baselineX: 10 ,
             minX: 0.10,
             maxX: trendLabels.length - 1.0,
             minY: -.10,
@@ -117,7 +118,7 @@ class LineChartBox extends StatelessWidget {
               if (chartState.showIndividualProgress == true)
                 myLineChartBarData(
                   color: Theme.of(context).primaryColor,
-                  spots: prepareTrendData(7),
+                  spots: prepareTrendData(chartState.days.value),
                   label: 'Overall',
                 ),
 
@@ -126,9 +127,12 @@ class LineChartBox extends StatelessWidget {
                   if (progression.containsKey(habitNames[i]))
                     myLineChartBarData(
                       spots: progression[habitNames[i]]!,
-                      color:
-                          i < lineColors.length ? lineColors[i] : Colors.grey,
-                      label: habitNames[i],
+                      color: i < lineColors.length 
+                               ? lineColors[i] 
+                               : Colors.grey,
+                      label: chartState.days.value == 7
+                          ? '${habitNames[i]} (7d)'
+                          : '${habitNames[i]} (30d)',
                     ),
             ],
           ),

@@ -16,7 +16,7 @@ void editHabit(int index, BuildContext context) {
         onSave: () {
           final String habitName = c.habitTextController.text.trim();
           if (habitName.isNotEmpty) {
-            c.db.editHabitByIndex(index, habitName);
+            c.db.dbEditHabitByIndex(index, habitName);
             c.update();
             Navigator.of(context).pop();
           } else {

@@ -303,4 +303,5 @@ class Habitdb {
       updateData();
     }
   }
+
 }

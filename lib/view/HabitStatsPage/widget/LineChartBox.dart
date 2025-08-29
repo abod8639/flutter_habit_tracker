@@ -16,7 +16,7 @@ class LineChartBox extends StatelessWidget {
     final chartState = Get.put(TrendChartState());
 
     final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends(
-      chartState.days.value,
+      chartState.value.value,
     );
 
     final last7DaysHabits = getLast7DaysHabitProgression().keys.toList();
@@ -33,10 +33,9 @@ class LineChartBox extends StatelessWidget {
       height: 300,
       child: Obx(() {
         final List<String> trendLabels = prepareTrendLabels(
-          chartState.days.value,
+          chartState.value.value,
         );
         return LineChart(
-
           LineChartData(
             gridData: FlGridData(
               show: true,
@@ -84,8 +83,10 @@ class LineChartBox extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
-                        
-                        '${(value * 100 ).toInt() }%'.replaceAll("110%", "").replaceAll("114%", "").replaceAll("-10%", ""),
+                        '${(value * 100).toInt()}%'
+                            .replaceAll("110%", "")
+                            .replaceAll("114%", "")
+                            .replaceAll("-10%", ""),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 10,
@@ -108,8 +109,8 @@ class LineChartBox extends StatelessWidget {
               ),
             ),
 
-            clipData: FlClipData.vertical( ),
-            baselineX: 10 ,
+            clipData: FlClipData.vertical(),
+            baselineX: 10,
             minX: 0.10,
             maxX: trendLabels.length - 1.0,
             minY: -.10,
@@ -118,7 +119,7 @@ class LineChartBox extends StatelessWidget {
               if (chartState.showIndividualProgress == true)
                 myLineChartBarData(
                   color: Theme.of(context).primaryColor,
-                  spots: prepareTrendData(chartState.days.value),
+                  spots: prepareTrendData(chartState.value.value),
                   label: 'Overall',
                 ),
 
@@ -127,12 +128,12 @@ class LineChartBox extends StatelessWidget {
                   if (progression.containsKey(habitNames[i]))
                     myLineChartBarData(
                       spots: progression[habitNames[i]]!,
-                      color: i < lineColors.length 
-                               ? lineColors[i] 
-                               : Colors.grey,
-                      label: chartState.days.value == 7
-                          ? '${habitNames[i]} (7d)'
-                          : '${habitNames[i]} (30d)',
+                      color:
+                          i < lineColors.length ? lineColors[i] : Colors.grey,
+                      label:
+                          chartState.isAll.value == true
+                              ? '${habitNames[i]} (7d)'
+                              : '${habitNames[i]} (30d)',
                     ),
             ],
           ),

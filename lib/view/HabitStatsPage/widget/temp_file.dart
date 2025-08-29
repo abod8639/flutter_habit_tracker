@@ -27,7 +27,7 @@ final List<Color> lineColors = [
 
 Widget BuildTrendChart() {
   final chartState = Get.put(TrendChartState());
-  final List<FlSpot> trendSpots = prepareTrendData(chartState.days.value);
+  final List<FlSpot> trendSpots = prepareTrendData(chartState.value.value);
   // Skip if no data is available
   if (trendSpots.isEmpty ||
       trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0)) {
@@ -85,7 +85,10 @@ Widget BuildTrendChart() {
                         ),
                       ),
                       IconButton(
-                        onPressed: chartState.toggleView,
+                        onPressed:() {
+                          chartState.isAll.value = !chartState.isAll.value;
+                          debugPrint(chartState.isAll.value.toString());
+                        },
                         icon: Icon(
                           chartState.showIndividualProgress.value
                               ? Icons.stacked_line_chart

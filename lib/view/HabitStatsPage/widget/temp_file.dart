@@ -73,10 +73,7 @@ Widget BuildTrendChart() {
                         },
                         child: Text(
                           chartState.isweekly.value
-                              ?
-                              // ? S.current.trendchartWeekly
-                              // : S.current.trendchartMonthly,
-                              S.current.weekly
+                              ? S.current.weekly
                               : S.current.monthly,
                           style: TextStyle(
                             fontSize: 18,
@@ -85,12 +82,9 @@ Widget BuildTrendChart() {
                         ),
                       ),
                       IconButton(
-                        onPressed:() {
-                          chartState.isAll.value = !chartState.isAll.value;
-                          debugPrint(chartState.isAll.value.toString());
-                        },
+                        onPressed:() => chartState.isAlltoggle(),
                         icon: Icon(
-                          chartState.showIndividualProgress.value
+                          chartState.isAll.value
                               ? Icons.stacked_line_chart
                               : Icons.view_list,
                           color: Theme.of(context).colorScheme.primary,

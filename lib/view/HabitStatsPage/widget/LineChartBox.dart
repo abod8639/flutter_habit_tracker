@@ -25,6 +25,7 @@ class LineChartBox extends StatelessWidget {
     final bool showIndividual = chartState.showIndividualProgress.value;
 
     final List<String> habitNames =
+    
         showIndividual
             ? (isWeekly ? last7DaysHabits : last30DaysHabits)
             : ['Overall'];
@@ -123,15 +124,16 @@ class LineChartBox extends StatelessWidget {
                   label: 'Overall',
                 ),
 
-              if (chartState.showIndividualProgress == false)
+              if (chartState.isAll.value == false)
                 for (int i = 0; i < habitNames.length; i++)
                   if (progression.containsKey(habitNames[i]))
                     myLineChartBarData(
                       spots: progression[habitNames[i]]!,
-                      color:
-                          i < lineColors.length ? lineColors[i] : Colors.grey,
-                      label:
-                          chartState.isAll.value == true
+                      color: i < lineColors.length 
+                               ? lineColors[i] 
+                               : Colors.grey,
+
+                      label: chartState.value.value == true
                               ? '${habitNames[i]} (7d)'
                               : '${habitNames[i]} (30d)',
                     ),

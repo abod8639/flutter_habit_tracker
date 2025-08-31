@@ -22,4 +22,8 @@ class TrendChartState extends GetxController {
     isweekly.value = !isweekly.value;
 
 }
+  void isAlltoggle() {
+    isAll.value = !isAll.value;
+
+}
 }

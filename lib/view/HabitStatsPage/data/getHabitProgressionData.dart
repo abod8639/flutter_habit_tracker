@@ -46,12 +46,10 @@ Map<String, List<double>> getHabitProgressionDataForDays(int days) {
   return habitData;
 }
 
-/// بيانات آخر 7 أيام
 Map<String, List<double>> getLast7DaysHabitProgression() {
   return getHabitProgressionDataForDays(7);
 }
 
-/// بيانات آخر 30 يومًا
 Map<String, List<double>> getLast30DaysHabitProgression() {
   return getHabitProgressionDataForDays(30);
 }

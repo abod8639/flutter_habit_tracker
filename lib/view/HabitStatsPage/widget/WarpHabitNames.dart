@@ -32,7 +32,7 @@ class WarpHabitNames extends StatelessWidget {
     final chartState = Get.put(TrendChartState());
 
     final List<String> habitNames =
-        chartState.isweekly.value
+        chartState.isWeeklyView.value
             ? getLast30DaysHabitProgression().keys.toList()
             : getLast7DaysHabitProgression().keys.toList();
 

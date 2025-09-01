@@ -3,76 +3,74 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/TrendChartState.Getx.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
-import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/prepareTodayHabitTrends.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
+
 
 class LineChartBox extends StatelessWidget {
   const LineChartBox({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final chartState = Get.put(TrendChartState());
-
-    final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends(
-      chartState.value.value,
-    );
-
-    final last7DaysHabits = getLast7DaysHabitProgression().keys.toList();
-    final last30DaysHabits = getLast30DaysHabitProgression().keys.toList();
-    final bool isWeekly = chartState.isweekly.value;
-    final bool showIndividual = chartState.showIndividualProgress.value;
-
-    final List<String> habitNames =
-    
-        showIndividual
-            ? (isWeekly ? last7DaysHabits : last30DaysHabits)
-            : ['Overall'];
+    final chartState = Get.find<TrendChartState>();
 
     return SizedBox(
       height: 300,
       child: Obx(() {
-        final List<String> trendLabels = prepareTrendLabels(
-          chartState.value.value,
+        // تصحيح: الحصول على البيانات داخل Obx للتحديث التلقائي
+        final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends(
+          chartState.daysPeriod.value,
         );
+
+        final List<String> trendLabels = prepareTrendLabels(
+          chartState.daysPeriod.value,
+        );
+
         return LineChart(
           LineChartData(
             gridData: FlGridData(
               show: true,
               getDrawingHorizontalLine: (value) {
                 return FlLine(
-                  // dashArray: const [5, 5],
                   color: Colors.grey.withOpacity(0.1),
                   strokeWidth: 1,
                 );
               },
+              getDrawingVerticalLine: (value) {
+                return FlLine(
+                  color: Colors.grey.withOpacity(0.05),
+                  strokeWidth: 1,
+                );
+              },
             ),
+            
             titlesData: FlTitlesData(
               show: true,
               bottomTitles: AxisTitles(
-                // drawBelowEverything: false,
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
                     final index = value.toInt();
-                    if (index >= 0 && index <= trendLabels.length) {
+                    // تصحيح: فحص الحدود بشكل صحيح
+                    if (index >= 0 && index < trendLabels.length) {
                       return Padding(
-                        padding: const EdgeInsets.only(top: 2.0),
+                        padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
                           trendLabels[index],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 11,
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                           ),
                           textAlign: TextAlign.center,
                         ),
                       );
                     }
-                    return const Text('error');
+                    return const SizedBox.shrink();
                   },
-                  reservedSize: 20,
+                  reservedSize: 25,
+                  interval: 1,
                 ),
               ),
 
@@ -80,7 +78,7 @@ class LineChartBox extends StatelessWidget {
                 sideTitles: SideTitles(
                   showTitles: true,
                   interval: 0.25,
-                  getTitlesWidget: (value, meta) {
+                getTitlesWidget: (value, meta) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
@@ -110,37 +108,97 @@ class LineChartBox extends StatelessWidget {
               ),
             ),
 
-            clipData: FlClipData.vertical(),
-            baselineX: 10,
+            borderData: FlBorderData(
+              show: true,
+              border: Border.all(
+                color: Colors.grey.withOpacity(0.2),
+                width: 1,
+              ),
+            ),
+
+            clipData: const FlClipData.all(),
             minX: 0.10,
-            maxX: trendLabels.length - 1.0,
-            minY: -.10,
+            maxX: (trendLabels.length - 1).toDouble(),
+            minY: -0.10,
             maxY: 1.15,
-            lineBarsData: [
-              if (chartState.showIndividualProgress == true)
-                myLineChartBarData(
-                  color: Theme.of(context).primaryColor,
-                  spots: prepareTrendData(chartState.value.value),
-                  label: 'Overall',
-                ),
-
-              if (chartState.isAll.value == false)
-                for (int i = 0; i < habitNames.length; i++)
-                  if (progression.containsKey(habitNames[i]))
-                    myLineChartBarData(
-                      spots: progression[habitNames[i]]!,
-                      color: i < lineColors.length 
-                               ? lineColors[i] 
-                               : Colors.grey,
-
-                      label: chartState.value.value == true
-                              ? '${habitNames[i]} (7d)'
-                              : '${habitNames[i]} (30d)',
-                    ),
-            ],
+            
+            lineBarsData: _buildLineBarsData(
+              context: context,
+              chartState: chartState,
+              progression: progression,
+              trendLabels: trendLabels,
+            ),
           ),
         );
       }),
     );
+  }
+
+  List<LineChartBarData> _buildLineBarsData({
+    required BuildContext context,
+    required TrendChartState chartState,
+    required Map<String, List<FlSpot>> progression,
+    required List<String> trendLabels,
+  }) {
+    final List<LineChartBarData> lineBars = [];
+
+    if (chartState.showAllHabits.value) {
+      lineBars.add(
+        myLineChartBarData(
+          color: Theme.of(context).primaryColor,
+          spots: prepareTrendData(chartState.daysPeriod.value),
+          label: 'Overall',
+        ),
+      );
+    } else {
+      chartState.updateHabitNames();
+      
+      for (int i = 0; i < chartState.habitNames.length; i++) {
+        final habitName = chartState.habitNames[i];
+        
+        if (progression.containsKey(habitName)) {
+          final spots = progression[habitName];
+          if (spots != null && spots.isNotEmpty) {
+            lineBars.add(
+              myLineChartBarData(
+                spots: spots,
+                color: _getHabitColor(i, context),
+                label: _getHabitLabel(habitName, chartState.isWeeklyView.value),
+              ),
+            );
+          }
+        }
+      }
+    }
+
+    return lineBars;
+  }
+
+  // تصحيح: دالة منفصلة لاختيار الألوان
+  Color _getHabitColor(int index, BuildContext context) {
+    // تأكد من وجود قائمة الألوان في temp_file.dart
+    if (index < lineColors.length) {
+      return lineColors[index];
+    }
+    
+    // ألوان احتياطية إذا لم تكن قائمة lineColors كافية
+    final fallbackColors = [
+      Theme.of(context).primaryColor,
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.red,
+      Colors.teal,
+      Colors.amber,
+    ];
+    
+    return fallbackColors[index % fallbackColors.length];
+  }
+
+  // تصحيح: دالة منفصلة لتسمية العادات
+  String _getHabitLabel(String habitName, bool isWeekly) {
+    final period = isWeekly ? '7d' : '30d';
+    return '$habitName ($period)';
   }
 }

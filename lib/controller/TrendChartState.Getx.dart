@@ -1,29 +1,62 @@
 import 'package:get/get.dart';
+import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 
 class TrendChartState extends GetxController {
-  final RxBool isweekly = true.obs;
+  // تصحيح: استخدام أسماء متغيرات أوضح وأكثر وصفية
+  final RxBool isWeeklyView = true.obs;
   final RxBool showIndividualProgress = true.obs;
-  final RxBool isAll = true.obs;
-  final RxInt value = 7.obs; 
+  final RxBool showAllHabits = true.obs;
+  final RxInt daysPeriod = 7.obs;
 
+  final RxList<String> habitNames = RxList<String>();
 
+  @override
+  void onInit() {
+    super.onInit();
+    updateHabitNames();
+    
+    // إضافة listeners للتحديث التلقائي
+    ever(isWeeklyView, (_) => updateHabitNames());
+    ever(showIndividualProgress, (_) => updateHabitNames());
+  }
 
-  void toggleView() => showIndividualProgress.toggle();
-
-  void toggleWeekly() => value.value = 7;
-  void toggleMonthly() => value.value = 30;
-
-  void toggle() {
-    isweekly.value = !isweekly.value;
-    isweekly.value ? toggleWeekly() : toggleMonthly();
+  void updateHabitNames() {
+    if (showIndividualProgress.value) {
+      final Map<String, dynamic> progressionData = isWeeklyView.value
+          ? getLast7DaysHabitProgression()
+          : getLast30DaysHabitProgression();
+      habitNames.value = progressionData.keys.toList();
+    } else {
+      habitNames.value = ['Overall'];
     }
-  
-  void weeklytoggle() {
-    isweekly.value = !isweekly.value;
+  }
 
-}
-  void isAlltoggle() {
-    isAll.value = !isAll.value;
+  void toggleIndividualView() {
+    showIndividualProgress.toggle();
+    updateHabitNames();
+  }
 
-}
+  void setWeeklyView() {
+    isWeeklyView.value = true;
+    daysPeriod.value = 7;
+    updateHabitNames();
+  }
+
+  void setMonthlyView() {
+    isWeeklyView.value = false;
+    daysPeriod.value = 30;
+    updateHabitNames();
+  }
+
+  void togglePeriod() {
+    if (isWeeklyView.value) {
+      setMonthlyView();
+    } else {
+      setWeeklyView();
+    }
+  }
+
+  void toggleShowAllHabits() {
+    showAllHabits.toggle();
+  }
 }

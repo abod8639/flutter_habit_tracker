@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.Getx.dart';
 
-/// ترجع تقدم العادات لعدد معين من الأيام الماضية
 Map<String, List<double>> getHabitProgressionDataForDays(int days) {
   final controller = Get.find<HabitController>();
   final Map<String, List<double>> habitData = {};

@@ -11,7 +11,7 @@ class HabitLocalDataSource {
 
   HabitLocalDataSource(this._myBox);
 
-  String get userId => _myBox.get('user_id', defaultValue: 'default_user');
+  // String get userId => _myBox.get('user_id', defaultValue: 'default_user');
 
   List<HabitModel> loadHabits() {
     if (_myBox.get(HabitStorage.habitListKey) != null) {

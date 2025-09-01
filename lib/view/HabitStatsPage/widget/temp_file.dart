@@ -27,7 +27,7 @@ final List<Color> lineColors = [
 
 Widget BuildTrendChart() {
   final chartState = Get.put(TrendChartState());
-  final List<FlSpot> trendSpots = prepareTrendData(chartState.value.value);
+  final List<FlSpot> trendSpots = prepareTrendData(chartState.daysPeriod.value);
   // Skip if no data is available
   if (trendSpots.isEmpty ||
       trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0)) {
@@ -69,10 +69,10 @@ Widget BuildTrendChart() {
                     children: [
                       TextButton(
                         onPressed: () {
-                          chartState.toggle();
+                          chartState.togglePeriod();
                         },
                         child: Text(
-                          chartState.isweekly.value
+                          chartState.isWeeklyView.value
                               ? S.current.weekly
                               : S.current.monthly,
                           style: TextStyle(
@@ -82,9 +82,9 @@ Widget BuildTrendChart() {
                         ),
                       ),
                       IconButton(
-                        onPressed:() => chartState.isAlltoggle(),
+                        onPressed:() => chartState.toggleShowAllHabits(),
                         icon: Icon(
-                          chartState.isAll.value
+                          chartState.showAllHabits.value
                               ? Icons.stacked_line_chart
                               : Icons.view_list,
                           color: Theme.of(context).colorScheme.primary,

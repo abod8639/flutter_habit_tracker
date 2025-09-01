@@ -26,7 +26,7 @@ class Habitdb {
     // _remoteDataSource = HabitRemoteDataSource();
   }
 
-  String get userId => _localDataSource.userId;
+  // String get userId => _localDataSource.userId;
 
 
   // --- Supabase Sync ---

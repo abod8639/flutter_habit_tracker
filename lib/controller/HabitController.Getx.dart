@@ -10,6 +10,8 @@ import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
+
+
   final Habitdb db = Habitdb();
   final TextEditingController habitTextController = TextEditingController();
   late final Box myBox;
@@ -18,7 +20,8 @@ class HabitController extends GetxController {
   Rx<DateTime?> lastResetDate = Rx<DateTime?>(null);
   RxInt index = 0.obs;
 
-  // Map to store habit completion history
+
+
   final Rx<Map<String, Map<DateTime, bool>>> habitHistoryMap =
       Rx<Map<String, Map<DateTime, bool>>>({});
 

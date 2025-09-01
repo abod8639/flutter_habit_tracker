@@ -80,6 +80,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Are you sure you want to delete this habit?",
     ),
     "completed": MessageLookupByLibrary.simpleMessage("Completed"),
+    "defaultHabits1": MessageLookupByLibrary.simpleMessage("Click here"),
+    "defaultHabits2": MessageLookupByLibrary.simpleMessage(
+      "<== Swipe left to edit",
+    ),
+    "defaultHabits3": MessageLookupByLibrary.simpleMessage(
+      "Swipe right to delete ==>",
+    ),
     "drawer": MessageLookupByLibrary.simpleMessage(""),
     "drawerReat": MessageLookupByLibrary.simpleMessage("Rate"),
     "drawerSetting": MessageLookupByLibrary.simpleMessage("Setting"),

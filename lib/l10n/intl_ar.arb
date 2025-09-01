@@ -54,5 +54,8 @@
   "EditThisHabit": "تعديل هذه العادة",
   "Error": "خطأ",
   "DeleteHabit": "حذف العادة",
-  "areyousureyouwanttothishabit": "هل أنت متأكد من رغبتك في حذف هذه العادة؟"
+  "areyousureyouwanttothishabit": "هل أنت متأكد من رغبتك في حذف هذه العادة؟",
+  "defaultHabits1":"انقر هنا",
+  "defaultHabits2":"<== اسحب لليسار للتعديل",
+  "defaultHabits3":"اسحب لليمين للحذف ==>"
 }

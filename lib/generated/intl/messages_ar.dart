@@ -80,6 +80,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "هل أنت متأكد من رغبتك في حذف هذه العادة؟",
     ),
     "completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
+    "defaultHabits1": MessageLookupByLibrary.simpleMessage("انقر هنا"),
+    "defaultHabits2": MessageLookupByLibrary.simpleMessage(
+      "<== اسحب لليسار للتعديل",
+    ),
+    "defaultHabits3": MessageLookupByLibrary.simpleMessage(
+      "اسحب لليمين للحذف ==>",
+    ),
     "drawer": MessageLookupByLibrary.simpleMessage(""),
     "drawerReat": MessageLookupByLibrary.simpleMessage("الإحصائيات"),
     "drawerSetting": MessageLookupByLibrary.simpleMessage("الإعدادات"),

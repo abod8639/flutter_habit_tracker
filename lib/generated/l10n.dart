@@ -428,6 +428,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Click here`
+  String get defaultHabits1 {
+    return Intl.message(
+      'Click here',
+      name: 'defaultHabits1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `<== Swipe left to edit`
+  String get defaultHabits2 {
+    return Intl.message(
+      '<== Swipe left to edit',
+      name: 'defaultHabits2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe right to delete ==>`
+  String get defaultHabits3 {
+    return Intl.message(
+      'Swipe right to delete ==>',
+      name: 'defaultHabits3',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

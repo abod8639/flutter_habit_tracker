@@ -12,7 +12,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'github': {
     'primary': Color.fromARGB(255, 0, 102, 220),
-    'secondary': Color.fromARGB(255, 92, 140, 182),
+    'secondary': Color.fromARGB(255, 109, 184, 249),
     'background': Color(0xFFFFFFFF),
     'surface': Color(0xFFFFFFFF),
     'error': Color(0xFFD73A49),
@@ -20,8 +20,8 @@ const Map<String, Map<String, Color>> themeColors = {
     'onSecondary': Color.fromARGB(255, 0, 0, 0),
   },
   'github_dark': {
-    'primary': Color.fromARGB(255, 0, 109, 233),
-    'secondary': Color(0xFF161B22),
+    'primary': Color.fromARGB(255, 1, 119, 255),
+    'secondary': Color.fromARGB(255, 97, 145, 224),
     'background': Color(0xFF0D1117),
     'surface': Color(0xFF161B22),
     'error': Color(0xFFFA4549),
@@ -30,7 +30,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'aquarium': {
     'primary': Color(0xFF1A73E8),
-    'secondary': Color(0xFF03DAC6),
+    'secondary': Color.fromARGB(255, 71, 233, 217),
     'background': Color(0xFFE0F7FA),
     'surface': Color(0xFFFFFFFF),
     'error': Color(0xFFB00020),
@@ -39,7 +39,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'midnight': {
     'primary': Color(0xFF6200EE),
-    'secondary': Color(0xFF03DAC6),
+    'secondary': Color.fromARGB(255, 84, 221, 255),
     'background': Color(0xFF121212),
     'surface': Color(0xFF1E1E1E),
     'error': Color(0xFFCF6679),
@@ -57,12 +57,12 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'sunset': {
     'primary': Color(0xFFFF9800),
-    'secondary': Color(0xFFFF5722),
+    'secondary': Color.fromARGB(255, 255, 129, 91),
     'background': Color(0xFFFFF3E0),
     'surface': Color(0xFFFFFFFF),
     'error': Color(0xFFB00020),
-    'onPrimary': Color(0xFF000000),
-    'onSecondary': Color(0xFFFFFFFF),
+    'onPrimary': Color(0xFFFFFFFF),
+    'onSecondary': Color(0xFF000000),
   },
   'lavender': {
     'primary': Color(0xFF7E57C2),
@@ -86,7 +86,7 @@ const Map<String, Map<String, Color>> themeColors = {
 
   'catppuccin': {
     'primary': Color.fromARGB(255, 142, 201, 250),
-    'secondary': Color.fromARGB(255, 201, 158, 254),
+    'secondary': Color.fromARGB(255, 208, 169, 255),
     'background': Color(0xFF1E1E2E),
     'surface': Color(0xFF313244),
     'error': Color(0xFFF28FAD),
@@ -104,7 +104,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'catppuccin_frappe': {
     'primary': Color.fromARGB(255, 122, 157, 239),
-    'secondary': Color(0xFFEF9F76),
+    'secondary': Color.fromARGB(255, 255, 198, 169),
     'background': Color(0xFF303446),
     'surface': Color(0xFF414559),
     'error': Color(0xFFE78284),
@@ -113,7 +113,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'catppuccin_macchiato': {
     'primary': Color.fromARGB(255, 147, 158, 252),
-    'secondary': Color(0xFFF5BDE6),
+    'secondary': Color.fromARGB(255, 182, 147, 252),
     'background': Color(0xFF24273A),
     'surface': Color(0xFF363A4F),
     'error': Color(0xFFED8796),
@@ -149,7 +149,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'tokyo_night': {
     'primary': Color(0xFF7AA2F7),
-    'secondary': Color.fromARGB(255, 106, 206, 173),
+    'secondary': Color(0xFF7AA2F7),
     'background': Color(0xFF1A1B26),
     'surface': Color(0xFF2E3440),
     'error': Color(0xFFF7768E),
@@ -186,7 +186,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'neon_circuit': {
     'primary': Color(0xFF00FFAA),
-    'secondary': Color.fromARGB(255, 68, 215, 255),
+    'secondary': Color.fromARGB(255, 64, 249, 187),
     'background': Color(0xFF101820),
     'surface': Color(0xFF1A2930),
     'error': Color(0xFFFF1744),

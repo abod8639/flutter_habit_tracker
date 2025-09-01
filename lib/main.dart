@@ -13,7 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SupabaseService.initialize();
+  // await SupabaseService.initialize();
 
   runZonedGuarded(
     () async {
@@ -28,7 +28,7 @@ Future<void> main() async {
   );
 }
 
-final supabase = Supabase.instance.client;
+// final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

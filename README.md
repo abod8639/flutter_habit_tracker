@@ -4,20 +4,20 @@ A **beautiful**, **responsive**, and **intuitive** habit tracking app built with
 
 ---
 
-## ✨ Highlights
+##  Highlights
 
-- 📝 **Create & manage daily habits** with a smooth user experience  
-- ✅ **Track your progress** with simple checkmarks and visual feedback  
-- 📊 **View rich statistics** with animated and interactive charts  
-- 🗕️ **Weekly & monthly summaries** to visualize your growth over time  
-- 🎨 **Multiple beautiful themes** with support for dark/light modes and custom color pickers  
-- 🧀 **Animated UI transitions** and smooth interactions enhance the user experience  
-- 💾 **Local storage** powered by Hive for persistent, offline access  
-- 📱 **Fully responsive design** — works beautifully on phones, tablets, desktops, and web  
+-  **Create & manage daily habits** with a smooth user experience  
+-  **Track your progress** with simple checkmarks and visual feedback  
+-  **View rich statistics** with animated and interactive charts  
+-  **Weekly & monthly summaries** to visualize your growth over time  
+-  **Multiple beautiful themes** with support for dark/light modes and custom color pickers  
+-  **Animated UI transitions** and smooth interactions enhance the user experience  
+-  **Local storage** powered by Hive for persistent, offline access  
+-  **Fully responsive design** — works beautifully on phones, tablets, desktops, and web  
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 **Home Page**  
 ![Home](assets/image/5.png)
@@ -31,7 +31,7 @@ A **beautiful**, **responsive**, and **intuitive** habit tracking app built with
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Install Flutter  
 Follow the [Flutter installation guide](https://docs.flutter.dev/get-started/install).
@@ -55,7 +55,7 @@ flutter run
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Core
 - **Flutter** 3.x
@@ -79,7 +79,7 @@ flutter run
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Pull requests are welcome!
 
@@ -91,13 +91,13 @@ Pull requests are welcome!
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License – see `LICENSE` for details.
 
 ---
 
-## 🙌 Acknowledgments
+##  Acknowledgments
 
 - Thanks to the Flutter team for this powerful toolkit  
 - Special thanks to everyone who contributes and supports the project

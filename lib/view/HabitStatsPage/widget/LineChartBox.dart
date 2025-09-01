@@ -18,7 +18,6 @@ class LineChartBox extends StatelessWidget {
     return SizedBox(
       height: 300,
       child: Obx(() {
-        // تصحيح: الحصول على البيانات داخل Obx للتحديث التلقائي
         final Map<String, List<FlSpot>> progression = prepareTodayHabitTrends(
           chartState.daysPeriod.value,
         );
@@ -52,7 +51,6 @@ class LineChartBox extends StatelessWidget {
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
                     final index = value.toInt();
-                    // تصحيح: فحص الحدود بشكل صحيح
                     if (index >= 0 && index < trendLabels.length) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 4.0),
@@ -174,14 +172,11 @@ class LineChartBox extends StatelessWidget {
     return lineBars;
   }
 
-  // تصحيح: دالة منفصلة لاختيار الألوان
   Color _getHabitColor(int index, BuildContext context) {
-    // تأكد من وجود قائمة الألوان في temp_file.dart
     if (index < lineColors.length) {
       return lineColors[index];
     }
     
-    // ألوان احتياطية إذا لم تكن قائمة lineColors كافية
     final fallbackColors = [
       Theme.of(context).primaryColor,
       Colors.blue,
@@ -196,7 +191,6 @@ class LineChartBox extends StatelessWidget {
     return fallbackColors[index % fallbackColors.length];
   }
 
-  // تصحيح: دالة منفصلة لتسمية العادات
   String _getHabitLabel(String habitName, bool isWeekly) {
     final period = isWeekly ? '7d' : '30d';
     return '$habitName ($period)';

@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 
 class TrendChartState extends GetxController {
-  // تصحيح: استخدام أسماء متغيرات أوضح وأكثر وصفية
   final RxBool isWeeklyView = true.obs;
   final RxBool showIndividualProgress = true.obs;
   final RxBool showAllHabits = true.obs;
@@ -15,7 +14,6 @@ class TrendChartState extends GetxController {
     super.onInit();
     updateHabitNames();
     
-    // إضافة listeners للتحديث التلقائي
     ever(isWeeklyView, (_) => updateHabitNames());
     ever(showIndividualProgress, (_) => updateHabitNames());
   }

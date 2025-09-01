@@ -12,7 +12,6 @@ Future<List<Map<String, dynamic>>> readHiveData() async {
           'createdAt': model.createdAt,
           'created_at': model.createdAt.toIso8601String(),
           'completed_at': model.completedAt?.toIso8601String(),
-          // ...
         },
       )
       .toList();

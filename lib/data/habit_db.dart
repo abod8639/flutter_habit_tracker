@@ -10,73 +10,19 @@ import 'package:hive/hive.dart';
 
 class Habitdb {
   late final HabitLocalDataSource _localDataSource;
-  // late final HabitRemoteDataSource _remoteDataSource;
 
   List<HabitModel> _habits = [];
   Map<DateTime, int> heatmapDateSet = {};
 
   int _completedCount = 0;
   bool _dataChanged = false;
-  // final bool _isOnline = false; // This should be managed by the remote data source.
 
   Habitdb() {
     final myBox = Hive.box(HabitStorage.boxName);
     _localDataSource = HabitLocalDataSource(myBox);
-    // _remoteDataSource = HabitRemoteDataSource();
   }
 
-  // String get userId => _localDataSource.userId;
 
-
-  // --- Supabase Sync ---
-
-  // Future<void> syncWithSupabase() async {
-  //   final success =
-  //       await _remoteDataSource.syncWithSupabase(_habits, heatmapDateSet, userId);
-  //   if (success) {
-  //     await _localDataSource.markLastSyncTime();
-  //   }
-  // }
-
-  // Future<void> downloadFromSupabase() async {
-  //   try {
-  //     debugPrint('📥 Downloading data from Supabase...');
-  //     final data = await _remoteDataSource.downloadFromSupabase(userId);
-
-  //     if (data.isNotEmpty) {
-  //       final cloudHabits = data['habits'] as List<HabitModel>?;
-  //       final cloudHeatmap = data['heatmap'] as Map<DateTime, int>?;
-
-  //       if (cloudHabits != null && cloudHabits.isNotEmpty) {
-  //         _habits = cloudHabits;
-  //         _updateCache();
-  //         updateData();
-  //       }
-
-  //       if (cloudHeatmap != null && cloudHeatmap.isNotEmpty) {
-  //         heatmapDateSet = cloudHeatmap;
-  //       }
-  //       debugPrint('✅ Download completed successfully');
-  //     }
-  //   } catch (e) {
-  //     debugPrint('❌ Error during download: $e');
-  //   }
-  // }
-
-  // Future<void> _autoSync() async {
-  //   try {
-  //     if (_dataChanged && _isOnline) {
-  //       await syncWithSupabase();
-  //     }
-  //   } catch (e) {
-  //     debugPrint('⚠️ Auto-sync failed: $e');
-  //   }
-  // }
-
-  // Future<void> forceSyncWithSupabase() async {
-  //   _dataChanged = true;
-  //   await syncWithSupabase();
-  // }
 
   DateTime? getLastSyncTime() {
     return _localDataSource.getLastSyncTime();
@@ -92,7 +38,6 @@ class Habitdb {
       habitCalculate();
       loadHeatmap();
       _dataChanged = false;
-      // await _autoSync();
     } catch (e) {
       debugPrint('❌ Error updating habit data: $e');
     }
@@ -116,21 +61,8 @@ class Habitdb {
       debugPrint('✅ Default data created successfully');
     } catch (e) {
       debugPrint('❌ Error creating default data: $e');
-      // _createMinimalDefaultData();
     }
   }
-
-  // void _createMinimalDefaultData() {
-  //   _habits = [
-  //     HabitModel(
-  //         id: '1',
-  //         name: "Read a Book",
-  //         isCompleted: true,
-  //         createdAt: DateTime.now()),
-  //   ];
-  //   _localDataSource.setStartDate();
-  //   updateData();
-  // }
 
   void loadData() {
     try {

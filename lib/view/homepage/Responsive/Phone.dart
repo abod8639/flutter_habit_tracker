@@ -53,7 +53,6 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
                 controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  // DrawerMenuButton(),
                   MyAppBar(),
                   SliverMonthlySummary(),
                   HabitList(),

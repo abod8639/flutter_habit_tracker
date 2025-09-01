@@ -12,10 +12,13 @@ class DrawerMenuButton extends StatelessWidget {
           builder: (context) {
             return Row(
               children: [
-                IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: const Icon(Icons.menu),
-                  tooltip: 'Open menu',
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: IconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: const Icon(Icons.menu),
+                    tooltip: 'Open menu',
+                  ),
                 ),
               ],
             );

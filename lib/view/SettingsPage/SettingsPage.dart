@@ -13,11 +13,7 @@ import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 import 'widget/buildAnimatedSettingTile.dart';
 
 class SettingsPage extends StatefulWidget {
-  //   try {
-  //   await SupabaseService.initialize();
-  // } catch (e) {
-  //   debugPrint('⚠️ Supabase initialization failed, app will work offline: $e');
-  // }
+
   const SettingsPage({super.key});
 
   @override

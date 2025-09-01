@@ -22,7 +22,6 @@ class Tablet extends StatelessWidget {
         return buildLoadingScreen();
       }
 
-      // Show error message if initialization failed
       if (controller.errorMessage.value.isNotEmpty) {
         return buildErrorScreen();
       }
@@ -53,15 +52,6 @@ class Tablet extends StatelessWidget {
                             end: Alignment.bottomRight,
                           ),
                         ),
-                        // child: Center(
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       // SizedBox(height: 40),
-
-                        //     ],
-                        //   ),
-                        // ),
                       ),
 
                       // Left Side: Completed Habits List (Visible only on Desktop)

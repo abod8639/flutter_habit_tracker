@@ -53,17 +53,15 @@ class Tablet extends StatelessWidget {
                             end: Alignment.bottomRight,
                           ),
                         ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // مثال بسيط
-                              SizedBox(height: 40),
+                        // child: Center(
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       // SizedBox(height: 40),
 
-                              // مثال متقدم
-                            ],
-                          ),
-                        ),
+                        //     ],
+                        //   ),
+                        // ),
                       ),
 
                       // Left Side: Completed Habits List (Visible only on Desktop)

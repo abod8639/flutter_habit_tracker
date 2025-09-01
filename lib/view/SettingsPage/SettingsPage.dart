@@ -53,17 +53,8 @@ class _SettingsPageState extends State<SettingsPage>
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKeyEvent: (KeyEvent event) {
-        // Skip handling special keys like NumLock to avoid conflicts
-        if (event.physicalKey == PhysicalKeyboardKey.numLock) {
-          return;
-        }
+      onKeyEvent: (KeyEvent event) => keyboardShortCutsSettingsPage(event),
 
-        if (event.logicalKey == LogicalKeyboardKey.escape ||
-            event.logicalKey == LogicalKeyboardKey.backspace) {
-          Get.back();
-        }
-      },
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -145,7 +136,6 @@ class _SettingsPageState extends State<SettingsPage>
             //   ),
             //   onTap: () {},
             // ),
-
             buildAnimatedSectionHeader(
               _animationController,
               context,
@@ -251,4 +241,14 @@ void showComingSoon(context) {
 
 void restart() {
   RestartWidget.restartApp(Get.context!);
+}
+
+void keyboardShortCutsSettingsPage(KeyEvent event) {
+  if (event.physicalKey == PhysicalKeyboardKey.numLock) {
+    return;
+  }
+  if (event.logicalKey == LogicalKeyboardKey.escape ||
+      event.logicalKey == LogicalKeyboardKey.backspace) {
+    Get.back();
+  }
 }

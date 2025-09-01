@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/functions/keyboardShortCutsPages.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildCustomThemeSelector.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildSectionTitle.dart';
@@ -13,7 +14,7 @@ class ThemePage extends StatelessWidget {
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKeyEvent: (KeyEvent event) => keyboardShortCutsThemePage(event),
+      onKeyEvent: (KeyEvent event) => keyboardShortCutsPages(event),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -49,14 +50,4 @@ class ThemePage extends StatelessWidget {
     );
   }
 }
-        void keyboardShortCutsThemePage(KeyEvent event) {
-          if (event.physicalKey == PhysicalKeyboardKey.numLock) {
-            return;
-          }
-          if ((event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.escape) ||
-            (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.backspace)) {
-          Get.back();
-        }
-}
+

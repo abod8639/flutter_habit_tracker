@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/langController.Getx.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
+import 'package:habit_tracker/functions/keyboardShortCutsPages.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
@@ -53,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage>
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKeyEvent: (KeyEvent event) => keyboardShortCutsSettingsPage(event),
+      onKeyEvent: (KeyEvent event) => keyboardShortCutsPages(event),
 
       child: Scaffold(
         appBar: AppBar(
@@ -241,14 +242,4 @@ void showComingSoon(context) {
 
 void restart() {
   RestartWidget.restartApp(Get.context!);
-}
-
-void keyboardShortCutsSettingsPage(KeyEvent event) {
-  if (event.physicalKey == PhysicalKeyboardKey.numLock) {
-    return;
-  }
-  if (event.logicalKey == LogicalKeyboardKey.escape ||
-      event.logicalKey == LogicalKeyboardKey.backspace) {
-    Get.back();
-  }
 }

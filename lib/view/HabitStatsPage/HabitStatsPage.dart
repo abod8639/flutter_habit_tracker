@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/functions/keyboardShortCutsPages.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/FadeAnimateonSummaryCard.dart';
@@ -36,17 +37,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKeyEvent: (KeyEvent event) {
-        // Skip handling special keys like NumLock to avoid conflicts
-        if (event.physicalKey == PhysicalKeyboardKey.numLock) {
-          return;
-        }
-
-        if (event.logicalKey == LogicalKeyboardKey.escape ||
-            event.logicalKey == LogicalKeyboardKey.backspace) {
-          Get.back();
-        }
-      },
+      onKeyEvent: (KeyEvent event) => keyboardShortCutsPages(event),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(

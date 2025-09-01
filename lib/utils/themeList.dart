@@ -159,7 +159,7 @@ const Map<String, Map<String, Color>> themeColors = {
 
   'hologram': {
     'primary': Color(0xFF29B6F6),
-    'secondary': Color.fromARGB(255, 135, 71, 188),
+    'secondary': Color.fromARGB(255, 73, 192, 247),
     'background': Color(0xFF0F172A),
     'surface': Color(0xFF1E293B),
     'error': Color(0xFFFF5252),
@@ -168,7 +168,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'cyber_grid': {
     'primary': Color(0xFF8A2BE2),
-    'secondary': Color.fromARGB(255, 0, 238, 255),
+    'secondary':  Color.fromARGB(255, 175, 93, 252),
     'background': Color(0xFF050A30),
     'surface': Color(0xFF0A0F48),
     'error': Color(0xFFFF1744),
@@ -177,7 +177,7 @@ const Map<String, Map<String, Color>> themeColors = {
   },
   'neo_tokyo': {
     'primary': Color(0xFF00FFFF),
-    'secondary': Color.fromARGB(255, 162, 0, 255),
+    'secondary': Color.fromARGB(255, 57, 255, 255),
     'background': Color(0xFF0D0D0D),
     'surface': Color(0xFF1A1A1A),
     'error': Color(0xFFFF1744),

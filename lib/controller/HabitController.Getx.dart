@@ -15,6 +15,7 @@ class HabitController extends GetxController {
   late final Box myBox;
   Timer? _resetCheckTimer;
   RxInt dayCount = 1.obs;
+  RxInt streak = 1.obs;
   Rx<DateTime?> lastResetDate = Rx<DateTime?>(null);
   RxInt index = 0.obs;
 

@@ -37,12 +37,10 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       ),
       body: SafeArea(
         child: Obx(() {
-          // Show loading indicator during initialization
           if (controller.isLoading.value) {
             return buildLoadingScreen();
           }
 
-          // Show error message if initialization failed
           if (controller.errorMessage.value.isNotEmpty) {
             return buildErrorScreen();
           }

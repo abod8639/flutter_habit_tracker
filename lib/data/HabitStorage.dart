@@ -24,7 +24,7 @@ class HabitStorage {
   static List<HabitModel> defaultHabits = [
     HabitModel(
       name: S.current.defaultHabits1,
-      isCompleted: true,
+      isCompleted: false,
       createdAt: DateTime.now(),
     ),
 

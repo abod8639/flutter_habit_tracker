@@ -13,18 +13,7 @@ class ThemePage extends StatelessWidget {
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
-      onKeyEvent: (KeyEvent event) {
-        if (event.physicalKey == PhysicalKeyboardKey.numLock) {
-          return;
-        }
-
-        if ((event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.escape) ||
-            (event is KeyDownEvent &&
-                event.logicalKey == LogicalKeyboardKey.backspace)) {
-          Get.back();
-        }
-      },
+      onKeyEvent: (KeyEvent event) => keyboardShortCutsThemePage(event),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -59,4 +48,15 @@ class ThemePage extends StatelessWidget {
       ),
     );
   }
+}
+        void keyboardShortCutsThemePage(KeyEvent event) {
+          if (event.physicalKey == PhysicalKeyboardKey.numLock) {
+            return;
+          }
+          if ((event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.escape) ||
+            (event is KeyDownEvent &&
+                event.logicalKey == LogicalKeyboardKey.backspace)) {
+          Get.back();
+        }
 }

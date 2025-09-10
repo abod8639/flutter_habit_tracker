@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.Getx.dart';
 import 'package:habit_tracker/controller/ThemeController.Getx.dart';
+import 'package:habit_tracker/controller/TrendChartState.Getx.dart';
 import 'package:habit_tracker/controller/langController.Getx.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
@@ -20,7 +21,7 @@ Future<void> initializeApp() async {
 
     Get.put(HabitController());
     Get.put(ThemeController());
-    Get.put(LangController());
+    Get.put(LangController());    
   } catch (e, stack) {
     debugPrint('Error during initialization: $e');
     debugPrint('Stack trace: $stack');

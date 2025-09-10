@@ -21,7 +21,8 @@ Future<void> initializeApp() async {
 
     Get.put(HabitController());
     Get.put(ThemeController());
-    Get.put(LangController());    
+    Get.put(LangController());
+    Get.put(TrendChartState());
   } catch (e, stack) {
     debugPrint('Error during initialization: $e');
     debugPrint('Stack trace: $stack');

@@ -39,13 +39,13 @@ class _HabitStatsPageState extends State<HabitStatsPage>
       onKeyEvent: (KeyEvent event) => keyboardShortCutsPages(event),
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            color: Theme.of(context).colorScheme.onSurface,
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Get.back();
-            },
-          ),
+          // leading: IconButton(
+          //   color: Theme.of(context).colorScheme.onSurface,
+          //   icon: const Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Get.back();
+          //   },
+          // ),
           title: Text(
             style: TextStyle(
               fontWeight: FontWeight.w500,

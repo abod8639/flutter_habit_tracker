@@ -6,7 +6,6 @@ import 'package:habit_tracker/models/date_time.dart';
 
 class MonthlySummary extends StatefulWidget {
   final Map<DateTime, int> datasets;
-  // final String startDate;
 
   const MonthlySummary({super.key, required this.datasets});
 
@@ -17,23 +16,24 @@ class MonthlySummary extends StatefulWidget {
 class _MonthlySummaryState extends State<MonthlySummary>
     with SingleTickerProviderStateMixin {
   final habitController = Get.put(HabitController());
-  // late final datasets = habitController.db.heatmapDateSet;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+
+  double _heatMapSize = 37;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 400),
+      reverseDuration:const Duration(milliseconds: 800), 
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
 
-    // Start the animation
     _animationController.forward();
   }
 
@@ -68,14 +68,20 @@ class _MonthlySummaryState extends State<MonthlySummary>
       10: primaryColor.withOpacity(1.0),
     };
 
-    // Removed unused and erroneous MediaQuerysize function.
-
     final double topPadding = MediaQuery.of(context).size.width * 0.05;
-    final double mHeatMapSize = MediaQuery.of(context).size.height * 0.075;
-    final double heatMapSize =
-        MediaQuery.of(context).size.width > 600 ? mHeatMapSize : 37;
 
-    return FadeTransition(
+    return GestureDetector(
+      onLongPress: () {
+        setState(() {
+          _heatMapSize = 27;
+        });
+      },
+      onLongPressUp: () {
+        setState(() {
+          _heatMapSize = 37;
+        });
+      },
+      child: FadeTransition(
         opacity: _fadeAnimation,
         child: SlideTransition(
           position: Tween<Offset>(
@@ -86,19 +92,22 @@ class _MonthlySummaryState extends State<MonthlySummary>
             children: [
               Container(
                 padding: EdgeInsets.only(left: 2, top: topPadding, bottom: 25),
-                child: HeatMap(
-                  startDate: startDateTime,
-                  fontSize: 16,
-                  endDate: DateTime.now().add(const Duration(days: 15)),
-                  colorMode: ColorMode.color,
-                  defaultColor: Colors.grey[400]!.withAlpha(20),
-                  textColor: themeColors.onSurface,
-                  showColorTip: false,
-                  showText: true,
-                  scrollable: true,
-                  size: heatMapSize,
-                  // size: topPadding,
-                  colorsets: colorsets,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: HeatMap(
+                    startDate: startDateTime,
+                    fontSize: 16,
+                    endDate: DateTime.now().add(const Duration(days: 15)),
+                    colorMode: ColorMode.color,
+                    defaultColor: Colors.grey[400]!.withAlpha(20),
+                    textColor: themeColors.onSurface,
+                    showColorTip: false,
+                    showText: true,
+                    scrollable: true,
+                    size: _heatMapSize,
+                    colorsets: colorsets,
+                  ),
                 ),
               ),
               Container(
@@ -107,47 +116,52 @@ class _MonthlySummaryState extends State<MonthlySummary>
                   top: topPadding,
                   bottom: 25,
                 ),
-                child: HeatMap(
-                  startDate: startDateTime,
-                  fontSize: 16,
-                  endDate: DateTime.now().add(const Duration(days: 0)),
-                  datasets: widget.datasets,
-                  colorMode: ColorMode.color,
-                  defaultColor: Colors.grey[400]!,
-                  textColor: themeColors.onSurface,
-                  showColorTip: false,
-                  showText: true,
-                  scrollable: true,
-                  size: heatMapSize,
-                  // size: topPadding,
-                  colorsets: colorsets,
-                  
-                  onClick: (value) {
-                    
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.primary.withAlpha(100),
-                        duration: const Duration(seconds: 1),
-                        content: Center(
-                          child: Text(
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: HeatMap(
+                    startDate: startDateTime,
+                    fontSize: 16,
+                    endDate: DateTime.now(),
+                    datasets: widget.datasets,
+                    colorMode: ColorMode.color,
+                    defaultColor: Colors.grey[400]!,
+                    textColor: themeColors.onSurface,
+                    showColorTip: false,
+                    showText: true,
+                    scrollable: true,
+                    size: _heatMapSize,
+                    colorsets: colorsets,
+                    onClick: (value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withAlpha(100),
+                          duration: const Duration(seconds: 1),
+                          content: Center(
+                            child: Text(
+                              value
+                                  .toString()
+                                  .replaceAll("00:00:00.000", " "),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                             ),
-                            value.toString().replaceAll("00:00:00.000", " "),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
           ),
         ),
+      ),
     );
   }
 }

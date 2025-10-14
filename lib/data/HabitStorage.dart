@@ -23,18 +23,18 @@ class HabitStorage {
 
   static List<HabitModel> defaultHabits = [
     HabitModel(
-      name: S.current.defaultHabits1,
+      name: "1 ",//"${S.current.defaultHabits1}",
       isCompleted: false,
       createdAt: DateTime.now(),
     ),
 
     HabitModel(
-      name: S.current.defaultHabits2,
+      name: "2 ${S.current.defaultHabits2}",
       isCompleted: false,
       createdAt: DateTime.now(),
     ),
     HabitModel(
-      name: S.current.defaultHabits3,
+      name: "3 ${S.current.defaultHabits3}",
       isCompleted: false,
       createdAt: DateTime.now(),
     ),

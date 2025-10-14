@@ -55,10 +55,10 @@ class LineChartBox extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          trendLabels[index],
+                          trendLabels[index ],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 11,
+                            fontSize: 12,
                             color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                           ),
                           textAlign: TextAlign.center,
@@ -68,7 +68,7 @@ class LineChartBox extends StatelessWidget {
                     return const SizedBox.shrink();
                   },
                   reservedSize: 25,
-                  interval: 1,
+                  interval: chartState.isWeeklyView.value ? 1 : 5,
                 ),
               ),
 

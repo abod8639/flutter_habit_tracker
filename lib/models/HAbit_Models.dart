@@ -1,8 +1,20 @@
+import 'package:hive/hive.dart';
+
+@HiveType(typeId: 0)
 class HabitModel {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   String name;
+
+  @HiveField(2)
   bool isCompleted;
+
+  @HiveField(3)
   final DateTime createdAt;
+
+  @HiveField(4)
   DateTime? completedAt;
 
   HabitModel({
@@ -39,12 +51,12 @@ class HabitModel {
     };
   }
 
-  // Convert to the current format used in the app
+  // Deprecated: Used for migration from old list format
   List<dynamic> toLocalFormat() {
     return [name, isCompleted];
   }
 
-  // Create from the current list format used in the app
+  // Deprecated: Used for migration from old list format
   factory HabitModel.fromLocalFormat(List<dynamic> data) {
     return HabitModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -53,4 +65,50 @@ class HabitModel {
       createdAt: DateTime.now(),
     );
   }
+}
+
+class HabitModelAdapter extends TypeAdapter<HabitModel> {
+  @override
+  final int typeId = 0;
+
+  @override
+  HabitModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return HabitModel(
+      id: fields[0] as String?,
+      name: fields[1] as String,
+      isCompleted: fields[2] as bool,
+      createdAt: fields[3] as DateTime,
+      completedAt: fields[4] as DateTime?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, HabitModel obj) {
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.isCompleted)
+      ..writeByte(3)
+      ..write(obj.createdAt)
+      ..writeByte(4)
+      ..write(obj.completedAt);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HabitModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -1,0 +1,141 @@
+Analyzing habit_tracker...                                      
+
+   info • The prefix 'Math' isn't a lower_case_with_underscores identifier • lib/controller/ThemeController.Getx.dart:1:23 • library_prefixes
+   info • The file name 'HabitLocalDataSource.dart' isn't a lower_case_with_underscores identifier • lib/data/HabitLocalDataSource.dart:1:1 • file_names
+   info • The file name 'HabitRemoteDataSource.dart' isn't a lower_case_with_underscores identifier • lib/data/HabitRemoteDataSource.dart:1:1 • file_names
+   info • The file name 'HabitStorage.dart' isn't a lower_case_with_underscores identifier • lib/data/HabitStorage.dart:1:1 • file_names
+   info • The file name 'HabitUtils.dart' isn't a lower_case_with_underscores identifier • lib/functions/HabitUtils.dart:1:1 • file_names
+   info • The file name 'addHabit.dart' isn't a lower_case_with_underscores identifier • lib/functions/addHabit.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/functions/addHabit.dart:27:43 • deprecated_member_use
+   info • The file name 'checkAndResetHabits.dart' isn't a lower_case_with_underscores identifier • lib/functions/checkAndResetHabits.dart:1:1 • file_names
+   info • The file name 'clearAllHabitData.dart' isn't a lower_case_with_underscores identifier • lib/functions/clearAllHabitData.dart:1:1 • file_names
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:114:24 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:120:22 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:121:20 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:127:28 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:137:32 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:147:22 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:148:20 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/functions/clearAllHabitData.dart:152:26 • use_build_context_synchronously
+   info • The file name 'deleteHabit.dart' isn't a lower_case_with_underscores identifier • lib/functions/deleteHabit.dart:1:1 • file_names
+   info • The file name 'editHabit.dart' isn't a lower_case_with_underscores identifier • lib/functions/editHabit.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/functions/editHabit.dart:27:43 • deprecated_member_use
+   info • The file name 'initializeApp.dart' isn't a lower_case_with_underscores identifier • lib/functions/initializeApp.dart:1:1 • file_names
+   info • The file name 'keyboardShortCutsPages.dart' isn't a lower_case_with_underscores identifier • lib/functions/keyboardShortCutsPages.dart:1:1 • file_names
+   info • The file name 'resetAllHabits.dart' isn't a lower_case_with_underscores identifier • lib/functions/resetAllHabits.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/functions/resetAllHabits.dart:16:35 • deprecated_member_use
+   info • The file name 'toggleHabit.dart' isn't a lower_case_with_underscores identifier • lib/functions/toggleHabit.dart:1:1 • file_names
+   info • The file name 'HAbit_Models.dart' isn't a lower_case_with_underscores identifier • lib/models/HAbit_Models.dart:1:1 • file_names
+   info • The file name 'readHiveData.dart' isn't a lower_case_with_underscores identifier • lib/services/readHiveData.dart:1:1 • file_names
+   info • The file name 'themeList.dart' isn't a lower_case_with_underscores identifier • lib/utils/themeList.dart:1:1 • file_names
+   info • 'red' is deprecated and shouldn't be used. Use (*.r * 255.0).round() & 0xff • lib/utils/theme_utils.dart:10:26 • deprecated_member_use
+   info • 'green' is deprecated and shouldn't be used. Use (*.g * 255.0).round() & 0xff • lib/utils/theme_utils.dart:11:29 • deprecated_member_use
+   info • 'blue' is deprecated and shouldn't be used. Use (*.b * 255.0).round() & 0xff • lib/utils/theme_utils.dart:12:29 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/utils/theme_utils.dart:70:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/utils/theme_utils.dart:94:36 • deprecated_member_use
+   info • The file name 'ErrorApp.dart' isn't a lower_case_with_underscores identifier • lib/view/ErrorApp.dart:1:1 • file_names
+   info • The file name 'HabitStatsPage.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/HabitStatsPage.dart:1:1 • file_names
+   info • The file name 'HabitStats_data.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/data/HabitStats_data.dart:1:1 • file_names
+   info • The file name 'calculateOverallProgress.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/data/calculateOverallProgress.dart:1:1 • file_names
+   info • The file name 'getHabitProgressionData.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/data/getHabitProgressionData.dart:1:1 • file_names
+   info • The file name 'prepareTodayHabitTrends.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/data/prepareTodayHabitTrends.dart:1:1 • file_names
+   info • The file name 'BuildBarChart.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildBarChart.dart:1:1 • file_names
+   info • The variable name 'BuildBarChart' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildBarChart.dart:9:8 • non_constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/BuildBarChart.dart:99:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/BuildBarChart.dart:106:61 • deprecated_member_use
+   info • The file name 'BuildHabitList.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildHabitList.dart:1:1 • file_names
+   info • The variable name 'BuildHabitList' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildHabitList.dart:3:8 • non_constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/BuildHabitList.dart:12:30 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/BuildHabitList.dart:13:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/BuildHabitList.dart:22:53 • deprecated_member_use
+   info • The file name 'BuildHabitListCard.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildHabitListCard.dart:1:1 • file_names
+   info • The variable name 'BuildHabitListCard' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildHabitListCard.dart:6:8 • non_constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/BuildHabitListCard.dart:75:46 • deprecated_member_use
+   info • The file name 'BuildPieChart.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildPieChart.dart:1:1 • file_names
+   info • The variable name 'BuildPieChart' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildPieChart.dart:6:8 • non_constant_identifier_names
+   info • The file name 'BuildStatItem.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildStatItem.dart:1:1 • file_names
+   info • The variable name 'BuildStatItem' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildStatItem.dart:5:8 • non_constant_identifier_names
+   info • The file name 'BuildStreakBadge.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildStreakBadge.dart:1:1 • file_names
+   info • The variable name 'BuildStreakBadge' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildStreakBadge.dart:3:8 • non_constant_identifier_names
+   info • The file name 'BuildSummaryCard.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/BuildSummaryCard.dart:1:1 • file_names
+   info • The variable name 'BuildSummaryCard' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/BuildSummaryCard.dart:7:8 • non_constant_identifier_names
+   info • The file name 'FadeAnimateonSummaryCard.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/FadeAnimateonSummaryCard.dart:1:1 • file_names
+   info • The file name 'FadeAnimationChartsSection.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/FadeAnimationChartsSection.dart:1:1 • file_names
+   info • The file name 'FadeAnimationTrendChart.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/FadeAnimationTrendChart.dart:1:1 • file_names
+   info • The file name 'FaedAnimationHabitListCard.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/FaedAnimationHabitListCard.dart:1:1 • file_names
+   info • The file name 'LineChartBox.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/LineChartBox.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/LineChartBox.dart:35:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/LineChartBox.dart:41:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/LineChartBox.dart:62:76 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/LineChartBox.dart:112:36 • deprecated_member_use
+   info • The file name 'MyBarTouchData.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/MyBarTouchData.dart:1:1 • file_names
+   info • The variable name 'MyBarTouchData' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/MyBarTouchData.dart:6:14 • non_constant_identifier_names
+   info • The file name 'WarpHabitNames.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/WarpHabitNames.dart:1:1 • file_names
+   info • The file name 'buildChartsSection.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/buildChartsSection.dart:1:1 • file_names
+   info • The file name 'myLineChartBarData.dart' isn't a lower_case_with_underscores identifier • lib/view/HabitStatsPage/widget/myLineChartBarData.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/HabitStatsPage/widget/myLineChartBarData.dart:18:56 • deprecated_member_use
+   info • The variable name 'BuildTrendChart' isn't a lowerCamelCase identifier • lib/view/HabitStatsPage/widget/temp_file.dart:28:8 • non_constant_identifier_names
+   info • The file name 'SettingsPage.dart' isn't a lower_case_with_underscores identifier • lib/view/SettingsPage/SettingsPage.dart:1:1 • file_names
+   info • Missing type annotation • lib/view/SettingsPage/SettingsPage.dart:228:21 • strict_top_level_inference
+   info • The file name 'buildAnimatedSectionHeader.dart' isn't a lower_case_with_underscores identifier • lib/view/SettingsPage/widget/buildAnimatedSectionHeader.dart:1:1 • file_names
+   info • The file name 'buildAnimatedSettingTile.dart' isn't a lower_case_with_underscores identifier • lib/view/SettingsPage/widget/buildAnimatedSettingTile.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/SettingsPage/widget/buildAnimatedSettingTile.dart:41:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/SettingsPage/widget/lang.dart:40:52 • deprecated_member_use
+   info • The file name 'ThemePage.dart' isn't a lower_case_with_underscores identifier • lib/view/ThemePage/ThemePage.dart:1:1 • file_names
+   info • The file name 'buildCustomThemeSelector.dart' isn't a lower_case_with_underscores identifier • lib/view/ThemePage/widget/buildCustomThemeSelector.dart:1:1 • file_names
+   info • The file name 'buildSectionTitle.dart' isn't a lower_case_with_underscores identifier • lib/view/ThemePage/widget/buildSectionTitle.dart:1:1 • file_names
+   info • The file name 'buildThemeColorPreview.dart' isn't a lower_case_with_underscores identifier • lib/view/ThemePage/widget/buildThemeColorPreview.dart:1:1 • file_names
+   info • The file name 'HomeScreen.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/HomeScreen.dart:1:1 • file_names
+   info • The file name 'Phone.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/Responsive/Phone.dart:1:1 • file_names
+   info • The file name 'Tablet.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/Responsive/Tablet.dart:1:1 • file_names
+   info • The file name 'AppBar.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/widget/AppBar.dart:1:1 • file_names
+   info • The file name 'DrawerMenuButton.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/widget/DrawerMenuButton.dart:1:1 • file_names
+   info • The file name 'ExpandedCheckboxList.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/widget/ExpandedCheckboxList.dart:1:1 • file_names
+   info • The file name 'HabitList.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/widget/HabitList.dart:1:1 • file_names
+   info • The file name 'Nohabitsyet.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/widget/Nohabitsyet.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/homepage/widget/Nohabitsyet.dart:15:58 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/homepage/widget/Nohabitsyet.dart:23:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/homepage/widget/Nohabitsyet.dart:31:62 • deprecated_member_use
+   info • The file name 'SliverMonthlySummary.dart' isn't a lower_case_with_underscores identifier • lib/view/homepage/widget/SliverMonthlySummary.dart:1:1 • file_names
+   info • The file name 'MonthlySummary.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/MonthlySummary.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:59:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:60:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:61:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:62:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:63:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:64:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:65:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:66:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:67:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MonthlySummary.dart:68:25 • deprecated_member_use
+   info • The file name 'MyAppBar.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/MyAppBar.dart:1:1 • file_names
+   info • The file name 'MyListTile.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/MyListTile.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MyListTile.dart:30:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MyListTile.dart:31:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/MyListTile.dart:35:52 • deprecated_member_use
+   info • The file name 'TextTaile.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/TextTaile.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/TextTaile.dart:108:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/TextTaile.dart:109:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/TextTaile.dart:128:58 • deprecated_member_use
+   info • The file name 'buildErrorScreen.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/buildErrorScreen.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/buildErrorScreen.dart:38:43 • deprecated_member_use
+   info • The file name 'buildLoadingScreen.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/buildLoadingScreen.dart:1:1 • file_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/buildLoadingScreen.dart:20:64 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/buildLoadingScreen.dart:28:64 • deprecated_member_use
+   info • The file name 'myDrawer.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/myDrawer.dart:1:1 • file_names
+   info • The type name 'myfloatingActionButton' isn't an UpperCamelCase identifier • lib/view/widget/my_fab.dart:3:7 • camel_case_types
+   info • The type name '_myfloatingActionButtonState' isn't an UpperCamelCase identifier • lib/view/widget/my_fab.dart:11:7 • camel_case_types
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/my_fab.dart:53:63 • deprecated_member_use
+   info • The file name 'myalartD.dart' isn't a lower_case_with_underscores identifier • lib/view/widget/myalartD.dart:1:1 • file_names
+   info • Invalid use of a private type in a public API • lib/view/widget/myalartD.dart:18:3 • library_private_types_in_public_api
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/myalartD.dart:25:64 • deprecated_member_use
+   info • 'RawKeyboardListener' is deprecated and shouldn't be used. Use KeyboardListener instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:26:16 • deprecated_member_use
+   info • 'RawKeyEvent' is deprecated and shouldn't be used. Use KeyEvent instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:28:17 • deprecated_member_use
+   info • 'RawKeyUpEvent' is deprecated and shouldn't be used. Use KeyUpEvent instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:33:24 • deprecated_member_use
+   info • 'isKeyPressed' is deprecated and shouldn't be used. Use HardwareKeyboard.instance.isLogicalKeyPressed instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:34:23 • deprecated_member_use
+   info • 'RawKeyDownEvent' is deprecated and shouldn't be used. Use KeyDownEvent instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:42:24 • deprecated_member_use
+   info • 'isKeyPressed' is deprecated and shouldn't be used. Use HardwareKeyboard.instance.isLogicalKeyPressed instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:43:23 • deprecated_member_use
+   info • 'isControlPressed' is deprecated and shouldn't be used. Use HardwareKeyboard.instance.isControlPressed instead. This feature was deprecated after v3.18.0-2.0.pre • lib/view/widget/myalartD.dart:44:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/myalartD.dart:93:64 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/view/widget/myalartD.dart:113:58 • deprecated_member_use
+

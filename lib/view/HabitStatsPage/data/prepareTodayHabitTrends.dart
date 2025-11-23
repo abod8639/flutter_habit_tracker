@@ -21,7 +21,7 @@ Map<String, List<FlSpot>> prepareTodayHabitTrends(int days) {
   final historyMap = controller.habitHistoryMap.value;
 
   for (var habit in habitsList) {
-    final String habitName = habit[0];
+    final String habitName = habit.name;
     final List<FlSpot> spots = [];
 
     // For each day, get the habit's completion status from history
@@ -34,7 +34,7 @@ Map<String, List<FlSpot>> prepareTodayHabitTrends(int days) {
 
       // For today, use current status if no history entry exists
       if (i == dates.length - 1 && completed == null) {
-        spots.add(FlSpot(i.toDouble(), habit[1] ? 1.0 : 0.0));
+        spots.add(FlSpot(i.toDouble(), habit.isCompleted ? 1.0 : 0.0));
       } else {
         // For other days or if history exists, use the history data
         spots.add(FlSpot(i.toDouble(), completed == true ? 1.0 : 0.00));

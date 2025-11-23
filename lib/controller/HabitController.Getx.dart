@@ -128,7 +128,7 @@ class HabitController extends GetxController {
       final today = DateTime.now();
 
       for (var habit in habits) {
-        final String habitName = habit[0];
+        final String habitName = habit.name;
         final Map<DateTime, bool> habitData = {};
 
         for (

@@ -36,9 +36,9 @@ class HabitList extends StatelessWidget {
             );
           },
           child: MyTextTaile(
-            habitName: habits[index][0],
-            habitCompleted: habits[index][1],
-            onTap: () => toggleHabit(!habits[index][1], index),
+            habitName: habits[index].name,
+            habitCompleted: habits[index].isCompleted,
+            onTap: () => toggleHabit(!habits[index].isCompleted, index),
             onDelete: (context) => deleteHabit(index, context),
             onEdit: (context) => editHabit(index, context),
             onChanged: (value) => toggleHabit(value, index),

@@ -7,12 +7,14 @@ import 'package:habit_tracker/controller/langController.Getx.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
+import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> initializeApp() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await Hive.initFlutter();
+    Hive.registerAdapter(HabitModelAdapter());
     await Future.wait([
       Hive.openBox(HabitStorage.boxName),
       Hive.openBox(ThemeStorageService.themeBox),

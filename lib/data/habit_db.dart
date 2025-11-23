@@ -22,13 +22,9 @@ class Habitdb {
     _localDataSource = HabitLocalDataSource(myBox);
   }
 
-
-
   DateTime? getLastSyncTime() {
     return _localDataSource.getLastSyncTime();
   }
-
-
 
   // --- Data Management ---
 
@@ -43,12 +39,12 @@ class Habitdb {
     }
   }
 
-  List get todaysHabitList {
-    return _habits.map((habit) => habit.toLocalFormat()).toList();
+  List<HabitModel> get todaysHabitList {
+    return _habits;
   }
 
-  set todaysHabitList(List value) {
-    _habits = value.map((item) => HabitModel.fromLocalFormat(item)).toList();
+  set todaysHabitList(List<HabitModel> value) {
+    _habits = value;
     _updateCache();
   }
 
@@ -138,12 +134,6 @@ class Habitdb {
       }
 
       int daysInBetween = DateTime.now().difference(startDate).inDays;
-      // if (daysInBetween < 0 || daysInBetween > 366) {
-      //   debugPrint('⚠️ Invalid days between: $daysInBetween, resetting to today');
-      //   startDateStr = todaysDateFormatted();
-      //   _localDataSource.updateStartDate(startDateStr);
-      //   daysInBetween = 0;
-      // }
 
       heatmapDateSet = {};
 
@@ -234,5 +224,4 @@ class Habitdb {
       updateData();
     }
   }
-
 }

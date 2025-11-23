@@ -15,19 +15,26 @@ class HabitLocalDataSource {
 
   List<HabitModel> loadHabits() {
     if (_myBox.get(HabitStorage.habitListKey) != null) {
-      List data = _myBox.get(HabitStorage.habitListKey);
-      return data.map((item) => HabitModel.fromLocalFormat(item)).toList();
+      final data = _myBox.get(HabitStorage.habitListKey);
+      if (data is List && data.isNotEmpty && data.first is List) {
+        // Migration: Old format was List<List<dynamic>>
+        return data.map((item) => HabitModel.fromLocalFormat(item)).toList();
+      } else if (data is List) {
+        // New format: List<HabitModel>
+        return data.cast<HabitModel>();
+      }
     }
     return [];
   }
 
   void saveHabits(List<HabitModel> habits) {
-    final todaysHabitList =
-        habits.map((habit) => habit.toLocalFormat()).toList();
-    _myBox.put(HabitStorage.habitListKey, todaysHabitList);
+    _myBox.put(HabitStorage.habitListKey, habits);
 
     final String today = todaysDateFormatted();
-    _myBox.put(today, todaysHabitList);
+    // For history, we might still want a simple format or just store the list of models if needed.
+    // But the original code stored the list for 'today' key.
+    // Let's store the list of models for today as well to be consistent.
+    _myBox.put(today, habits);
 
     for (var habit in habits) {
       final String historyKey = "${habit.name}_$today";

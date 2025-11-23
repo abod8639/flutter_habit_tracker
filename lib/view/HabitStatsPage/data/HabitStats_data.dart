@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/models/HAbit_Models.dart';
 
 List<FlSpot> prepareTrendData(int days) {
   final controller = Get.put(HabitController());
@@ -71,14 +72,14 @@ List<Map<String, dynamic>> prepareChartData() {
   final controller = Get.put(HabitController());
 
   // Use the public methods instead of directly accessing private fields
-  final List<dynamic> habitsList = controller.db.todaysHabitList;
+  final List<HabitModel> habitsList = controller.db.todaysHabitList;
 
   return List.generate(habitsList.length, (index) {
     final habit = habitsList[index];
     return {
       'id': index.toString(),
-      'habit': habit[0],
-      'completed': habit[1],
+      'habit': habit.name,
+      'completed': habit.isCompleted,
       'createdAt': DateTime.now(),
     };
   });

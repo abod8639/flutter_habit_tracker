@@ -24,8 +24,8 @@ void checkAndResetHabits() {
 
       // Save each habit's current state to history
       for (var habit in habits) {
-        final String habitName = habit[0];
-        final bool isCompleted = habit[1];
+        final String habitName = habit.name;
+        final bool isCompleted = habit.isCompleted;
 
         // Save to history map
         if (!currentHistory.containsKey(habitName)) {
@@ -53,7 +53,7 @@ void checkAndResetHabits() {
         newDate.day,
       );
       for (var habit in habits) {
-        final String habitName = habit[0];
+        final String habitName = habit.name;
         currentHistory[habitName]![newNormalizedDate] = false;
       }
       c.habitHistoryMap.value = currentHistory;

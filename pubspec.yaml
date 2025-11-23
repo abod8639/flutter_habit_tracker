@@ -41,7 +41,6 @@ flutter:
   # uses-asset-bundle-paths: true
   assets:
     - .env
-    - assets/image/
 
   uses-material-design: true
   # example:

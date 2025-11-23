@@ -5,7 +5,7 @@ import 'package:habit_tracker/data/habit_db.dart';
 
 void resetAllHabits(Habitdb db) {
   for (var habit in db.todaysHabitList) {
-    habit[1] = false;
+    habit.isCompleted = false;
   }
   db.updateData();
   Get.snackbar(

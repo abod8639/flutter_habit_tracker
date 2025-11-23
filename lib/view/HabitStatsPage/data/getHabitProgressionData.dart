@@ -21,7 +21,7 @@ Map<String, List<double>> getHabitProgressionDataForDays(int days) {
   );
 
   for (final habit in habits) {
-    final String habitName = habit[0];
+    final String habitName = habit.name;
     habitData[habitName] = List<double>.filled(days, 0.0);
   }
 
@@ -29,7 +29,7 @@ Map<String, List<double>> getHabitProgressionDataForDays(int days) {
     final date = dates[i];
 
     for (final habit in habits) {
-      final String habitName = habit[0];
+      final String habitName = habit.name;
       final int? completionValue = controller.db.heatmapDateSet[date];
 
       if (completionValue != null) {

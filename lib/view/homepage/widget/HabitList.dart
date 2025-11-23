@@ -12,7 +12,7 @@ class HabitList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HabitController controller = Get.put(HabitController());
+    final HabitController controller = Get.find<HabitController>();
 
     final List habits = controller.db.todaysHabitList;
 

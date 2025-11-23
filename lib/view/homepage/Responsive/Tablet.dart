@@ -16,7 +16,7 @@ class Tablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HabitController controller = Get.put(HabitController());
+    final HabitController controller = Get.find<HabitController>();
     return Obx(() {
       if (controller.isLoading.value) {
         return buildLoadingScreen();

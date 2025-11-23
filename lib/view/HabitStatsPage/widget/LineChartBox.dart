@@ -5,7 +5,7 @@ import 'package:habit_tracker/controller/TrendChartState.Getx.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/prepareTodayHabitTrends.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
-import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTrendChart.dart';
 
 
 class LineChartBox extends StatelessWidget {

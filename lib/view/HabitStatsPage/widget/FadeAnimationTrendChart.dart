@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/view/HabitStatsPage/widget/temp_file.dart';
+import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTrendChart.dart';
 
 class FadeAnimationTrendChart extends StatelessWidget {
   const FadeAnimationTrendChart({

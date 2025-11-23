@@ -5,7 +5,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/widget/myalartD.dart';
 
 void editHabit(int index, BuildContext context) {
-  HabitController c = Get.put(HabitController());
+  HabitController c = Get.find<HabitController>();
 
   showDialog(
     context: context,

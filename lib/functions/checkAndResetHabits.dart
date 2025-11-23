@@ -8,7 +8,7 @@ import 'package:habit_tracker/models/date_time.dart';
 
 /// Check if habits need to be reset for a new day
 void checkAndResetHabits() {
-  final HabitController c = Get.put(HabitController());
+  final HabitController c = Get.find<HabitController>();
   try {
     if (shouldResetHabits(c.lastResetDate.value)) {
       debugPrint('🔄 Resetting habits for new day');

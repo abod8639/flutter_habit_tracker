@@ -8,6 +8,8 @@ import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
+import 'package:habit_tracker/services/notification_service.dart';
+import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> initializeApp() async {
@@ -15,6 +17,15 @@ Future<void> initializeApp() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Hive.initFlutter();
     Hive.registerAdapter(HabitModelAdapter());
+    
+    try {
+      final notificationService = NotificationService();
+      await notificationService.init();
+      await notificationService.requestPermissions();
+    } catch (e) {
+      debugPrint('Failed to initialize notifications: $e');
+    }
+
     await Future.wait([
       Hive.openBox(HabitStorage.boxName),
       Hive.openBox(ThemeStorageService.themeBox),
@@ -25,6 +36,7 @@ Future<void> initializeApp() async {
     Get.put(ThemeController());
     Get.put(LangController());
     Get.put(TrendChartState());
+    Get.put(NotificationController());
   } catch (e, stack) {
     debugPrint('Error during initialization: $e');
     debugPrint('Stack trace: $stack');

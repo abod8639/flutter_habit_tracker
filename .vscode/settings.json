@@ -13,5 +13,6 @@
     "strungth",
     "Taile"
   ],
-  "jdk.advanced.disable.nbjavac": false
+  "jdk.advanced.disable.nbjavac": false,
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

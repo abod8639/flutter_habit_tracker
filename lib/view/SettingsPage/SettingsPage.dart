@@ -8,6 +8,7 @@ import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
+import 'package:habit_tracker/controller/notification_controller.dart';
 
 import 'widget/buildAnimatedSettingTile.dart';
 
@@ -44,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage>
     // final habitController = Get.put(HabitController());
 
     // final ThemeController themeController = Get.find<ThemeController>();
-    final LangController controllerlanguage = Get.put(LangController());
+    final LangController controllerlanguage = Get.find<LangController>();
 
     return KeyboardListener(
       autofocus: true,
@@ -109,29 +110,66 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ),
 
-            // buildAnimatedSectionHeader(
-            //   _animationController,
-            //   context,
-            //   S.current.Notifications,
-            //   3,
-            // ),
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              S.current.Notifications,
+              3,
+            ),
 
-            // buildAnimatedSettingTile(
-            //   animationController: _animationController,
-            //   context,
-            //   index: 4,
-            //   icon: Icons.notifications,
-            //   title: S.current.DailyReminder,
-            //   subtitle: S.current.SetDailyReminder,
-            //   trailing: Switch(
-            //     value: false, // Connect to actual notification settings
-            //     onChanged: (value) {
-            //       // Implement notification toggle
-            //       showComingSoon(context);
-            //     },
-            //   ),
-            //   onTap: () {},
-            // ),
+            buildAnimatedSettingTile(
+              animationController: _animationController,
+              context,
+              index: 4,
+              icon: Icons.notifications,
+              title: S.current.DailyReminder,
+              subtitle: S.current.SetDailyReminder,
+              trailing: Obx(() {
+                final controller = Get.find<NotificationController>();
+                return Switch(
+                  value: controller.isNotificationEnabled.value,
+                  onChanged: (value) async {
+                    await controller.toggleNotification(value);
+                    if (value && context.mounted) {
+                      final TimeOfDay? picked = await showTimePicker(
+                        context: context,
+                        initialTime: controller.notificationTime.value ?? TimeOfDay.now(),
+                      );
+                      if (picked != null) {
+                        await controller.setNotificationTime(picked);
+                        if (context.mounted) {
+                          Get.snackbar('Success', 'Reminder set for ${picked.format(context)}');
+                        }
+                      } else {
+                        // If user cancels time picker, maybe keep it enabled with default/previous time
+                        // or disable it? For now, let's keep it enabled with default/previous time.
+                        if (controller.notificationTime.value == null) {
+                           // If no time was set before, maybe disable it again?
+                           // Or just let the controller handle the default time as implemented.
+                        }
+                      }
+                    } else {
+                      Get.snackbar('Success', 'Notifications disabled');
+                    }
+                  },
+                );
+              }),
+              onTap: () async {
+                 final controller = Get.find<NotificationController>();
+                 if (controller.isNotificationEnabled.value && context.mounted) {
+                    final TimeOfDay? picked = await showTimePicker(
+                        context: context,
+                        initialTime: controller.notificationTime.value ?? TimeOfDay.now(),
+                      );
+                      if (picked != null) {
+                        await controller.setNotificationTime(picked);
+                        if (context.mounted) {
+                          Get.snackbar('Success', 'Reminder set for ${picked.format(context)}');
+                        }
+                      }
+                 }
+              },
+            ),
             buildAnimatedSectionHeader(
               _animationController,
               context,
@@ -225,7 +263,7 @@ class _SettingsPageState extends State<SettingsPage>
   }
 }
 
-void showComingSoon(context) {
+void showComingSoon(dynamic context) {
   Get.snackbar(
     S.current.ComingSoon,
     S.current.Restorefeaturewillbeavailableinfutureupdates,

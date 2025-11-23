@@ -4,7 +4,7 @@ import 'package:habit_tracker/controller/HabitController.Getx.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 
 List<FlSpot> prepareTrendData(int days) {
-  final controller = Get.put(HabitController());
+  final controller = Get.find<HabitController>();
   final habits = controller.db.todaysHabitList;
 
   if (habits.isEmpty) {
@@ -52,7 +52,7 @@ double getMaxTrendValue() {
 }
 
 Map<String, dynamic> calculateStats() {
-  final controller = Get.put(HabitController());
+  final controller = Get.find<HabitController>();
 
   // Use public methods to get habits data instead of accessing private fields
   final int totalHabits = controller.db.todaysHabitList.length;
@@ -69,7 +69,7 @@ Map<String, dynamic> calculateStats() {
 }
 
 List<Map<String, dynamic>> prepareChartData() {
-  final controller = Get.put(HabitController());
+  final controller = Get.find<HabitController>();
 
   // Use the public methods instead of directly accessing private fields
   final List<HabitModel> habitsList = controller.db.todaysHabitList;

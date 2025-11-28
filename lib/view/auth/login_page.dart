@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
+import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/auth/signup_page.dart';
 import 'package:habit_tracker/view/auth/forgot_password_page.dart';
+import 'package:habit_tracker/view/homepage/HomeScreen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final AuthController _authController = Get.put(AuthController());
+  final SettingsStorage _settingsStorage = SettingsStorage();
   bool _obscurePassword = true;
 
   @override
@@ -228,6 +231,24 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 24),
+
+                  // Skip Now Link
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(S.current.skipNow),
+                      TextButton(
+                        onPressed: () async {
+                          await _settingsStorage.init();
+                          await _settingsStorage.setSkippedLogin(true);
+                          Get.offAll(() => const HomeScreen());
+                        },
+                        child: Text(S.current.skipNow),
+                      ),
+                    ],
+                  ),
+
                 ],
               ),
             ),

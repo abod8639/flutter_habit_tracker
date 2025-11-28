@@ -137,6 +137,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "lastSync": MessageLookupByLibrary.simpleMessage("Last sync"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginRequired": MessageLookupByLibrary.simpleMessage("Please login first"),
+    "loginToAccount": MessageLookupByLibrary.simpleMessage("Login to Account"),
+    "loginToEnableSync": MessageLookupByLibrary.simpleMessage(
+      "Login to enable cloud sync and backup",
+    ),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to logout?",
@@ -196,6 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sign up with Google",
     ),
     "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "skipNow": MessageLookupByLibrary.simpleMessage("Skip Now"),
     "success": MessageLookupByLibrary.simpleMessage("Habit Success"),
     "summary": MessageLookupByLibrary.simpleMessage("Habit Summary"),
     "syncError": MessageLookupByLibrary.simpleMessage("Sync failed"),

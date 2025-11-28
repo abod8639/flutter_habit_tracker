@@ -5,6 +5,7 @@ class SettingsStorage {
   static const String boxName = 'settings_box';
   static const String _isNotificationEnabledKey = 'is_notification_enabled';
   static const String _notificationTimeKey = 'notification_time';
+  static const String _hasSkippedLoginKey = 'has_skipped_login';
 
   late Box _box;
 
@@ -28,5 +29,12 @@ class SettingsStorage {
 
   Future<void> setNotificationTime(TimeOfDay time) async {
     await _box.put(_notificationTimeKey, '${time.hour}:${time.minute}');
+  }
+
+  bool get hasSkippedLogin =>
+      _box.get(_hasSkippedLoginKey, defaultValue: false);
+
+  Future<void> setSkippedLogin(bool skipped) async {
+    await _box.put(_hasSkippedLoginKey, skipped);
   }
 }

@@ -137,6 +137,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginRequired": MessageLookupByLibrary.simpleMessage(
       "يرجى تسجيل الدخول أولاً",
     ),
+    "loginToAccount": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "loginToEnableSync": MessageLookupByLibrary.simpleMessage(
+      "سجل الدخول لتفعيل المزامنة والنسخ الاحتياطي",
+    ),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من تسجيل الدخول؟",
@@ -198,6 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "التسجيل بواسطة Google",
     ),
     "signup": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+    "skipNow": MessageLookupByLibrary.simpleMessage("تخطي الآن"),
     "success": MessageLookupByLibrary.simpleMessage("معدل النجاح"),
     "summary": MessageLookupByLibrary.simpleMessage("ملخص العادات"),
     "syncError": MessageLookupByLibrary.simpleMessage("فشلت المزامنة"),

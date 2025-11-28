@@ -574,6 +574,11 @@ class S {
     );
   }
 
+  /// `Skip Now`
+  String get skipNow {
+    return Intl.message('Skip Now', name: 'skipNow', desc: '', args: []);
+  }
+
   /// `Already have an account?`
   String get alreadyHaveAccount {
     return Intl.message(
@@ -602,6 +607,26 @@ class S {
   /// `Account`
   String get account {
     return Intl.message('Account', name: 'account', desc: '', args: []);
+  }
+
+  /// `Login to Account`
+  String get loginToAccount {
+    return Intl.message(
+      'Login to Account',
+      name: 'loginToAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login to enable cloud sync and backup`
+  String get loginToEnableSync {
+    return Intl.message(
+      'Login to enable cloud sync and backup',
+      name: 'loginToEnableSync',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Logout`

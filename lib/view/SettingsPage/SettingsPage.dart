@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
+import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/view/auth/login_page.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
@@ -138,6 +140,10 @@ class _SettingsPageState extends State<SettingsPage>
                           buttonColor: Colors.red,
                           onConfirm: () async {
                             Get.back(); // Close dialog
+                            // Clear skip preference on logout
+                            final settingsStorage = SettingsStorage();
+                            await settingsStorage.init();
+                            await settingsStorage.setSkippedLogin(false);
                             await authController.signOut();
                           },
                         );
@@ -145,8 +151,34 @@ class _SettingsPageState extends State<SettingsPage>
                     ),
                   ],
                 );
+              } else {
+                // Show login option for users who skipped
+                return Column(
+                  children: [
+                    buildAnimatedSectionHeader(
+                      _animationController,
+                      context,
+                      S.current.account,
+                      0,
+                    ),
+                    buildAnimatedSettingTile(
+                      animationController: _animationController,
+                      context,
+                      index: 1,
+                      icon: Icons.login,
+                      title: S.current.loginToAccount,
+                      subtitle: S.current.loginToEnableSync,
+                      onTap: () async {
+                        // Clear skip preference and navigate to login
+                        final settingsStorage = SettingsStorage();
+                        await settingsStorage.init();
+                        await settingsStorage.setSkippedLogin(false);
+                        Get.offAll(() => const LoginPage());
+                      },
+                    ),
+                  ],
+                );
               }
-              return const SizedBox.shrink();
             }),
 
             // Cloud Sync Section (only show if logged in)

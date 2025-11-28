@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/data/HabitLocalDataSource.dart';
-import 'package:habit_tracker/data/HabitStorage.dart';
-import 'package:habit_tracker/models/HAbit_Models.dart';
+import 'package:habit_tracker/data/habit_local_data_source.dart';
+import 'package:habit_tracker/data/habit_storage.dart';
+import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 
 
 
-class Habitdb {
+class HabitRepository {
   late final HabitLocalDataSource _localDataSource;
   late final FirestoreService _firestoreService;
 
@@ -19,7 +19,7 @@ class Habitdb {
   int _completedCount = 0;
   bool _dataChanged = false;
 
-  Habitdb() {
+  HabitRepository() {
     final myBox = Hive.box(HabitStorage.boxName);
     _localDataSource = HabitLocalDataSource(myBox);
     _firestoreService = FirestoreService();

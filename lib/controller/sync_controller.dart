@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/models/HAbit_Models.dart';
+import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 
 enum SyncStatus {

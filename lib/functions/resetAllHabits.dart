@@ -1,9 +1,9 @@
 // habit_actions.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/habit_db.dart';
+import 'package:habit_tracker/data/habit_repository.dart';
 
-void resetAllHabits(Habitdb db) {
+void resetAllHabits(HabitRepository db) {
   for (var habit in db.todaysHabitList) {
     habit.isCompleted = false;
   }

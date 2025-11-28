@@ -4,7 +4,7 @@ import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/theme_controller.dart';
 import 'package:habit_tracker/controller/trend_chart_controller.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
-import 'package:habit_tracker/data/HabitStorage.dart';
+import 'package:habit_tracker/data/habit_repository.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';

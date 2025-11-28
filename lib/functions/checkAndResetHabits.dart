@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/data/HabitStorage.dart';
+import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/functions/HabitUtils.dart';
 import 'package:habit_tracker/functions/resetAllHabits.dart';
 import 'package:habit_tracker/models/date_time.dart';

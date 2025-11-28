@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/HabitStorage.dart';
+import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:hive/hive.dart';
 

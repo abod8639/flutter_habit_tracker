@@ -1,7 +1,7 @@
 
 
-import 'package:habit_tracker/data/HabitStorage.dart';
-import 'package:habit_tracker/models/HAbit_Models.dart';
+import 'package:habit_tracker/data/habit_storage.dart';
+import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 

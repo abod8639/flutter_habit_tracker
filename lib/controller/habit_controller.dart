@@ -3,14 +3,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/HabitStorage.dart';
-import 'package:habit_tracker/data/habit_db.dart';
+import 'package:habit_tracker/data/habit_storage.dart';
+import 'package:habit_tracker/data/habit_repository.dart';
 import 'package:habit_tracker/functions/checkAndResetHabits.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
-  final Habitdb db = Habitdb();
+  final HabitRepository db = HabitRepository();
   final TextEditingController habitTextController = TextEditingController();
   late final Box myBox;
   Timer? _resetCheckTimer;

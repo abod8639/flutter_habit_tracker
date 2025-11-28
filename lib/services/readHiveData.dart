@@ -1,4 +1,4 @@
-import 'package:habit_tracker/models/HAbit_Models.dart';
+import 'package:habit_tracker/models/habit_model.dart';
 import 'package:hive/hive.dart';
 
 Future<List<Map<String, dynamic>>> readHiveData() async {

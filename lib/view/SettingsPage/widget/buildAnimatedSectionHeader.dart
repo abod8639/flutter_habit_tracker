@@ -25,13 +25,14 @@ Widget buildAnimatedSectionHeader(
         end: Offset.zero,
       ).animate(animation),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+        padding: const EdgeInsets.fromLTRB(20, 28, 20, 12),
         child: Text(
-          title,
+          title.toUpperCase(),
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 13,
+            letterSpacing: 1.2,
           ),
         ),
       ),

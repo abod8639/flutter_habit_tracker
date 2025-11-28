@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 Widget buildAnimatedSettingTile(
   BuildContext context, {
@@ -30,51 +29,77 @@ Widget buildAnimatedSettingTile(
         begin: const Offset(0.3, 0),
         end: Offset.zero,
       ).animate(animation),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.05),
-              blurRadius: 5,
+              color: Theme.of(context).shadowColor.withOpacity(0.08),
+              blurRadius: 8,
               offset: const Offset(0, 2),
             ),
           ],
         ),
-        child: ListTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: textColor ?? Theme.of(context).primaryColor,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: textColor,
+                              ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          subtitle,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.6),
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (trailing != null) ...[
+                    const SizedBox(width: 8),
+                    trailing,
+                  ] else if (onTap != null)
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                    ),
+                ],
+              ),
+            ),
           ),
-          leading: Icon(icon, color: Theme.of(context).primaryColor),
-          title: Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.w600, color: textColor),
-          ),
-          subtitle: Text(subtitle),
-          trailing: trailing,
-          onTap: onTap == null
-              ? null
-              : () {
-                  // Apply a scale animation on tap
-                  final RenderBox? box =
-                      context.findRenderObject() as RenderBox?;
-                  if (box != null) {
-                    Get.showOverlay(
-                      asyncFunction: () async {
-                        await Future.delayed(const Duration(milliseconds: 100));
-                        onTap();
-                      },
-                      loadingWidget: const SizedBox(),
-                      opacityColor: Colors.transparent,
-                      opacity: 0,
-                    );
-                  } else {
-                    onTap();
-                  }
-                },
         ),
       ),
     ),

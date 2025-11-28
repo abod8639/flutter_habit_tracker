@@ -47,7 +47,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
       errorMessage.value = e.toString();
       Get.snackbar(
-        'خطأ',
+        S.current.error,
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -77,7 +77,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
       errorMessage.value = e.toString();
       Get.snackbar(
-        'خطأ',
+        S.current.error,
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -105,7 +105,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
       errorMessage.value = e.toString();
       Get.snackbar(
-        'خطأ',
+        S.current.error,
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -122,7 +122,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Get.snackbar(
-        'خطأ',
+        S.current.error,
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -148,7 +148,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
       errorMessage.value = e.toString();
       Get.snackbar(
-        'خطأ',
+        S.current.error,
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
-import 'package:habit_tracker/controller/langController.Getx.dart';
+import 'package:habit_tracker/controller/lang_controller.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
 import 'package:habit_tracker/functions/keyboardShortCutsPages.dart';
 import 'package:habit_tracker/generated/l10n.dart';

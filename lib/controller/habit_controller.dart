@@ -163,13 +163,6 @@ class HabitController extends GetxController {
     super.onClose();
   }
 
-  bool isDesktop(BuildContext context) =>
-      MediaQuery.of(context).size.width >= 1000.0;
-  bool isTablet(BuildContext context) =>
-      MediaQuery.of(context).size.width >= 600.0 &&
-      MediaQuery.of(context).size.width < 1000.0;
-  bool isPhone(BuildContext context) =>
-      MediaQuery.of(context).size.width < 600.0;
 
   String getStartDay() {
     return myBox.get(HabitStorage.startDayKey, defaultValue: "");

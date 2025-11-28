@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/functions/addHabit.dart';
 import 'package:habit_tracker/view/homepage/widget/DrawerMenuButton.dart';
 import 'package:habit_tracker/view/homepage/widget/ExpandedCheckboxList.dart';
@@ -10,6 +10,7 @@ import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
 import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
 import 'package:habit_tracker/view/widget/myDrawer.dart';
 import 'package:habit_tracker/view/widget/my_fab.dart';
+import 'package:habit_tracker/utils/responsive_utils.dart';
 
 class Tablet extends StatelessWidget {
   const Tablet({super.key});
@@ -55,15 +56,15 @@ class Tablet extends StatelessWidget {
                       ),
 
                       // Left Side: Completed Habits List (Visible only on Desktop)
-                      if (controller.isDesktop(context))
+                      if (ResponsiveUtils.isDesktop(context))
                         Expanded(flex: 4, child: const DrawerList()),
 
-                      if (!controller.isDesktop(context))
+                      if (!ResponsiveUtils.isDesktop(context))
                         const DrawerMenuButton(),
 
                       // Middle: Monthly Summary
                       Expanded(
-                        flex: controller.isDesktop(context) ? 8 : 9,
+                        flex: ResponsiveUtils.isDesktop(context) ? 8 : 9,
                         child: AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
                           child: SingleChildScrollView(
@@ -78,7 +79,7 @@ class Tablet extends StatelessWidget {
                       ),
 
                       Expanded(
-                        flex: controller.isDesktop(context) ? 9 : 13,
+                        flex: ResponsiveUtils.isDesktop(context) ? 9 : 13,
                         child:
                             controller.db.todaysHabitList.isEmpty
                                 ? Nohabitsyet()

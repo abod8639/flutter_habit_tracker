@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.Getx.dart';
-import 'package:habit_tracker/controller/TrendChartState.Getx.dart';
+import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/controller/trend_chart_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/HabitStats_data.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/LineChartBox.dart';

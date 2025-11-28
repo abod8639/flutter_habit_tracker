@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/controller/habit_controller.dart';
 
 Map<String, List<double>> getHabitProgressionDataForDays(int days) {
   final controller = Get.find<HabitController>();

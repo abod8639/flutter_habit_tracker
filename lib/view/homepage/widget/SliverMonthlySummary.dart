@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/view/widget/MonthlySummary.dart';
 
 class SliverMonthlySummary extends StatelessWidget {

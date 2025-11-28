@@ -1,6 +1,7 @@
 
 {
 
+  "@@locale": "en",
    "drawer":"",
 
    "drawerTheme" : "Theme Color",
@@ -110,5 +111,34 @@
   "syncNow": "Sync Now",
   "syncing": "Syncing...",
   "syncSuccess": "Sync successful",
-  "syncError": "Sync failed"
+  "syncError": "Sync failed",
+  "loginRequired": "Please login first",
+  "syncFailed": "Sync failed",
+  "lastSync": "Last sync",
+  "notSyncedYet": "Not synced yet",
+  "justNow": "Just now",
+  "minutesAgo": "{minutes} minutes ago",
+  "@minutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{hours} hours ago",
+  "@hoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{days} days ago",
+  "@daysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
 }

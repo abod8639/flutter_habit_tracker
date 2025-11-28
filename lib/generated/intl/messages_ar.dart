@@ -20,6 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
+  static String m0(days) => "منذ ${days} يوم";
+
+  static String m1(hours) => "منذ ${hours} ساعة";
+
+  static String m2(minutes) => "منذ ${minutes} دقيقة";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
@@ -86,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
     "dailyReminder": MessageLookupByLibrary.simpleMessage("التذكير اليومي"),
+    "daysAgo": m0,
     "defaultHabits1": MessageLookupByLibrary.simpleMessage("انقر هنا"),
     "defaultHabits2": MessageLookupByLibrary.simpleMessage(
       "<== اسحب لليسار للتعديل",
@@ -116,14 +123,20 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "hambitstate": MessageLookupByLibrary.simpleMessage("حالة العادة"),
+    "hoursAgo": m1,
     "importPreviouslyExportedData": MessageLookupByLibrary.simpleMessage(
       "استيراد بيانات محفوظة مسبقاً",
     ),
     "incomplete": MessageLookupByLibrary.simpleMessage("غير مكتمل"),
     "isEmpty": MessageLookupByLibrary.simpleMessage("لا توجد عادات مسجلة بعد"),
     "joinUs": MessageLookupByLibrary.simpleMessage("انضم إلينا"),
+    "justNow": MessageLookupByLibrary.simpleMessage("الآن"),
     "lan": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "lastSync": MessageLookupByLibrary.simpleMessage("آخر مزامنة"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "loginRequired": MessageLookupByLibrary.simpleMessage(
+      "يرجى تسجيل الدخول أولاً",
+    ),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من تسجيل الدخول؟",
@@ -132,9 +145,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "logoutFromAccount": MessageLookupByLibrary.simpleMessage(
       "الخروج من حسابك",
     ),
+    "minutesAgo": m2,
     "monthly": MessageLookupByLibrary.simpleMessage("تقدم الشهري"),
     "name": MessageLookupByLibrary.simpleMessage("الاسم"),
     "nameRequired": MessageLookupByLibrary.simpleMessage("يرجى إدخال الاسم"),
+    "notSyncedYet": MessageLookupByLibrary.simpleMessage("لم تتم المزامنة بعد"),
     "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "or": MessageLookupByLibrary.simpleMessage("أو"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
@@ -186,6 +201,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "success": MessageLookupByLibrary.simpleMessage("معدل النجاح"),
     "summary": MessageLookupByLibrary.simpleMessage("ملخص العادات"),
     "syncError": MessageLookupByLibrary.simpleMessage("فشلت المزامنة"),
+    "syncFailed": MessageLookupByLibrary.simpleMessage("فشلت المزامنة"),
     "syncNow": MessageLookupByLibrary.simpleMessage("مزامنة الآن"),
     "syncSuccess": MessageLookupByLibrary.simpleMessage("تمت المزامنة بنجاح"),
     "syncing": MessageLookupByLibrary.simpleMessage("جاري المزامنة..."),

@@ -20,6 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(days) => "${days} days ago";
+
+  static String m1(hours) => "${hours} hours ago";
+
+  static String m2(minutes) => "${minutes} minutes ago";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("About"),
@@ -86,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
     "dailyReminder": MessageLookupByLibrary.simpleMessage("Daily Reminder"),
+    "daysAgo": m0,
     "defaultHabits1": MessageLookupByLibrary.simpleMessage("Click here"),
     "defaultHabits2": MessageLookupByLibrary.simpleMessage(
       "<== Swipe left to edit",
@@ -118,14 +125,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
     "hambitstate": MessageLookupByLibrary.simpleMessage("Habit State"),
+    "hoursAgo": m1,
     "importPreviouslyExportedData": MessageLookupByLibrary.simpleMessage(
       "Import previously exported data",
     ),
     "incomplete": MessageLookupByLibrary.simpleMessage("Incomplete"),
     "isEmpty": MessageLookupByLibrary.simpleMessage("No habits tracked yet"),
     "joinUs": MessageLookupByLibrary.simpleMessage("Join Us"),
+    "justNow": MessageLookupByLibrary.simpleMessage("Just now"),
     "lan": MessageLookupByLibrary.simpleMessage("Languig"),
+    "lastSync": MessageLookupByLibrary.simpleMessage("Last sync"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "loginRequired": MessageLookupByLibrary.simpleMessage("Please login first"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to logout?",
@@ -134,11 +145,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "logoutFromAccount": MessageLookupByLibrary.simpleMessage(
       "Logout from your account",
     ),
+    "minutesAgo": m2,
     "monthly": MessageLookupByLibrary.simpleMessage("Monthly Progress"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "nameRequired": MessageLookupByLibrary.simpleMessage(
       "Please enter your name",
     ),
+    "notSyncedYet": MessageLookupByLibrary.simpleMessage("Not synced yet"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "or": MessageLookupByLibrary.simpleMessage("OR"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -186,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "success": MessageLookupByLibrary.simpleMessage("Habit Success"),
     "summary": MessageLookupByLibrary.simpleMessage("Habit Summary"),
     "syncError": MessageLookupByLibrary.simpleMessage("Sync failed"),
+    "syncFailed": MessageLookupByLibrary.simpleMessage("Sync failed"),
     "syncNow": MessageLookupByLibrary.simpleMessage("Sync Now"),
     "syncSuccess": MessageLookupByLibrary.simpleMessage("Sync successful"),
     "syncing": MessageLookupByLibrary.simpleMessage("Syncing..."),

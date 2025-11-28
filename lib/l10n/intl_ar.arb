@@ -1,4 +1,5 @@
 {
+  "@@locale": "ar",
   "drawer": "",
 
   "drawerTheme": "لون الثيم",
@@ -105,5 +106,13 @@
   "syncNow": "مزامنة الآن",
   "syncing": "جاري المزامنة...",
   "syncSuccess": "تمت المزامنة بنجاح",
-  "syncError": "فشلت المزامنة"
+  "syncError": "فشلت المزامنة",
+  "loginRequired": "يرجى تسجيل الدخول أولاً",
+  "syncFailed": "فشلت المزامنة",
+  "lastSync": "آخر مزامنة",
+  "notSyncedYet": "لم تتم المزامنة بعد",
+  "justNow": "الآن",
+  "minutesAgo": "منذ {minutes} دقيقة",
+  "hoursAgo": "منذ {hours} ساعة",
+  "daysAgo": "منذ {days} يوم"
 }

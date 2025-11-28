@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/utils/responsive_utils.dart';
 
 Widget BuildStatItem(String title, String value, IconData icon, Color color) {
-  final controller = Get.put(HabitController());
 
   return Expanded(
     child: Builder(
@@ -20,14 +18,14 @@ Widget BuildStatItem(String title, String value, IconData icon, Color color) {
                 Icon(
                   icon,
 
-                  size: controller.isPhone(context) ? 18 : 22,
+                  size: ResponsiveUtils.isPhone(context) ? 18 : 22,
                   color: color,
                 ),
                 const SizedBox(width: 4),
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: controller.isPhone(context) ? mSize : 18,
+                    fontSize: ResponsiveUtils.isPhone(context) ? mSize : 18,
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),

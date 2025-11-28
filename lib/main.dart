@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/langController.Getx.dart';
+import 'package:habit_tracker/controller/lang_controller.dart';
 import 'package:habit_tracker/firebase_options.dart';
 import 'package:habit_tracker/functions/initialize_app.dart';
 import 'package:habit_tracker/generated/l10n.dart';

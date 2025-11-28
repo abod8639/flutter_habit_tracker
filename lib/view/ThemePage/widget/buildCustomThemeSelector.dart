@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/ThemeController.Getx.dart';
+import 'package:habit_tracker/controller/theme_controller.dart';
 import 'package:habit_tracker/utils/themeList.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildThemeColorPreview.dart';
 

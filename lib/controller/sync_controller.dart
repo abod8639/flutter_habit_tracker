@@ -41,7 +41,7 @@ class SyncController extends GetxController {
     if (!_firestoreService.isUserLoggedIn) {
       Get.snackbar(
         S.current.error,
-        'يرجى تسجيل الدخول أولاً',
+        S.current.loginRequired,
         snackPosition: SnackPosition.BOTTOM,
       );
       return null;
@@ -57,8 +57,8 @@ class SyncController extends GetxController {
       syncStatus.value = SyncStatus.success;
 
       Get.snackbar(
-        'نجح',
-        'تمت المزامنة بنجاح',
+        S.current.success,
+        S.current.syncSuccess,
         snackPosition: SnackPosition.BOTTOM,
         duration: const Duration(seconds: 2),
       );
@@ -70,7 +70,7 @@ class SyncController extends GetxController {
       
       Get.snackbar(
         S.current.error,
-        'فشلت المزامنة: $e',
+        '${S.current.syncFailed}: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
       
@@ -165,14 +165,14 @@ class SyncController extends GetxController {
     switch (syncStatus.value) {
       case SyncStatus.idle:
         return lastSyncTime.value != null
-            ? 'آخر مزامنة: ${_formatTime(lastSyncTime.value!)}'
-            : 'لم تتم المزامنة بعد';
+            ? '${S.current.lastSync}: ${_formatTime(lastSyncTime.value!)}'
+            : S.current.notSyncedYet;
       case SyncStatus.syncing:
-        return 'جاري المزامنة...';
+        return S.current.syncing;
       case SyncStatus.success:
-        return 'تمت المزامنة بنجاح';
+        return S.current.syncSuccess;
       case SyncStatus.error:
-        return 'فشلت المزامنة';
+        return S.current.syncFailed;
     }
   }
 
@@ -181,13 +181,13 @@ class SyncController extends GetxController {
     final difference = now.difference(time);
 
     if (difference.inMinutes < 1) {
-      return 'الآن';
+      return S.current.justNow;
     } else if (difference.inHours < 1) {
-      return 'منذ ${difference.inMinutes} دقيقة';
+      return S.current.minutesAgo(difference.inMinutes);
     } else if (difference.inDays < 1) {
-      return 'منذ ${difference.inHours} ساعة';
+      return S.current.hoursAgo(difference.inHours);
     } else {
-      return 'منذ ${difference.inDays} يوم';
+      return S.current.daysAgo(difference.inDays);
     }
   }
 

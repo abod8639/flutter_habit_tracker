@@ -873,6 +873,71 @@ class S {
   String get syncError {
     return Intl.message('Sync failed', name: 'syncError', desc: '', args: []);
   }
+
+  /// `Please login first`
+  String get loginRequired {
+    return Intl.message(
+      'Please login first',
+      name: 'loginRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync failed`
+  String get syncFailed {
+    return Intl.message('Sync failed', name: 'syncFailed', desc: '', args: []);
+  }
+
+  /// `Last sync`
+  String get lastSync {
+    return Intl.message('Last sync', name: 'lastSync', desc: '', args: []);
+  }
+
+  /// `Not synced yet`
+  String get notSyncedYet {
+    return Intl.message(
+      'Not synced yet',
+      name: 'notSyncedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Just now`
+  String get justNow {
+    return Intl.message('Just now', name: 'justNow', desc: '', args: []);
+  }
+
+  /// `{minutes} minutes ago`
+  String minutesAgo(int minutes) {
+    return Intl.message(
+      '$minutes minutes ago',
+      name: 'minutesAgo',
+      desc: '',
+      args: [minutes],
+    );
+  }
+
+  /// `{hours} hours ago`
+  String hoursAgo(int hours) {
+    return Intl.message(
+      '$hours hours ago',
+      name: 'hoursAgo',
+      desc: '',
+      args: [hours],
+    );
+  }
+
+  /// `{days} days ago`
+  String daysAgo(int days) {
+    return Intl.message(
+      '$days days ago',
+      name: 'daysAgo',
+      desc: '',
+      args: [days],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/functions/keyboardShortCutsPages.dart';
+import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildCustomThemeSelector.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildSectionTitle.dart';

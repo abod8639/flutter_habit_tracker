@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/habit_repository.dart';
-import 'package:habit_tracker/functions/checkAndResetHabits.dart';
+import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
 

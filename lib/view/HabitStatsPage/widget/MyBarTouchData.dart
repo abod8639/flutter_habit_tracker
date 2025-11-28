@@ -28,7 +28,7 @@ BarTouchData MyBarTouchData(BuildContext context) {
           children: [
             TextSpan(
               text:
-                  '\n${completed ? S.current.TooltipItemCompleted : S.current.TooltipItem}',
+                  '\n${completed ? S.current.tooltipItemCompleted : S.current.tooltipItem}',
               style: TextStyle(
                 color:
                     completed

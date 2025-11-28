@@ -10,7 +10,7 @@ Widget buildAnimatedSettingTile(
   required IconData icon,
   required String title,
   required String subtitle,
-  required Function() onTap,
+  required Function()? onTap,
   Widget? trailing,
   Color? textColor,
 }) {
@@ -55,26 +55,26 @@ Widget buildAnimatedSettingTile(
           ),
           subtitle: Text(subtitle),
           trailing: trailing,
-          onTap: () {
-            // Apply a scale animation on tap
-            final RenderBox? box = context.findRenderObject() as RenderBox?;
-            if (box != null) {
-              // final position = box.localToGlobal(Offset.zero);
-              // final size = box.size;
-
-              Get.showOverlay(
-                asyncFunction: () async {
-                  await Future.delayed(const Duration(milliseconds: 100));
-                  onTap();
+          onTap: onTap == null
+              ? null
+              : () {
+                  // Apply a scale animation on tap
+                  final RenderBox? box =
+                      context.findRenderObject() as RenderBox?;
+                  if (box != null) {
+                    Get.showOverlay(
+                      asyncFunction: () async {
+                        await Future.delayed(const Duration(milliseconds: 100));
+                        onTap();
+                      },
+                      loadingWidget: const SizedBox(),
+                      opacityColor: Colors.transparent,
+                      opacity: 0,
+                    );
+                  } else {
+                    onTap();
+                  }
                 },
-                loadingWidget: const SizedBox(),
-                opacityColor: Colors.transparent,
-                opacity: 0,
-              );
-            } else {
-              onTap();
-            }
-          },
         ),
       ),
     ),

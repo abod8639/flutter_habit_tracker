@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/HabitController.Getx.dart';
+import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/controller/langController.Getx.dart';
 import 'package:habit_tracker/functions/clearAllHabitData.dart';
 import 'package:habit_tracker/functions/keyboardShortCutsPages.dart';
@@ -9,6 +11,7 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeade
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
+import 'package:habit_tracker/controller/sync_controller.dart';
 
 import 'widget/buildAnimatedSettingTile.dart';
 
@@ -46,6 +49,9 @@ class _SettingsPageState extends State<SettingsPage>
 
     // final ThemeController themeController = Get.find<ThemeController>();
     final LangController controllerlanguage = Get.find<LangController>();
+    final AuthController authController = Get.put(AuthController());
+    final SyncController syncController = Get.put(SyncController());
+    final HabitController habitController = Get.find<HabitController>();
 
     return KeyboardListener(
       autofocus: true,
@@ -55,24 +61,144 @@ class _SettingsPageState extends State<SettingsPage>
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(S.current.SettingPageTitle),
+          title: Text(S.current.settingPageTitle),
           elevation: 0,
         ),
         body: ListView(
           children: [
+            // User Account Section
+            Obx(() {
+              final user = authController.currentUser;
+              if (user != null) {
+                return Column(
+                  children: [
+                    buildAnimatedSectionHeader(
+                      _animationController,
+                      context,
+                      S.current.account,
+                      0,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: user.photoURL != null
+                                ? NetworkImage(user.photoURL!)
+                                : null,
+                            child: user.photoURL == null
+                                ? const Icon(Icons.person, size: 30)
+                                : null,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user.displayName ?? S.current.user,
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  user.email ?? '',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    buildAnimatedSettingTile(
+                      animationController: _animationController,
+                      context,
+                      index: 1,
+                      icon: Icons.logout,
+                      title: S.current.logout,
+                      subtitle: S.current.logoutFromAccount,
+                      textColor: Colors.red,
+                      onTap: () async {
+                        Get.defaultDialog(
+                          title: S.current.logoutConfirmTitle,
+                          middleText: S.current.logoutConfirmMessage,
+                          textConfirm: S.current.logout,
+                          textCancel: S.current.cancel,
+                          confirmTextColor: Colors.white,
+                          buttonColor: Colors.red,
+                          onConfirm: () async {
+                            Get.back(); // Close dialog
+                            await authController.signOut();
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            }),
+
+            // Cloud Sync Section (only show if logged in)
+            Obx(() {
+              final user = authController.currentUser;
+              if (user != null) {
+                return Column(
+                  children: [
+                    buildAnimatedSectionHeader(
+                      _animationController,
+                      context,
+                      S.current.cloudSync,
+                      2,
+                    ),
+                    Obx(() => buildAnimatedSettingTile(
+                      animationController: _animationController,
+                      context,
+                      index: 3,
+                      icon: syncController.syncStatus.value == SyncStatus.syncing
+                          ? Icons.sync
+                          : Icons.cloud_upload_outlined,
+                      title: S.current.syncNow,
+                      subtitle: syncController.syncStatusMessage,
+                      onTap: syncController.syncStatus.value == SyncStatus.syncing
+                          ? null
+                          : () async {
+                              final habits = habitController.db.todaysHabitList;
+                              final result = await syncController.manualSync(habits);
+                              if (result != null) {
+                                habitController.db.todaysHabitList = result;
+                              }
+                            },
+                    )),
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            }),
+            
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.current.Appearance,
-              0,
+              S.current.appearance,
+              4,
             ),
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
-              index: 1,
+              index: 3,
               icon: Icons.color_lens,
               title: 'Theme',
-              subtitle: S.current.Changeapptheme,
+              subtitle: S.current.changeAppTheme,
               onTap:
                   () => Get.to(
                     () => const ThemePage(),
@@ -85,7 +211,7 @@ class _SettingsPageState extends State<SettingsPage>
               _animationController,
               context,
               S.current.lan,
-              3,
+              4,
             ),
 
             Obx(
@@ -106,24 +232,24 @@ class _SettingsPageState extends State<SettingsPage>
                 },
                 textColor: Theme.of(context).colorScheme.onSecondary,
                 animationController: _animationController,
-                index: 2,
+                index: 5,
               ),
             ),
 
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.current.Notifications,
-              3,
+              S.current.notifications,
+              6,
             ),
 
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
-              index: 4,
+              index: 7,
               icon: Icons.notifications,
-              title: S.current.DailyReminder,
-              subtitle: S.current.SetDailyReminder,
+              title: S.current.dailyReminder,
+              subtitle: S.current.setDailyReminder,
               trailing: Obx(() {
                 final controller = Get.find<NotificationController>();
                 return Switch(
@@ -174,15 +300,15 @@ class _SettingsPageState extends State<SettingsPage>
               _animationController,
               context,
               'Data',
-              5,
+              8,
             ),
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
-              index: 6,
+              index: 9,
               icon: Icons.backup,
-              title: S.current.BackupData,
-              subtitle: S.current.Exportyourhabitdata,
+              title: S.current.backupData,
+              subtitle: S.current.exportYourHabitData,
               onTap: () async {
                 //                 SupabaseService.uploadHabits(
                 //   habitController.db.todaysHabitList,
@@ -196,19 +322,19 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
-              index: 7,
+              index: 10,
               icon: Icons.restore,
-              title: S.current.RestoreData,
-              subtitle: S.current.Importpreviouslyexporteddata,
+              title: S.current.restoreData,
+              subtitle: S.current.importPreviouslyExportedData,
               onTap: () {},
             ),
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
-              index: 8,
+              index: 11,
               icon: Icons.delete_outline,
-              title: S.current.ClearAllData,
-              subtitle: S.current.Deleteallhabitsandsettings,
+              title: S.current.clearAllData,
+              subtitle: S.current.deleteAllHabitsAndSettings,
               textColor: Colors.red,
               onTap: () async => await clearAppDataAndRestart(context),
               //  {
@@ -230,16 +356,16 @@ class _SettingsPageState extends State<SettingsPage>
             buildAnimatedSectionHeader(
               _animationController,
               context,
-              S.current.About,
-              9,
+              S.current.about,
+              12,
             ),
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
-              index: 10,
+              index: 13,
               icon: Icons.info_outline,
-              title: S.current.About,
-              subtitle: S.current.Appversionandinformation,
+              title: S.current.about,
+              subtitle: S.current.appVersionAndInformation,
               onTap: () {
                 // showComingSoon(context);
               },
@@ -265,8 +391,8 @@ class _SettingsPageState extends State<SettingsPage>
 
 void showComingSoon(dynamic context) {
   Get.snackbar(
-    S.current.ComingSoon,
-    S.current.Restorefeaturewillbeavailableinfutureupdates,
+    S.current.comingSoon,
+    S.current.restoreFeatureWillBeAvailableInFutureUpdates,
     snackPosition: SnackPosition.BOTTOM,
     duration: const Duration(seconds: 2),
     animationDuration: const Duration(milliseconds: 500),

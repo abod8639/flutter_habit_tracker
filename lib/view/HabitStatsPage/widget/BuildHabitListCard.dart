@@ -32,7 +32,7 @@ Widget BuildHabitListCard(BuildContext context) {
                     Icon(Icons.check_circle, color: Colors.green, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      '${S.current.Completed} (${completedHabits.length})',
+                      '${S.current.completedLabel} (${completedHabits.length})',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -51,7 +51,7 @@ Widget BuildHabitListCard(BuildContext context) {
                     Icon(Icons.pending_actions, color: Colors.orange, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      '${S.current.Incomplete} (${incompleteHabits.length})',
+                      '${S.current.incomplete} (${incompleteHabits.length})',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

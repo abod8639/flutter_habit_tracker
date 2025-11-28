@@ -22,64 +22,70 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "About": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
-    "Add": MessageLookupByLibrary.simpleMessage("إضافة"),
-    "Addnewhabit": MessageLookupByLibrary.simpleMessage("إضافة عادة جديدة..."),
-    "Appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
-    "Appversionandinformation": MessageLookupByLibrary.simpleMessage(
+    "about": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
+    "account": MessageLookupByLibrary.simpleMessage("الحساب"),
+    "add": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "addNewHabit": MessageLookupByLibrary.simpleMessage("إضافة عادة جديدة..."),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "لديك حساب بالفعل؟",
+    ),
+    "appVersionAndInformation": MessageLookupByLibrary.simpleMessage(
       "هذا التطبيق من تطوير دكستر",
     ),
-    "BackupData": MessageLookupByLibrary.simpleMessage("نسخ احتياطي"),
-    "BarChartisEmpty": MessageLookupByLibrary.simpleMessage(
-      "لا توجد بيانات متاحة",
-    ),
-    "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-    "Changeapptheme": MessageLookupByLibrary.simpleMessage(
-      "تغيير ثيم ولون التطبيق",
-    ),
-    "ClearAllData": MessageLookupByLibrary.simpleMessage("مسح جميع البيانات"),
-    "ComingSoon": MessageLookupByLibrary.simpleMessage("قريباً"),
-    "Completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
-    "DailyReminder": MessageLookupByLibrary.simpleMessage("التذكير اليومي"),
-    "DeleteHabit": MessageLookupByLibrary.simpleMessage("حذف العادة"),
-    "Deleteallhabitsandsettings": MessageLookupByLibrary.simpleMessage(
-      "حذف جميع العادات والإعدادات",
-    ),
-    "EditThisHabit": MessageLookupByLibrary.simpleMessage("تعديل هذه العادة"),
-    "Error": MessageLookupByLibrary.simpleMessage("خطأ"),
-    "Exportyourhabitdata": MessageLookupByLibrary.simpleMessage(
-      "تصدير بيانات العادات",
-    ),
-    "Importpreviouslyexporteddata": MessageLookupByLibrary.simpleMessage(
-      "استيراد بيانات محفوظة مسبقاً",
-    ),
-    "Incomplete": MessageLookupByLibrary.simpleMessage("غير مكتمل"),
-    "Notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
-    "PieChartisEmpty": MessageLookupByLibrary.simpleMessage(
-      "لا توجد عادات لعرضها",
-    ),
-    "RestoreData": MessageLookupByLibrary.simpleMessage("استعادة البيانات"),
-    "Restorefeaturewillbeavailableinfutureupdates":
-        MessageLookupByLibrary.simpleMessage(
-          "ستتوفر ميزة الاستعادة في التحديثات القادمة",
-        ),
-    "SetDailyReminder": MessageLookupByLibrary.simpleMessage(
-      "تعيين تذكير يومي للعادات",
-    ),
-    "SettingPageTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
-    "Summary": MessageLookupByLibrary.simpleMessage("ملخص العادات"),
-    "Thefieldcanybeempty": MessageLookupByLibrary.simpleMessage(
-      "لا يمكن ترك الحقل فارغاً",
-    ),
-    "TooltipItem": MessageLookupByLibrary.simpleMessage("نفذه الآن"),
-    "TooltipItemCompleted": MessageLookupByLibrary.simpleMessage("تم إنجازه"),
-    "TrendCharisEmpty": MessageLookupByLibrary.simpleMessage(
-      "بيانات غير كافية لعرض الإحصائيات",
-    ),
-    "areyousureyouwanttothishabit": MessageLookupByLibrary.simpleMessage(
+    "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
+    "areYouSureYouWantToDeleteThisHabit": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من رغبتك في حذف هذه العادة؟",
     ),
+    "authErrorDefault": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
+    "authErrorEmailInUse": MessageLookupByLibrary.simpleMessage(
+      "البريد الإلكتروني مستخدم بالفعل",
+    ),
+    "authErrorGoogle": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ أثناء تسجيل الدخول بواسطة Google",
+    ),
+    "authErrorInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "البريد الإلكتروني غير صالح",
+    ),
+    "authErrorNetworkFailed": MessageLookupByLibrary.simpleMessage(
+      "فشل الاتصال بالإنترنت",
+    ),
+    "authErrorSignOut": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ أثناء تسجيل الخروج",
+    ),
+    "authErrorTooManyRequests": MessageLookupByLibrary.simpleMessage(
+      "محاولات كثيرة جداً، يرجى المحاولة لاحقاً",
+    ),
+    "authErrorUserNotFound": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد مستخدم بهذا البريد الإلكتروني",
+    ),
+    "authErrorWeakPassword": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور ضعيفة جداً",
+    ),
+    "authErrorWrongPassword": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور غير صحيحة",
+    ),
+    "backToLogin": MessageLookupByLibrary.simpleMessage("العودة لتسجيل الدخول"),
+    "backupData": MessageLookupByLibrary.simpleMessage("نسخ احتياطي"),
+    "barChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "لا توجد بيانات متاحة",
+    ),
+    "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "changeAppTheme": MessageLookupByLibrary.simpleMessage(
+      "تغيير ثيم ولون التطبيق",
+    ),
+    "clearAllData": MessageLookupByLibrary.simpleMessage("مسح جميع البيانات"),
+    "cloudSync": MessageLookupByLibrary.simpleMessage("المزامنة السحابية"),
+    "comingSoon": MessageLookupByLibrary.simpleMessage("قريباً"),
     "completed": MessageLookupByLibrary.simpleMessage("مكتمل"),
+    "completedLabel": MessageLookupByLibrary.simpleMessage("مكتمل"),
+    "confirmPassword": MessageLookupByLibrary.simpleMessage(
+      "تأكيد كلمة المرور",
+    ),
+    "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
+      "يرجى تأكيد كلمة المرور",
+    ),
+    "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
+    "dailyReminder": MessageLookupByLibrary.simpleMessage("التذكير اليومي"),
     "defaultHabits1": MessageLookupByLibrary.simpleMessage("انقر هنا"),
     "defaultHabits2": MessageLookupByLibrary.simpleMessage(
       "<== اسحب لليسار للتعديل",
@@ -87,21 +93,115 @@ class MessageLookup extends MessageLookupByLibrary {
     "defaultHabits3": MessageLookupByLibrary.simpleMessage(
       "اسحب لليمين للحذف ==>",
     ),
+    "deleteAllHabitsAndSettings": MessageLookupByLibrary.simpleMessage(
+      "حذف جميع العادات والإعدادات",
+    ),
+    "deleteHabit": MessageLookupByLibrary.simpleMessage("حذف العادة"),
+    "dontHaveAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
     "drawer": MessageLookupByLibrary.simpleMessage(""),
     "drawerReat": MessageLookupByLibrary.simpleMessage("الإحصائيات"),
     "drawerSetting": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "drawerTheme": MessageLookupByLibrary.simpleMessage("لون الثيم"),
+    "editThisHabit": MessageLookupByLibrary.simpleMessage("تعديل هذه العادة"),
+    "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+    "emailInvalid": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال بريد إلكتروني صالح",
+    ),
+    "emailRequired": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال البريد الإلكتروني",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("خطأ"),
+    "exportYourHabitData": MessageLookupByLibrary.simpleMessage(
+      "تصدير بيانات العادات",
+    ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "hambitstate": MessageLookupByLibrary.simpleMessage("حالة العادة"),
+    "importPreviouslyExportedData": MessageLookupByLibrary.simpleMessage(
+      "استيراد بيانات محفوظة مسبقاً",
+    ),
+    "incomplete": MessageLookupByLibrary.simpleMessage("غير مكتمل"),
     "isEmpty": MessageLookupByLibrary.simpleMessage("لا توجد عادات مسجلة بعد"),
+    "joinUs": MessageLookupByLibrary.simpleMessage("انضم إلينا"),
     "lan": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد من تسجيل الدخول؟",
+    ),
+    "logoutConfirmTitle": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "logoutFromAccount": MessageLookupByLibrary.simpleMessage(
+      "الخروج من حسابك",
+    ),
     "monthly": MessageLookupByLibrary.simpleMessage("تقدم الشهري"),
+    "name": MessageLookupByLibrary.simpleMessage("الاسم"),
+    "nameRequired": MessageLookupByLibrary.simpleMessage("يرجى إدخال الاسم"),
+    "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
+    "or": MessageLookupByLibrary.simpleMessage("أو"),
+    "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "passwordMismatch": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور غير متطابقة",
+    ),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال كلمة المرور",
+    ),
+    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+    ),
     "pending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
+    "pieChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "لا توجد عادات لعرضها",
+    ),
     "ratepagetitle": MessageLookupByLibrary.simpleMessage("إحصائيات العادات"),
+    "resetPassword": MessageLookupByLibrary.simpleMessage(
+      "إعادة تعيين كلمة المرور",
+    ),
+    "resetPasswordDescription": MessageLookupByLibrary.simpleMessage(
+      "أدخل بريدك الإلكتروني وسنرسل لك رابط لإعادة تعيين كلمة المرور",
+    ),
+    "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+    ),
+    "resetPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "إعادة تعيين كلمة المرور",
+    ),
+    "restoreData": MessageLookupByLibrary.simpleMessage("استعادة البيانات"),
+    "restoreFeatureWillBeAvailableInFutureUpdates":
+        MessageLookupByLibrary.simpleMessage(
+          "ستتوفر ميزة الاستعادة في التحديثات القادمة",
+        ),
+    "sendResetLink": MessageLookupByLibrary.simpleMessage(
+      "إرسال رابط إعادة التعيين",
+    ),
+    "setDailyReminder": MessageLookupByLibrary.simpleMessage(
+      "تعيين تذكير يومي للعادات",
+    ),
+    "settingPageTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "تسجيل الدخول بواسطة Google",
+    ),
+    "signUpWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "التسجيل بواسطة Google",
+    ),
+    "signup": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "success": MessageLookupByLibrary.simpleMessage("معدل النجاح"),
+    "summary": MessageLookupByLibrary.simpleMessage("ملخص العادات"),
+    "syncError": MessageLookupByLibrary.simpleMessage("فشلت المزامنة"),
+    "syncNow": MessageLookupByLibrary.simpleMessage("مزامنة الآن"),
+    "syncSuccess": MessageLookupByLibrary.simpleMessage("تمت المزامنة بنجاح"),
+    "syncing": MessageLookupByLibrary.simpleMessage("جاري المزامنة..."),
+    "theFieldCantBeEmpty": MessageLookupByLibrary.simpleMessage(
+      "لا يمكن ترك الحقل فارغاً",
+    ),
     "themepage": MessageLookupByLibrary.simpleMessage("تخصيص الثيم"),
     "themepagetitle": MessageLookupByLibrary.simpleMessage("إعدادات الثيم"),
     "today": MessageLookupByLibrary.simpleMessage("تقدم اليوم"),
+    "tooltipItem": MessageLookupByLibrary.simpleMessage("نفذه الآن"),
+    "tooltipItemCompleted": MessageLookupByLibrary.simpleMessage("تم إنجازه"),
     "total": MessageLookupByLibrary.simpleMessage("المجموع"),
+    "trendChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "بيانات غير كافية لعرض الإحصائيات",
+    ),
+    "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
     "weekly": MessageLookupByLibrary.simpleMessage("تقدم الأسبوعي"),
   };
 }

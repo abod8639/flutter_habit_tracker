@@ -40,7 +40,7 @@ Widget BuildTrendChart() {
               height: 300,
               child: Center(
                 child: Text(
-                  S.current.TrendCharisEmpty,
+                  S.current.trendChartIsEmpty,
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
               ),

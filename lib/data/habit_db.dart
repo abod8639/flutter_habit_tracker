@@ -4,12 +4,14 @@ import 'package:habit_tracker/data/HabitLocalDataSource.dart';
 import 'package:habit_tracker/data/HabitStorage.dart';
 import 'package:habit_tracker/models/HAbit_Models.dart';
 import 'package:habit_tracker/models/date_time.dart';
+import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 
 
 
 class Habitdb {
   late final HabitLocalDataSource _localDataSource;
+  late final FirestoreService _firestoreService;
 
   List<HabitModel> _habits = [];
   Map<DateTime, int> heatmapDateSet = {};
@@ -20,6 +22,7 @@ class Habitdb {
   Habitdb() {
     final myBox = Hive.box(HabitStorage.boxName);
     _localDataSource = HabitLocalDataSource(myBox);
+    _firestoreService = FirestoreService();
   }
 
   DateTime? getLastSyncTime() {
@@ -34,6 +37,13 @@ class Habitdb {
       habitCalculate();
       loadHeatmap();
       _dataChanged = false;
+      
+      // Upload to cloud in background
+      if (_firestoreService.isUserLoggedIn) {
+        _firestoreService.uploadHabits(_habits).catchError((e) {
+          debugPrint('⚠️ Background upload failed: $e');
+        });
+      }
     } catch (e) {
       debugPrint('❌ Error updating habit data: $e');
     }
@@ -99,6 +109,16 @@ class Habitdb {
 
       _localDataSource.saveHabitStrength(todaysDateFormatted(), rateString);
       debugPrint('📊 Habit completion rate: $rateString');
+      
+      // Upload history to cloud
+      if (_firestoreService.isUserLoggedIn) {
+        _firestoreService.uploadHabitHistory(
+          todaysDateFormatted(),
+          rateString,
+        ).catchError((e) {
+          debugPrint('⚠️ History upload failed: $e');
+        });
+      }
     } catch (e) {
       debugPrint('❌ Error calculating habit completion: $e');
     }
@@ -206,9 +226,17 @@ class Habitdb {
 
   void dbDeleteHabitByIndex(int index) {
     if (index >= 0 && index < _habits.length) {
+      final habitId = _habits[index].id;
       _habits.removeAt(index);
       _dataChanged = true;
       updateData();
+      
+      // Delete from cloud
+      if (_firestoreService.isUserLoggedIn) {
+        _firestoreService.deleteHabit(habitId).catchError((e) {
+          debugPrint('⚠️ Cloud delete failed: $e');
+        });
+      }
     }
   }
 

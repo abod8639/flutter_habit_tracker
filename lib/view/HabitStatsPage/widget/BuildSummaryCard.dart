@@ -26,7 +26,7 @@ Widget BuildSummaryCard() {
                     // SizedBox(width: 5),
                     Center(
                       child: Text(
-                        S.current.Summary,
+                        S.current.summary,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

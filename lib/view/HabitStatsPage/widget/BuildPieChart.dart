@@ -13,7 +13,7 @@ Widget BuildPieChart() {
       builder: (context) {
         return SizedBox(
           height: 330,
-          child: Center(child: Text(S.current.PieChartisEmpty)),
+          child: Center(child: Text(S.current.pieChartIsEmpty)),
         );
       },
     );
@@ -32,7 +32,7 @@ Widget BuildPieChart() {
                 sections: [
                   PieChartSectionData(
                     value: completedHabits.toDouble(),
-                    title: S.current.Completed,
+                    title: S.current.completedLabel,
                     color: Theme.of(context).primaryColor,
                     radius: 100,
                     titleStyle: const TextStyle(
@@ -43,7 +43,7 @@ Widget BuildPieChart() {
                   ),
                   PieChartSectionData(
                     value: (totalHabits - completedHabits).toDouble(),
-                    title: S.current.Incomplete,
+                    title: S.current.incomplete,
                     color: Theme.of(context).colorScheme.error,
                     radius: 100,
                     titleStyle: const TextStyle(

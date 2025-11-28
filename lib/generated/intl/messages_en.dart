@@ -22,64 +22,70 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "About": MessageLookupByLibrary.simpleMessage("About"),
-    "Add": MessageLookupByLibrary.simpleMessage("Add"),
-    "Addnewhabit": MessageLookupByLibrary.simpleMessage("Add new Habit..."),
-    "Appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
-    "Appversionandinformation": MessageLookupByLibrary.simpleMessage(
+    "about": MessageLookupByLibrary.simpleMessage("About"),
+    "account": MessageLookupByLibrary.simpleMessage("Account"),
+    "add": MessageLookupByLibrary.simpleMessage("Add"),
+    "addNewHabit": MessageLookupByLibrary.simpleMessage("Add new Habit..."),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Already have an account?",
+    ),
+    "appVersionAndInformation": MessageLookupByLibrary.simpleMessage(
       "This app made by dexter ",
     ),
-    "BackupData": MessageLookupByLibrary.simpleMessage("Backup Data"),
-    "BarChartisEmpty": MessageLookupByLibrary.simpleMessage(
-      "No habit data available",
-    ),
-    "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "Changeapptheme": MessageLookupByLibrary.simpleMessage(
-      "Change app theme and color",
-    ),
-    "ClearAllData": MessageLookupByLibrary.simpleMessage("Clear All Data"),
-    "ComingSoon": MessageLookupByLibrary.simpleMessage("Coming Soon"),
-    "Completed": MessageLookupByLibrary.simpleMessage("Completed"),
-    "DailyReminder": MessageLookupByLibrary.simpleMessage("Daily Reminder"),
-    "DeleteHabit": MessageLookupByLibrary.simpleMessage("Delete Habit"),
-    "Deleteallhabitsandsettings": MessageLookupByLibrary.simpleMessage(
-      "Delete all habits and settings",
-    ),
-    "EditThisHabit": MessageLookupByLibrary.simpleMessage("Edit This Habit"),
-    "Error": MessageLookupByLibrary.simpleMessage("Error"),
-    "Exportyourhabitdata": MessageLookupByLibrary.simpleMessage(
-      "Export your habit data",
-    ),
-    "Importpreviouslyexporteddata": MessageLookupByLibrary.simpleMessage(
-      "Import previously exported data",
-    ),
-    "Incomplete": MessageLookupByLibrary.simpleMessage("Incomplete"),
-    "Notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
-    "PieChartisEmpty": MessageLookupByLibrary.simpleMessage(
-      "No habits to display",
-    ),
-    "RestoreData": MessageLookupByLibrary.simpleMessage("Restore Data"),
-    "Restorefeaturewillbeavailableinfutureupdates":
-        MessageLookupByLibrary.simpleMessage(
-          "Restore feature will be available in future updates",
-        ),
-    "SetDailyReminder": MessageLookupByLibrary.simpleMessage(
-      "Set a daily reminder for your habits",
-    ),
-    "SettingPageTitle": MessageLookupByLibrary.simpleMessage("Settings"),
-    "Summary": MessageLookupByLibrary.simpleMessage("Habit Summary"),
-    "Thefieldcanybeempty": MessageLookupByLibrary.simpleMessage(
-      "The field can\'t be empty :)",
-    ),
-    "TooltipItem": MessageLookupByLibrary.simpleMessage("Go do it now"),
-    "TooltipItemCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
-    "TrendCharisEmpty": MessageLookupByLibrary.simpleMessage(
-      "Not enough data to display trends",
-    ),
-    "areyousureyouwanttothishabit": MessageLookupByLibrary.simpleMessage(
+    "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+    "areYouSureYouWantToDeleteThisHabit": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this habit?",
     ),
+    "authErrorDefault": MessageLookupByLibrary.simpleMessage(
+      "An error occurred",
+    ),
+    "authErrorEmailInUse": MessageLookupByLibrary.simpleMessage(
+      "Email already in use",
+    ),
+    "authErrorGoogle": MessageLookupByLibrary.simpleMessage(
+      "An error occurred during Google sign-in",
+    ),
+    "authErrorInvalidEmail": MessageLookupByLibrary.simpleMessage(
+      "Invalid email",
+    ),
+    "authErrorNetworkFailed": MessageLookupByLibrary.simpleMessage(
+      "Network connection failed",
+    ),
+    "authErrorSignOut": MessageLookupByLibrary.simpleMessage(
+      "An error occurred during sign-out",
+    ),
+    "authErrorTooManyRequests": MessageLookupByLibrary.simpleMessage(
+      "Too many requests, please try again later",
+    ),
+    "authErrorUserNotFound": MessageLookupByLibrary.simpleMessage(
+      "No user found with this email",
+    ),
+    "authErrorWeakPassword": MessageLookupByLibrary.simpleMessage(
+      "Password is too weak",
+    ),
+    "authErrorWrongPassword": MessageLookupByLibrary.simpleMessage(
+      "Wrong password",
+    ),
+    "backToLogin": MessageLookupByLibrary.simpleMessage("Back to Login"),
+    "backupData": MessageLookupByLibrary.simpleMessage("Backup Data"),
+    "barChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "No habit data available",
+    ),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "changeAppTheme": MessageLookupByLibrary.simpleMessage(
+      "Change app theme and color",
+    ),
+    "clearAllData": MessageLookupByLibrary.simpleMessage("Clear All Data"),
+    "cloudSync": MessageLookupByLibrary.simpleMessage("Cloud Sync"),
+    "comingSoon": MessageLookupByLibrary.simpleMessage("Coming Soon"),
     "completed": MessageLookupByLibrary.simpleMessage("Completed"),
+    "completedLabel": MessageLookupByLibrary.simpleMessage("Completed"),
+    "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
+    "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
+      "Please confirm your password",
+    ),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
+    "dailyReminder": MessageLookupByLibrary.simpleMessage("Daily Reminder"),
     "defaultHabits1": MessageLookupByLibrary.simpleMessage("Click here"),
     "defaultHabits2": MessageLookupByLibrary.simpleMessage(
       "<== Swipe left to edit",
@@ -87,21 +93,115 @@ class MessageLookup extends MessageLookupByLibrary {
     "defaultHabits3": MessageLookupByLibrary.simpleMessage(
       "Swipe right to delete ==>",
     ),
+    "deleteAllHabitsAndSettings": MessageLookupByLibrary.simpleMessage(
+      "Delete all habits and settings",
+    ),
+    "deleteHabit": MessageLookupByLibrary.simpleMessage("Delete Habit"),
+    "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Don\'t have an account?",
+    ),
     "drawer": MessageLookupByLibrary.simpleMessage(""),
     "drawerReat": MessageLookupByLibrary.simpleMessage("Rate"),
     "drawerSetting": MessageLookupByLibrary.simpleMessage("Setting"),
     "drawerTheme": MessageLookupByLibrary.simpleMessage("Theme Color"),
+    "editThisHabit": MessageLookupByLibrary.simpleMessage("Edit This Habit"),
+    "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid email",
+    ),
+    "emailRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter your email",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("Error"),
+    "exportYourHabitData": MessageLookupByLibrary.simpleMessage(
+      "Export your habit data",
+    ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
     "hambitstate": MessageLookupByLibrary.simpleMessage("Habit State"),
+    "importPreviouslyExportedData": MessageLookupByLibrary.simpleMessage(
+      "Import previously exported data",
+    ),
+    "incomplete": MessageLookupByLibrary.simpleMessage("Incomplete"),
     "isEmpty": MessageLookupByLibrary.simpleMessage("No habits tracked yet"),
+    "joinUs": MessageLookupByLibrary.simpleMessage("Join Us"),
     "lan": MessageLookupByLibrary.simpleMessage("Languig"),
+    "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+    "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to logout?",
+    ),
+    "logoutConfirmTitle": MessageLookupByLibrary.simpleMessage("Logout"),
+    "logoutFromAccount": MessageLookupByLibrary.simpleMessage(
+      "Logout from your account",
+    ),
     "monthly": MessageLookupByLibrary.simpleMessage("Monthly Progress"),
+    "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "nameRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter your name",
+    ),
+    "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+    "or": MessageLookupByLibrary.simpleMessage("OR"),
+    "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordMismatch": MessageLookupByLibrary.simpleMessage(
+      "Passwords do not match",
+    ),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter your password",
+    ),
+    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 6 characters",
+    ),
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "pieChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "No habits to display",
+    ),
     "ratepagetitle": MessageLookupByLibrary.simpleMessage("Habit Statistics"),
+    "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
+    "resetPasswordDescription": MessageLookupByLibrary.simpleMessage(
+      "Enter your email and we\'ll send you a link to reset your password",
+    ),
+    "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "Password reset link sent to your email",
+    ),
+    "resetPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Reset Password",
+    ),
+    "restoreData": MessageLookupByLibrary.simpleMessage("Restore Data"),
+    "restoreFeatureWillBeAvailableInFutureUpdates":
+        MessageLookupByLibrary.simpleMessage(
+          "Restore feature will be available in future updates",
+        ),
+    "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
+    "setDailyReminder": MessageLookupByLibrary.simpleMessage(
+      "Set a daily reminder for your habits",
+    ),
+    "settingPageTitle": MessageLookupByLibrary.simpleMessage("Settings"),
+    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Sign in with Google",
+    ),
+    "signUpWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Sign up with Google",
+    ),
+    "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "success": MessageLookupByLibrary.simpleMessage("Habit Success"),
+    "summary": MessageLookupByLibrary.simpleMessage("Habit Summary"),
+    "syncError": MessageLookupByLibrary.simpleMessage("Sync failed"),
+    "syncNow": MessageLookupByLibrary.simpleMessage("Sync Now"),
+    "syncSuccess": MessageLookupByLibrary.simpleMessage("Sync successful"),
+    "syncing": MessageLookupByLibrary.simpleMessage("Syncing..."),
+    "theFieldCantBeEmpty": MessageLookupByLibrary.simpleMessage(
+      "The field can\'t be empty :)",
+    ),
     "themepage": MessageLookupByLibrary.simpleMessage("Custom Theme"),
     "themepagetitle": MessageLookupByLibrary.simpleMessage("Theme Setting"),
     "today": MessageLookupByLibrary.simpleMessage("Today Progress"),
+    "tooltipItem": MessageLookupByLibrary.simpleMessage("Go do it now"),
+    "tooltipItemCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
+    "trendChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+      "Not enough data to display trends",
+    ),
+    "user": MessageLookupByLibrary.simpleMessage("User"),
     "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress"),
   };
 }

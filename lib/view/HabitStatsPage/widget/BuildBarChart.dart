@@ -15,7 +15,7 @@ Widget BuildBarChart() {
       builder: (context) {
         return SizedBox(
           height: 300,
-          child: Center(child: Text(S.current.BarChartisEmpty)),
+          child: Center(child: Text(S.current.barChartIsEmpty)),
         );
       },
     );

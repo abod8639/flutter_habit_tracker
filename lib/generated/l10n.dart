@@ -90,8 +90,8 @@ class S {
   }
 
   /// `Habit Summary`
-  String get Summary {
-    return Intl.message('Habit Summary', name: 'Summary', desc: '', args: []);
+  String get summary {
+    return Intl.message('Habit Summary', name: 'summary', desc: '', args: []);
   }
 
   /// `Habit Statistics`
@@ -160,150 +160,155 @@ class S {
   }
 
   /// `No habit data available`
-  String get BarChartisEmpty {
+  String get barChartIsEmpty {
     return Intl.message(
       'No habit data available',
-      name: 'BarChartisEmpty',
+      name: 'barChartIsEmpty',
       desc: '',
       args: [],
     );
   }
 
   /// `No habits to display`
-  String get PieChartisEmpty {
+  String get pieChartIsEmpty {
     return Intl.message(
       'No habits to display',
-      name: 'PieChartisEmpty',
+      name: 'pieChartIsEmpty',
       desc: '',
       args: [],
     );
   }
 
   /// `Not enough data to display trends`
-  String get TrendCharisEmpty {
+  String get trendChartIsEmpty {
     return Intl.message(
       'Not enough data to display trends',
-      name: 'TrendCharisEmpty',
+      name: 'trendChartIsEmpty',
       desc: '',
       args: [],
     );
   }
 
   /// `Completed`
-  String get Completed {
-    return Intl.message('Completed', name: 'Completed', desc: '', args: []);
+  String get completedLabel {
+    return Intl.message(
+      'Completed',
+      name: 'completedLabel',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Incomplete`
-  String get Incomplete {
-    return Intl.message('Incomplete', name: 'Incomplete', desc: '', args: []);
+  String get incomplete {
+    return Intl.message('Incomplete', name: 'incomplete', desc: '', args: []);
   }
 
   /// `Completed`
-  String get TooltipItemCompleted {
+  String get tooltipItemCompleted {
     return Intl.message(
       'Completed',
-      name: 'TooltipItemCompleted',
+      name: 'tooltipItemCompleted',
       desc: '',
       args: [],
     );
   }
 
   /// `Go do it now`
-  String get TooltipItem {
+  String get tooltipItem {
     return Intl.message(
       'Go do it now',
-      name: 'TooltipItem',
+      name: 'tooltipItem',
       desc: '',
       args: [],
     );
   }
 
   /// `Settings`
-  String get SettingPageTitle {
+  String get settingPageTitle {
     return Intl.message(
       'Settings',
-      name: 'SettingPageTitle',
+      name: 'settingPageTitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Appearance`
-  String get Appearance {
-    return Intl.message('Appearance', name: 'Appearance', desc: '', args: []);
+  String get appearance {
+    return Intl.message('Appearance', name: 'appearance', desc: '', args: []);
   }
 
   /// `Change app theme and color`
-  String get Changeapptheme {
+  String get changeAppTheme {
     return Intl.message(
       'Change app theme and color',
-      name: 'Changeapptheme',
+      name: 'changeAppTheme',
       desc: '',
       args: [],
     );
   }
 
   /// `Notifications`
-  String get Notifications {
+  String get notifications {
     return Intl.message(
       'Notifications',
-      name: 'Notifications',
+      name: 'notifications',
       desc: '',
       args: [],
     );
   }
 
   /// `Daily Reminder`
-  String get DailyReminder {
+  String get dailyReminder {
     return Intl.message(
       'Daily Reminder',
-      name: 'DailyReminder',
+      name: 'dailyReminder',
       desc: '',
       args: [],
     );
   }
 
   /// `Set a daily reminder for your habits`
-  String get SetDailyReminder {
+  String get setDailyReminder {
     return Intl.message(
       'Set a daily reminder for your habits',
-      name: 'SetDailyReminder',
+      name: 'setDailyReminder',
       desc: '',
       args: [],
     );
   }
 
   /// `Backup Data`
-  String get BackupData {
-    return Intl.message('Backup Data', name: 'BackupData', desc: '', args: []);
+  String get backupData {
+    return Intl.message('Backup Data', name: 'backupData', desc: '', args: []);
   }
 
   /// `Export your habit data`
-  String get Exportyourhabitdata {
+  String get exportYourHabitData {
     return Intl.message(
       'Export your habit data',
-      name: 'Exportyourhabitdata',
+      name: 'exportYourHabitData',
       desc: '',
       args: [],
     );
   }
 
   /// `Restore Data`
-  String get RestoreData {
+  String get restoreData {
     return Intl.message(
       'Restore Data',
-      name: 'RestoreData',
+      name: 'restoreData',
       desc: '',
       args: [],
     );
   }
 
   /// `Import previously exported data`
-  String get Importpreviouslyexporteddata {
+  String get importPreviouslyExportedData {
     return Intl.message(
       'Import previously exported data',
-      name: 'Importpreviouslyexporteddata',
+      name: 'importPreviouslyExportedData',
       desc: '',
       args: [],
     );
@@ -315,115 +320,115 @@ class S {
   }
 
   /// `Clear All Data`
-  String get ClearAllData {
+  String get clearAllData {
     return Intl.message(
       'Clear All Data',
-      name: 'ClearAllData',
+      name: 'clearAllData',
       desc: '',
       args: [],
     );
   }
 
   /// `Delete all habits and settings`
-  String get Deleteallhabitsandsettings {
+  String get deleteAllHabitsAndSettings {
     return Intl.message(
       'Delete all habits and settings',
-      name: 'Deleteallhabitsandsettings',
+      name: 'deleteAllHabitsAndSettings',
       desc: '',
       args: [],
     );
   }
 
   /// `Coming Soon`
-  String get ComingSoon {
-    return Intl.message('Coming Soon', name: 'ComingSoon', desc: '', args: []);
+  String get comingSoon {
+    return Intl.message('Coming Soon', name: 'comingSoon', desc: '', args: []);
   }
 
   /// `Restore feature will be available in future updates`
-  String get Restorefeaturewillbeavailableinfutureupdates {
+  String get restoreFeatureWillBeAvailableInFutureUpdates {
     return Intl.message(
       'Restore feature will be available in future updates',
-      name: 'Restorefeaturewillbeavailableinfutureupdates',
+      name: 'restoreFeatureWillBeAvailableInFutureUpdates',
       desc: '',
       args: [],
     );
   }
 
   /// `About`
-  String get About {
-    return Intl.message('About', name: 'About', desc: '', args: []);
+  String get about {
+    return Intl.message('About', name: 'about', desc: '', args: []);
   }
 
   /// `This app made by dexter `
-  String get Appversionandinformation {
+  String get appVersionAndInformation {
     return Intl.message(
       'This app made by dexter ',
-      name: 'Appversionandinformation',
+      name: 'appVersionAndInformation',
       desc: '',
       args: [],
     );
   }
 
   /// `Cancel`
-  String get Cancel {
-    return Intl.message('Cancel', name: 'Cancel', desc: '', args: []);
+  String get cancel {
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
   }
 
   /// `Add`
-  String get Add {
-    return Intl.message('Add', name: 'Add', desc: '', args: []);
+  String get add {
+    return Intl.message('Add', name: 'add', desc: '', args: []);
   }
 
   /// `The field can't be empty :)`
-  String get Thefieldcanybeempty {
+  String get theFieldCantBeEmpty {
     return Intl.message(
       'The field can\'t be empty :)',
-      name: 'Thefieldcanybeempty',
+      name: 'theFieldCantBeEmpty',
       desc: '',
       args: [],
     );
   }
 
   /// `Add new Habit...`
-  String get Addnewhabit {
+  String get addNewHabit {
     return Intl.message(
       'Add new Habit...',
-      name: 'Addnewhabit',
+      name: 'addNewHabit',
       desc: '',
       args: [],
     );
   }
 
   /// `Edit This Habit`
-  String get EditThisHabit {
+  String get editThisHabit {
     return Intl.message(
       'Edit This Habit',
-      name: 'EditThisHabit',
+      name: 'editThisHabit',
       desc: '',
       args: [],
     );
   }
 
   /// `Error`
-  String get Error {
-    return Intl.message('Error', name: 'Error', desc: '', args: []);
+  String get error {
+    return Intl.message('Error', name: 'error', desc: '', args: []);
   }
 
   /// `Delete Habit`
-  String get DeleteHabit {
+  String get deleteHabit {
     return Intl.message(
       'Delete Habit',
-      name: 'DeleteHabit',
+      name: 'deleteHabit',
       desc: '',
       args: [],
     );
   }
 
   /// `Are you sure you want to delete this habit?`
-  String get areyousureyouwanttothishabit {
+  String get areYouSureYouWantToDeleteThisHabit {
     return Intl.message(
       'Are you sure you want to delete this habit?',
-      name: 'areyousureyouwanttothishabit',
+      name: 'areYouSureYouWantToDeleteThisHabit',
       desc: '',
       args: [],
     );
@@ -457,6 +462,416 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message('Login', name: 'login', desc: '', args: []);
+  }
+
+  /// `Sign Up`
+  String get signup {
+    return Intl.message('Sign Up', name: 'signup', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message('Email', name: 'email', desc: '', args: []);
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message('Password', name: 'password', desc: '', args: []);
+  }
+
+  /// `Confirm Password`
+  String get confirmPassword {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message('Name', name: 'name', desc: '', args: []);
+  }
+
+  /// `Forgot Password?`
+  String get forgotPassword {
+    return Intl.message(
+      'Forgot Password?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset Password`
+  String get resetPassword {
+    return Intl.message(
+      'Reset Password',
+      name: 'resetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Reset Link`
+  String get sendResetLink {
+    return Intl.message(
+      'Send Reset Link',
+      name: 'sendResetLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back to Login`
+  String get backToLogin {
+    return Intl.message(
+      'Back to Login',
+      name: 'backToLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OR`
+  String get or {
+    return Intl.message('OR', name: 'or', desc: '', args: []);
+  }
+
+  /// `Sign in with Google`
+  String get signInWithGoogle {
+    return Intl.message(
+      'Sign in with Google',
+      name: 'signInWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up with Google`
+  String get signUpWithGoogle {
+    return Intl.message(
+      'Sign up with Google',
+      name: 'signUpWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't have an account?`
+  String get dontHaveAccount {
+    return Intl.message(
+      'Don\'t have an account?',
+      name: 'dontHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account?`
+  String get alreadyHaveAccount {
+    return Intl.message(
+      'Already have an account?',
+      name: 'alreadyHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Account`
+  String get createAccount {
+    return Intl.message(
+      'Create Account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join Us`
+  String get joinUs {
+    return Intl.message('Join Us', name: 'joinUs', desc: '', args: []);
+  }
+
+  /// `Account`
+  String get account {
+    return Intl.message('Account', name: 'account', desc: '', args: []);
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message('Logout', name: 'logout', desc: '', args: []);
+  }
+
+  /// `Logout from your account`
+  String get logoutFromAccount {
+    return Intl.message(
+      'Logout from your account',
+      name: 'logoutFromAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logoutConfirmTitle {
+    return Intl.message(
+      'Logout',
+      name: 'logoutConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to logout?`
+  String get logoutConfirmMessage {
+    return Intl.message(
+      'Are you sure you want to logout?',
+      name: 'logoutConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User`
+  String get user {
+    return Intl.message('User', name: 'user', desc: '', args: []);
+  }
+
+  /// `Please enter your email`
+  String get emailRequired {
+    return Intl.message(
+      'Please enter your email',
+      name: 'emailRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email`
+  String get emailInvalid {
+    return Intl.message(
+      'Please enter a valid email',
+      name: 'emailInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your password`
+  String get passwordRequired {
+    return Intl.message(
+      'Please enter your password',
+      name: 'passwordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters`
+  String get passwordTooShort {
+    return Intl.message(
+      'Password must be at least 6 characters',
+      name: 'passwordTooShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match`
+  String get passwordMismatch {
+    return Intl.message(
+      'Passwords do not match',
+      name: 'passwordMismatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your name`
+  String get nameRequired {
+    return Intl.message(
+      'Please enter your name',
+      name: 'nameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm your password`
+  String get confirmPasswordRequired {
+    return Intl.message(
+      'Please confirm your password',
+      name: 'confirmPasswordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset Password`
+  String get resetPasswordTitle {
+    return Intl.message(
+      'Reset Password',
+      name: 'resetPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email and we'll send you a link to reset your password`
+  String get resetPasswordDescription {
+    return Intl.message(
+      'Enter your email and we\'ll send you a link to reset your password',
+      name: 'resetPasswordDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset link sent to your email`
+  String get resetPasswordSuccess {
+    return Intl.message(
+      'Password reset link sent to your email',
+      name: 'resetPasswordSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No user found with this email`
+  String get authErrorUserNotFound {
+    return Intl.message(
+      'No user found with this email',
+      name: 'authErrorUserNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong password`
+  String get authErrorWrongPassword {
+    return Intl.message(
+      'Wrong password',
+      name: 'authErrorWrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email already in use`
+  String get authErrorEmailInUse {
+    return Intl.message(
+      'Email already in use',
+      name: 'authErrorEmailInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email`
+  String get authErrorInvalidEmail {
+    return Intl.message(
+      'Invalid email',
+      name: 'authErrorInvalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is too weak`
+  String get authErrorWeakPassword {
+    return Intl.message(
+      'Password is too weak',
+      name: 'authErrorWeakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests, please try again later`
+  String get authErrorTooManyRequests {
+    return Intl.message(
+      'Too many requests, please try again later',
+      name: 'authErrorTooManyRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Network connection failed`
+  String get authErrorNetworkFailed {
+    return Intl.message(
+      'Network connection failed',
+      name: 'authErrorNetworkFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred`
+  String get authErrorDefault {
+    return Intl.message(
+      'An error occurred',
+      name: 'authErrorDefault',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred during Google sign-in`
+  String get authErrorGoogle {
+    return Intl.message(
+      'An error occurred during Google sign-in',
+      name: 'authErrorGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred during sign-out`
+  String get authErrorSignOut {
+    return Intl.message(
+      'An error occurred during sign-out',
+      name: 'authErrorSignOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cloud Sync`
+  String get cloudSync {
+    return Intl.message('Cloud Sync', name: 'cloudSync', desc: '', args: []);
+  }
+
+  /// `Sync Now`
+  String get syncNow {
+    return Intl.message('Sync Now', name: 'syncNow', desc: '', args: []);
+  }
+
+  /// `Syncing...`
+  String get syncing {
+    return Intl.message('Syncing...', name: 'syncing', desc: '', args: []);
+  }
+
+  /// `Sync successful`
+  String get syncSuccess {
+    return Intl.message(
+      'Sync successful',
+      name: 'syncSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync failed`
+  String get syncError {
+    return Intl.message('Sync failed', name: 'syncError', desc: '', args: []);
   }
 }
 

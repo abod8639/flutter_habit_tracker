@@ -1,20 +1,29 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/langController.Getx.dart';
+import 'package:habit_tracker/firebase_options.dart';
 import 'package:habit_tracker/functions/initialize_app.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/ErrorApp.dart';
-import 'package:habit_tracker/view/homepage/HomeScreen.dart';
+import 'package:habit_tracker/view/auth/auth_wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runZonedGuarded(
     () async {
+      // Initialize Firebase
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      
+      // Initialize app (Hive, notifications, etc.)
       await initializeApp();
+      
       runApp(RestartWidget(child: const MyApp()));
     },
     (error, stack) {
@@ -47,7 +56,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.fadeIn,
       smartManagement: SmartManagement.full,
 
-      home: const HomeScreen(),
+      home: const AuthWrapper(),
     );
   }
 }

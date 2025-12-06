@@ -389,7 +389,7 @@ class _SettingsPageState extends State<SettingsPage>
     final habits = habitController.db.todaysHabitList;
     final result = await syncController.manualSync(habits);
     if (result != null) {
-      habitController.db.todaysHabitList = result;
+      habitController.updateHabits(result);
     }
   }
 

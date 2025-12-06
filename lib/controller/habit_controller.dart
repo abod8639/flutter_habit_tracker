@@ -7,6 +7,7 @@ import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/habit_repository.dart';
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/models/date_time.dart';
+import 'package:habit_tracker/models/habit_model.dart';
 import 'package:hive/hive.dart';
 
 class HabitController extends GetxController {
@@ -117,6 +118,15 @@ class HabitController extends GetxController {
   void incrementDayCount() {
     dayCount.value++;
     myBox.put(HabitStorage.dayCountKey, dayCount.value);
+  }
+
+  /// Update habits from sync and refresh UI
+  void updateHabits(List<HabitModel> newHabits) {
+    db.todaysHabitList = newHabits;
+    update(); // Trigger GetBuilder rebuilds
+    
+    // Also update reactive state if needed
+    _loadHabitHistory();
   }
 
   /// Load habit history from storage

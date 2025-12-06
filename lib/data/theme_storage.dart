@@ -30,6 +30,13 @@ class ThemeStorageService {
     return colorValue != null ? Color(colorValue) : null;
   }
 
+  ThemeMode getThemeMode() {
+    final String? modeStr = _box.get(themeModeKey);
+    if (modeStr == 'ThemeMode.dark') return ThemeMode.dark;
+    if (modeStr == 'ThemeMode.light') return ThemeMode.light;
+    return ThemeMode.system;
+  }
+
   Future<void> saveThemeSettings({
     required String themeName,
     required ThemeMode mode,

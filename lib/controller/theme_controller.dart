@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
+import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:habit_tracker/utils/themeList.dart';
 import 'package:habit_tracker/utils/theme_utils.dart';
 
@@ -17,6 +18,7 @@ class ThemeController extends GetxController {
 
   // Dependencies
   late final ThemeStorageService _storage;
+  final FirestoreService _firestoreService = FirestoreService();
 
   // Getters
   List<String> get availableThemes => themeColors.keys.toList();
@@ -30,19 +32,24 @@ class ThemeController extends GetxController {
   Future<void> _initializeTheme() async {
     try {
       _storage = await ThemeStorageService.init();
-      _loadSavedTheme();
+      await _loadSavedTheme();
+      // Try to sync with cloud if logged in
+      if (_firestoreService.isUserLoggedIn) {
+        _syncWithCloud();
+      }
     } catch (e) {
       debugPrint('Error initializing theme: $e');
       _setDefaultTheme();
     }
   }
 
-  void _loadSavedTheme() {
+  Future<void> _loadSavedTheme() async {
     try {
       // Load saved settings
       currentTheme.value = _storage.getThemeName(defaultTheme);
-      themeMode.value = ThemeMode.light;
-      // _storage.getThemeMode();
+      themeMode.value = _storage.getThemeMode();
+
+      
       useCustomBackground.value = _storage.getUseCustomBackground();
 
       final savedBgColor = _storage.getCustomBackgroundColor();
@@ -59,6 +66,46 @@ class ThemeController extends GetxController {
     }
   }
 
+  Future<void> _syncWithCloud() async {
+    try {
+      final cloudTheme = await _firestoreService.downloadTheme();
+      if (cloudTheme != null) {
+        // Apply cloud theme
+        if (cloudTheme['themeName'] != null) {
+          currentTheme.value = cloudTheme['themeName'];
+        }
+        
+        if (cloudTheme['themeMode'] != null) {
+          // Parse theme mode string
+          String modeStr = cloudTheme['themeMode'];
+          themeMode.value = _parseThemeMode(modeStr);
+        }
+        
+        if (cloudTheme['useCustomBg'] != null) {
+          useCustomBackground.value = cloudTheme['useCustomBg'];
+        }
+        
+        if (cloudTheme['customBgColor'] != null) {
+          customBackgroundColor.value = Color(cloudTheme['customBgColor']);
+        }
+        
+        _buildBothThemes();
+        _applyTheme();
+        
+        // Save to local storage to keep in sync
+        await _saveThemeSettings(skipCloud: true);
+      }
+    } catch (e) {
+      debugPrint('Error syncing theme from cloud: $e');
+    }
+  }
+
+  ThemeMode _parseThemeMode(String modeStr) {
+    if (modeStr == 'ThemeMode.dark') return ThemeMode.dark;
+    if (modeStr == 'ThemeMode.light') return ThemeMode.light;
+    return ThemeMode.system;
+  }
+
   void _setDefaultTheme() {
     currentTheme.value = defaultTheme;
     themeMode.value = ThemeMode.system;
@@ -69,7 +116,7 @@ class ThemeController extends GetxController {
     update();
   }
 
-  Future<void> _saveThemeSettings() async {
+  Future<void> _saveThemeSettings({bool skipCloud = false}) async {
     try {
       await _storage.saveThemeSettings(
         themeName: currentTheme.value,
@@ -78,6 +125,15 @@ class ThemeController extends GetxController {
         customBgColor:
             useCustomBackground.value ? customBackgroundColor.value : null,
       );
+      
+      if (!skipCloud && _firestoreService.isUserLoggedIn) {
+        await _firestoreService.uploadTheme(
+          currentTheme.value,
+          themeMode.value,
+          useCustomBackground.value,
+          useCustomBackground.value ? customBackgroundColor.value : null,
+        );
+      }
     } catch (e) {
       debugPrint('Error saving theme settings: $e');
     }

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 
 class FirestoreService {
@@ -228,5 +228,52 @@ class FirestoreService {
     } catch (e) {
       debugPrint('❌ Error deleting user data: $e');
     }
+  }
+
+  // --- Theme Management ---
+
+  // Upload theme settings to Firestore
+  Future<void> uploadTheme(
+    String themeName,
+    ThemeMode mode,
+    bool useCustomBg,
+    Color? customBgColor,
+  ) async {
+    if (!isUserLoggedIn) return;
+
+    try {
+      debugPrint('📤 Uploading theme settings to Firestore');
+      
+      await _userDoc!.collection('settings').doc('theme').set({
+        'themeName': themeName,
+        'themeMode': mode.toString(), // Store as string
+        'useCustomBg': useCustomBg,
+        'customBgColor': customBgColor?.value, // Store as int
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+      
+      debugPrint('✅ Theme settings uploaded successfully');
+    } catch (e) {
+      debugPrint('❌ Error uploading theme settings: $e');
+    }
+  }
+
+  // Download theme settings from Firestore
+  Future<Map<String, dynamic>?> downloadTheme() async {
+    if (!isUserLoggedIn) return null;
+
+    try {
+      debugPrint('📥 Downloading theme settings from Firestore');
+      
+      final doc = await _userDoc!.collection('settings').doc('theme').get();
+      
+      if (doc.exists) {
+        debugPrint('✅ Theme settings downloaded');
+        return doc.data() as Map<String, dynamic>;
+      }
+    } catch (e) {
+      debugPrint('❌ Error downloading theme settings: $e');
+    }
+    return null;
   }
 }

@@ -207,6 +207,8 @@ class _SettingsPageState extends State<SettingsPage>
     return Obx(() {
       final user = authController.currentUser;
       if (user != null) {
+        // setstate home page 
+
         return Column(
           children: [
             buildAnimatedSectionHeader(

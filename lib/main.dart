@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
+import 'package:habit_tracker/controller/theme_controller.dart';
 import 'package:habit_tracker/firebase_options.dart';
 import 'package:habit_tracker/functions/initialize_app.dart';
 import 'package:habit_tracker/generated/l10n.dart';
@@ -20,10 +21,7 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      
-      // Initialize app (Hive, notifications, etc.)
-      await initializeApp();
-      
+      await initializeApp();      
       runApp(RestartWidget(child: const MyApp()));
     },
     (error, stack) {
@@ -41,7 +39,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LangController controllerLanguage = Get.put(LangController());
-    return GetMaterialApp(
+    final ThemeController themeController = Get.find<ThemeController>();
+    return Obx(() => GetMaterialApp(
       locale: Locale(controllerLanguage.language.value),
       localizationsDelegates: [
         S.delegate,
@@ -56,7 +55,11 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.fadeIn,
       smartManagement: SmartManagement.full,
 
+      theme: themeController.lightTheme.value,
+      darkTheme: themeController.darkTheme.value,
+      themeMode: themeController.themeMode.value,
+
       home: const AuthWrapper(),
-    );
+    ));
   }
 }

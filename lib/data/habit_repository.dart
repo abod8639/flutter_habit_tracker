@@ -81,6 +81,18 @@ class HabitRepository {
       }
       _updateCache();
       loadHeatmap();
+      
+      // Trigger sync if logged in
+      if (_firestoreService.isUserLoggedIn) {
+        _firestoreService.syncHabits(_habits).then((mergedHabits) {
+          if (mergedHabits.length != _habits.length || _hasDifferences(mergedHabits)) {
+            _habits = mergedHabits;
+            _localDataSource.saveHabits(_habits);
+            _updateCache();
+            loadHeatmap(); // Reload heatmap with new data
+          }
+        });
+      }
     } catch (e) {
       debugPrint('❌ Error loading habit data: $e');
       _habits = [];
@@ -251,5 +263,21 @@ class HabitRepository {
       _dataChanged = true;
       updateData();
     }
+  }
+
+  bool _hasDifferences(List<HabitModel> other) {
+    // Simple check: if lengths are different, they are different.
+    // If lengths are same, check if any habit has different completion status or name.
+    // This is a basic check, can be improved.
+    if (_habits.length != other.length) return true;
+    
+    for (int i = 0; i < _habits.length; i++) {
+      if (_habits[i].id != other[i].id || 
+          _habits[i].isCompleted != other[i].isCompleted ||
+          _habits[i].name != other[i].name) {
+        return true;
+      }
+    }
+    return false;
   }
 }

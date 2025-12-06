@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 
 /// Delete all data from the Habit database safely
@@ -114,6 +115,13 @@ Future<void> clearAppDataAndRestart(BuildContext context) async {
     _showLoadingDialog(context);
 
     // Clear the data
+    
+    // Clear Firestore data first
+    final firestoreService = FirestoreService();
+    if (firestoreService.isUserLoggedIn) {
+      await firestoreService.deleteAllUserData();
+    }
+
     bool success = await clearAllHabitData();
 
     // Close loading dialog

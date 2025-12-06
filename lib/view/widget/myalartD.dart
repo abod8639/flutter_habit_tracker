@@ -18,131 +18,267 @@ class Myalartd extends StatefulWidget {
   _MyalartdState createState() => _MyalartdState();
 }
 
-class _MyalartdState extends State<Myalartd> {
+class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    
+    _scaleAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutBack,
+    );
+    
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+    
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _handleSave() {
+    final text = widget.controller.text.trim();
+    if (text.isNotEmpty) {
+      widget.onSave?.call();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: Row(
+            children: [
+              Icon(Icons.error_outline, color: Colors.white),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  S.current.theFieldCantBeEmpty,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
-      content: RawKeyboardListener(
-        focusNode: FocusNode(),
-        onKey: (RawKeyEvent event) {
-          // Skip handling special keys like NumLock to avoid conflicts
-          if (event.physicalKey == PhysicalKeyboardKey.numLock) {
-            return;
-          }
-          if (event is RawKeyUpEvent) {
-            if (event.isKeyPressed(LogicalKeyboardKey.exit)) {
-              // Close the dialog when user presses Escape
-              Navigator.of(context).pop();
-              widget.controller.clear();
-            }
-            return;
-          }
-
-          if (event is RawKeyDownEvent) {
-            if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-              if (event.isControlPressed) {
-                // Add a new line when user presses Ctrl+Enter
-                final currentText = widget.controller.text;
-                final currentPosition = widget.controller.selection.base.offset;
-
-                // Insert a newline at the current cursor position
-                final newText =
-                    '${currentText.substring(0, currentPosition)}\n${currentText.substring(currentPosition)}';
-
-                // Update the text and cursor position
-                widget.controller.value = TextEditingValue(
-                  text: newText,
-                  selection: TextSelection.collapsed(
-                    offset: currentPosition + 0,
+    final colorScheme = Theme.of(context).colorScheme;
+    
+    return ScaleTransition(
+      scale: _scaleAnimation,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: AlertDialog(
+          backgroundColor: colorScheme.surface,
+          surfaceTintColor: colorScheme.primary.withOpacity(0.05),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          elevation: 8,
+          contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title with icon
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.add_task_rounded,
+                      color: colorScheme.primary,
+                      size: 24,
+                    ),
                   ),
-                );
-              } else {
-                // Execute Add button when user presses Enter
-                final text = widget.controller.text.trim();
-                if (text.isNotEmpty) {
-                  widget.onSave?.call();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      duration: const Duration(seconds: 2),
-                      content: Center(
-                        child: Text(
-                          S.current.theFieldCantBeEmpty,
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      S.current.add,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              
+              // Input field
+              RawKeyboardListener(
+                focusNode: FocusNode(),
+                onKey: (RawKeyEvent event) {
+                  if (event.physicalKey == PhysicalKeyboardKey.numLock) {
+                    return;
+                  }
+                  if (event is RawKeyUpEvent) {
+                    if (event.isKeyPressed(LogicalKeyboardKey.exit)) {
+                      Navigator.of(context).pop();
+                      widget.controller.clear();
+                    }
+                    return;
+                  }
+
+                  if (event is RawKeyDownEvent) {
+                    if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+                      if (event.isControlPressed) {
+                        final currentText = widget.controller.text;
+                        final currentPosition = widget.controller.selection.base.offset;
+                        final newText =
+                            '${currentText.substring(0, currentPosition)}\n${currentText.substring(currentPosition)}';
+                        widget.controller.value = TextEditingValue(
+                          text: newText,
+                          selection: TextSelection.collapsed(
+                            offset: currentPosition + 1,
+                          ),
+                        );
+                      } else {
+                        _handleSave();
+                      }
+                    }
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceVariant.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: colorScheme.outline.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: TextFormField(
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: colorScheme.onSurface,
+                    ),
+                    minLines: 1,
+                    maxLines: 4,
+                    decoration: InputDecoration(
+                      hintText: widget.hintText,
+                      hintStyle: TextStyle(
+                        color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+                        fontWeight: FontWeight.w400,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.edit_rounded,
+                        color: colorScheme.primary.withOpacity(0.7),
+                        size: 20,
                       ),
                     ),
-                  );
-                }
-              }
-            }
-          }
-        },
-        child: TextFormField(
-          mouseCursor: MouseCursor.uncontrolled,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSecondary,
-          ),
-          minLines: 1,
-          maxLines: 4,
-          decoration: InputDecoration(
-            focusColor: Theme.of(context).colorScheme.onSecondary,
-            fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSecondary,
-            ),
-          ),
-          autofocus: true,
-          controller: widget.controller,
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            widget.controller.clear();
-          },
-          child: Text(
-            S.current.cancel,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.error.withOpacity(0.8),
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            final text = widget.controller.text.trim();
-            if (text.isNotEmpty) {
-              widget.onSave?.call();
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Theme.of(context).colorScheme.error,
-                  duration: const Duration(seconds: 2),
-                  content: Center(
-                    child: Text(
-                      S.current.theFieldCantBeEmpty,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
+                    autofocus: true,
+                    controller: widget.controller,
                   ),
                 ),
-              );
-            }
-          },
-          child: Text(
-            S.current.add,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).primaryColor,
-            ),
+              ),
+              
+              const SizedBox(height: 8),
+              
+              // Keyboard shortcuts hint
+              // Text(
+              //   'Press Enter to save • Ctrl+Enter for new line • Esc to cancel',
+              //   style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              //         color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+              //         fontSize: 11,
+              //       ),
+              // ),
+            ],
           ),
+          actions: [
+            // Cancel button
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                widget.controller.clear();
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: colorScheme.error,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.close_rounded, size: 18),
+                  const SizedBox(width: 6),
+                  Text(
+                    S.current.cancel,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+            const SizedBox(width: 8),
+            
+            // Save button
+            FilledButton(
+              onPressed: _handleSave,
+              style: FilledButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 2,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.check_rounded, size: 18),
+                  const SizedBox(width: 6),
+                  Text(
+                    S.current.add,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

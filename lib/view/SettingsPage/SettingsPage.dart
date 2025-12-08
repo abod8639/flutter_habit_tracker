@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/controller/auth_controller.dart';
-import 'package:habit_tracker/controller/lang_controller.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/buildDataSection.dart';
@@ -11,8 +7,6 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAboutSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildNotificationsSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/uildAppearanceSection.dart';
-import 'package:habit_tracker/controller/notification_controller.dart';
-import 'package:habit_tracker/controller/sync_controller.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -43,13 +37,6 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
-
-    final langController = Get.find<LangController>();
-    final authController = Get.put(AuthController());
-    final syncController = Get.put(SyncController());
-    final habitController = Get.find<HabitController>();
-    final notificationController = Get.find<NotificationController>();
-
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
@@ -63,10 +50,10 @@ class _SettingsPageState extends State<SettingsPage>
         body: ListView(
           padding: const EdgeInsets.only(bottom: 24),
           children: [
-            buildAccountSection(authController, _animationController),
-            buildSyncSection(authController, syncController, habitController, _animationController),
-            buildAppearanceSection(langController, _animationController),
-            buildNotificationsSection(notificationController, _animationController),
+            buildAccountSection(_animationController),
+            buildSyncSection( _animationController),
+            buildAppearanceSection( _animationController),
+            buildNotificationsSection( _animationController),
             buildDataSection(_animationController),
             buildAboutSection(_animationController),
           ],

@@ -1,4 +1,5 @@
   import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:habit_tracker/functions/handleNotificationToggle.dart';
@@ -7,7 +8,8 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
-Widget buildNotificationsSection(NotificationController controller , AnimationController _animationController) {
+Widget buildNotificationsSection( AnimationController _animationController) {
+    final notificationController = Get.find<NotificationController>();
     return Builder(
       builder: (context) {
         return Column(
@@ -26,10 +28,10 @@ Widget buildNotificationsSection(NotificationController controller , AnimationCo
               title: S.current.dailyReminder,
               subtitle: S.current.setDailyReminder,
               trailing: Obx(() => Switch(
-                    value: controller.isNotificationEnabled.value,
-                    onChanged: (value) => handleNotificationToggle(controller, value, context),
+                    value: notificationController.isNotificationEnabled.value,
+                    onChanged: (value) => handleNotificationToggle(notificationController, value, context),
                   )),
-              onTap: () => myShowTimePicker(controller, context),
+              onTap: () => myShowTimePicker(notificationController, context),
             ),
           ],
         );

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
@@ -10,11 +11,11 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeade
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildSyncSection(
-    AuthController authController,
-    SyncController syncController,
-    HabitController habitController,
     AnimationController _animationController
   ) {
+    final syncController = Get.put(SyncController());
+    final habitController = Get.find<HabitController>();
+    final authController = Get.put(AuthController());
     return Builder(
       builder: (context) {
         return Obx(() {

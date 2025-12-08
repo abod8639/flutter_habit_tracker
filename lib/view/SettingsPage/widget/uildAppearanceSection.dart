@@ -9,7 +9,8 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
-Widget buildAppearanceSection(LangController langController, AnimationController _animationController) {
+Widget buildAppearanceSection( AnimationController _animationController) {
+    final langController = Get.find<LangController>();
     return Builder(
       builder: (context) {
         return Column(

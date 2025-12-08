@@ -3,8 +3,8 @@
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/functions/navigateToLogin.dart';
+import 'package:habit_tracker/functions/showLogoutDialog.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 

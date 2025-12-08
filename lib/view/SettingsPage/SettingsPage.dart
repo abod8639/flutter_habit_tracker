@@ -10,6 +10,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/%20buildSyncSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/uildAppearanceSection.dart';
 import 'package:habit_tracker/view/auth/loginpage/login_page.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
@@ -70,60 +71,13 @@ class _SettingsPageState extends State<SettingsPage>
           children: [
             buildAccountSection(authController, _animationController),
             buildSyncSection(authController, syncController, habitController, _animationController),
-            _buildAppearanceSection(langController),
+            buildAppearanceSection(langController, _animationController),
             _buildNotificationsSection(notificationController),
             _buildDataSection(),
             _buildAboutSection(),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildAppearanceSection(LangController langController) {
-    return Column(
-      children: [
-        buildAnimatedSectionHeader(
-          _animationController,
-          context,
-          S.current.appearance,
-          4,
-        ),
-        buildAnimatedSettingTile(
-          animationController: _animationController,
-          context,
-          index: 5,
-          icon: Icons.palette_rounded,
-          title: S.current.themepage,
-          subtitle: S.current.changeAppTheme,
-          onTap: () => Get.to(
-            () => const ThemePage(),
-            transition: Transition.rightToLeftWithFade,
-            duration: const Duration(milliseconds: 400),
-          ),
-        ),
-        Obx(
-          () => buildAnimatedSettinglang(
-            context,
-            icon: Icons.language_rounded,
-            currentValue: langController.language.value,
-            entries: const [
-              DropdownMenuEntry(value: "sys", label: "  System Language  "),
-              DropdownMenuEntry(value: "ar", label: "  العربية "),
-              DropdownMenuEntry(value: "en", label: "  English  "),
-            ],
-            onChanged: (value) async {
-              if (value != null) {
-                await langController.changeLanguage(value);
-                RestartWidget.restartApp(context);
-              }
-            },
-            textColor: Theme.of(context).colorScheme.onSecondary,
-            animationController: _animationController,
-            index: 6,
-          ),
-        ),
-      ],
     );
   }
 

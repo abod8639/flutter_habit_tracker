@@ -1,0 +1,61 @@
+
+  import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/controller/lang_controller.dart';
+import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
+import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
+
+Widget buildAppearanceSection(LangController langController, AnimationController _animationController) {
+    return Builder(
+      builder: (context) {
+        return Column(
+          children: [
+            buildAnimatedSectionHeader(
+              _animationController,
+              context,
+              S.current.appearance,
+              4,
+            ),
+            buildAnimatedSettingTile(
+              animationController: _animationController,
+              context,
+              index: 5,
+              icon: Icons.palette_rounded,
+              title: S.current.themepage,
+              subtitle: S.current.changeAppTheme,
+              onTap: () => Get.to(
+                () => const ThemePage(),
+                transition: Transition.rightToLeftWithFade,
+                duration: const Duration(milliseconds: 400),
+              ),
+            ),
+            Obx(
+              () => buildAnimatedSettinglang(
+                context,
+                icon: Icons.language_rounded,
+                currentValue: langController.language.value,
+                entries: const [
+                  DropdownMenuEntry(value: "sys", label: "  System Language  "),
+                  DropdownMenuEntry(value: "ar", label: "  العربية "),
+                  DropdownMenuEntry(value: "en", label: "  English  "),
+                ],
+                onChanged: (value) async {
+                  if (value != null) {
+                    await langController.changeLanguage(value);
+                    RestartWidget.restartApp(context);
+                  }
+                },
+                textColor: Theme.of(context).colorScheme.onSecondary,
+                animationController: _animationController,
+                index: 6,
+              ),
+            ),
+          ],
+        );
+      }
+    );
+  }

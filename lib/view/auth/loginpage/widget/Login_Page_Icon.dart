@@ -10,25 +10,42 @@ class LoginPageIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(
-          Icons.check_circle_outline,
-          size: 80,
-          color: theme.colorScheme.primary,
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primaryContainer.withOpacity(0.3),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.primary.withOpacity(0.2),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.task_alt_rounded,
+            size: 80,
+            color: theme.colorScheme.primary,
+          ),
         ),
-
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
         Text(
           'Habit Tracker',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: theme.colorScheme.primary,
+            letterSpacing: 1.2,
+            color: theme.colorScheme.onSurface,
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
         Text(
           S.current.login,
-          style: theme.textTheme.titleLarge,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+            letterSpacing: 0.5,
+          ),
           textAlign: TextAlign.center,
         ),
       ],

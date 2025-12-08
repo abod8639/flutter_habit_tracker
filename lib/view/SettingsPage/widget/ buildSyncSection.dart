@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/sync_controller.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';

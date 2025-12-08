@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/buildDataSection.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildDataSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/%20buildSyncSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAboutSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildNotificationsSection.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/uildAppearanceSection.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAppearanceSection.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

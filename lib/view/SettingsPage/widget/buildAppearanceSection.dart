@@ -6,7 +6,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingLang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
 Widget buildAppearanceSection( AnimationController _animationController) {
@@ -35,7 +35,7 @@ Widget buildAppearanceSection( AnimationController _animationController) {
               ),
             ),
             Obx(
-              () => buildAnimatedSettinglang(
+              () => buildAnimatedSettingLang(
                 context,
                 icon: Icons.language_rounded,
                 currentValue: langController.language.value,

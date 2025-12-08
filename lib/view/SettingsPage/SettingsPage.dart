@@ -7,17 +7,14 @@ import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/%20buildSyncSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildNotificationsSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/uildAppearanceSection.dart';
 import 'package:habit_tracker/view/auth/loginpage/login_page.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
-import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:habit_tracker/controller/sync_controller.dart';
-
 import 'widget/buildAnimatedSettingTile.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -72,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildAccountSection(authController, _animationController),
             buildSyncSection(authController, syncController, habitController, _animationController),
             buildAppearanceSection(langController, _animationController),
-            _buildNotificationsSection(notificationController),
+            buildNotificationsSection(notificationController, _animationController),
             _buildDataSection(),
             _buildAboutSection(),
           ],
@@ -81,31 +78,7 @@ class _SettingsPageState extends State<SettingsPage>
     );
   }
 
-  Widget _buildNotificationsSection(NotificationController controller) {
-    return Column(
-      children: [
-        buildAnimatedSectionHeader(
-          _animationController,
-          context,
-          S.current.notifications,
-          7,
-        ),
-        buildAnimatedSettingTile(
-          animationController: _animationController,
-          context,
-          index: 8,
-          icon: Icons.notifications_rounded,
-          title: S.current.dailyReminder,
-          subtitle: S.current.setDailyReminder,
-          trailing: Obx(() => Switch(
-                value: controller.isNotificationEnabled.value,
-                onChanged: (value) => _handleNotificationToggle(controller, value, context),
-              )),
-          onTap: () => _showTimePicker(controller, context),
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildDataSection() {
     return Column(
@@ -190,14 +163,14 @@ class _SettingsPageState extends State<SettingsPage>
     }
   }
 
-  Future<void> _handleNotificationToggle(
+  Future<void> handleNotificationToggle(
     NotificationController controller,
     bool value,
     BuildContext context
   ) async {
     await controller.toggleNotification(value);
     if (value && context.mounted) {
-      await _showTimePicker(controller, context);
+      await myShowTimePicker(controller, context);
     } else {
       Get.snackbar(
         S.current.success,
@@ -208,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage>
     }
   }
 
-  Future<void> _showTimePicker(NotificationController controller , BuildContext context) async {
+  Future<void> myShowTimePicker(NotificationController controller , BuildContext context) async {
     if (!controller.isNotificationEnabled.value || !context.mounted) return;
 
     final TimeOfDay? picked = await showTimePicker(

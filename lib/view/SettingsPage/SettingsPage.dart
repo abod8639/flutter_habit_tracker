@@ -8,6 +8,8 @@ import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/%20buildSyncSection.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
 import 'package:habit_tracker/view/auth/loginpage/login_page.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/lang.dart';
@@ -46,6 +48,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
+
     final langController = Get.find<LangController>();
     final authController = Get.put(AuthController());
     final syncController = Get.put(SyncController());
@@ -65,8 +68,8 @@ class _SettingsPageState extends State<SettingsPage>
         body: ListView(
           padding: const EdgeInsets.only(bottom: 24),
           children: [
-            _buildAccountSection(authController),
-            _buildSyncSection(authController, syncController, habitController),
+            buildAccountSection(authController, _animationController),
+            buildSyncSection(authController, syncController, habitController, _animationController),
             _buildAppearanceSection(langController),
             _buildNotificationsSection(notificationController),
             _buildDataSection(),
@@ -75,166 +78,6 @@ class _SettingsPageState extends State<SettingsPage>
         ),
       ),
     );
-  }
-
-  Widget _buildAccountSection(AuthController authController) {
-    return Obx(() {
-      final user = authController.currentUser;
-      if (user != null) {
-        return Column(
-          children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.account,
-              0,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primaryContainer,
-                    Theme.of(context).colorScheme.secondaryContainer,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                        width: 2,
-                      ),
-                    ),
-                    child: CircleAvatar(
-                      radius: 32,
-                      backgroundImage: user.photoURL != null
-                          ? NetworkImage(user.photoURL!)
-                          : null,
-                      child: user.photoURL == null
-                          ? Icon(
-                              Icons.person,
-                              size: 32,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
-                          : null,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          user.displayName ?? S.current.user,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          user.email ?? '',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer
-                                    .withOpacity(0.8),
-                              ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            buildAnimatedSettingTile(
-              animationController: _animationController,
-              context,
-              index: 1,
-              icon: Icons.logout_rounded,
-              title: S.current.logout,
-              subtitle: S.current.logoutFromAccount,
-              textColor: Colors.red,
-              onTap: () => _showLogoutDialog(authController),
-            ),
-          ],
-        );
-      } else {
-        return Column(
-          children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.account,
-              0,
-            ),
-            buildAnimatedSettingTile(
-              animationController: _animationController,
-              context,
-              index: 1,
-              icon: Icons.login_rounded,
-              title: S.current.loginToAccount,
-              subtitle: S.current.loginToEnableSync,
-              onTap: () => _navigateToLogin(),
-            ),
-          ],
-        );
-      }
-    });
-  }
-
-  Widget _buildSyncSection(
-    AuthController authController,
-    SyncController syncController,
-    HabitController habitController,
-  ) {
-    return Obx(() {
-      final user = authController.currentUser;
-      if (user != null) {
-        // setstate home page 
-
-        return Column(
-          children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.cloudSync,
-              2,
-            ),
-            Obx(() => buildAnimatedSettingTile(
-                  animationController: _animationController,
-                  context,
-                  index: 3,
-                  icon: syncController.syncStatus.value == SyncStatus.syncing
-                      ? Icons.sync_rounded
-                      : Icons.cloud_upload_outlined,
-                  title: S.current.syncNow,
-                  subtitle: syncController.syncStatusMessage,
-                  onTap: syncController.syncStatus.value == SyncStatus.syncing
-                      ? null
-                      : () => _performSync(syncController, habitController),
-                )),
-          ],
-        );
-      }
-      return const SizedBox.shrink();
-    });
   }
 
   Widget _buildAppearanceSection(LangController langController) {
@@ -302,9 +145,9 @@ class _SettingsPageState extends State<SettingsPage>
           subtitle: S.current.setDailyReminder,
           trailing: Obx(() => Switch(
                 value: controller.isNotificationEnabled.value,
-                onChanged: (value) => _handleNotificationToggle(controller, value),
+                onChanged: (value) => _handleNotificationToggle(controller, value, context),
               )),
-          onTap: () => _showTimePicker(controller),
+          onTap: () => _showTimePicker(controller, context),
         ),
       ],
     );
@@ -356,8 +199,8 @@ class _SettingsPageState extends State<SettingsPage>
       ],
     );
   }
-
-  Future<void> _showLogoutDialog(AuthController authController) async {
+    }
+  Future<void> showLogoutDialog(AuthController authController) async {
     Get.defaultDialog(
       title: S.current.logoutConfirmTitle,
       middleText: S.current.logoutConfirmMessage,
@@ -375,14 +218,14 @@ class _SettingsPageState extends State<SettingsPage>
     );
   }
 
-  Future<void> _navigateToLogin() async {
+  Future<void> navigateToLogin() async {
     final settingsStorage = SettingsStorage();
     await settingsStorage.init();
     await settingsStorage.setSkippedLogin(false);
     Get.offAll(() => const LoginPage());
   }
 
-  Future<void> _performSync(
+  Future<void> performSync(
     SyncController syncController,
     HabitController habitController,
   ) async {
@@ -396,10 +239,11 @@ class _SettingsPageState extends State<SettingsPage>
   Future<void> _handleNotificationToggle(
     NotificationController controller,
     bool value,
+    BuildContext context
   ) async {
     await controller.toggleNotification(value);
     if (value && context.mounted) {
-      await _showTimePicker(controller);
+      await _showTimePicker(controller, context);
     } else {
       Get.snackbar(
         S.current.success,
@@ -410,7 +254,7 @@ class _SettingsPageState extends State<SettingsPage>
     }
   }
 
-  Future<void> _showTimePicker(NotificationController controller) async {
+  Future<void> _showTimePicker(NotificationController controller , BuildContext context) async {
     if (!controller.isNotificationEnabled.value || !context.mounted) return;
 
     final TimeOfDay? picked = await showTimePicker(
@@ -428,4 +272,5 @@ class _SettingsPageState extends State<SettingsPage>
       );
     }
   }
-}
+
+

@@ -4,19 +4,17 @@ import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
 import 'package:habit_tracker/data/settings_storage.dart';
-import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/buildDataSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/%20buildSyncSection.dart';
+import 'package:habit_tracker/view/SettingsPage/widget/buildAboutSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildNotificationsSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/uildAppearanceSection.dart';
 import 'package:habit_tracker/view/auth/loginpage/login_page.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:habit_tracker/controller/sync_controller.dart';
-import 'widget/buildAnimatedSettingTile.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -72,39 +70,15 @@ class _SettingsPageState extends State<SettingsPage>
             buildAppearanceSection(langController, _animationController),
             buildNotificationsSection(notificationController, _animationController),
             buildDataSection(_animationController),
-            _buildAboutSection(),
+            buildAboutSection(_animationController),
           ],
         ),
       ),
     );
   }
 
+}
 
-
-  Widget _buildAboutSection() {
-    return Column(
-      children: [
-        buildAnimatedSectionHeader(
-          _animationController,
-          context,
-          S.current.about,
-          11,
-        ),
-        buildAnimatedSettingTile(
-          animationController: _animationController,
-          context,
-          index: 12,
-          icon: Icons.info_outline_rounded,
-          title: S.current.about,
-          subtitle: S.current.appVersionAndInformation,
-          onTap: () {
-            // TODO: Implement about page
-          },
-        ),
-      ],
-    );
-  }
-    }
   Future<void> showLogoutDialog(AuthController authController) async {
     Get.defaultDialog(
       title: S.current.logoutConfirmTitle,

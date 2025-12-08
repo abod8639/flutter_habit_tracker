@@ -12,7 +12,6 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAboutSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildNotificationsSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/uildAppearanceSection.dart';
-import 'package:habit_tracker/view/auth/loginpage/login_page.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:habit_tracker/controller/sync_controller.dart';
 
@@ -97,23 +96,8 @@ class _SettingsPageState extends State<SettingsPage>
     );
   }
 
-  Future<void> navigateToLogin() async {
-    final settingsStorage = SettingsStorage();
-    await settingsStorage.init();
-    await settingsStorage.setSkippedLogin(false);
-    Get.offAll(() => const LoginPage());
-  }
 
-  Future<void> performSync(
-    SyncController syncController,
-    HabitController habitController,
-  ) async {
-    final habits = habitController.db.todaysHabitList;
-    final result = await syncController.manualSync(habits);
-    if (result != null) {
-      habitController.updateHabits(result);
-    }
-  }
+
 
 
 

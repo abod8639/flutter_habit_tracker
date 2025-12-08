@@ -115,41 +115,7 @@ class _SettingsPageState extends State<SettingsPage>
     }
   }
 
-  Future<void> handleNotificationToggle(
-    NotificationController controller,
-    bool value,
-    BuildContext context
-  ) async {
-    await controller.toggleNotification(value);
-    if (value && context.mounted) {
-      await myShowTimePicker(controller, context);
-    } else {
-      Get.snackbar(
-        S.current.success,
-        'Notifications disabled',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
-      );
-    }
-  }
 
-  Future<void> myShowTimePicker(NotificationController controller , BuildContext context) async {
-    if (!controller.isNotificationEnabled.value || !context.mounted) return;
 
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: controller.notificationTime.value ?? TimeOfDay.now(),
-    );
-
-    if (picked != null && context.mounted) {
-      await controller.setNotificationTime(picked);
-      Get.snackbar(
-        S.current.success,
-        'Reminder set for ${picked.format(context)}',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
-      );
-    }
-  }
 
 

@@ -38,16 +38,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final LangController controllerLanguage = Get.put(LangController());
     final ThemeController themeController = Get.find<ThemeController>();
+    
     return Obx(() => GetMaterialApp(
+
       locale: Locale(controllerLanguage.language.value),
+
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+
       supportedLocales: S.delegate.supportedLocales,
 
       debugShowCheckedModeBanner: false,

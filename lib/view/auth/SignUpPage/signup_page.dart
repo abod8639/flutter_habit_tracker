@@ -239,15 +239,15 @@ class _SignUpPageState extends State<SignUpPage> {
                           ? null
                           : _handleGoogleSignIn,
                       icon: Image.asset(
-                        'assets/google_logo.png',
-                        height: 24,
+                        'assets/icon/google_icon.png',
+                        height: 44,
                         errorBuilder: (context, error, stackTrace) {
                           return const Icon(Icons.g_mobiledata, size: 24);
                         },
                       ),
                       label: Text(S.current.signUpWithGoogle),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),

@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/auth/signup_page.dart';
+import 'package:habit_tracker/view/auth/loginpage/widget/Login_Page_Icon.dart';
+import 'package:habit_tracker/view/auth/SignUpPage/signup_page.dart';
 import 'package:habit_tracker/view/auth/forgot_password_page.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
 
@@ -57,27 +58,22 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          await _settingsStorage.init();
+                          await _settingsStorage.setSkippedLogin(true);
+                          Get.offAll(() => const HomeScreen());
+                        },
+                        child: Text(S.current.skipNow),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ),
+                 LoginPageIcon(theme: theme,),
                   // Logo or App Name
-                  Icon(
-                    Icons.check_circle_outline,
-                    size: 80,
-                    color: theme.colorScheme.primary,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Habit Tracker',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    S.current.login,
-                    style: theme.textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
                   const SizedBox(height: 48),
 
                   // Email Field
@@ -101,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
+
                   const SizedBox(height: 16),
 
                   // Password Field
@@ -136,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
+
                   const SizedBox(height: 8),
 
                   // Forgot Password
@@ -153,29 +151,32 @@ class _LoginPageState extends State<LoginPage> {
                   // Sign In Button
                   Obx(
                     () => ElevatedButton(
-                      onPressed: _authController.isLoading.value
-                          ? null
-                          : _handleEmailSignIn,
+                      onPressed:
+                          _authController.isLoading.value
+                              ? null
+                              : _handleEmailSignIn,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: _authController.isLoading.value
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
+                      child:
+                          _authController.isLoading.value
+                              ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : Text(
+                                S.current.login,
+                                style: TextStyle(fontSize: 16),
                               ),
-                            )
-                          : Text(
-                              S.current.login,
-                              style: TextStyle(fontSize: 16),
-                            ),
                     ),
                   ),
+
                   const SizedBox(height: 16),
 
                   // Divider
@@ -197,25 +198,30 @@ class _LoginPageState extends State<LoginPage> {
                   // Google Sign In Button
                   Obx(
                     () => OutlinedButton.icon(
-                      onPressed: _authController.isLoading.value
-                          ? null
-                          : _handleGoogleSignIn,
+
+                      onPressed:
+                          _authController.isLoading.value
+                              ? null
+                              : _handleGoogleSignIn,
                       icon: Image.asset(
-                        'assets/google_logo.png',
-                        height: 24,
+                        'assets/icon/google_icon.png',
+                        height: 44,
                         errorBuilder: (context, error, stackTrace) {
-                          return const Icon(Icons.g_mobiledata, size: 24);
+                          return const Icon(Icons.g_mobiledata, size: 44);
                         },
                       ),
                       label: Text(S.current.signInWithGoogle),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          
+
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
                         ),
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 24),
 
                   // Sign Up Link
@@ -234,21 +240,20 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 24),
 
                   // Skip Now Link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(S.current.skipNow),
-                      TextButton(
-                        onPressed: () async {
-                          await _settingsStorage.init();
-                          await _settingsStorage.setSkippedLogin(true);
-                          Get.offAll(() => const HomeScreen());
-                        },
-                        child: Text(S.current.skipNow),
-                      ),
-                    ],
-                  ),
-
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Text(S.current.skipNow),
+                  //     TextButton(
+                  //       onPressed: () async {
+                  //         await _settingsStorage.init();
+                  //         await _settingsStorage.setSkippedLogin(true);
+                  //         Get.offAll(() => const HomeScreen());
+                  //       },
+                  //       child: Text(S.current.skipNow),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

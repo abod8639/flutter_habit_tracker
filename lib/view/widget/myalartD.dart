@@ -167,7 +167,7 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: colorScheme.surfaceVariant.withOpacity(0.3),
+                    color: colorScheme.surfaceContainerHighest.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: colorScheme.outline.withOpacity(0.2),

@@ -7,6 +7,7 @@ import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/view/SettingsPage/buildDataSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/%20buildSyncSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAccountSection.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildNotificationsSection.dart';
@@ -70,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage>
             buildSyncSection(authController, syncController, habitController, _animationController),
             buildAppearanceSection(langController, _animationController),
             buildNotificationsSection(notificationController, _animationController),
-            _buildDataSection(),
+            buildDataSection(_animationController),
             _buildAboutSection(),
           ],
         ),
@@ -79,29 +80,6 @@ class _SettingsPageState extends State<SettingsPage>
   }
 
 
-
-  Widget _buildDataSection() {
-    return Column(
-      children: [
-        buildAnimatedSectionHeader(
-          _animationController,
-          context,
-          'Data',
-          9,
-        ),
-        buildAnimatedSettingTile(
-          animationController: _animationController,
-          context,
-          index: 10,
-          icon: Icons.delete_sweep_rounded,
-          title: S.current.clearAllData,
-          subtitle: S.current.deleteAllHabitsAndSettings,
-          textColor: Colors.red,
-          onTap: () => clearAppDataAndRestart(context),
-        ),
-      ],
-    );
-  }
 
   Widget _buildAboutSection() {
     return Column(

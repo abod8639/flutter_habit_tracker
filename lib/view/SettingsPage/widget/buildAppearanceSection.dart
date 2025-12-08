@@ -1,10 +1,9 @@
 
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingLang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
@@ -15,12 +14,7 @@ Widget buildAppearanceSection( AnimationController _animationController) {
       builder: (context) {
         return Column(
           children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.appearance,
-              4,
-            ),
+
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,
@@ -40,9 +34,11 @@ Widget buildAppearanceSection( AnimationController _animationController) {
                 icon: Icons.language_rounded,
                 currentValue: langController.language.value,
                 entries: const [
+
                   DropdownMenuEntry(value: "sys", label: "  System Language  "),
                   DropdownMenuEntry(value: "ar", label: "  العربية "),
                   DropdownMenuEntry(value: "en", label: "  English  "),
+
                 ],
                 onChanged: (value) async {
                   if (value != null) {

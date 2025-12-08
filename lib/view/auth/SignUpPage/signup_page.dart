@@ -64,6 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
+
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: Form(
               key: _formKey,
@@ -71,6 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  
                   AnimatedEntry(
                     delay: delayStep,
                     child: Container(

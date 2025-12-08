@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildAboutSection(AnimationController _animationController) {
@@ -8,12 +7,7 @@ Widget buildAboutSection(AnimationController _animationController) {
       builder: (context) {
         return Column(
           children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.about,
-              11,
-            ),
+
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,

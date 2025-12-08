@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildDataSection(AnimationController _animationController) {
@@ -10,12 +9,7 @@ Widget buildDataSection(AnimationController _animationController) {
       builder: (context) {
         return Column(
           children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              'Data',
-              9,
-            ),
+
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,

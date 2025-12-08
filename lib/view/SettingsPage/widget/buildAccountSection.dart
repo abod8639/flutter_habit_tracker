@@ -6,7 +6,6 @@ import 'package:habit_tracker/controller/auth_controller.dart';
 import 'package:habit_tracker/functions/navigateToLogin.dart';
 import 'package:habit_tracker/functions/showLogoutDialog.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildAccountSection(AnimationController animationController) {
@@ -17,12 +16,7 @@ Widget buildAccountSection(AnimationController animationController) {
       if (user != null) {
         return Column(
           children: [
-            buildAnimatedSectionHeader(
-              animationController,
-              context,
-              S.current.account,
-              0,
-            ),
+
             buildAnimatedUserCard(
               animationController,
               user.displayName ?? S.current.user,
@@ -45,12 +39,7 @@ Widget buildAccountSection(AnimationController animationController) {
       } else {
         return Column(
           children: [
-            buildAnimatedSectionHeader(
-              animationController,
-              context,
-              S.current.account,
-              0,
-            ),
+
             buildAnimatedSettingTile(
               animationController: animationController,
               context,

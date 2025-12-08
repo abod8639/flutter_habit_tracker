@@ -5,7 +5,6 @@ import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:habit_tracker/functions/handleNotificationToggle.dart';
 import 'package:habit_tracker/functions/myShowTimePicker.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildNotificationsSection( AnimationController _animationController) {
@@ -14,12 +13,7 @@ Widget buildNotificationsSection( AnimationController _animationController) {
       builder: (context) {
         return Column(
           children: [
-            buildAnimatedSectionHeader(
-              _animationController,
-              context,
-              S.current.notifications,
-              7,
-            ),
+
             buildAnimatedSettingTile(
               animationController: _animationController,
               context,

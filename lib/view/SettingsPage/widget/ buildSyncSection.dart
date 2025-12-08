@@ -7,7 +7,6 @@ import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/sync_controller.dart';
 import 'package:habit_tracker/functions/performSync.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSectionHeader.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildSyncSection(
@@ -25,12 +24,7 @@ Widget buildSyncSection(
         
             return Column(
               children: [
-                buildAnimatedSectionHeader(
-                  _animationController,
-                  context,
-                  S.current.cloudSync,
-                  2,
-                ),
+
                 Obx(() => buildAnimatedSettingTile(
                       animationController: _animationController,
                       context,

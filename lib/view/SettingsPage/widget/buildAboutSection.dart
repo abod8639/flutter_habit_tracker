@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
-Widget buildAboutSection(AnimationController _animationController) {
+Widget buildAboutSection(AnimationController animationController) {
     return Builder(
       builder: (context) {
         return Column(
           children: [
 
             buildAnimatedSettingTile(
-              animationController: _animationController,
+              animationController: animationController,
               context,
               index: 12,
               icon: Icons.info_outline_rounded,

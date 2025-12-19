@@ -1,6 +1,5 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 

@@ -7,7 +7,7 @@ import 'package:habit_tracker/functions/myShowTimePicker.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
-Widget buildNotificationsSection( AnimationController _animationController) {
+Widget buildNotificationsSection( AnimationController animationController) {
     final notificationController = Get.find<NotificationController>();
     return Builder(
       builder: (context) {
@@ -15,7 +15,7 @@ Widget buildNotificationsSection( AnimationController _animationController) {
           children: [
 
             buildAnimatedSettingTile(
-              animationController: _animationController,
+              animationController: animationController,
               context,
               index: 8,
               icon: Icons.notifications_rounded,

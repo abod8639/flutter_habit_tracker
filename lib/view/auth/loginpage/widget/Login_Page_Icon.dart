@@ -4,7 +4,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 
 class LoginPageIcon extends StatelessWidget {
   final ThemeData theme;
-  const LoginPageIcon({Key? key, required this.theme}) : super(key: key);
+  const LoginPageIcon({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {

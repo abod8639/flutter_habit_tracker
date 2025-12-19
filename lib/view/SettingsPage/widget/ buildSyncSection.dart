@@ -10,7 +10,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
 Widget buildSyncSection(
-    AnimationController _animationController
+    AnimationController animationController
   ) {
     final syncController = Get.put(SyncController());
     final habitController = Get.find<HabitController>();
@@ -26,7 +26,7 @@ Widget buildSyncSection(
               children: [
 
                 Obx(() => buildAnimatedSettingTile(
-                      animationController: _animationController,
+                      animationController: animationController,
                       context,
                       index: 3,
                       icon: syncController.syncStatus.value == SyncStatus.syncing

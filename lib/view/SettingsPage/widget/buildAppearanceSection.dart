@@ -8,7 +8,7 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingLang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
-Widget buildAppearanceSection( AnimationController _animationController) {
+Widget buildAppearanceSection( AnimationController animationController) {
     final langController = Get.find<LangController>();
     return Builder(
       builder: (context) {
@@ -16,7 +16,7 @@ Widget buildAppearanceSection( AnimationController _animationController) {
           children: [
 
             buildAnimatedSettingTile(
-              animationController: _animationController,
+              animationController: animationController,
               context,
               index: 5,
               icon: Icons.palette_rounded,
@@ -47,7 +47,7 @@ Widget buildAppearanceSection( AnimationController _animationController) {
                   }
                 },
                 textColor: Theme.of(context).colorScheme.onSecondary,
-                animationController: _animationController,
+                animationController: animationController,
                 index: 6,
               ),
             ),

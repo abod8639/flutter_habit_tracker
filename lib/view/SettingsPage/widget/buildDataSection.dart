@@ -4,14 +4,14 @@ import 'package:habit_tracker/functions/clear_all_habit_data.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 
-Widget buildDataSection(AnimationController _animationController) {
+Widget buildDataSection(AnimationController animationController) {
     return Builder(
       builder: (context) {
         return Column(
           children: [
 
             buildAnimatedSettingTile(
-              animationController: _animationController,
+              animationController: animationController,
               context,
               index: 10,
               icon: Icons.delete_sweep_rounded,

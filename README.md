@@ -20,13 +20,13 @@ A **beautiful**, **responsive**, and **intuitive** habit tracking app built with
 ##  Screenshots
 
 **Home Page**  
-![Home](assets/image/5.png)
+![Rate](assets/image/2.png)  
 
 **Theme Selection**  
 ![Themes](assets/image/4.png)
 
 **Rate Page**  
-![Rate](assets/image/2.png)  
+![Home](assets/image/5.png)
 ![Rate](assets/image/3.png)
 
 ---

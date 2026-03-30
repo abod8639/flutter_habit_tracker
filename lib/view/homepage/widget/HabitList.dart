@@ -27,51 +27,23 @@ class HabitList extends StatelessWidget {
           itemCount: habits.length,
           onReorder: (oldIndex, newIndex) =>
               controller.reorderHabits(oldIndex, newIndex),
-          proxyDecorator: (child, index, animation) {
-            return AnimatedBuilder(
-              animation: animation,
-              builder: (context, child) {
-                final double elevation =
-                    Curves.easeInOut.transform(animation.value) * 10;
-                final double scale =
-                    1.0 + (Curves.easeInOut.transform(animation.value) * 0.05);
-                return Material(
-                  elevation: elevation,
-                  borderRadius: BorderRadius.circular(10),
-                  shadowColor: Colors.black.withValues(alpha: 0.3),
-                  color: Colors.transparent,
-                  child: Transform.scale(scale: scale, child: child),
-                );
-              },
-              child: child,
-            );
-          },
           itemBuilder: (context, index) {
+            final habit = habits[index];
             return ReorderableDelayedDragStartListener(
+              key: ValueKey(habit.id),
               index: index,
-              key: ValueKey(habits[index].id),
-              child: TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0.0, end: 1.0),
-                duration: Duration(milliseconds: 300 + (index * 50)),
-                curve: Curves.easeOutQuint,
-                builder: (context, value, child) {
-                  return Transform.translate(
-                    offset: Offset(0, 20 * (1 - value)),
-                    child: Opacity(opacity: value, child: child),
-                  );
-                },
-                child: MyTextTaile(
-                  habitName: habits[index].name,
-                  habitCompleted: habits[index].isCompleted,
-                  isSelected: controller.selectedHabitIds.contains(habits[index].id),
-                  isSelectionMode: controller.isSelectionMode,
-                  colorValue: habits[index].colorValue,
-                  onTap: () => toggleHabit(!habits[index].isCompleted, index),
-                  onDelete: (context) => deleteHabit(index, context),
-                  onEdit: (context) => editHabit(index, context),
-                  onChanged: (value) => toggleHabit(value, index),
-                  onLongPress: () => controller.toggleHabitSelection(habits[index].id),
-                ),
+              enabled: controller.isSelectionMode,
+              child: MyTextTaile(
+                habitName: habit.name,
+                habitCompleted: habit.isCompleted,
+                isSelected: controller.selectedHabitIds.contains(habit.id),
+                isSelectionMode: controller.isSelectionMode,
+                colorValue: habit.colorValue,
+                onTap: () => toggleHabit(!habit.isCompleted, index),
+                onDelete: (context) => deleteHabit(index, context),
+                onEdit: (context) => editHabit(index, context),
+                onChanged: (value) => toggleHabit(value, index),
+                onLongPress: () => controller.toggleHabitSelection(habit.id),
               ),
             );
           },

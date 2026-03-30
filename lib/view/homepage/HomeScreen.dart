@@ -10,10 +10,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HabitController>(
-      init: HabitController(),
-      builder: (controller) => _buildResponsiveLayout(context, controller),
-    );
+    if (!Get.isRegistered<HabitController>()) {
+      Get.put(HabitController());
+    }
+    
+    return _buildResponsiveLayout(context, Get.find<HabitController>());
   }
 
   Widget _buildResponsiveLayout(

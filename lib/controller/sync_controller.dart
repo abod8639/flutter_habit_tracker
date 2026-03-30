@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/data/habit_repository.dart';
 
 enum SyncStatus {
   idle,
@@ -51,7 +52,19 @@ class SyncController extends GetxController {
       syncStatus.value = SyncStatus.syncing;
       errorMessage.value = '';
 
-      final mergedHabits = await _firestoreService.syncHabits(localHabits);
+      List<String> localTombstones = [];
+      if (Get.isRegistered<HabitRepository>()) {
+        localTombstones = Get.find<HabitRepository>().getLocalTombstones();
+      }
+
+      final mergedHabits = await _firestoreService.syncHabits(
+        localHabits,
+        localTombstones: localTombstones,
+      );
+
+      if (Get.isRegistered<HabitRepository>()) {
+        Get.find<HabitRepository>().clearLocalTombstones();
+      }
 
       lastSyncTime.value = DateTime.now();
       syncStatus.value = SyncStatus.success;
@@ -87,7 +100,19 @@ class SyncController extends GetxController {
     try {
       syncStatus.value = SyncStatus.syncing;
 
-      final mergedHabits = await _firestoreService.syncHabits(localHabits);
+      List<String> localTombstones = [];
+      if (Get.isRegistered<HabitRepository>()) {
+        localTombstones = Get.find<HabitRepository>().getLocalTombstones();
+      }
+
+      final mergedHabits = await _firestoreService.syncHabits(
+        localHabits,
+        localTombstones: localTombstones,
+      );
+
+      if (Get.isRegistered<HabitRepository>()) {
+        Get.find<HabitRepository>().clearLocalTombstones();
+      }
 
       lastSyncTime.value = DateTime.now();
       syncStatus.value = SyncStatus.success;

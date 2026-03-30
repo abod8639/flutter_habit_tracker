@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 
 @HiveType(typeId: 0)
@@ -20,6 +21,12 @@ class HabitModel {
   @HiveField(5)
   int? colorValue;
 
+  @HiveField(6)
+  int? index;
+
+  @HiveField(7)
+  DateTime? updatedAt;
+
   HabitModel({
     String? id,
     required this.name,
@@ -27,20 +34,33 @@ class HabitModel {
     required this.createdAt,
     this.completedAt,
     this.colorValue,
+    this.index,
+    this.updatedAt,
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString();
+
+  static DateTime _parseDate(dynamic dateData, {DateTime? fallback}) {
+    if (dateData == null) return fallback ?? DateTime.now();
+    if (dateData is Timestamp) return dateData.toDate();
+    if (dateData is String) {
+      try {
+        return DateTime.parse(dateData);
+      } catch (e) {
+        return fallback ?? DateTime.now();
+      }
+    }
+    return fallback ?? DateTime.now();
+  }
 
   factory HabitModel.fromMap(Map<String, dynamic> map) {
     return HabitModel(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
-      createdAt: map['created_at'] != null
-          ? DateTime.parse(map['created_at'])
-          : DateTime.now(),
-      completedAt: map['completed_at'] != null
-          ? DateTime.parse(map['completed_at'])
-          : null,
+      createdAt: _parseDate(map['created_at']),
+      completedAt: map['completed_at'] != null ? _parseDate(map['completed_at']) : null,
       colorValue: map['color_value'],
+      index: map['index'],
+      updatedAt: map['updatedAt'] != null ? _parseDate(map['updatedAt']) : null,
     );
   }
 
@@ -52,6 +72,8 @@ class HabitModel {
       'created_at': createdAt.toIso8601String(),
       'completed_at': completedAt?.toIso8601String(),
       'color_value': colorValue,
+      'index': index,
+      'updatedAt': updatedAt?.toIso8601String(), // Only for local use if requested; Firestore will overwrite it anyway with Timestamp
     };
   }
 
@@ -88,6 +110,8 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
       createdAt: fields[3] as DateTime,
       completedAt: fields[4] as DateTime?,
       colorValue: fields[5] as int?,
+      index: fields[6] as int?,
+      updatedAt: numOfFields > 7 ? fields[7] as DateTime? : null,
     );
   }
 
@@ -106,7 +130,11 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
       ..writeByte(4)
       ..write(obj.completedAt)
       ..writeByte(5)
-      ..write(obj.colorValue);
+      ..write(obj.colorValue)
+      ..writeByte(6)
+      ..write(obj.index)
+      ..writeByte(7)
+      ..write(obj.updatedAt);
   }
 
   @override

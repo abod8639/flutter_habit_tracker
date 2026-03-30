@@ -16,10 +16,29 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> initializeApp() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(fileName: ".env");
-    await Hive.initFlutter();
-    Hive.registerAdapter(HabitModelAdapter());
 
+    // 1. Initialize Hive First (Critical for Data Persistence)
+    await Hive.initFlutter();
+    if (!Hive.isAdapterRegistered(0)) { // Example check, using name/typeId is safer
+      // Only register if not already there to avoid errors on hot restart
+      try { Hive.registerAdapter(HabitModelAdapter()); } catch(_) {}
+    }
+
+    // 2. Open Boxes as soon as possible
+    await Future.wait([
+      Hive.openBox(HabitStorage.boxName),
+      Hive.openBox(ThemeStorageService.themeBox),
+      Hive.openBox(LangStorage.boxName),
+    ]);
+
+    // 3. Load Env (Non-critical, wrap in try-catch)
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      debugPrint('Failed to load .env: $e');
+    }
+
+    // 4. Initialize Notifications (Non-critical)
     try {
       final notificationService = NotificationService();
       await notificationService.init();
@@ -28,20 +47,16 @@ Future<void> initializeApp() async {
       debugPrint('Failed to initialize notifications: $e');
     }
 
-    await Future.wait([
-      Hive.openBox(HabitStorage.boxName),
-      Hive.openBox(ThemeStorageService.themeBox),
-      Hive.openBox(LangStorage.boxName),
-    ]);
-
-    Get.put(HabitController());
+    // 5. Initialize Controllers
     Get.put(ThemeController());
     Get.put(LangController());
+    Get.put(HabitController());
     Get.put(TrendChartState());
     Get.put(NotificationController());
   } catch (e, stack) {
-    debugPrint('Error during initialization: $e');
+    debugPrint('FATAL initialization error: $e');
     debugPrint('Stack trace: $stack');
+    // We throw to let main.dart show the ErrorApp
     throw Exception('Failed to initialize app: $e');
   }
 }

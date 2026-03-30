@@ -23,6 +23,11 @@ class FirestoreService {
     return _userDoc?.collection('habits');
   }
 
+  // Get deleted habits collection reference
+  CollectionReference? get _deletedHabitsCollection {
+    return _userDoc?.collection('deleted_habits');
+  }
+
   // Upload habits to Firestore
   Future<void> uploadHabits(List<HabitModel> habits) async {
     if (!isUserLoggedIn) {
@@ -76,13 +81,18 @@ class FirestoreService {
 
       final snapshot = await _habitsCollection!.get();
 
-      final habits = snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return HabitModel.fromMap(data);
-      }).toList();
+        final habits = snapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          // Ensure ID is set from doc if missing in data
+          data['id'] = data['id'] ?? doc.id;
+          return HabitModel.fromMap(data);
+        }).toList();
 
-      debugPrint('✅ Downloaded ${habits.length} habits from Firestore');
-      return habits;
+        // Sort by index for correct order across devices
+        habits.sort((a, b) => (a.index ?? 0).compareTo(b.index ?? 0));
+
+        debugPrint('✅ Downloaded ${habits.length} habits from Firestore');
+        return habits;
     } catch (e) {
       debugPrint('❌ Error downloading habits: $e');
       rethrow;
@@ -90,7 +100,7 @@ class FirestoreService {
   }
 
   // Sync habits (smart merge)
-  Future<List<HabitModel>> syncHabits(List<HabitModel> localHabits) async {
+  Future<List<HabitModel>> syncHabits(List<HabitModel> localHabits, {List<String> localTombstones = const []}) async {
     if (!isUserLoggedIn) {
       debugPrint('⚠️ Cannot sync: User not logged in');
       return localHabits;
@@ -99,8 +109,18 @@ class FirestoreService {
     try {
       debugPrint('🔄 Starting habit sync');
 
+      // Process local tombstones first
+      for (var id in localTombstones) {
+        // This will delete it on the server and create a server tombstone
+        await deleteHabit(id);
+      }
+
       // Download cloud habits
       final cloudHabits = await downloadHabits();
+
+      // Download tombstones
+      final deletedSnapshot = await _deletedHabitsCollection!.get();
+      final deletedHabitsMap = {for (var doc in deletedSnapshot.docs) doc.id: true};
 
       // Create maps for easier lookup
       final localMap = {for (var h in localHabits) h.id: h};
@@ -119,13 +139,17 @@ class FirestoreService {
           mergedHabits.add(cloud!);
         } else if (cloud == null) {
           // Only local
-          mergedHabits.add(local);
+          if (deletedHabitsMap.containsKey(id)) {
+            // Was deleted on another device
+            debugPrint('🗑️ Habit $id was deleted in cloud, ignoring local copy');
+          } else {
+            // New local habit
+            mergedHabits.add(local);
+          }
         } else {
           // In both - compare timestamps
-          // For now, we'll use createdAt as a proxy for updatedAt
-          // In a real app, you'd add updatedAt field
-          final localTime = local.completedAt ?? local.createdAt;
-          final cloudTime = cloud.completedAt ?? cloud.createdAt;
+          final localTime = local.updatedAt ?? local.completedAt ?? local.createdAt;
+          final cloudTime = cloud.updatedAt ?? cloud.completedAt ?? cloud.createdAt;
 
           if (localTime.isAfter(cloudTime)) {
             mergedHabits.add(local);
@@ -151,8 +175,16 @@ class FirestoreService {
     if (!isUserLoggedIn) return;
 
     try {
-      await _habitsCollection!.doc(habitId).delete();
-      debugPrint('🗑️ Deleted habit $habitId from Firestore');
+      final batch = _firestore.batch();
+      
+      batch.delete(_habitsCollection!.doc(habitId));
+      batch.set(
+        _deletedHabitsCollection!.doc(habitId), 
+        {'deletedAt': FieldValue.serverTimestamp()}
+      );
+      
+      await batch.commit();
+      debugPrint('🗑️ Deleted habit $habitId from Firestore and recorded tombstone');
     } catch (e) {
       debugPrint('❌ Error deleting habit: $e');
     }

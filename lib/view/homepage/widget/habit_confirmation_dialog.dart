@@ -27,10 +27,9 @@ class HabitConfirmationDialogState extends State<HabitConfirmationDialog> {
     final c = Get.find<HabitController>();
     for (int i = 0; i < widget.extractedHabits.length; i++) {
       if (_selectedHabits[i] == true) {
-        c.db.dbAddHabit(widget.extractedHabits[i]);
+        c.dbAddHabit(widget.extractedHabits[i]);
       }
     }
-    c.update();
     Navigator.of(context).pop(); // Close the confirmation dialog
     Get.snackbar(
       S.current.success,

@@ -88,4 +88,24 @@ class HabitLocalDataSource {
   Future<void> markLastSyncTime() async {
     _myBox.put('last_sync', DateTime.now().toIso8601String());
   }
+
+  List<String> getLocalTombstones() {
+    final data = _myBox.get('local_tombstones');
+    if (data is List) {
+      return data.cast<String>();
+    }
+    return [];
+  }
+
+  void addLocalTombstone(String id) {
+    final tombstones = getLocalTombstones();
+    if (!tombstones.contains(id)) {
+      tombstones.add(id);
+      _myBox.put('local_tombstones', tombstones);
+    }
+  }
+
+  void clearLocalTombstones() {
+     _myBox.delete('local_tombstones');
+  }
 }

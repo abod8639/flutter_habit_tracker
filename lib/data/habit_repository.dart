@@ -18,9 +18,27 @@ class HabitRepository {
   bool _dataChanged = false;
 
   HabitRepository() {
-    final myBox = Hive.box(HabitStorage.boxName);
-    _localDataSource = HabitLocalDataSource(myBox);
-    _firestoreService = FirestoreService();
+    _initRepository();
+  }
+
+  void _initRepository() {
+    try {
+      final boxName = HabitStorage.boxName;
+      Box myBox;
+      if (Hive.isBoxOpen(boxName)) {
+        myBox = Hive.box(boxName);
+      } else {
+        debugPrint('⚠️ Box $boxName not open in Repository, this shouldn\'t happen.');
+        // This is a safety fallback, though it's sync and might fail if not initialized at all
+        throw Exception('Hive Box not open. Initialization failed.');
+      }
+      _localDataSource = HabitLocalDataSource(myBox);
+      _firestoreService = FirestoreService();
+    } catch (e) {
+      debugPrint('❌ Critical error initializing HabitRepository: $e');
+      // If we are here, Get.put(HabitController) will likely fail later or stay in broken state.
+      rethrow;
+    }
   }
 
   DateTime? getLastSyncTime() {
@@ -31,6 +49,14 @@ class HabitRepository {
 
   void updateData() async {
     try {
+      // 1. Assign/Update indices based on current list order
+      for (int i = 0; i < _habits.length; i++) {
+        if (_habits[i].index != i) {
+          _habits[i].index = i;
+          _habits[i].updatedAt = DateTime.now();
+        }
+      }
+
       _localDataSource.saveHabits(_habits);
       habitCalculate();
       loadHeatmap();
@@ -85,10 +111,15 @@ class HabitRepository {
         _firestoreService.syncHabits(_habits).then((mergedHabits) {
           if (mergedHabits.length != _habits.length ||
               _hasDifferences(mergedHabits)) {
+            debugPrint('🔄 Cloud data differs, updating local storage');
             _habits = mergedHabits;
-            _localDataSource.saveHabits(_habits);
+            // IMPORTANT: Assign indices before saving! 
+            for (int i = 0; i < _habits.length; i++) {
+              _habits[i].index = i;
+            }
+            updateData(); // This persists to Hive
             _updateCache();
-            loadHeatmap(); // Reload heatmap with new data
+            loadHeatmap(); 
           }
         });
       }
@@ -234,6 +265,7 @@ class HabitRepository {
         name: name,
         isCompleted: false,
         createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       ),
     );
     _dataChanged = true;
@@ -243,6 +275,7 @@ class HabitRepository {
   void dbEditHabitByIndex(int index, String newName) {
     if (index >= 0 && index < _habits.length) {
       _habits[index].name = newName;
+      _habits[index].updatedAt = DateTime.now();
       _dataChanged = true;
       updateData();
     }
@@ -254,6 +287,9 @@ class HabitRepository {
       _habits.removeAt(index);
       _dataChanged = true;
       updateData();
+
+      // Track deletion locally
+      _localDataSource.addLocalTombstone(habitId);
 
       // Delete from cloud
       if (_firestoreService.isUserLoggedIn) {
@@ -269,6 +305,7 @@ class HabitRepository {
       final habit = _habits[index];
       habit.isCompleted = value;
       habit.completedAt = value ? DateTime.now() : null;
+      habit.updatedAt = DateTime.now();
 
       _localDataSource.saveHabitCompletionHistory(habit.name, value);
 
@@ -313,5 +350,13 @@ class HabitRepository {
     if (_firestoreService.isUserLoggedIn) {
       return _firestoreService.deleteHabit(habitId);
     }
+  }
+
+  List<String> getLocalTombstones() {
+    return _localDataSource.getLocalTombstones();
+  }
+
+  void clearLocalTombstones() {
+    _localDataSource.clearLocalTombstones();
   }
 }

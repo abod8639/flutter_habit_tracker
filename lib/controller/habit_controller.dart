@@ -1,8 +1,9 @@
-// habit_controller.dart
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/controller/sync_controller.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/habit_repository.dart';
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
@@ -32,10 +33,51 @@ class HabitController extends GetxController {
   final RxBool isLoading = true.obs;
   final RxString errorMessage = ''.obs;
 
+  // Sync state
+  StreamSubscription<User?>? _authSubscription;
+
   @override
   void onInit() {
     super.onInit();
-    _initializeAsync();
+    // Ensure we don't initialize twice or in wrong zone
+    if (!isInitialized.value) {
+      _initializeAsync();
+      _setupAuthListener();
+    }
+  }
+
+  void _setupAuthListener() {
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) async {
+       if (user != null) {
+          // Wait for local DB to initialize before fetching from cloud
+          while (!isInitialized.value) {
+            await Future.delayed(const Duration(milliseconds: 100));
+          }
+          _syncOnLogin();
+       }
+    });
+  }
+
+  Future<void> _syncOnLogin() async {
+    try {
+      if (!Get.isRegistered<SyncController>()) return;
+      
+      final syncController = Get.find<SyncController>();
+      
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      // Attempt to load remote data overriding local, using smart merge
+      final serverHabits = await syncController.autoSync(db.todaysHabitList);
+      if (serverHabits != null) {
+        updateHabits(serverHabits);
+      }
+    } catch (e) {
+      debugPrint('Error syncing on login: $e');
+      errorMessage.value = 'Failed to sync on login: $e';
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   /// Initialize the controller asynchronously
@@ -126,10 +168,13 @@ class HabitController extends GetxController {
 
   /// Update habits from sync and refresh UI
   void updateHabits(List<HabitModel> newHabits) {
+    debugPrint('💾 Sync: Persisting ${newHabits.length} habits to local storage...');
     db.todaysHabitList = newHabits;
+    
+    // Explicitly call updateData to save to Hive permanently
+    db.updateData(); 
+    
     update(); // Trigger GetBuilder rebuilds
-
-    // Also update reactive state if needed
     _loadHabitHistory();
   }
 
@@ -172,15 +217,16 @@ class HabitController extends GetxController {
 
   @override
   void onClose() {
+    _authSubscription?.cancel();
     _resetCheckTimer?.cancel();
     habitTextController.dispose();
     super.onClose();
   }
 
-  void reorderHabits(int oldIndex, int newIndex) {
-    db.reorderHabits(oldIndex, newIndex);
-    update();
-  }
+  // void reorderHabits(int oldIndex, int newIndex) {
+  //   db.reorderHabits(oldIndex, newIndex);
+  //   update();
+  // }
 
   String getStartDay() {
     return myBox.get(HabitStorage.startDayKey, defaultValue: "");
@@ -235,6 +281,26 @@ class HabitController extends GetxController {
     }
     db.updateData();
     clearSelection();
+    update();
+  }
+
+  void dbEditHabitByIndex(int index, String newName) {
+    db.dbEditHabitByIndex(index, newName);
+    update();
+  }
+
+  void dbAddHabit(String name) {
+    db.dbAddHabit(name);
+    update();
+  }
+
+  void reorderHabits(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    final habit = db.todaysHabitList.removeAt(oldIndex);
+    db.todaysHabitList.insert(newIndex, habit);
+    db.updateData();
     update();
   }
 }

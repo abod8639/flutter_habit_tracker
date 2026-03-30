@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/models/user_model.dart';
@@ -46,7 +47,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
-      print(e.toString());
+      debugPrint(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -77,7 +78,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
-      print(e.toString());
+      debugPrint(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -106,7 +107,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
-      print(e.toString());
+      debugPrint(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -124,7 +125,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      print(e.toString());
+      debugPrint(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -151,7 +152,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
-      print(e.toString());
+      debugPrint(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),

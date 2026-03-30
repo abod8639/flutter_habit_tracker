@@ -174,6 +174,11 @@ class HabitController extends GetxController {
   }
 
 
+  void reorderHabits(int oldIndex, int newIndex) {
+    db.reorderHabits(oldIndex, newIndex);
+    update();
+  }
+
   String getStartDay() {
     return myBox.get(HabitStorage.startDayKey, defaultValue: "");
   }

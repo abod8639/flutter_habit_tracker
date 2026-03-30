@@ -265,6 +265,16 @@ class HabitRepository {
     }
   }
 
+  void reorderHabits(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    final HabitModel item = _habits.removeAt(oldIndex);
+    _habits.insert(newIndex, item);
+    _dataChanged = true;
+    updateData();
+  }
+
   bool _hasDifferences(List<HabitModel> other) {
     // Simple check: if lengths are different, they are different.
     // If lengths are same, check if any habit has different completion status or name.

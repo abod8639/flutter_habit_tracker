@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/models/user_model.dart';
+// import 'package:habit_tracker/view/homepage/HomeScreen.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
   // Get current user
   User? get currentUser => _auth.currentUser;
@@ -62,26 +64,33 @@ class AuthService {
   Future<UserModel?> signInWithGoogle() async {
     try {
       // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      if (googleUser == null) {
-        // User cancelled the sign-in
-        return null;
-      }
+      // if (googleUser == null) {
+      //   // User cancelled the sign-in
+      //   return null;
+      // }
+
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        // accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Sign in to Firebase with the Google credential
       final UserCredential result =
           await _auth.signInWithCredential(credential);
+
+          // go to home screen
+          // if (result.user != null) {
+          //   Get.to(const HomeScreen());
+          // }
 
       return _userFromFirebase(result.user);
     } on FirebaseAuthException catch (e) {

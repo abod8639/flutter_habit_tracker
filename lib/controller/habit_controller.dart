@@ -230,9 +230,7 @@ class HabitController extends GetxController {
 
     for (var habit in db.todaysHabitList) {
       if (selectedHabitIds.contains(habit.id)) {
-        // Note: HabitModel needs color field for this to work properly.
-        // For now we'll just update the local state.
-        // habit.color = color; (Requires model update)
+        habit.colorValue = color.toARGB32();
       }
     }
     db.updateData();

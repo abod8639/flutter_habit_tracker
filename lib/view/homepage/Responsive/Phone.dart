@@ -90,7 +90,42 @@ class MyAppBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.color_lens, color: Colors.white),
               onPressed: () {
-                // Future: Show color picker dialog
+                Get.dialog(
+                  AlertDialog(
+                    title: const Text('Choose Color'),
+                    content: SizedBox(
+                      width: double.maxFinite,
+                      child: GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        children: [
+                          Colors.red, Colors.pink, Colors.purple, Colors.deepPurple,
+                          Colors.indigo, Colors.blue, Colors.lightBlue, Colors.cyan,
+                          Colors.teal, Colors.green, Colors.lightGreen, Colors.lime,
+                          Colors.yellow, Colors.amber, Colors.orange, Colors.deepOrange,
+                          Colors.brown, Colors.grey, Colors.blueGrey, Colors.black,
+                        ].map((color) => InkWell(
+                          onTap: () {
+                            controller.updateSelectedHabitsColor(color);
+                            Get.back();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: color,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                        )).toList(),
+                      ),
+                    ),
+                  ),
+                );
               },
             ),
             IconButton(

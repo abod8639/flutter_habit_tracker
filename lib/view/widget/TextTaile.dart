@@ -11,6 +11,7 @@ class MyTextTaile extends StatefulWidget {
   final Function()? onLongPress;
   final bool isSelected;
   final bool isSelectionMode;
+  final int? colorValue;
 
   const MyTextTaile({
     required this.habitCompleted,
@@ -21,6 +22,7 @@ class MyTextTaile extends StatefulWidget {
     this.onLongPress,
     this.isSelected = false,
     this.isSelectionMode = false,
+    this.colorValue,
     required this.habitName,
     super.key,
   });
@@ -132,10 +134,16 @@ class _MyTextTaileState extends State<MyTextTaile>
                 color: widget.isSelected
                     ? Theme.of(context).primaryColor.withValues(alpha: 0.2)
                     : widget.habitCompleted
-                        ? Theme.of(context).primaryColor.withValues(alpha: 0.5)
-                        : themeColors.brightness == Brightness.light
-                            ? Colors.grey[400]
-                            : Colors.grey[700],
+                        ? (widget.colorValue != null
+                            ? Color(widget.colorValue!)
+                            : Theme.of(context)
+                                .primaryColor
+                                .withValues(alpha: 0.5))
+                        : (widget.colorValue != null
+                            ? Color(widget.colorValue!).withValues(alpha: 0.5)
+                            : (themeColors.brightness == Brightness.light
+                                ? Colors.grey[400]
+                                : Colors.grey[700])),
                 borderRadius: BorderRadius.circular(10),
                 border: widget.isSelected
                     ? Border.all(color: Theme.of(context).primaryColor, width: 2)

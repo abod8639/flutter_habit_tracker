@@ -17,12 +17,16 @@ class HabitModel {
   @HiveField(4)
   DateTime? completedAt;
 
+  @HiveField(5)
+  int? colorValue;
+
   HabitModel({
     String? id,
     required this.name,
     required this.isCompleted,
     required this.createdAt,
     this.completedAt,
+    this.colorValue,
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString();
 
   factory HabitModel.fromMap(Map<String, dynamic> map) {
@@ -36,6 +40,7 @@ class HabitModel {
       completedAt: map['completed_at'] != null
           ? DateTime.parse(map['completed_at'])
           : null,
+      colorValue: map['color_value'],
     );
   }
 
@@ -46,6 +51,7 @@ class HabitModel {
       'isCompleted': isCompleted,
       'created_at': createdAt.toIso8601String(),
       'completed_at': completedAt?.toIso8601String(),
+      'color_value': colorValue,
     };
   }
 
@@ -81,6 +87,7 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
       isCompleted: fields[2] as bool,
       createdAt: fields[3] as DateTime,
       completedAt: fields[4] as DateTime?,
+      colorValue: fields[5] as int?,
     );
   }
 
@@ -97,7 +104,9 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
       ..writeByte(3)
       ..write(obj.createdAt)
       ..writeByte(4)
-      ..write(obj.completedAt);
+      ..write(obj.completedAt)
+      ..writeByte(5)
+      ..write(obj.colorValue);
   }
 
   @override

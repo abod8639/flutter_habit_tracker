@@ -65,6 +65,7 @@ class HabitList extends StatelessWidget {
                   habitCompleted: habits[index].isCompleted,
                   isSelected: controller.selectedHabitIds.contains(habits[index].id),
                   isSelectionMode: controller.isSelectionMode,
+                  colorValue: habits[index].colorValue,
                   onTap: () => toggleHabit(!habits[index].isCompleted, index),
                   onDelete: (context) => deleteHabit(index, context),
                   onEdit: (context) => editHabit(index, context),

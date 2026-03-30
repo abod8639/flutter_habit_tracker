@@ -4,6 +4,32 @@ A **beautiful**, **responsive**, and **intuitive** habit tracking app built with
 
 ---
 
+## 🚀 Recent Updates & Features
+
+### 📸 AI Smart Scanner (Powered by Google Gemini)
+Our most advanced feature yet—automatically extract habits from your physical notes or diet plans.
+- **Categorization**: Groups tasks (like Breakfast, Lunch, Workout) with clear prefixes.
+- **Emoji Enrichment**: Automatically adds relevant emojis (e.g., 🍳 for eggs, 🏃 for running).
+- **Invoice Recognition**: Detects bills and merges (Amount, Payee, and Date) into a single, clean task.
+- **Smart Validation**: A review dialog lets you preview and select items before adding them.
+
+### 🛡️ Data Integrity & Self-Healing
+Never lose your progress again with our new background sync and recovery systems:
+- **Auto-Recovery**: Automatically detects and recovers from Hive database corruption without app crashes.
+- **Conflict Resolution**: "Last Write Wins" logic ensures seamless sync between multiple devices using Firebase.
+- **Tombstones**: Proper deletion sync ensures deleted habits stay deleted safely across the cloud.
+
+### 📊 Advanced Visualization
+- **Interactive Bar Charts**: Track daily completion status with dynamic colors matching your app theme.
+- **Habit Stats**: Visual representation of your 'Goal Days' vs 'Completion Rate'.
+
+### 🎨 Premium UI/UX Polish
+- **Unified Dialogs**: Clean, consistent dialogs for adding and editing habits.
+- **Responsive Navigation**: Smooth transitions between screens with an optimized drawer.
+- **Smart Labels**: Intelligent handling of long habit names and categories.
+
+---
+
 ##  Highlights
 
 -  **Create & manage daily habits** with a smooth user experience  

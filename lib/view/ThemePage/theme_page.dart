@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/utils/themeList.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildCustomThemeSelector.dart';
 import 'package:habit_tracker/view/ThemePage/widget/buildSectionTitle.dart';
+import 'package:habit_tracker/view/ThemePage/widget/buildThemeColorPreview.dart';
 
 class ThemePage extends StatelessWidget {
   const ThemePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final String themeName = "hologram";
     return KeyboardListener(
       autofocus: true,
       focusNode: FocusNode(),
@@ -42,6 +45,18 @@ class ThemePage extends StatelessWidget {
               buildSectionTitle(S.current.themepage),
               const SizedBox(height: 8),
               buildCustomThemeSelector(),
+              const SizedBox(height: 16),
+
+              Container(
+                height: 200,
+                child: Row(
+                  children: [
+                        Expanded(child: Text(formatThemeName(themeName))),
+                        const SizedBox(width: 15),
+                        ...buildThemeColorPreview(themeName, themeColors),
+                  ]
+                )
+              )
             ],
           ),
         ),

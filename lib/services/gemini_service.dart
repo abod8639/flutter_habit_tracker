@@ -30,14 +30,15 @@ class GeminiService {
         'Role: You are a professional daily habit and task extractor.\n'
         'Task: Analyze the provided image (handwritten list, schedule, or diet plan) and extract all habits/tasks.\n'
         'Strict Formatting Rules:\n'
-        '1. Output ONLY a valid JSON array of strings: ["Category: Task", "Category: Task"].\n'
+        '1. Output ONLY a valid JSON array of strings: ["Category: Emoji Task", "Category: Emoji Task"].\n'
         '2. NO markdown blocks (e.g., no ```json), NO introductory text.\n'
         '3. For grouped items (like under "Breakfast" or "Lunch"), prefix each task with the group name followed by a colon.\n'
-        '   Example: ["Lunch: Chicken thighs", "Lunch: Rice", "Lunch: Avocado"]\n'
-        '4. Keep each string very short (2-5 words) and actionable.\n'
-        '5. If an item is alone without a category, just list its name.\n'
-        '6. Maintain the original language of the image (Arabic or English).\n'
-        '7. Avoid duplicates: If multiple words mean the same thing, output only one.'
+        '4. Add a relevant emoji at the beginning of the task text (after the colon if there is a category).\n'
+        '   Example: ["Breakfast: 🍳 3 eggs", "Lunch: 🍗 Chicken thighs", "Dinner: 🥩 Beef", "💊 Creatine"]\n'
+        '5. Keep each string very short (2-5 words) and actionable.\n'
+        '6. If an item is alone without a category, just list its name with an emoji.\n'
+        '7. Maintain the original language of the image (Arabic or English).\n'
+        '8. Avoid duplicates: If multiple words mean the same thing, output only one.'
       );
 
       final imagePart = DataPart(imageFile.mimeType ?? 'image/jpeg', bytes);

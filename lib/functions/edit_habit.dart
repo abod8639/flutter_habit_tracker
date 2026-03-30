@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/widget/myalartD.dart';
+import 'package:habit_tracker/view/widget/myalart_dialog.dart';
 
 void editHabit(int index, BuildContext context) {
   HabitController c = Get.find<HabitController>();
@@ -16,7 +16,7 @@ void editHabit(int index, BuildContext context) {
   showDialog(
     context: context,
     builder: (context) {
-      return Myalartd(
+      return MyalartDialog(
         hintText: S.current.editThisHabit,
         controller: c.habitTextController,
         onSave: () {

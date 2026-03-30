@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/functions/add_habit.dart';
-import 'package:habit_tracker/view/homepage/widget/HabitList.dart';
+import 'package:habit_tracker/view/widget/HabitList.dart';
 import 'package:habit_tracker/view/homepage/widget/SliverMonthlySummary.dart';
 import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
 import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';

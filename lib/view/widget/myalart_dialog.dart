@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habit_tracker/generated/l10n.dart';
@@ -5,12 +6,12 @@ import 'package:habit_tracker/services/gemini_service.dart';
 import 'package:habit_tracker/view/homepage/widget/image_scanner_bottom_sheet.dart';
 import 'package:habit_tracker/view/homepage/widget/habit_confirmation_dialog.dart';
 
-class Myalartd extends StatefulWidget {
+class MyalartDialog extends StatefulWidget {
   final Function()? onSave;
   final String? hintText;
   final TextEditingController controller;
 
-  const Myalartd({
+  const MyalartDialog({
     this.onSave,
     this.hintText,
     required this.controller,
@@ -18,10 +19,10 @@ class Myalartd extends StatefulWidget {
   });
 
   @override
-  State<Myalartd> createState() => _MyalartdState();
+  State<MyalartDialog> createState() => _MyalartdState();
 }
 
-class _MyalartdState extends State<Myalartd>
+class _MyalartdState extends State<MyalartDialog>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -66,7 +67,7 @@ class _MyalartdState extends State<Myalartd>
           });
           try {
             final service = GeminiService();
-            final habits = await service.extractHabitsFromImage(image);
+            final List<String> habits = await service.extractHabitsFromImage(image );
 
             if (mounted) {
               setState(() {

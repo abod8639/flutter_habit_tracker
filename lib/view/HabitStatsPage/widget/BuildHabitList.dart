@@ -8,8 +8,8 @@ Widget BuildHabitList(
   return Container(
     decoration: BoxDecoration(
       color: isCompleted
-          ? Colors.green.withOpacity(0.05)
-          : Colors.orange.withOpacity(0.05),
+          ? Colors.green.withValues(alpha:0.05)
+          : Colors.orange.withValues(alpha:0.05),
       borderRadius: BorderRadius.circular(8),
     ),
     child: ListView.separated(
@@ -17,7 +17,7 @@ Widget BuildHabitList(
       shrinkWrap: true,
       itemCount: habits.length,
       separatorBuilder: (context, index) =>
-          Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
+          Divider(height: 1, color: Colors.grey.withValues(alpha:0.2)),
       itemBuilder: (context, index) {
         final habit = habits[index];
         return ListTile(

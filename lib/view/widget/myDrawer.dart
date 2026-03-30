@@ -96,11 +96,11 @@ class _DrawerListState extends State<DrawerList> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(
-                  color: Colors.blueGrey,
+                  color: Colors.lightBlue,
                   Icons.document_scanner_rounded,
                 ),
           onTap: _isScanning ? null : _handleScanImage,
-          title: "Scan Image",
+          title: S.current.scanImage,
         ),
         MyDrawerListTile(
           icon: Icon(

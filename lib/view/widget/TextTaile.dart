@@ -102,8 +102,8 @@ class _MyTextTaileState extends State<MyTextTaile>
             return Transform.scale(scale: _scaleAnimation.value, child: child);
           },
           child: ListTile(
-            splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
-            focusColor: themeColors.secondary.withOpacity(0.5),
+            splashColor: Theme.of(context).primaryColor.withValues(alpha:0.3),
+            focusColor: themeColors.secondary.withValues(alpha:0.5),
             onTap: () {
               if (widget.onTap != null) {
                 // Animate the tile when tapped
@@ -121,7 +121,7 @@ class _MyTextTaileState extends State<MyTextTaile>
               curve: Curves.easeInOut,
               decoration: BoxDecoration(
                 color: widget.habitCompleted
-                    ? Theme.of(context).primaryColor.withOpacity(0.5)
+                    ? Theme.of(context).primaryColor.withValues(alpha:0.5)
                     : themeColors.brightness == Brightness.light
                     ? Colors.grey[400]
                     : Colors.grey[700],

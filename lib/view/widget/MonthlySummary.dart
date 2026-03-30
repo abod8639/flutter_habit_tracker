@@ -56,16 +56,16 @@ class _MonthlySummaryState extends State<MonthlySummary>
     final primaryColor = themeColors.primary;
 
     final colorsets = {
-      1: primaryColor.withOpacity(0.1),
-      2: primaryColor.withOpacity(0.2),
-      3: primaryColor.withOpacity(0.3),
-      4: primaryColor.withOpacity(0.4),
-      5: primaryColor.withOpacity(0.5),
-      6: primaryColor.withOpacity(0.6),
-      7: primaryColor.withOpacity(0.7),
-      8: primaryColor.withOpacity(0.8),
-      9: primaryColor.withOpacity(0.9),
-      10: primaryColor.withOpacity(1.0),
+      1: primaryColor.withValues(alpha: 0.1),
+      2: primaryColor.withValues(alpha: 0.2),
+      3: primaryColor.withValues(alpha: 0.3),
+      4: primaryColor.withValues(alpha: 0.4),
+      5: primaryColor.withValues(alpha: 0.5),
+      6: primaryColor.withValues(alpha: 0.6),
+      7: primaryColor.withValues(alpha: 0.7),
+      8: primaryColor.withValues(alpha: 0.8),
+      9: primaryColor.withValues(alpha: 0.9),
+      10: primaryColor.withValues(alpha: 1.0),
     };
 
     final double topPadding = MediaQuery.of(context).size.width * 0.05;

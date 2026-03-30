@@ -96,14 +96,14 @@ Widget BuildBarChart() {
                       horizontalInterval: 1,
                       getDrawingHorizontalLine: (value) {
                         return FlLine(
-                          color: Colors.grey.withOpacity(0.3),
+                          color: Colors.grey.withValues(alpha:0.3),
                           strokeWidth: 1,
                         );
                       },
                     ),
                     borderData: FlBorderData(
                       show: true,
-                      border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                      border: Border.all(color: Colors.grey.withValues(alpha:0.3)),
                     ),
                     barGroups: chartData.asMap().entries.map((entry) {
                       final int index = entry.key;

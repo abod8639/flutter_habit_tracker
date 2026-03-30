@@ -115,6 +115,7 @@
   "lastSync": "آخر مزامنة",
   "notSyncedYet": "لم تتم المزامنة بعد",
   "justNow": "الآن",
+  "scanImage":"مسح الصورة",
   "minutesAgo": "منذ {minutes} دقيقة",
   "hoursAgo": "منذ {hours} ساعة",
   "daysAgo": "منذ {days} يوم"

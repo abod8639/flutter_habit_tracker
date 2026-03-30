@@ -24,7 +24,7 @@ void addHabit(BuildContext context) {
               S.current.error,
               S.current.theFieldCantBeEmpty,
               snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red.withOpacity(0.7),
+              backgroundColor: Colors.red.withValues(alpha:0.7),
               colorText: Colors.white,
             );
             c.update();

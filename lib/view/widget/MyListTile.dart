@@ -27,11 +27,11 @@ class _MyDrawerListTileState extends State<MyDrawerListTile> {
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         child: ListTile(
-          focusColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-          splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
+          focusColor: Theme.of(context).colorScheme.secondary.withValues(alpha:0.5),
+          splashColor: Theme.of(context).primaryColor.withValues(alpha:0.3),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           tileColor: _isHovered
-              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              ? Theme.of(context).primaryColor.withValues(alpha:0.1)
               : Colors.transparent,
           onTap: widget.onTap,
           title: AnimatedContainer(

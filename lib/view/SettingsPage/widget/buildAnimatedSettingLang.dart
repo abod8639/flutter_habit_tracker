@@ -37,7 +37,7 @@ Widget buildAnimatedSettingLang(
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.05),
+              color: Theme.of(context).shadowColor.withValues(alpha:0.05),
               blurRadius: 5,
               offset: const Offset(0, 2),
             ),

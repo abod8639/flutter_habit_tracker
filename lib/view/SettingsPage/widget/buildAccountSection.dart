@@ -95,7 +95,7 @@ Widget buildAnimatedUserCard(
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.1),
+                  color: Theme.of(context).shadowColor.withValues(alpha:0.1),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
                 ),
@@ -109,12 +109,12 @@ Widget buildAnimatedUserCard(
                     border: Border.all(
                       color: Theme.of(
                         context,
-                      ).colorScheme.surface.withOpacity(0.5),
+                      ).colorScheme.surface.withValues(alpha:0.5),
                       width: 3,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha:0.1),
                         blurRadius: 8,
                       ),
                     ],
@@ -167,7 +167,7 @@ Widget buildAnimatedUserCard(
                         decoration: BoxDecoration(
                           color: Theme.of(
                             context,
-                          ).colorScheme.onPrimaryContainer.withOpacity(0.1),
+                          ).colorScheme.onPrimaryContainer.withValues(alpha:0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(

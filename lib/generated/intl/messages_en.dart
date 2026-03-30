@@ -28,199 +28,169 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "about": MessageLookupByLibrary.simpleMessage("About"),
-    "account": MessageLookupByLibrary.simpleMessage("Account"),
-    "add": MessageLookupByLibrary.simpleMessage("Add"),
-    "addNewHabit": MessageLookupByLibrary.simpleMessage("Add new Habit..."),
-    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
-      "Already have an account?",
-    ),
-    "appVersionAndInformation": MessageLookupByLibrary.simpleMessage(
-      "This app made by dexter ",
-    ),
-    "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
-    "areYouSureYouWantToDeleteThisHabit": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this habit?",
-    ),
-    "authErrorDefault": MessageLookupByLibrary.simpleMessage(
-      "An error occurred",
-    ),
-    "authErrorEmailInUse": MessageLookupByLibrary.simpleMessage(
-      "Email already in use",
-    ),
-    "authErrorGoogle": MessageLookupByLibrary.simpleMessage(
-      "An error occurred during Google sign-in",
-    ),
-    "authErrorInvalidEmail": MessageLookupByLibrary.simpleMessage(
-      "Invalid email",
-    ),
-    "authErrorNetworkFailed": MessageLookupByLibrary.simpleMessage(
-      "Network connection failed",
-    ),
-    "authErrorSignOut": MessageLookupByLibrary.simpleMessage(
-      "An error occurred during sign-out",
-    ),
-    "authErrorTooManyRequests": MessageLookupByLibrary.simpleMessage(
-      "Too many requests, please try again later",
-    ),
-    "authErrorUserNotFound": MessageLookupByLibrary.simpleMessage(
-      "No user found with this email",
-    ),
-    "authErrorWeakPassword": MessageLookupByLibrary.simpleMessage(
-      "Password is too weak",
-    ),
-    "authErrorWrongPassword": MessageLookupByLibrary.simpleMessage(
-      "Wrong password",
-    ),
-    "backToLogin": MessageLookupByLibrary.simpleMessage("Back to Login"),
-    "backupData": MessageLookupByLibrary.simpleMessage("Backup Data"),
-    "barChartIsEmpty": MessageLookupByLibrary.simpleMessage(
-      "No habit data available",
-    ),
-    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "changeAppTheme": MessageLookupByLibrary.simpleMessage(
-      "Change app theme and color",
-    ),
-    "clearAllData": MessageLookupByLibrary.simpleMessage("Clear All Data"),
-    "cloudSync": MessageLookupByLibrary.simpleMessage("Cloud Sync"),
-    "comingSoon": MessageLookupByLibrary.simpleMessage("Coming Soon"),
-    "completed": MessageLookupByLibrary.simpleMessage("Completed"),
-    "completedLabel": MessageLookupByLibrary.simpleMessage("Completed"),
-    "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
-    "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
-      "Please confirm your password",
-    ),
-    "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
-    "dailyReminder": MessageLookupByLibrary.simpleMessage("Daily Reminder"),
-    "daysAgo": m0,
-    "defaultHabits1": MessageLookupByLibrary.simpleMessage("Click here"),
-    "defaultHabits2": MessageLookupByLibrary.simpleMessage(
-      "<== Swipe left to edit",
-    ),
-    "defaultHabits3": MessageLookupByLibrary.simpleMessage(
-      "Swipe right to delete ==>",
-    ),
-    "deleteAllHabitsAndSettings": MessageLookupByLibrary.simpleMessage(
-      "Delete all habits and settings",
-    ),
-    "deleteHabit": MessageLookupByLibrary.simpleMessage("Delete Habit"),
-    "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
-      "Don\'t have an account?",
-    ),
-    "drawer": MessageLookupByLibrary.simpleMessage(""),
-    "drawerReat": MessageLookupByLibrary.simpleMessage("Rate"),
-    "drawerSetting": MessageLookupByLibrary.simpleMessage("Setting"),
-    "drawerTheme": MessageLookupByLibrary.simpleMessage("Theme Color"),
-    "editThisHabit": MessageLookupByLibrary.simpleMessage("Edit This Habit"),
-    "email": MessageLookupByLibrary.simpleMessage("Email"),
-    "emailInvalid": MessageLookupByLibrary.simpleMessage(
-      "Please enter a valid email",
-    ),
-    "emailRequired": MessageLookupByLibrary.simpleMessage(
-      "Please enter your email",
-    ),
-    "error": MessageLookupByLibrary.simpleMessage("Error"),
-    "exportYourHabitData": MessageLookupByLibrary.simpleMessage(
-      "Export your habit data",
-    ),
-    "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
-    "hambitstate": MessageLookupByLibrary.simpleMessage("Habit State"),
-    "hoursAgo": m1,
-    "importPreviouslyExportedData": MessageLookupByLibrary.simpleMessage(
-      "Import previously exported data",
-    ),
-    "incomplete": MessageLookupByLibrary.simpleMessage("Incomplete"),
-    "isEmpty": MessageLookupByLibrary.simpleMessage("No habits tracked yet"),
-    "joinUs": MessageLookupByLibrary.simpleMessage("Join Us"),
-    "justNow": MessageLookupByLibrary.simpleMessage("Just now"),
-    "lan": MessageLookupByLibrary.simpleMessage("Languig"),
-    "lastSync": MessageLookupByLibrary.simpleMessage("Last sync"),
-    "login": MessageLookupByLibrary.simpleMessage("Login"),
-    "loginRequired": MessageLookupByLibrary.simpleMessage("Please login first"),
-    "loginToAccount": MessageLookupByLibrary.simpleMessage("Login to Account"),
-    "loginToEnableSync": MessageLookupByLibrary.simpleMessage(
-      "Login to enable cloud sync and backup",
-    ),
-    "logout": MessageLookupByLibrary.simpleMessage("Logout"),
-    "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to logout?",
-    ),
-    "logoutConfirmTitle": MessageLookupByLibrary.simpleMessage("Logout"),
-    "logoutFromAccount": MessageLookupByLibrary.simpleMessage(
-      "Logout from your account",
-    ),
-    "minutesAgo": m2,
-    "monthly": MessageLookupByLibrary.simpleMessage("Monthly Progress"),
-    "name": MessageLookupByLibrary.simpleMessage("Name"),
-    "nameRequired": MessageLookupByLibrary.simpleMessage(
-      "Please enter your name",
-    ),
-    "notSyncedYet": MessageLookupByLibrary.simpleMessage("Not synced yet"),
-    "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
-    "or": MessageLookupByLibrary.simpleMessage("OR"),
-    "password": MessageLookupByLibrary.simpleMessage("Password"),
-    "passwordMismatch": MessageLookupByLibrary.simpleMessage(
-      "Passwords do not match",
-    ),
-    "passwordRequired": MessageLookupByLibrary.simpleMessage(
-      "Please enter your password",
-    ),
-    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
-      "Password must be at least 6 characters",
-    ),
-    "pending": MessageLookupByLibrary.simpleMessage("Pending"),
-    "pieChartIsEmpty": MessageLookupByLibrary.simpleMessage(
-      "No habits to display",
-    ),
-    "ratepagetitle": MessageLookupByLibrary.simpleMessage("Habit Statistics"),
-    "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
-    "resetPasswordDescription": MessageLookupByLibrary.simpleMessage(
-      "Enter your email and we\'ll send you a link to reset your password",
-    ),
-    "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
-      "Password reset link sent to your email",
-    ),
-    "resetPasswordTitle": MessageLookupByLibrary.simpleMessage(
-      "Reset Password",
-    ),
-    "restoreData": MessageLookupByLibrary.simpleMessage("Restore Data"),
-    "restoreFeatureWillBeAvailableInFutureUpdates":
-        MessageLookupByLibrary.simpleMessage(
-          "Restore feature will be available in future updates",
-        ),
-    "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
-    "setDailyReminder": MessageLookupByLibrary.simpleMessage(
-      "Set a daily reminder for your habits",
-    ),
-    "settingPageTitle": MessageLookupByLibrary.simpleMessage("Settings"),
-    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
-      "Sign in with Google",
-    ),
-    "signUpWithGoogle": MessageLookupByLibrary.simpleMessage(
-      "Sign up with Google",
-    ),
-    "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
-    "skipNow": MessageLookupByLibrary.simpleMessage("Skip Now"),
-    "success": MessageLookupByLibrary.simpleMessage("Habit Success"),
-    "summary": MessageLookupByLibrary.simpleMessage("Habit Summary"),
-    "syncError": MessageLookupByLibrary.simpleMessage("Sync failed"),
-    "syncFailed": MessageLookupByLibrary.simpleMessage("Sync failed"),
-    "syncNow": MessageLookupByLibrary.simpleMessage("Sync Now"),
-    "syncSuccess": MessageLookupByLibrary.simpleMessage("Sync successful"),
-    "syncing": MessageLookupByLibrary.simpleMessage("Syncing..."),
-    "theFieldCantBeEmpty": MessageLookupByLibrary.simpleMessage(
-      "The field can\'t be empty :)",
-    ),
-    "themepage": MessageLookupByLibrary.simpleMessage("Custom Theme"),
-    "themepagetitle": MessageLookupByLibrary.simpleMessage("Theme Setting"),
-    "today": MessageLookupByLibrary.simpleMessage("Today Progress"),
-    "tooltipItem": MessageLookupByLibrary.simpleMessage("Go do it now"),
-    "tooltipItemCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
-    "total": MessageLookupByLibrary.simpleMessage("Total"),
-    "trendChartIsEmpty": MessageLookupByLibrary.simpleMessage(
-      "Not enough data to display trends",
-    ),
-    "user": MessageLookupByLibrary.simpleMessage("User"),
-    "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress"),
-  };
+        "about": MessageLookupByLibrary.simpleMessage("About"),
+        "account": MessageLookupByLibrary.simpleMessage("Account"),
+        "add": MessageLookupByLibrary.simpleMessage("Add"),
+        "addNewHabit": MessageLookupByLibrary.simpleMessage("Add new Habit..."),
+        "alreadyHaveAccount":
+            MessageLookupByLibrary.simpleMessage("Already have an account?"),
+        "appVersionAndInformation":
+            MessageLookupByLibrary.simpleMessage("This app made by dexter "),
+        "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+        "areYouSureYouWantToDeleteThisHabit":
+            MessageLookupByLibrary.simpleMessage(
+                "Are you sure you want to delete this habit?"),
+        "authErrorDefault":
+            MessageLookupByLibrary.simpleMessage("An error occurred"),
+        "authErrorEmailInUse":
+            MessageLookupByLibrary.simpleMessage("Email already in use"),
+        "authErrorGoogle": MessageLookupByLibrary.simpleMessage(
+            "An error occurred during Google sign-in"),
+        "authErrorInvalidEmail":
+            MessageLookupByLibrary.simpleMessage("Invalid email"),
+        "authErrorNetworkFailed":
+            MessageLookupByLibrary.simpleMessage("Network connection failed"),
+        "authErrorSignOut": MessageLookupByLibrary.simpleMessage(
+            "An error occurred during sign-out"),
+        "authErrorTooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "Too many requests, please try again later"),
+        "authErrorUserNotFound": MessageLookupByLibrary.simpleMessage(
+            "No user found with this email"),
+        "authErrorWeakPassword":
+            MessageLookupByLibrary.simpleMessage("Password is too weak"),
+        "authErrorWrongPassword":
+            MessageLookupByLibrary.simpleMessage("Wrong password"),
+        "backToLogin": MessageLookupByLibrary.simpleMessage("Back to Login"),
+        "backupData": MessageLookupByLibrary.simpleMessage("Backup Data"),
+        "barChartIsEmpty":
+            MessageLookupByLibrary.simpleMessage("No habit data available"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "changeAppTheme":
+            MessageLookupByLibrary.simpleMessage("Change app theme and color"),
+        "clearAllData": MessageLookupByLibrary.simpleMessage("Clear All Data"),
+        "cloudSync": MessageLookupByLibrary.simpleMessage("Cloud Sync"),
+        "comingSoon": MessageLookupByLibrary.simpleMessage("Coming Soon"),
+        "completed": MessageLookupByLibrary.simpleMessage("Completed"),
+        "completedLabel": MessageLookupByLibrary.simpleMessage("Completed"),
+        "confirmPassword":
+            MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
+            "Please confirm your password"),
+        "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
+        "dailyReminder": MessageLookupByLibrary.simpleMessage("Daily Reminder"),
+        "daysAgo": m0,
+        "defaultHabits1": MessageLookupByLibrary.simpleMessage("Click here"),
+        "defaultHabits2":
+            MessageLookupByLibrary.simpleMessage("<== Swipe left to edit"),
+        "defaultHabits3":
+            MessageLookupByLibrary.simpleMessage("Swipe right to delete ==>"),
+        "deleteAllHabitsAndSettings": MessageLookupByLibrary.simpleMessage(
+            "Delete all habits and settings"),
+        "deleteHabit": MessageLookupByLibrary.simpleMessage("Delete Habit"),
+        "dontHaveAccount":
+            MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
+        "drawer": MessageLookupByLibrary.simpleMessage(""),
+        "drawerReat": MessageLookupByLibrary.simpleMessage("Rate"),
+        "drawerSetting": MessageLookupByLibrary.simpleMessage("Setting"),
+        "drawerTheme": MessageLookupByLibrary.simpleMessage("Theme Color"),
+        "editThisHabit":
+            MessageLookupByLibrary.simpleMessage("Edit This Habit"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "emailInvalid":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
+        "emailRequired":
+            MessageLookupByLibrary.simpleMessage("Please enter your email"),
+        "error": MessageLookupByLibrary.simpleMessage("Error"),
+        "exportYourHabitData":
+            MessageLookupByLibrary.simpleMessage("Export your habit data"),
+        "forgotPassword":
+            MessageLookupByLibrary.simpleMessage("Forgot Password?"),
+        "hambitstate": MessageLookupByLibrary.simpleMessage("Habit State"),
+        "hoursAgo": m1,
+        "importPreviouslyExportedData": MessageLookupByLibrary.simpleMessage(
+            "Import previously exported data"),
+        "incomplete": MessageLookupByLibrary.simpleMessage("Incomplete"),
+        "isEmpty":
+            MessageLookupByLibrary.simpleMessage("No habits tracked yet"),
+        "joinUs": MessageLookupByLibrary.simpleMessage("Join Us"),
+        "justNow": MessageLookupByLibrary.simpleMessage("Just now"),
+        "lan": MessageLookupByLibrary.simpleMessage("Languig"),
+        "lastSync": MessageLookupByLibrary.simpleMessage("Last sync"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "loginRequired":
+            MessageLookupByLibrary.simpleMessage("Please login first"),
+        "loginToAccount":
+            MessageLookupByLibrary.simpleMessage("Login to Account"),
+        "loginToEnableSync": MessageLookupByLibrary.simpleMessage(
+            "Login to enable cloud sync and backup"),
+        "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "logoutConfirmMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to logout?"),
+        "logoutConfirmTitle": MessageLookupByLibrary.simpleMessage("Logout"),
+        "logoutFromAccount":
+            MessageLookupByLibrary.simpleMessage("Logout from your account"),
+        "minutesAgo": m2,
+        "monthly": MessageLookupByLibrary.simpleMessage("Monthly Progress"),
+        "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "nameRequired":
+            MessageLookupByLibrary.simpleMessage("Please enter your name"),
+        "notSyncedYet": MessageLookupByLibrary.simpleMessage("Not synced yet"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "or": MessageLookupByLibrary.simpleMessage("OR"),
+        "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwordMismatch":
+            MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "passwordRequired":
+            MessageLookupByLibrary.simpleMessage("Please enter your password"),
+        "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+            "Password must be at least 6 characters"),
+        "pending": MessageLookupByLibrary.simpleMessage("Pending"),
+        "pieChartIsEmpty":
+            MessageLookupByLibrary.simpleMessage("No habits to display"),
+        "ratepagetitle":
+            MessageLookupByLibrary.simpleMessage("Habit Statistics"),
+        "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
+        "resetPasswordDescription": MessageLookupByLibrary.simpleMessage(
+            "Enter your email and we\'ll send you a link to reset your password"),
+        "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
+            "Password reset link sent to your email"),
+        "resetPasswordTitle":
+            MessageLookupByLibrary.simpleMessage("Reset Password"),
+        "restoreData": MessageLookupByLibrary.simpleMessage("Restore Data"),
+        "restoreFeatureWillBeAvailableInFutureUpdates":
+            MessageLookupByLibrary.simpleMessage(
+                "Restore feature will be available in future updates"),
+        "scanImage": MessageLookupByLibrary.simpleMessage("Scan Image"),
+        "sendResetLink":
+            MessageLookupByLibrary.simpleMessage("Send Reset Link"),
+        "setDailyReminder": MessageLookupByLibrary.simpleMessage(
+            "Set a daily reminder for your habits"),
+        "settingPageTitle": MessageLookupByLibrary.simpleMessage("Settings"),
+        "signInWithGoogle":
+            MessageLookupByLibrary.simpleMessage("Sign in with Google"),
+        "signUpWithGoogle":
+            MessageLookupByLibrary.simpleMessage("Sign up with Google"),
+        "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
+        "skipNow": MessageLookupByLibrary.simpleMessage("Skip Now"),
+        "success": MessageLookupByLibrary.simpleMessage("Habit Success"),
+        "summary": MessageLookupByLibrary.simpleMessage("Habit Summary"),
+        "syncError": MessageLookupByLibrary.simpleMessage("Sync failed"),
+        "syncFailed": MessageLookupByLibrary.simpleMessage("Sync failed"),
+        "syncNow": MessageLookupByLibrary.simpleMessage("Sync Now"),
+        "syncSuccess": MessageLookupByLibrary.simpleMessage("Sync successful"),
+        "syncing": MessageLookupByLibrary.simpleMessage("Syncing..."),
+        "theFieldCantBeEmpty": MessageLookupByLibrary.simpleMessage(
+            "The field can\'t be empty :)"),
+        "themepage": MessageLookupByLibrary.simpleMessage("Custom Theme"),
+        "themepagetitle": MessageLookupByLibrary.simpleMessage("Theme Setting"),
+        "today": MessageLookupByLibrary.simpleMessage("Today Progress"),
+        "tooltipItem": MessageLookupByLibrary.simpleMessage("Go do it now"),
+        "tooltipItemCompleted":
+            MessageLookupByLibrary.simpleMessage("Completed"),
+        "total": MessageLookupByLibrary.simpleMessage("Total"),
+        "trendChartIsEmpty": MessageLookupByLibrary.simpleMessage(
+            "Not enough data to display trends"),
+        "user": MessageLookupByLibrary.simpleMessage("User"),
+        "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress")
+      };
 }

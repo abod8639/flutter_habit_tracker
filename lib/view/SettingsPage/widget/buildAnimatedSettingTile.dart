@@ -36,7 +36,7 @@ Widget buildAnimatedSettingTile(
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.08),
+              color: Theme.of(context).shadowColor.withValues(alpha:0.08),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -54,7 +54,7 @@ Widget buildAnimatedSettingTile(
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha:0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -83,7 +83,7 @@ Widget buildAnimatedSettingTile(
                               ?.copyWith(
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.onSurface.withOpacity(0.6),
+                                ).colorScheme.onSurface.withValues(alpha:0.6),
                               ),
                         ),
                       ],
@@ -97,7 +97,7 @@ Widget buildAnimatedSettingTile(
                       Icons.chevron_right_rounded,
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withOpacity(0.3),
+                      ).colorScheme.onSurface.withValues(alpha:0.3),
                     ),
                 ],
               ),

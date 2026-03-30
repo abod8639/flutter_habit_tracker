@@ -13,10 +13,9 @@ import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/auth/auth_wrapper.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   runZonedGuarded(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
       // Initialize Firebase
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,

@@ -31,13 +31,13 @@ class LineChartBox extends StatelessWidget {
               show: true,
               getDrawingHorizontalLine: (value) {
                 return FlLine(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.withValues(alpha:0.1),
                   strokeWidth: 1,
                 );
               },
               getDrawingVerticalLine: (value) {
                 return FlLine(
-                  color: Colors.grey.withOpacity(0.05),
+                  color: Colors.grey.withValues(alpha:0.05),
                   strokeWidth: 1,
                 );
               },
@@ -60,7 +60,7 @@ class LineChartBox extends StatelessWidget {
                             fontSize: 12,
                             color: Theme.of(
                               context,
-                            ).colorScheme.onSurface.withOpacity(0.7),
+                            ).colorScheme.onSurface.withValues(alpha:0.7),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -110,7 +110,7 @@ class LineChartBox extends StatelessWidget {
             borderData: FlBorderData(
               show: true,
               border: Border.all(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha:0.2),
                 width: 1,
               ),
             ),

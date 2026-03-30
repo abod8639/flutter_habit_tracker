@@ -15,6 +15,6 @@ LineChartBarData myLineChartBarData({
     barWidth: 4,
     isStrokeCapRound: true,
     dotData: FlDotData(show: true),
-    belowBarData: BarAreaData(show: true, color: color.withOpacity(0.2)),
+    belowBarData: BarAreaData(show: true, color: color.withValues(alpha:0.2)),
   );
 }

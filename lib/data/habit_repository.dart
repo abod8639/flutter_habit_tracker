@@ -302,4 +302,16 @@ class HabitRepository {
     }
     return false;
   }
+
+  // --- Cloud Sync Helpers ---
+
+  bool isUserLoggedIn() {
+    return _firestoreService.isUserLoggedIn;
+  }
+
+  Future<void> deleteHabitFromCloud(String habitId) async {
+    if (_firestoreService.isUserLoggedIn) {
+      return _firestoreService.deleteHabit(habitId);
+    }
+  }
 }

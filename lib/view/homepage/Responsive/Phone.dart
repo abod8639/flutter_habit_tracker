@@ -32,9 +32,11 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       drawer: const MyDrawer(),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: myfloatingActionButton(
-        onPressed: () => addHabit(context),
-      ),
+      floatingActionButton: Obx(() => controller.isSelectionMode
+          ? const SizedBox.shrink()
+          : myfloatingActionButton(
+              onPressed: () => addHabit(context),
+            )),
       body: SafeArea(
         child: Obx(() {
           if (controller.isLoading.value) {
@@ -69,26 +71,81 @@ class MyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      pinned: true,
-      automaticallyImplyLeading: true,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      foregroundColor: Colors.transparent,
-      floating: true,
-      backgroundColor: Colors.transparent,
-      leading: Builder(
-        builder: (context) {
-          return IconButton(
-            icon: Icon(
-              color: Theme.of(context).colorScheme.onSurface,
-              Icons.menu,
+    final HabitController controller = Get.find<HabitController>();
+
+    return Obx(() {
+      if (controller.isSelectionMode) {
+        return SliverAppBar(
+          pinned: true,
+          backgroundColor: Theme.of(context).primaryColor,
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: Colors.white),
+            onPressed: () => controller.clearSelection(),
+          ),
+          title: Text(
+            '${controller.selectedHabitIds.length} Selected',
+            style: const TextStyle(color: Colors.white),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.color_lens, color: Colors.white),
+              onPressed: () {
+                // Future: Show color picker dialog
+              },
             ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.white),
+              onPressed: () => _showBatchDeleteConfirm(context, controller),
+            ),
+          ],
+        );
+      }
+
+      return SliverAppBar(
+        pinned: true,
+        automaticallyImplyLeading: true,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        foregroundColor: Colors.transparent,
+        floating: true,
+        backgroundColor: Colors.transparent,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(
+                color: Theme.of(context).colorScheme.onSurface,
+                Icons.menu,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+      );
+    });
+  }
+
+  void _showBatchDeleteConfirm(BuildContext context, HabitController controller) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Selected'),
+        content: Text(
+            'Are you sure you want to delete ${controller.selectedHabitIds.length} habits?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
             onPressed: () {
-              Scaffold.of(context).openDrawer();
+              controller.deleteSelectedHabits();
+              Navigator.pop(context);
             },
-          );
-        },
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
       ),
     );
   }

@@ -63,10 +63,13 @@ class HabitList extends StatelessWidget {
                 child: MyTextTaile(
                   habitName: habits[index].name,
                   habitCompleted: habits[index].isCompleted,
+                  isSelected: controller.selectedHabitIds.contains(habits[index].id),
+                  isSelectionMode: controller.isSelectionMode,
                   onTap: () => toggleHabit(!habits[index].isCompleted, index),
                   onDelete: (context) => deleteHabit(index, context),
                   onEdit: (context) => editHabit(index, context),
                   onChanged: (value) => toggleHabit(value, index),
+                  onLongPress: () => controller.toggleHabitSelection(habits[index].id),
                 ),
               ),
             );

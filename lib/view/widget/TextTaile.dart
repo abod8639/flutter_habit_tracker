@@ -8,6 +8,9 @@ class MyTextTaile extends StatefulWidget {
   final Function(BuildContext)? onEdit;
   final Function(bool?)? onChanged;
   final Function()? onTap;
+  final Function()? onLongPress;
+  final bool isSelected;
+  final bool isSelectionMode;
 
   const MyTextTaile({
     required this.habitCompleted,
@@ -15,6 +18,9 @@ class MyTextTaile extends StatefulWidget {
     required this.onDelete,
     required this.onEdit,
     required this.onTap,
+    this.onLongPress,
+    this.isSelected = false,
+    this.isSelectionMode = false,
     required this.habitName,
     super.key,
   });
@@ -105,7 +111,9 @@ class _MyTextTaileState extends State<MyTextTaile>
             splashColor: Theme.of(context).primaryColor.withValues(alpha:0.3),
             focusColor: themeColors.secondary.withValues(alpha:0.5),
             onTap: () {
-              if (widget.onTap != null) {
+              if (widget.isSelectionMode) {
+                if (widget.onLongPress != null) widget.onLongPress!();
+              } else if (widget.onTap != null) {
                 // Animate the tile when tapped
                 if (!widget.habitCompleted) {
                   _animationController.forward();
@@ -116,16 +124,22 @@ class _MyTextTaileState extends State<MyTextTaile>
                 widget.onTap!();
               }
             },
+            onLongPress: widget.onLongPress,
             title: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               decoration: BoxDecoration(
-                color: widget.habitCompleted
-                    ? Theme.of(context).primaryColor.withValues(alpha:0.5)
-                    : themeColors.brightness == Brightness.light
-                    ? Colors.grey[400]
-                    : Colors.grey[700],
+                color: widget.isSelected
+                    ? Theme.of(context).primaryColor.withValues(alpha: 0.2)
+                    : widget.habitCompleted
+                        ? Theme.of(context).primaryColor.withValues(alpha: 0.5)
+                        : themeColors.brightness == Brightness.light
+                            ? Colors.grey[400]
+                            : Colors.grey[700],
                 borderRadius: BorderRadius.circular(10),
+                border: widget.isSelected
+                    ? Border.all(color: Theme.of(context).primaryColor, width: 2)
+                    : null,
               ),
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -142,13 +156,22 @@ class _MyTextTaileState extends State<MyTextTaile>
                             child: child,
                           );
                         },
-                    child: Checkbox(
-                      key: ValueKey<bool>(widget.habitCompleted),
-                      activeColor: Theme.of(context).primaryColor,
-                      checkColor: Colors.white,
-                      value: widget.habitCompleted,
-                      onChanged: widget.onChanged,
-                    ),
+                    child: widget.isSelectionMode
+                        ? Icon(
+                            widget.isSelected
+                                ? Icons.check_circle_rounded
+                                : Icons.radio_button_unchecked_rounded,
+                            color: widget.isSelected
+                                ? Theme.of(context).primaryColor
+                                : themeColors.onSurface.withValues(alpha: 0.5),
+                          )
+                        : Checkbox(
+                            key: ValueKey<bool>(widget.habitCompleted),
+                            activeColor: Theme.of(context).primaryColor,
+                            checkColor: Colors.white,
+                            value: widget.habitCompleted,
+                            onChanged: widget.onChanged,
+                          ),
                   ),
                   Expanded(
                     child: AnimatedDefaultTextStyle(

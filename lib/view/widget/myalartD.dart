@@ -18,7 +18,7 @@ class Myalartd extends StatefulWidget {
   });
 
   @override
-  _MyalartdState createState() => _MyalartdState();
+  State<Myalartd> createState() => _MyalartdState();
 }
 
 class _MyalartdState extends State<Myalartd>

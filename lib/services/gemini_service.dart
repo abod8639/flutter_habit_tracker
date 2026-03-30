@@ -14,20 +14,22 @@ class GeminiService {
     }
 
     _model = GenerativeModel(
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       apiKey: apiKey,
     );
+    
   }
+
+
 
   /// Evaluates an image using Gemini Pro Vision and extracts distinct habits/tasks.
   Future<List<String>> extractHabitsFromImage(XFile imageFile) async {
     try {
       final bytes = await imageFile.readAsBytes();
       final prompt = TextPart(
-        'You are an assistant designed to extract habits or tasks from images (e.g. handwritten lists, daily schedules, diet plans, workout routines). '
-        'Read the image and output a JSON array of strings, where each string is a distinct, short, actionable habit or task. '
-        'Do not wrap the output in markdown codeblocks like ```json...```. Output ONLY the raw JSON array. '
-        'For example: ["Eat 3 eggs", "Drink whey protein", "Go to gym"].',
+        'Extract a list of habits or tasks from this image. '
+        'Return only a simple JSON array of strings. '
+        'Example: ["Task 1", "Task 2"]',
       );
       final imagePart = DataPart(imageFile.mimeType ?? 'image/jpeg', bytes);
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habit_tracker/generated/l10n.dart';
+import 'package:habit_tracker/services/gemini_service.dart';
+import 'package:habit_tracker/view/homepage/widget/image_scanner_bottom_sheet.dart';
+import 'package:habit_tracker/view/homepage/widget/habit_confirmation_dialog.dart';
 
 class Myalartd extends StatefulWidget {
   final Function()? onSave;
@@ -22,6 +25,7 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
+  bool _isScanning = false;
 
   @override
   void initState() {
@@ -48,6 +52,51 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleScanImage() async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (bottomSheetContext) => ImageScannerBottomSheet(
+        onImageSelected: (image) async {
+          setState(() {
+            _isScanning = true;
+          });
+          try {
+            final service = GeminiService();
+            final habits = await service.extractHabitsFromImage(image);
+            
+            if (mounted) {
+              setState(() {
+                _isScanning = false;
+              });
+              // Close the Add Habit dialog
+              Navigator.of(context).pop();
+              widget.controller.clear();
+              // Show the confirmation dialog
+              showDialog(
+                context: context,
+                builder: (context) => HabitConfirmationDialog(extractedHabits: habits),
+              );
+            }
+          } catch (e) {
+            if (mounted) {
+              setState(() {
+                _isScanning = false;
+              });
+              debugPrint(e.toString());
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Error: $e'),
+                  backgroundColor: Colors.red.shade700,
+                ),
+              );
+            }
+          }
+        },
+      ),
+    );
   }
 
   void _handleSave() {
@@ -127,6 +176,19 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                           ),
                     ),
                   ),
+                  if (_isScanning)
+                    const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  else
+                    IconButton(
+                      icon: const Icon(Icons.document_scanner_rounded),
+                      color: colorScheme.primary,
+                      tooltip: 'Scan from Image',
+                      onPressed: _handleScanImage,
+                    ),
                 ],
               ),
               const SizedBox(height: 24),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageScannerBottomSheet extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 
 class HabitConfirmationDialog extends StatefulWidget {
   final List<String> extractedHabits;
-
+ 
   const HabitConfirmationDialog({required this.extractedHabits, super.key});
 
   @override

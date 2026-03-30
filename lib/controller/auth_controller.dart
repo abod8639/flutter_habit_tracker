@@ -46,6 +46,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
+      print(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -76,6 +77,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
+      print(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -104,6 +106,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
+      print(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -121,6 +124,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
+      print(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),
@@ -147,6 +151,7 @@ class AuthController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = e.toString();
+      print(e.toString());
       Get.snackbar(
         S.current.error,
         e.toString(),

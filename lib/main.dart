@@ -13,10 +13,11 @@ import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/auth/auth_wrapper.dart';
 
 Future<void> main() async {
+  // CRITICAL: Must be called BEFORE runZonedGuarded to avoid Zone mismatch
+  WidgetsFlutterBinding.ensureInitialized();
+
   runZonedGuarded(
     () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      // Initialize Firebase
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -26,7 +27,10 @@ Future<void> main() async {
     (error, stack) {
       debugPrint('Error during app execution: $error');
       debugPrint('Stack trace: $stack');
-      runApp(ErrorApp(error: error.toString()));
+      // Use addPostFrameCallback to run in the correct zone
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        runApp(ErrorApp(error: error.toString()));
+      });
     },
   );
 }

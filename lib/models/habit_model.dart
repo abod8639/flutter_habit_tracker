@@ -118,7 +118,7 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
   @override
   void write(BinaryWriter writer, HabitModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8) // ← correct: writing 8 fields (indices 0–7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)

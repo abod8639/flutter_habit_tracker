@@ -4,7 +4,7 @@ import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 
 void deleteHabit(int index, BuildContext context) {
-  HabitController c = Get.put(HabitController());;
+  HabitController c = Get.find<HabitController>();
 
   if (c.db.getHabitByIndex(index) == null) return;
 

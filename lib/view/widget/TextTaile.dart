@@ -120,12 +120,11 @@ class _MyTextTaileState extends State<MyTextTaile>
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               decoration: BoxDecoration(
-                color:
-                    widget.habitCompleted
-                        ? Theme.of(context).primaryColor.withOpacity(0.5)
-                        : themeColors.brightness == Brightness.light
-                        ? Colors.grey[400]
-                        : Colors.grey[700],
+                color: widget.habitCompleted
+                    ? Theme.of(context).primaryColor.withOpacity(0.5)
+                    : themeColors.brightness == Brightness.light
+                    ? Colors.grey[400]
+                    : Colors.grey[700],
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: const EdgeInsets.all(10),
@@ -133,12 +132,16 @@ class _MyTextTaileState extends State<MyTextTaile>
                 children: [
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 200),
-                    transitionBuilder: (
-                      Widget child,
-                      Animation<double> animation,
-                    ) {
-                      return ScaleTransition(scale: animation, child: child);
-                    },
+                    transitionBuilder:
+                        (
+                          Widget child,
+                          Animation<double> animation,
+                        ) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        },
                     child: Checkbox(
                       key: ValueKey<bool>(widget.habitCompleted),
                       activeColor: Theme.of(context).primaryColor,
@@ -152,10 +155,9 @@ class _MyTextTaileState extends State<MyTextTaile>
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: themeColors.onSurface,
-                        decoration:
-                            widget.habitCompleted
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none,
+                        decoration: widget.habitCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                       duration: const Duration(milliseconds: 300),
                       child: Text(widget.habitName),

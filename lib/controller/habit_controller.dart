@@ -124,7 +124,7 @@ class HabitController extends GetxController {
   void updateHabits(List<HabitModel> newHabits) {
     db.todaysHabitList = newHabits;
     update(); // Trigger GetBuilder rebuilds
-    
+
     // Also update reactive state if needed
     _loadHabitHistory();
   }
@@ -173,7 +173,6 @@ class HabitController extends GetxController {
     super.onClose();
   }
 
-
   void reorderHabits(int oldIndex, int newIndex) {
     db.reorderHabits(oldIndex, newIndex);
     update();
@@ -182,6 +181,4 @@ class HabitController extends GetxController {
   String getStartDay() {
     return myBox.get(HabitStorage.startDayKey, defaultValue: "");
   }
-
-  
 }

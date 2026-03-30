@@ -13,7 +13,7 @@ class TrendChartState extends GetxController {
   void onInit() {
     super.onInit();
     updateHabitNames();
-    
+
     ever(isWeeklyView, (_) => updateHabitNames());
     ever(showIndividualProgress, (_) => updateHabitNames());
   }

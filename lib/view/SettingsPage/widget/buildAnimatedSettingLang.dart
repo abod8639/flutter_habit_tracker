@@ -63,15 +63,14 @@ Widget buildAnimatedSettingLang(
                         Theme.of(context).textTheme.bodyLarge?.color,
                   ),
                   dropdownColor: Theme.of(context).cardColor,
-                  items:
-                      entries
-                          .map(
-                            (entry) => DropdownMenuItem<String>(
-                              value: entry.value,
-                              child: Text(entry.label),
-                            ),
-                          )
-                          .toList(),
+                  items: entries
+                      .map(
+                        (entry) => DropdownMenuItem<String>(
+                          value: entry.value,
+                          child: Text(entry.label),
+                        ),
+                      )
+                      .toList(),
                   onChanged: (value) {
                     Get.showOverlay(
                       asyncFunction: () async {

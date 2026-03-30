@@ -23,8 +23,9 @@ class AuthController extends GetxController {
     super.onInit();
     // Listen to auth state changes
     _authService.authStateChanges.listen((User? user) {
-      _currentUser.value =
-          user != null ? UserModel.fromFirebaseUser(user) : null;
+      _currentUser.value = user != null
+          ? UserModel.fromFirebaseUser(user)
+          : null;
     });
   }
 

@@ -7,8 +7,6 @@ import 'package:habit_tracker/models/date_time.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 
-
-
 class HabitRepository {
   late final HabitLocalDataSource _localDataSource;
   late final FirestoreService _firestoreService;
@@ -37,7 +35,7 @@ class HabitRepository {
       habitCalculate();
       loadHeatmap();
       _dataChanged = false;
-      
+
       // Upload to cloud in background
       if (_firestoreService.isUserLoggedIn) {
         _firestoreService.uploadHabits(_habits).catchError((e) {
@@ -81,11 +79,12 @@ class HabitRepository {
       }
       _updateCache();
       loadHeatmap();
-      
+
       // Trigger sync if logged in
       if (_firestoreService.isUserLoggedIn) {
         _firestoreService.syncHabits(_habits).then((mergedHabits) {
-          if (mergedHabits.length != _habits.length || _hasDifferences(mergedHabits)) {
+          if (mergedHabits.length != _habits.length ||
+              _hasDifferences(mergedHabits)) {
             _habits = mergedHabits;
             _localDataSource.saveHabits(_habits);
             _updateCache();
@@ -115,21 +114,24 @@ class HabitRepository {
         _completedCount = _habits.where((habit) => habit.isCompleted).length;
       }
 
-      double completionRate =
-          _habits.isEmpty ? 0.0 : _completedCount / _habits.length;
+      double completionRate = _habits.isEmpty
+          ? 0.0
+          : _completedCount / _habits.length;
       String rateString = completionRate.toStringAsFixed(1);
 
       _localDataSource.saveHabitStrength(todaysDateFormatted(), rateString);
       debugPrint('📊 Habit completion rate: $rateString');
-      
+
       // Upload history to cloud
       if (_firestoreService.isUserLoggedIn) {
-        _firestoreService.uploadHabitHistory(
-          todaysDateFormatted(),
-          rateString,
-        ).catchError((e) {
-          debugPrint('⚠️ History upload failed: $e');
-        });
+        _firestoreService
+            .uploadHabitHistory(
+              todaysDateFormatted(),
+              rateString,
+            )
+            .catchError((e) {
+              debugPrint('⚠️ History upload failed: $e');
+            });
       }
     } catch (e) {
       debugPrint('❌ Error calculating habit completion: $e');
@@ -139,16 +141,26 @@ class HabitRepository {
   List<Map<String, dynamic>> getIncompleteHabits() {
     return _habits
         .where((habit) => !habit.isCompleted)
-        .map((habit) =>
-            {"id": habit.id, "name": habit.name, "completed": habit.isCompleted})
+        .map(
+          (habit) => {
+            "id": habit.id,
+            "name": habit.name,
+            "completed": habit.isCompleted,
+          },
+        )
         .toList();
   }
 
   List<Map<String, dynamic>> getCompletedHabits() {
     return _habits
         .where((habit) => habit.isCompleted)
-        .map((habit) =>
-            {"id": habit.id, "name": habit.name, "completed": habit.isCompleted})
+        .map(
+          (habit) => {
+            "id": habit.id,
+            "name": habit.name,
+            "completed": habit.isCompleted,
+          },
+        )
         .toList();
   }
 
@@ -242,7 +254,7 @@ class HabitRepository {
       _habits.removeAt(index);
       _dataChanged = true;
       updateData();
-      
+
       // Delete from cloud
       if (_firestoreService.isUserLoggedIn) {
         _firestoreService.deleteHabit(habitId).catchError((e) {
@@ -280,9 +292,9 @@ class HabitRepository {
     // If lengths are same, check if any habit has different completion status or name.
     // This is a basic check, can be improved.
     if (_habits.length != other.length) return true;
-    
+
     for (int i = 0; i < _habits.length; i++) {
-      if (_habits[i].id != other[i].id || 
+      if (_habits[i].id != other[i].id ||
           _habits[i].isCompleted != other[i].isCompleted ||
           _habits[i].name != other[i].name) {
         return true;

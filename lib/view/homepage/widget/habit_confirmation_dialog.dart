@@ -5,12 +5,11 @@ import 'package:habit_tracker/generated/l10n.dart';
 
 class HabitConfirmationDialog extends StatefulWidget {
   final List<String> extractedHabits;
- 
+
   const HabitConfirmationDialog({required this.extractedHabits, super.key});
 
   @override
-  HabitConfirmationDialogState createState() =>
-      HabitConfirmationDialogState();
+  HabitConfirmationDialogState createState() => HabitConfirmationDialogState();
 }
 
 class HabitConfirmationDialogState extends State<HabitConfirmationDialog> {
@@ -48,7 +47,8 @@ class HabitConfirmationDialogState extends State<HabitConfirmationDialog> {
       return AlertDialog(
         title: const Text('No Habits Detected'),
         content: const Text(
-            'We could not find any clear tasks or habits in this image. Please try another one.'),
+          'We could not find any clear tasks or habits in this image. Please try another one.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),

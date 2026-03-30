@@ -53,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
@@ -88,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                     delay: delayStep,
                     child: LoginPageIcon(theme: theme),
                   ),
-                  
+
                   const SizedBox(height: 48),
 
                   // Email Field
@@ -141,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                         ),
-                         border: OutlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         filled: true,
@@ -170,14 +173,14 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           Get.to(() => const ForgotPasswordPage());
                         },
-                         style: TextButton.styleFrom(
+                        style: TextButton.styleFrom(
                           foregroundColor: theme.colorScheme.secondary,
                         ),
                         child: Text(S.current.forgotPassword),
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
 
                   // Sign In Button
@@ -185,10 +188,9 @@ class _LoginPageState extends State<LoginPage> {
                     delay: delayStep * 4,
                     child: Obx(
                       () => ElevatedButton(
-                        onPressed:
-                            _authController.isLoading.value
-                                ? null
-                                : _handleEmailSignIn,
+                        onPressed: _authController.isLoading.value
+                            ? null
+                            : _handleEmailSignIn,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: theme.colorScheme.primary,
@@ -198,23 +200,22 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        child:
-                            _authController.isLoading.value
-                                ? SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: theme.colorScheme.onPrimary,
-                                  ),
-                                )
-                                : Text(
-                                  S.current.login,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        child: _authController.isLoading.value
+                            ? SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: theme.colorScheme.onPrimary,
                                 ),
+                              )
+                            : Text(
+                                S.current.login,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -240,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
 
                   // Google Sign In Button
@@ -248,10 +249,9 @@ class _LoginPageState extends State<LoginPage> {
                     delay: delayStep * 6,
                     child: Obx(
                       () => OutlinedButton.icon(
-                        onPressed:
-                            _authController.isLoading.value
-                                ? null
-                                : _handleGoogleSignIn,
+                        onPressed: _authController.isLoading.value
+                            ? null
+                            : _handleGoogleSignIn,
                         icon: Image.asset(
                           'assets/icon/google_icon.png',
                           height: 24,
@@ -262,7 +262,9 @@ class _LoginPageState extends State<LoginPage> {
                         label: Text(S.current.signInWithGoogle),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          side: BorderSide(color: theme.colorScheme.outlineVariant),
+                          side: BorderSide(
+                            color: theme.colorScheme.outlineVariant,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -281,7 +283,9 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Text(
                           S.current.dontHaveAccount,
-                          style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {

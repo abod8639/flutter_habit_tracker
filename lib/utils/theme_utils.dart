@@ -39,10 +39,9 @@ class ThemeUtils {
             ? adjustBrightness(colors['background']!, 0.2)
             : colors['background']!);
 
-    final surfaceColor =
-        forceDark && !isDarkTheme
-            ? adjustBrightness(colors['surface']!, 0.2)
-            : colors['surface']!;
+    final surfaceColor = forceDark && !isDarkTheme
+        ? adjustBrightness(colors['surface']!, 0.2)
+        : colors['surface']!;
 
     final onSurfaceColor = getContrastColor(surfaceColor);
     final onBackgroundColor = getContrastColor(backgroundColor);
@@ -108,10 +107,9 @@ class ThemeUtils {
   }
 
   static TextTheme _createTextTheme(Brightness brightness, Color textColor) {
-    final baseTextTheme =
-        brightness == Brightness.dark
-            ? ThemeData.dark().textTheme
-            : ThemeData.light().textTheme;
+    final baseTextTheme = brightness == Brightness.dark
+        ? ThemeData.dark().textTheme
+        : ThemeData.light().textTheme;
     return baseTextTheme.apply(bodyColor: textColor, displayColor: textColor);
   }
 

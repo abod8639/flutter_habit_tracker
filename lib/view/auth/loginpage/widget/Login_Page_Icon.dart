@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 

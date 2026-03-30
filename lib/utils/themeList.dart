@@ -123,5 +123,4 @@ const Map<String, Map<String, Color>> themeColors = {
     'onPrimary': Color(0xFF101820),
     'onSecondary': Color(0xFFFFFFFF),
   },
-
 };

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
@@ -8,51 +7,48 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingLang.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 
-Widget buildAppearanceSection( AnimationController animationController) {
-    final langController = Get.find<LangController>();
-    return Builder(
-      builder: (context) {
-        return Column(
-          children: [
-
-            buildAnimatedSettingTile(
-              animationController: animationController,
+Widget buildAppearanceSection(AnimationController animationController) {
+  final langController = Get.find<LangController>();
+  return Builder(
+    builder: (context) {
+      return Column(
+        children: [
+          buildAnimatedSettingTile(
+            animationController: animationController,
+            context,
+            index: 5,
+            icon: Icons.palette_rounded,
+            title: S.current.themepage,
+            subtitle: S.current.changeAppTheme,
+            onTap: () => Get.to(
+              () => const ThemePage(),
+              transition: Transition.rightToLeftWithFade,
+              duration: const Duration(milliseconds: 400),
+            ),
+          ),
+          Obx(
+            () => buildAnimatedSettingLang(
               context,
-              index: 5,
-              icon: Icons.palette_rounded,
-              title: S.current.themepage,
-              subtitle: S.current.changeAppTheme,
-              onTap: () => Get.to(
-                () => const ThemePage(),
-                transition: Transition.rightToLeftWithFade,
-                duration: const Duration(milliseconds: 400),
-              ),
+              icon: Icons.language_rounded,
+              currentValue: langController.language.value,
+              entries: const [
+                DropdownMenuEntry(value: "sys", label: "  System Language  "),
+                DropdownMenuEntry(value: "ar", label: "  العربية "),
+                DropdownMenuEntry(value: "en", label: "  English  "),
+              ],
+              onChanged: (value) async {
+                if (value != null) {
+                  await langController.changeLanguage(value);
+                  RestartWidget.restartApp(context);
+                }
+              },
+              textColor: Theme.of(context).colorScheme.onSecondary,
+              animationController: animationController,
+              index: 6,
             ),
-            Obx(
-              () => buildAnimatedSettingLang(
-                context,
-                icon: Icons.language_rounded,
-                currentValue: langController.language.value,
-                entries: const [
-
-                  DropdownMenuEntry(value: "sys", label: "  System Language  "),
-                  DropdownMenuEntry(value: "ar", label: "  العربية "),
-                  DropdownMenuEntry(value: "en", label: "  English  "),
-
-                ],
-                onChanged: (value) async {
-                  if (value != null) {
-                    await langController.changeLanguage(value);
-                    RestartWidget.restartApp(context);
-                  }
-                },
-                textColor: Theme.of(context).colorScheme.onSecondary,
-                animationController: animationController,
-                index: 6,
-              ),
-            ),
-          ],
-        );
-      }
-    );
-  }
+          ),
+        ],
+      );
+    },
+  );
+}

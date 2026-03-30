@@ -52,7 +52,7 @@ class SyncController extends GetxController {
       errorMessage.value = '';
 
       final mergedHabits = await _firestoreService.syncHabits(localHabits);
-      
+
       lastSyncTime.value = DateTime.now();
       syncStatus.value = SyncStatus.success;
 
@@ -67,13 +67,13 @@ class SyncController extends GetxController {
     } catch (e) {
       syncStatus.value = SyncStatus.error;
       errorMessage.value = e.toString();
-      
+
       Get.snackbar(
         S.current.error,
         '${S.current.syncFailed}: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
-      
+
       return null;
     }
   }
@@ -86,9 +86,9 @@ class SyncController extends GetxController {
 
     try {
       syncStatus.value = SyncStatus.syncing;
-      
+
       final mergedHabits = await _firestoreService.syncHabits(localHabits);
-      
+
       lastSyncTime.value = DateTime.now();
       syncStatus.value = SyncStatus.success;
 
@@ -119,9 +119,9 @@ class SyncController extends GetxController {
 
     try {
       syncStatus.value = SyncStatus.syncing;
-      
+
       final habits = await _firestoreService.downloadHabits();
-      
+
       lastSyncTime.value = DateTime.now();
       syncStatus.value = SyncStatus.success;
 

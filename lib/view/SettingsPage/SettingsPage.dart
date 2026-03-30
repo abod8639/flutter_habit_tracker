@@ -51,9 +51,9 @@ class _SettingsPageState extends State<SettingsPage>
           padding: const EdgeInsets.only(bottom: 24),
           children: [
             buildAccountSection(_animationController),
-            buildSyncSection( _animationController),
-            buildAppearanceSection( _animationController),
-            buildNotificationsSection( _animationController),
+            buildSyncSection(_animationController),
+            buildAppearanceSection(_animationController),
+            buildNotificationsSection(_animationController),
             buildDataSection(_animationController),
             buildAboutSection(_animationController),
           ],
@@ -61,15 +61,4 @@ class _SettingsPageState extends State<SettingsPage>
       ),
     );
   }
-
 }
-
-
-
-
-
-
-
-
-
-

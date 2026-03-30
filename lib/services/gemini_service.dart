@@ -20,10 +20,7 @@ class GeminiService {
         responseMimeType: 'application/json',
       ),
     );
-    
   }
-
-
 
   /// Evaluates an image using Gemini Pro Vision and extracts distinct habits/tasks.
   Future<List<String>> extractHabitsFromImage(XFile imageFile) async {
@@ -37,7 +34,7 @@ class GeminiService {
       final imagePart = DataPart(imageFile.mimeType ?? 'image/jpeg', bytes);
 
       final response = await _model.generateContent([
-        Content.multi([prompt, imagePart])
+        Content.multi([prompt, imagePart]),
       ]);
 
       if (response.text == null || response.text!.isEmpty) {
@@ -56,7 +53,9 @@ class GeminiService {
       }
 
       final List<dynamic> decoded = jsonDecode(cleanedText);
-      final List<String> parsedHabits = decoded.map((e) => e.toString()).toList();
+      final List<String> parsedHabits = decoded
+          .map((e) => e.toString())
+          .toList();
 
       return parsedHabits;
     } catch (e) {

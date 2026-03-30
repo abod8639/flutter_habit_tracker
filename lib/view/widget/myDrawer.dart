@@ -88,7 +88,7 @@ class _DrawerListState extends State<DrawerList> {
     return ListView(
       children: [
         const SizedBox(height: 20),
-                MyDrawerListTile(
+        MyDrawerListTile(
           icon: _isScanning
               ? const SizedBox(
                   width: 24,
@@ -96,7 +96,9 @@ class _DrawerListState extends State<DrawerList> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(
-                  color: Colors.blueGrey, Icons.document_scanner_rounded),
+                  color: Colors.blueGrey,
+                  Icons.document_scanner_rounded,
+                ),
           onTap: _isScanning ? null : _handleScanImage,
           title: "Scan Image",
         ),
@@ -128,7 +130,6 @@ class _DrawerListState extends State<DrawerList> {
           },
           title: S.current.drawerSetting,
         ),
-        
       ],
     );
   }

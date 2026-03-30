@@ -11,21 +11,21 @@ Widget buildChartsSection(BuildContext context) {
     builder: (controller) {
       return ResponsiveUtils.isDesktop(context)
           ? Row(
-            children: [
-              Expanded(child: BuildBarChart()),
-              const SizedBox(width: 10),
-              Expanded(child: BuildTrendChart()),
-              const SizedBox(width: 10),
-              Expanded(child: BuildPieChart()),
-            ],
-          )
+              children: [
+                Expanded(child: BuildBarChart()),
+                const SizedBox(width: 10),
+                Expanded(child: BuildTrendChart()),
+                const SizedBox(width: 10),
+                Expanded(child: BuildPieChart()),
+              ],
+            )
           : Column(
-            children: [
-              BuildBarChart(),
-              const SizedBox(height: 16),
-              BuildPieChart(),
-            ],
-          );
+              children: [
+                BuildBarChart(),
+                const SizedBox(height: 16),
+                BuildPieChart(),
+              ],
+            );
     },
   );
 }

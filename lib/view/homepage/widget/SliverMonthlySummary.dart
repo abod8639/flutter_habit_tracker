@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
@@ -11,7 +10,7 @@ class SliverMonthlySummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final HabitController controller = Get.put(HabitController());
+    final HabitController controller = Get.put(HabitController());
 
     return SliverToBoxAdapter(
       child: Center(

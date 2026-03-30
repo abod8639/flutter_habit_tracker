@@ -6,7 +6,7 @@ import 'package:habit_tracker/view/widget/myalartD.dart';
 
 void editHabit(int index, BuildContext context) {
   HabitController c = Get.find<HabitController>();
-  
+
   // Pre-fill the text controller with the current habit name
   final habit = c.db.getHabitByIndex(index);
   if (habit != null) {

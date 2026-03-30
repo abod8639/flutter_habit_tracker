@@ -22,19 +22,18 @@ Widget buildCustomThemeSelector() {
                 isExpanded: true,
                 value: themeController.currentTheme.value,
                 icon: Icon(Icons.palette, color: Get.theme.primaryColor),
-                items:
-                    themeController.availableThemes.map((themeName) {
-                      return DropdownMenuItem(
-                        value: themeName,
-                        child: Row(
-                          children: [
-                            Expanded(child: Text(formatThemeName(themeName))),
-                            const SizedBox(width: 15),
-                            ...buildThemeColorPreview(themeName, themeColors),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                items: themeController.availableThemes.map((themeName) {
+                  return DropdownMenuItem(
+                    value: themeName,
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(formatThemeName(themeName))),
+                        const SizedBox(width: 15),
+                        ...buildThemeColorPreview(themeName, themeColors),
+                      ],
+                    ),
+                  );
+                }).toList(),
                 onChanged: (value) {
                   if (value != null) {
                     themeController.changeCustomTheme(value);

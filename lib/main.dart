@@ -21,7 +21,7 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      await initializeApp();      
+      await initializeApp();
       runApp(RestartWidget(child: const MyApp()));
     },
     (error, stack) {
@@ -32,39 +32,38 @@ Future<void> main() async {
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final LangController controllerLanguage = Get.put(LangController());
     final ThemeController themeController = Get.find<ThemeController>();
-    
-    return Obx(() => GetMaterialApp(
 
-      locale: Locale(controllerLanguage.language.value),
+    return Obx(
+      () => GetMaterialApp(
+        locale: Locale(controllerLanguage.language.value),
 
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
 
-      supportedLocales: S.delegate.supportedLocales,
+        supportedLocales: S.delegate.supportedLocales,
 
-      debugShowCheckedModeBanner: false,
-      title: 'Habit Tracker',
-      defaultTransition: Transition.fadeIn,
-      smartManagement: SmartManagement.full,
+        debugShowCheckedModeBanner: false,
+        title: 'Habit Tracker',
+        defaultTransition: Transition.fadeIn,
+        smartManagement: SmartManagement.full,
 
-      theme: themeController.lightTheme.value,
-      darkTheme: themeController.darkTheme.value,
-      themeMode: themeController.themeMode.value,
+        theme: themeController.lightTheme.value,
+        darkTheme: themeController.darkTheme.value,
+        themeMode: themeController.themeMode.value,
 
-      home: const AuthWrapper(),
-    ));
+        home: const AuthWrapper(),
+      ),
+    );
   }
 }

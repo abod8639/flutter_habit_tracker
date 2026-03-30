@@ -21,7 +21,8 @@ class Myalartd extends StatefulWidget {
   _MyalartdState createState() => _MyalartdState();
 }
 
-class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin {
+class _MyalartdState extends State<Myalartd>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
@@ -34,17 +35,17 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    
+
     _scaleAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeOutBack,
     );
-    
+
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeIn,
     );
-    
+
     _animationController.forward();
   }
 
@@ -66,7 +67,7 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
           try {
             final service = GeminiService();
             final habits = await service.extractHabitsFromImage(image);
-            
+
             if (mounted) {
               setState(() {
                 _isScanning = false;
@@ -77,7 +78,8 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
               // Show the confirmation dialog
               showDialog(
                 context: context,
-                builder: (context) => HabitConfirmationDialog(extractedHabits: habits),
+                builder: (context) =>
+                    HabitConfirmationDialog(extractedHabits: habits),
               );
             }
           } catch (e) {
@@ -132,7 +134,7 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     return ScaleTransition(
       scale: _scaleAnimation,
       child: FadeTransition(
@@ -171,9 +173,9 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                     child: Text(
                       S.current.add,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: colorScheme.onSurface,
-                          ),
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
                     ),
                   ),
                   if (_isScanning)
@@ -192,7 +194,7 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                 ],
               ),
               const SizedBox(height: 24),
-              
+
               // Input field
               RawKeyboardListener(
                 focusNode: FocusNode(),
@@ -212,7 +214,8 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                     if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
                       if (event.isControlPressed) {
                         final currentText = widget.controller.text;
-                        final currentPosition = widget.controller.selection.base.offset;
+                        final currentPosition =
+                            widget.controller.selection.base.offset;
                         final newText =
                             '${currentText.substring(0, currentPosition)}\n${currentText.substring(currentPosition)}';
                         widget.controller.value = TextEditingValue(
@@ -266,9 +269,9 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 8),
-              
+
               // Keyboard shortcuts hint
               // Text(
               //   'Press Enter to save • Ctrl+Enter for new line • Esc to cancel',
@@ -288,7 +291,10 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
               },
               style: TextButton.styleFrom(
                 foregroundColor: colorScheme.error,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -308,16 +314,19 @@ class _MyalartdState extends State<Myalartd> with SingleTickerProviderStateMixin
                 ],
               ),
             ),
-            
+
             const SizedBox(width: 8),
-            
+
             // Save button
             FilledButton(
               onPressed: _handleSave,
               style: FilledButton.styleFrom(
                 backgroundColor: colorScheme.primary,
                 foregroundColor: colorScheme.onPrimary,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

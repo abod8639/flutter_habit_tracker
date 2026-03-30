@@ -48,7 +48,8 @@ class AnimatedEntry extends StatefulWidget {
   State<AnimatedEntry> createState() => _AnimatedEntryState();
 }
 
-class _AnimatedEntryState extends State<AnimatedEntry> with SingleTickerProviderStateMixin {
+class _AnimatedEntryState extends State<AnimatedEntry>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

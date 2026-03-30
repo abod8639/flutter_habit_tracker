@@ -1,10 +1,7 @@
-
-
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/models/date_time.dart';
 import 'package:hive/hive.dart';
-
 
 class HabitLocalDataSource {
   final Box _myBox;
@@ -53,8 +50,10 @@ class HabitLocalDataSource {
   }
 
   String getStartDate() {
-    return _myBox.get(HabitStorage.startDayKey,
-        defaultValue: todaysDateFormatted());
+    return _myBox.get(
+      HabitStorage.startDayKey,
+      defaultValue: todaysDateFormatted(),
+    );
   }
 
   void updateStartDate(String date) {

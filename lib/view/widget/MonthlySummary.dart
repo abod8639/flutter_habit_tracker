@@ -27,7 +27,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
-      reverseDuration:const Duration(milliseconds: 800), 
+      reverseDuration: const Duration(milliseconds: 800),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -135,16 +135,13 @@ class _MonthlySummaryState extends State<MonthlySummary>
                     onClick: (value) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withAlpha(100),
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary.withAlpha(100),
                           duration: const Duration(seconds: 1),
                           content: Center(
                             child: Text(
-                              value
-                                  .toString()
-                                  .replaceAll("00:00:00.000", " "),
+                              value.toString().replaceAll("00:00:00.000", " "),
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,

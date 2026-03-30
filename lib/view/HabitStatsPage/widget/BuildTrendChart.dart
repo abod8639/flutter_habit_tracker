@@ -82,7 +82,7 @@ Widget BuildTrendChart() {
                         ),
                       ),
                       IconButton(
-                        onPressed:() => chartState.toggleShowAllHabits(),
+                        onPressed: () => chartState.toggleShowAllHabits(),
                         icon: Icon(
                           chartState.showAllHabits.value
                               ? Icons.stacked_line_chart

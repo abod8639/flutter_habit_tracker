@@ -115,7 +115,7 @@ Future<void> clearAppDataAndRestart(BuildContext context) async {
     _showLoadingDialog(context);
 
     // Clear the data
-    
+
     // Clear Firestore data first
     final firestoreService = FirestoreService();
     if (firestoreService.isUserLoggedIn) {

@@ -1,4 +1,3 @@
-
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,50 +9,50 @@ import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.
 
 Widget buildAccountSection(AnimationController animationController) {
   final authController = Get.put(AuthController());
-  return Builder(builder: (context) {
-    return Obx(() {
-      final user = authController.currentUser;
-      if (user != null) {
-        return Column(
-          children: [
-
-            buildAnimatedUserCard(
-              animationController,
-              user.displayName ?? S.current.user,
-              user.email ?? '',
-              user.photoURL,
-              1,
-            ),
-            buildAnimatedSettingTile(
-              animationController: animationController,
-              context,
-              index: 2,
-              icon: Icons.logout_rounded,
-              title: S.current.logout,
-              subtitle: S.current.logoutFromAccount,
-              textColor: Colors.red,
-              onTap: () => showLogoutDialog(authController),
-            ),
-          ],
-        );
-      } else {
-        return Column(
-          children: [
-
-            buildAnimatedSettingTile(
-              animationController: animationController,
-              context,
-              index: 1,
-              icon: Icons.login_rounded,
-              title: S.current.loginToAccount,
-              subtitle: S.current.loginToEnableSync,
-              onTap: () => navigateToLogin(),
-            ),
-          ],
-        );
-      }
-    });
-  });
+  return Builder(
+    builder: (context) {
+      return Obx(() {
+        final user = authController.currentUser;
+        if (user != null) {
+          return Column(
+            children: [
+              buildAnimatedUserCard(
+                animationController,
+                user.displayName ?? S.current.user,
+                user.email ?? '',
+                user.photoURL,
+                1,
+              ),
+              buildAnimatedSettingTile(
+                animationController: animationController,
+                context,
+                index: 2,
+                icon: Icons.logout_rounded,
+                title: S.current.logout,
+                subtitle: S.current.logoutFromAccount,
+                textColor: Colors.red,
+                onTap: () => showLogoutDialog(authController),
+              ),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              buildAnimatedSettingTile(
+                animationController: animationController,
+                context,
+                index: 1,
+                icon: Icons.login_rounded,
+                title: S.current.loginToAccount,
+                subtitle: S.current.loginToEnableSync,
+                onTap: () => navigateToLogin(),
+              ),
+            ],
+          );
+        }
+      });
+    },
+  );
 }
 
 Widget buildAnimatedUserCard(
@@ -108,23 +107,29 @@ Widget buildAnimatedUserCard(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surface.withOpacity(0.5),
                       width: 3,
                     ),
                     boxShadow: [
-                       BoxShadow(
+                      BoxShadow(
                         color: Colors.black.withOpacity(0.1),
                         blurRadius: 8,
-                      )
-                    ]
+                      ),
+                    ],
                   ),
                   child: CircleAvatar(
                     radius: 36,
                     backgroundColor: Theme.of(context).colorScheme.surface,
-                    backgroundImage: photoUrl != null ? NetworkImage(photoUrl) : null,
+                    backgroundImage: photoUrl != null
+                        ? NetworkImage(photoUrl)
+                        : null,
                     onBackgroundImageError: photoUrl != null
                         ? (exception, stackTrace) {
-                            debugPrint('Error loading profile image: $exception');
+                            debugPrint(
+                              'Error loading profile image: $exception',
+                            );
                           }
                         : null,
                     child: photoUrl == null
@@ -144,27 +149,34 @@ Widget buildAnimatedUserCard(
                       Text(
                         name,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              letterSpacing: 0.5,
-                            ),
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
+                          letterSpacing: 0.5,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onPrimaryContainer
-                              .withOpacity(0.1),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           email,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryContainer,
                                 fontWeight: FontWeight.w500,
                               ),
                           maxLines: 1,
@@ -179,6 +191,6 @@ Widget buildAnimatedUserCard(
           ),
         ),
       );
-    }
+    },
   );
 }

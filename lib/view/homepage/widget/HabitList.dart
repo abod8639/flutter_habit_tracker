@@ -17,7 +17,10 @@ class HabitList extends StatelessWidget {
         final List habits = controller.db.todaysHabitList;
 
         if (habits.isEmpty) {
-          return SliverFillRemaining(hasScrollBody: false, child: Nohabitsyet());
+          return SliverFillRemaining(
+            hasScrollBody: false,
+            child: Nohabitsyet(),
+          );
         }
 
         return SliverReorderableList(

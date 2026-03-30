@@ -81,8 +81,9 @@ class AuthService {
       );
 
       // Sign in to Firebase with the Google credential
-      final UserCredential result =
-          await _auth.signInWithCredential(credential);
+      final UserCredential result = await _auth.signInWithCredential(
+        credential,
+      );
 
       return _userFromFirebase(result.user);
     } on GoogleSignInException catch (e) {

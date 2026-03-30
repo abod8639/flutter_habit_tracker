@@ -30,17 +30,19 @@ class _MyDrawerListTileState extends State<MyDrawerListTile> {
           focusColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
           splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          tileColor:
-              _isHovered
-                  ? Theme.of(context).primaryColor.withOpacity(0.1)
-                  : Colors.transparent,
+          tileColor: _isHovered
+              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              : Colors.transparent,
           onTap: widget.onTap,
           title: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: EdgeInsets.only(bottom: _isHovered ? 4.0 : 0.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Expanded(child: Text(widget.title)), widget.icon!],
+              children: [
+                Expanded(child: Text(widget.title)),
+                widget.icon!,
+              ],
             ),
           ),
         ),

@@ -29,12 +29,13 @@ class CheckboxList extends StatelessWidget {
             }
 
             return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(1, 0),
-                end: Offset.zero,
-              ).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeOut),
-              ),
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(1, 0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                  ),
               child: MyTextTaile(
                 habitName: habits[index].name,
                 habitCompleted: habits[index].isCompleted,

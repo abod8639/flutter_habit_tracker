@@ -53,8 +53,9 @@ Widget BuildBarChart() {
                               "${value.toInt()}",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondary,
                                 fontSize: 11,
                               ),
                             );
@@ -72,10 +73,9 @@ Widget BuildBarChart() {
                                   '${value.toInt() + 1}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    color:
-                                        Theme.of(
-                                          context,
-                                        ).colorScheme.onSecondary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondary,
                                     fontSize: 11,
                                   ),
                                 ),
@@ -105,30 +105,27 @@ Widget BuildBarChart() {
                       show: true,
                       border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     ),
-                    barGroups:
-                        chartData.asMap().entries.map((entry) {
-                          final int index = entry.key;
-                          final Map<String, dynamic> habit = entry.value;
-                          final double barValue =
-                              habit['completed']
-                                  ? cont.dayCount.toDouble()
-                                  : 1.0;
+                    barGroups: chartData.asMap().entries.map((entry) {
+                      final int index = entry.key;
+                      final Map<String, dynamic> habit = entry.value;
+                      final double barValue = habit['completed']
+                          ? cont.dayCount.toDouble()
+                          : 1.0;
 
-                          return BarChartGroupData(
-                            x: index,
-                            barRods: [
-                              BarChartRodData(
-                                toY: barValue,
-                                color:
-                                    habit['completed']
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context).colorScheme.error,
-                                width: 20,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ],
-                          );
-                        }).toList(),
+                      return BarChartGroupData(
+                        x: index,
+                        barRods: [
+                          BarChartRodData(
+                            toY: barValue,
+                            color: habit['completed']
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).colorScheme.error,
+                            width: 20,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ],
+                      );
+                    }).toList(),
                   ),
                 ),
               ),

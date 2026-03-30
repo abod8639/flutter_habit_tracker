@@ -42,7 +42,7 @@ Widget BuildSummaryCard() {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                
+
                 children: [
                   BuildStatItem(
                     S.current.total,

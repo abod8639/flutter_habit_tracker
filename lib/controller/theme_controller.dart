@@ -49,7 +49,6 @@ class ThemeController extends GetxController {
       currentTheme.value = _storage.getThemeName(defaultTheme);
       themeMode.value = _storage.getThemeMode();
 
-      
       useCustomBackground.value = _storage.getUseCustomBackground();
 
       final savedBgColor = _storage.getCustomBackgroundColor();
@@ -74,24 +73,24 @@ class ThemeController extends GetxController {
         if (cloudTheme['themeName'] != null) {
           currentTheme.value = cloudTheme['themeName'];
         }
-        
+
         if (cloudTheme['themeMode'] != null) {
           // Parse theme mode string
           String modeStr = cloudTheme['themeMode'];
           themeMode.value = _parseThemeMode(modeStr);
         }
-        
+
         if (cloudTheme['useCustomBg'] != null) {
           useCustomBackground.value = cloudTheme['useCustomBg'];
         }
-        
+
         if (cloudTheme['customBgColor'] != null) {
           customBackgroundColor.value = Color(cloudTheme['customBgColor']);
         }
-        
+
         _buildBothThemes();
         _applyTheme();
-        
+
         // Save to local storage to keep in sync
         await _saveThemeSettings(skipCloud: true);
       }
@@ -122,10 +121,11 @@ class ThemeController extends GetxController {
         themeName: currentTheme.value,
         mode: themeMode.value,
         useCustomBg: useCustomBackground.value,
-        customBgColor:
-            useCustomBackground.value ? customBackgroundColor.value : null,
+        customBgColor: useCustomBackground.value
+            ? customBackgroundColor.value
+            : null,
       );
-      
+
       if (!skipCloud && _firestoreService.isUserLoggedIn) {
         await _firestoreService.uploadTheme(
           currentTheme.value,
@@ -185,8 +185,9 @@ class ThemeController extends GetxController {
     if (themeData == null) return;
 
     final isDarkTheme = ThemeUtils.isDarkTheme(themeData);
-    final customBg =
-        useCustomBackground.value ? customBackgroundColor.value : null;
+    final customBg = useCustomBackground.value
+        ? customBackgroundColor.value
+        : null;
 
     lightTheme.value = ThemeUtils.buildThemeData(
       forceDark: false,

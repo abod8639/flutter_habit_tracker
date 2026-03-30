@@ -30,14 +30,12 @@ class HabitModel {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
-      createdAt:
-          map['created_at'] != null
-              ? DateTime.parse(map['created_at'])
-              : DateTime.now(),
-      completedAt:
-          map['completed_at'] != null
-              ? DateTime.parse(map['completed_at'])
-              : null,
+      createdAt: map['created_at'] != null
+          ? DateTime.parse(map['created_at'])
+          : DateTime.now(),
+      completedAt: map['completed_at'] != null
+          ? DateTime.parse(map['completed_at'])
+          : null,
     );
   }
 

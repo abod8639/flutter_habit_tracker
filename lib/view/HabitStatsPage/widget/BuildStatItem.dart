@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/utils/responsive_utils.dart';
 
 Widget BuildStatItem(String title, String value, IconData icon, Color color) {
-
   return Expanded(
     child: Builder(
       builder: (context) {
-        final mSize = MediaQuery.of(context).size.width *.030;
+        final mSize = MediaQuery.of(context).size.width * .030;
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

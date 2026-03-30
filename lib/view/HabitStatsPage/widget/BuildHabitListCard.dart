@@ -5,10 +5,12 @@ import 'package:habit_tracker/view/HabitStatsPage/widget/BuildHabitList.dart';
 
 Widget BuildHabitListCard(BuildContext context) {
   final List<Map<String, dynamic>> chartData = prepareChartData();
-  final completedHabits =
-      chartData.where((habit) => habit['completed'] == true).toList();
-  final incompleteHabits =
-      chartData.where((habit) => habit['completed'] == false).toList();
+  final completedHabits = chartData
+      .where((habit) => habit['completed'] == true)
+      .toList();
+  final incompleteHabits = chartData
+      .where((habit) => habit['completed'] == false)
+      .toList();
 
   return Builder(
     builder: (context) {

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart' as fln;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    as fln;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static NotificationService? _instance;
-  
+
   factory NotificationService() {
     _instance ??= NotificationService._internal();
     return _instance!;
   }
-  
+
   NotificationService._internal();
 
   final fln.FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -24,16 +25,17 @@ class NotificationService {
 
     final fln.DarwinInitializationSettings initializationSettingsDarwin =
         fln.DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: true,
-      requestAlertPermission: false,
-    );
+          requestSoundPermission: false,
+          requestBadgePermission: true,
+          requestAlertPermission: false,
+        );
 
-    final fln.InitializationSettings initializationSettings = fln.InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
-      macOS: initializationSettingsDarwin,
-    );
+    final fln.InitializationSettings initializationSettings =
+        fln.InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin,
+          macOS: initializationSettingsDarwin,
+        );
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
@@ -41,12 +43,14 @@ class NotificationService {
   Future<void> requestPermissions() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            fln.AndroidFlutterLocalNotificationsPlugin>()
+          fln.AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            fln.IOSFlutterLocalNotificationsPlugin>()
+          fln.IOSFlutterLocalNotificationsPlugin
+        >()
         ?.requestPermissions(
           alert: true,
           badge: true,
@@ -86,8 +90,14 @@ class NotificationService {
 
   tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
@@ -109,6 +119,4 @@ class NotificationService {
       debugPrint('Failed to cancel all notifications: $e');
     }
   }
-  
 }
-

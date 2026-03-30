@@ -32,7 +32,7 @@ class FirestoreService {
 
     try {
       debugPrint('📤 Uploading ${habits.length} habits to Firestore');
-      
+
       final batch = _firestore.batch();
       final timestamp = FieldValue.serverTimestamp();
 
@@ -52,7 +52,7 @@ class FirestoreService {
         final habitDoc = _habitsCollection!.doc(habit.id);
         final habitData = habit.toMap();
         habitData['updatedAt'] = timestamp;
-        
+
         batch.set(habitDoc, habitData, SetOptions(merge: true));
       }
 
@@ -73,9 +73,9 @@ class FirestoreService {
 
     try {
       debugPrint('📥 Downloading habits from Firestore');
-      
+
       final snapshot = await _habitsCollection!.get();
-      
+
       final habits = snapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         return HabitModel.fromMap(data);
@@ -98,22 +98,22 @@ class FirestoreService {
 
     try {
       debugPrint('🔄 Starting habit sync');
-      
+
       // Download cloud habits
       final cloudHabits = await downloadHabits();
-      
+
       // Create maps for easier lookup
       final localMap = {for (var h in localHabits) h.id: h};
       final cloudMap = {for (var h in cloudHabits) h.id: h};
-      
+
       // Merge habits (Last Write Wins strategy)
       final mergedHabits = <HabitModel>[];
       final allIds = {...localMap.keys, ...cloudMap.keys};
-      
+
       for (var id in allIds) {
         final local = localMap[id];
         final cloud = cloudMap[id];
-        
+
         if (local == null) {
           // Only in cloud
           mergedHabits.add(cloud!);
@@ -126,7 +126,7 @@ class FirestoreService {
           // In a real app, you'd add updatedAt field
           final localTime = local.completedAt ?? local.createdAt;
           final cloudTime = cloud.completedAt ?? cloud.createdAt;
-          
+
           if (localTime.isAfter(cloudTime)) {
             mergedHabits.add(local);
           } else {
@@ -134,10 +134,10 @@ class FirestoreService {
           }
         }
       }
-      
+
       // Upload merged habits back to cloud
       await uploadHabits(mergedHabits);
-      
+
       debugPrint('✅ Sync completed: ${mergedHabits.length} habits');
       return mergedHabits;
     } catch (e) {
@@ -223,7 +223,7 @@ class FirestoreService {
 
       // Delete user document
       await _userDoc!.delete();
-      
+
       debugPrint('🗑️ Deleted all user data from Firestore');
     } catch (e) {
       debugPrint('❌ Error deleting user data: $e');
@@ -243,7 +243,7 @@ class FirestoreService {
 
     try {
       debugPrint('📤 Uploading theme settings to Firestore');
-      
+
       await _userDoc!.collection('settings').doc('theme').set({
         'themeName': themeName,
         'themeMode': mode.toString(), // Store as string
@@ -251,7 +251,7 @@ class FirestoreService {
         'customBgColor': customBgColor?.value, // Store as int
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
-      
+
       debugPrint('✅ Theme settings uploaded successfully');
     } catch (e) {
       debugPrint('❌ Error uploading theme settings: $e');
@@ -264,9 +264,9 @@ class FirestoreService {
 
     try {
       debugPrint('📥 Downloading theme settings from Firestore');
-      
+
       final doc = await _userDoc!.collection('settings').doc('theme').get();
-      
+
       if (doc.exists) {
         debugPrint('✅ Theme settings downloaded');
         return doc.data() as Map<String, dynamic>;

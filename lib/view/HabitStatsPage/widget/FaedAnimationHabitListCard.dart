@@ -21,15 +21,16 @@ class FaedAnimationHabitListCard extends StatelessWidget {
         ),
       ),
       child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.2),
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: const Interval(0.6, 1.0, curve: Curves.easeOut),
-          ),
-        ),
+        position:
+            Tween<Offset>(
+              begin: const Offset(0, 0.2),
+              end: Offset.zero,
+            ).animate(
+              CurvedAnimation(
+                parent: _animationController,
+                curve: const Interval(0.6, 1.0, curve: Curves.easeOut),
+              ),
+            ),
         child: BuildHabitListCard(context),
       ),
     );

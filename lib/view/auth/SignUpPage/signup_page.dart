@@ -64,21 +64,24 @@ class _SignUpPageState extends State<SignUpPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  
                   AnimatedEntry(
                     delay: delayStep,
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer.withOpacity(0.3),
+                        color: theme.colorScheme.primaryContainer.withOpacity(
+                          0.3,
+                        ),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -89,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   AnimatedEntry(
                     delay: delayStep * 2,
                     child: Text(
@@ -138,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         filled: true,
-                         fillColor: theme.colorScheme.surfaceContainerLowest,
+                        fillColor: theme.colorScheme.surfaceContainerLowest,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -177,7 +180,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         filled: true,
-                         fillColor: theme.colorScheme.surfaceContainerLowest,
+                        fillColor: theme.colorScheme.surfaceContainerLowest,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -208,7 +211,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -216,7 +220,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         filled: true,
-                         fillColor: theme.colorScheme.surfaceContainerLowest,
+                        fillColor: theme.colorScheme.surfaceContainerLowest,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -305,7 +309,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         label: Text(S.current.signUpWithGoogle),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          side: BorderSide(color: theme.colorScheme.outlineVariant),
+                          side: BorderSide(
+                            color: theme.colorScheme.outlineVariant,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
@@ -322,7 +328,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         Text(
                           S.current.alreadyHaveAccount,
-                          style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
@@ -339,7 +347,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                   ),
-                  
                 ],
               ),
             ),

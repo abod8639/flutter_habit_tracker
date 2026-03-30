@@ -7,7 +7,6 @@ import 'package:habit_tracker/view/HabitStatsPage/data/prepareTodayHabitTrends.d
 import 'package:habit_tracker/view/HabitStatsPage/widget/myLineChartBarData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTrendChart.dart';
 
-
 class LineChartBox extends StatelessWidget {
   const LineChartBox({super.key});
 
@@ -43,7 +42,7 @@ class LineChartBox extends StatelessWidget {
                 );
               },
             ),
-            
+
             titlesData: FlTitlesData(
               show: true,
               bottomTitles: AxisTitles(
@@ -55,11 +54,13 @@ class LineChartBox extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          trendLabels[index ],
+                          trendLabels[index],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withOpacity(0.7),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -76,7 +77,7 @@ class LineChartBox extends StatelessWidget {
                 sideTitles: SideTitles(
                   showTitles: true,
                   interval: 0.25,
-                getTitlesWidget: (value, meta) {
+                  getTitlesWidget: (value, meta) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
@@ -119,7 +120,7 @@ class LineChartBox extends StatelessWidget {
             maxX: (trendLabels.length - 1).toDouble(),
             minY: -0.10,
             maxY: 1.15,
-            
+
             lineBarsData: _buildLineBarsData(
               context: context,
               chartState: chartState,
@@ -150,10 +151,10 @@ class LineChartBox extends StatelessWidget {
       );
     } else {
       chartState.updateHabitNames();
-      
+
       for (int i = 0; i < chartState.habitNames.length; i++) {
         final habitName = chartState.habitNames[i];
-        
+
         if (progression.containsKey(habitName)) {
           final spots = progression[habitName];
           if (spots != null && spots.isNotEmpty) {
@@ -176,7 +177,7 @@ class LineChartBox extends StatelessWidget {
     if (index < lineColors.length) {
       return lineColors[index];
     }
-    
+
     final fallbackColors = [
       Theme.of(context).primaryColor,
       Colors.blue,
@@ -187,7 +188,7 @@ class LineChartBox extends StatelessWidget {
       Colors.teal,
       Colors.amber,
     ];
-    
+
     return fallbackColors[index % fallbackColors.length];
   }
 

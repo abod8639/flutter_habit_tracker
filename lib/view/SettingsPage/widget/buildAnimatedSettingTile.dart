@@ -70,7 +70,8 @@ Widget buildAnimatedSettingTile(
                       children: [
                         Text(
                           title,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: textColor,
                               ),
@@ -78,11 +79,11 @@ Widget buildAnimatedSettingTile(
                         const SizedBox(height: 4),
                         Text(
                           subtitle,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.6),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withOpacity(0.6),
                               ),
                         ),
                       ],
@@ -94,7 +95,9 @@ Widget buildAnimatedSettingTile(
                   ] else if (onTap != null)
                     Icon(
                       Icons.chevron_right_rounded,
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withOpacity(0.3),
                     ),
                 ],
               ),

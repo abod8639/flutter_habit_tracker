@@ -42,14 +42,15 @@ class NotificationController extends GetxController {
   Future<void> setNotificationTime(TimeOfDay time) async {
     notificationTime.value = time;
     await _settingsStorage.setNotificationTime(time);
-    
+
     if (isNotificationEnabled.value) {
       await _scheduleNotification(time);
     }
   }
 
   Future<void> _scheduleNotification(TimeOfDay time) async {
-    await _notificationService.cancelAllNotifications(); // Cancel existing before scheduling new
+    await _notificationService
+        .cancelAllNotifications(); // Cancel existing before scheduling new
     await _notificationService.scheduleDailyNotification(
       id: 0,
       title: 'Habit Tracker',

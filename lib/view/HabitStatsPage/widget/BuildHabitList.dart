@@ -7,19 +7,17 @@ Widget BuildHabitList(
 ) {
   return Container(
     decoration: BoxDecoration(
-      color:
-          isCompleted
-              ? Colors.green.withOpacity(0.05)
-              : Colors.orange.withOpacity(0.05),
+      color: isCompleted
+          ? Colors.green.withOpacity(0.05)
+          : Colors.orange.withOpacity(0.05),
       borderRadius: BorderRadius.circular(8),
     ),
     child: ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: habits.length,
-      separatorBuilder:
-          (context, index) =>
-              Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
+      separatorBuilder: (context, index) =>
+          Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
       itemBuilder: (context, index) {
         final habit = habits[index];
         return ListTile(

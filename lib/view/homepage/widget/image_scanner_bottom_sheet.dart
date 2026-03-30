@@ -50,15 +50,15 @@ class ImageScannerBottomSheet extends StatelessWidget {
           Text(
             'Scan Habits',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             'Extract tasks from an image automatically.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              color: colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
@@ -85,7 +85,8 @@ class ImageScannerBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildOptionCard(BuildContext context, {
+  Widget _buildOptionCard(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required VoidCallback onTap,

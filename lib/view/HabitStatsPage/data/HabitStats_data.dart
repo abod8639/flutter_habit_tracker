@@ -27,8 +27,9 @@ List<FlSpot> prepareTrendData(int days) {
 
     // Get completion data from heatmap
     final int? completionValue = controller.db.heatmapDateSet[normalizedDate];
-    final double percentage =
-        completionValue != null ? completionValue / 10.0 : 0.0;
+    final double percentage = completionValue != null
+        ? completionValue / 10.0
+        : 0.0;
 
     trendSpots.add(FlSpot(i.toDouble(), percentage.clamp(0.0, 1.0)));
   }
@@ -57,8 +58,9 @@ Map<String, dynamic> calculateStats() {
   // Use public methods to get habits data instead of accessing private fields
   final int totalHabits = controller.db.todaysHabitList.length;
   final int completedHabits = controller.db.getCompletedHabits().length;
-  final double completionRate =
-      totalHabits > 0 ? (completedHabits / totalHabits) * 100 : 0;
+  final double completionRate = totalHabits > 0
+      ? (completedHabits / totalHabits) * 100
+      : 0;
 
   return {
     'totalHabits': totalHabits,

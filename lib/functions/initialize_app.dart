@@ -19,7 +19,7 @@ Future<void> initializeApp() async {
     await dotenv.load(fileName: ".env");
     await Hive.initFlutter();
     Hive.registerAdapter(HabitModelAdapter());
-    
+
     try {
       final notificationService = NotificationService();
       await notificationService.init();

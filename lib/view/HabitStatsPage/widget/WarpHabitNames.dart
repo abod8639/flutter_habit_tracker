@@ -4,7 +4,6 @@ import 'package:habit_tracker/controller/trend_chart_controller.dart';
 import 'package:habit_tracker/view/HabitStatsPage/data/getHabitProgressionData.dart';
 import 'package:habit_tracker/view/HabitStatsPage/widget/BuildTrendChart.dart';
 
-
 class WarpHabitNames extends StatelessWidget {
   const WarpHabitNames({super.key});
 
@@ -12,10 +11,9 @@ class WarpHabitNames extends StatelessWidget {
   Widget build(BuildContext context) {
     final chartState = Get.put(TrendChartState());
 
-    final List<String> habitNames =
-        chartState.isWeeklyView.value
-            ? getLast30DaysHabitProgression().keys.toList()
-            : getLast7DaysHabitProgression().keys.toList();
+    final List<String> habitNames = chartState.isWeeklyView.value
+        ? getLast30DaysHabitProgression().keys.toList()
+        : getLast7DaysHabitProgression().keys.toList();
 
     return Wrap(
       spacing: 16,

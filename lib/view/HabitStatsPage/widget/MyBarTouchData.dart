@@ -30,10 +30,9 @@ BarTouchData MyBarTouchData(BuildContext context) {
               text:
                   '\n${completed ? S.current.tooltipItemCompleted : S.current.tooltipItem}',
               style: TextStyle(
-                color:
-                    completed
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.error.withRed(255),
+                color: completed
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.error.withRed(255),
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),

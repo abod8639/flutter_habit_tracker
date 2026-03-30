@@ -49,4 +49,3 @@ class ThemePage extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +10,3 @@ void keyboardShortCutsPages(KeyEvent event) {
     Get.back();
   }
 }
-
-
-

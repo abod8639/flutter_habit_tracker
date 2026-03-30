@@ -11,10 +11,12 @@ import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/notification_service.dart';
 import 'package:habit_tracker/controller/notification_controller.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> initializeApp() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: ".env");
     await Hive.initFlutter();
     Hive.registerAdapter(HabitModelAdapter());
     

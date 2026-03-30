@@ -182,4 +182,6 @@ class HabitController extends GetxController {
   String getStartDay() {
     return myBox.get(HabitStorage.startDayKey, defaultValue: "");
   }
+
+  
 }

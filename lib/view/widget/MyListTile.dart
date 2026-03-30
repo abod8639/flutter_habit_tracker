@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyDrawerListTile extends StatefulWidget {
-  final Icon? icon;
+  final Widget? icon;
   final String title;
   final Function()? onTap;
 

@@ -5,6 +5,9 @@ import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
 import 'package:habit_tracker/view/ThemePage/ThemePage.dart';
 import 'package:habit_tracker/view/widget/MyListTile.dart';
+import 'package:habit_tracker/services/gemini_service.dart';
+import 'package:habit_tracker/view/homepage/widget/image_scanner_bottom_sheet.dart';
+import 'package:habit_tracker/view/homepage/widget/habit_confirmation_dialog.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -19,13 +22,64 @@ class MyDrawer extends StatelessWidget {
       width: isPhone(context) ? 200 : 300,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       // backgroundColor: Colors.grey[900],
-      child: DrawerList(),
+      child: const DrawerList(),
     );
   }
 }
 
-class DrawerList extends StatelessWidget {
+class DrawerList extends StatefulWidget {
   const DrawerList({super.key});
+
+  @override
+  State<DrawerList> createState() => _DrawerListState();
+}
+
+class _DrawerListState extends State<DrawerList> {
+  bool _isScanning = false;
+
+  Future<void> _handleScanImage() async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (bottomSheetContext) => ImageScannerBottomSheet(
+        onImageSelected: (image) async {
+          setState(() {
+            _isScanning = true;
+          });
+          try {
+            final service = GeminiService();
+            final habits = await service.extractHabitsFromImage(image);
+
+            if (mounted) {
+              setState(() {
+                _isScanning = false;
+              });
+              // Close the drawer if it's still open
+              Get.back();
+              // Show the confirmation dialog
+              showDialog(
+                context: context,
+                builder: (context) =>
+                    HabitConfirmationDialog(extractedHabits: habits),
+              );
+            }
+          } catch (e) {
+            if (mounted) {
+              setState(() {
+                _isScanning = false;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Error: $e'),
+                  backgroundColor: Colors.red.shade700,
+                ),
+              );
+            }
+          }
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +87,19 @@ class DrawerList extends StatelessWidget {
 
     return ListView(
       children: [
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
+                MyDrawerListTile(
+          icon: _isScanning
+              ? const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(
+                  color: Colors.blueGrey, Icons.document_scanner_rounded),
+          onTap: _isScanning ? null : _handleScanImage,
+          title: "Scan Image",
+        ),
         MyDrawerListTile(
           icon: Icon(
             color: Theme.of(context).primaryColor,
@@ -47,7 +113,7 @@ class DrawerList extends StatelessWidget {
         ),
 
         MyDrawerListTile(
-          icon: Icon(color: Colors.blueAccent, Icons.auto_graph_sharp),
+          icon: const Icon(color: Colors.blueAccent, Icons.auto_graph_sharp),
           onTap: () {
             Get.back();
             Get.to(() => HabitStatsPage());
@@ -62,32 +128,8 @@ class DrawerList extends StatelessWidget {
           },
           title: S.current.drawerSetting,
         ),
-        // MyDrawerListTile(
-        //   icon: const Icon(
-        //     color: Colors.blueGrey,
-        //     Icons.settings_accessibility_sharp,
-        //   ),
-        //   onTap: () {
-        //     // Get.to(() => SupaEmailAuthWidget());
-        //     // Get.to(() => LiquidGlassExamplePage());
-        //   },
-        //   title: "Test page",
-        // ),
+        
       ],
     );
   }
-
-  // SnackBar errorSnakBar(BuildContext context, String text) {
-  //   return SnackBar(
-  //     backgroundColor: Theme.of(context).colorScheme.error.withOpacity(0.5),
-  //     duration: const Duration(milliseconds: 1500),
-  //     content: Text(
-  //       style: TextStyle(
-  //         fontWeight: FontWeight.w600,
-  //         color: Theme.of(context).colorScheme.onPrimary,
-  //       ),
-  //       text,
-  //     ),
-  //   );
-  // }
 }

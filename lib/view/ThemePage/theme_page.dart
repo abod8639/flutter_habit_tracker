@@ -47,7 +47,7 @@ class ThemePage extends StatelessWidget {
               buildCustomThemeSelector(),
               const SizedBox(height: 16),
 
-              Container(
+              SizedBox(
                 height: 200,
                 child: Row(
                   children: [

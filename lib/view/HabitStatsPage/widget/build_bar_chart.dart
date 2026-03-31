@@ -18,7 +18,7 @@ Widget buildBarChart() {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.bar_chart_rounded, size: 64,
-                color: Colors.grey.withOpacity(0.4)),
+                color: Colors.grey.withValues(alpha: .4)),
             const SizedBox(height: 16),
             Text(S.current.barChartIsEmpty,
                 style: const TextStyle(color: Colors.grey)),
@@ -42,7 +42,7 @@ Widget buildBarChart() {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-              color: colorScheme.outlineVariant.withOpacity(0.5)),
+              color: colorScheme.outlineVariant.withValues(alpha:.5)),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
@@ -69,7 +69,7 @@ Widget buildBarChart() {
                         ),
                         const SizedBox(width: 12),
                         _LegendDot(
-                          color: colorScheme.error.withOpacity(0.5),
+                          color: colorScheme.error.withValues(alpha:.5),
                           label:""
                           //  S.current.missed, // "لم يكتمل"
                         ),
@@ -150,7 +150,7 @@ Widget buildBarChart() {
                       horizontalInterval: interval,
                       getDrawingHorizontalLine: (value) => FlLine(
                         color:
-                            colorScheme.outlineVariant.withOpacity(0.25),
+                            colorScheme.outlineVariant.withValues(alpha:.25),
                         strokeWidth: 0.8,
                         dashArray: [4, 4], // خطوط منقطة أجمل
                       ),
@@ -175,15 +175,15 @@ Widget buildBarChart() {
                                     colors: [
                                       colorScheme.primary,
                                       colorScheme.primary
-                                          .withOpacity(0.65),
+                                          .withValues(alpha:.65),
                                     ],
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter,
                                   )
                                 : LinearGradient(
                                     colors: [
-                                      colorScheme.error.withOpacity(0.45),
-                                      colorScheme.error.withOpacity(0.15),
+                                      colorScheme.error.withValues(alpha:.45),
+                                      colorScheme.error.withValues(alpha:.15),
                                     ],
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter,
@@ -194,8 +194,8 @@ Widget buildBarChart() {
                             backDrawRodData: BackgroundBarChartRodData(
                               show: true,
                               toY: cont.dayCount.toDouble(),
-                              color: colorScheme.surfaceVariant
-                                  .withOpacity(0.25),
+                              color: colorScheme.surfaceContainerHighest
+                                  .withValues(alpha:.25),
                             ),
                           ),
                         ],
@@ -299,7 +299,7 @@ class _StatChip extends StatelessWidget {
             Text(label,
                 style: TextStyle(
                     fontSize: 10,
-                    color: textColor.withOpacity(0.7))),
+                    color: textColor.withValues(alpha:.7))),
             const SizedBox(height: 2),
             Text(value,
                 style: TextStyle(

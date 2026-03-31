@@ -13,7 +13,6 @@ import 'package:habit_tracker/view/ErrorApp.dart';
 import 'package:habit_tracker/view/auth/auth_wrapper.dart';
 
 Future<void> main() async {
-  // CRITICAL: Must be called BEFORE runZonedGuarded to avoid Zone mismatch
   WidgetsFlutterBinding.ensureInitialized();
 
   runZonedGuarded(

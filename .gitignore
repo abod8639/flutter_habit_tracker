@@ -31,7 +31,47 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
+
 /build/
+# /build/684e393d462518ae39927fd29e88529f
+# /build/claud_firestore
+# /build/firebase_core
+# /build/firebase_auth
+# /build/flutter_assets
+# /build/flutter_local_notifications
+# /build/flutter_localization
+# /build/flutter_plugin_android_lifecycle
+# /build/google_sign_in_android
+# /build/home_widget
+# /build/unit_test_assets
+# /build/cloud_firestore
+# /build/connectivity_plus
+# /build/image_picker_android
+# /build/linux
+# /build/native_assets
+# /build/path_provider_android
+# /build/reports
+# /build/shared_preferences_android
+# /build/test_cache
+# /build/.last_build_id
+# /build/99111e0c5b6228829e100ef67db14ea2.cache.dill.track.dill
+# /build/app/generated
+# /build/app/intermediates
+# /build/app/kotlin
+# /build/app/kotlinToolingMetadata
+# /build/app/tmp
+# /build/app/deeplink.json
+# /build/app/outputs/logs
+# /build/app/outputs/mapping
+# /build/app/outputs/native-debug-symbols
+# /build/app/outputs/sdk-dependencies
+# /build/app/outputs/apk
+# /build/app/outputs/flutter-apk/app-debug.apk
+# /build/app/outputs/flutter-apk/app-debug.apk.sha1
+# /build/app/outputs/flutter-apk/app-release.apk.sha1
+# /build/app/outputs/flutter-apk/app-release.apk
+
+
 
 # Symbolication related
 app.*.symbols

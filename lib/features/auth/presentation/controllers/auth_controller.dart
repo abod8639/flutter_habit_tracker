@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/models/user_model.dart';
-import 'package:habit_tracker/services/auth_service.dart';
+import 'package:habit_tracker/features/auth/data/service/auth_service.dart';
 
 class AuthController extends GetxController {
   final AuthService _authService = AuthService();

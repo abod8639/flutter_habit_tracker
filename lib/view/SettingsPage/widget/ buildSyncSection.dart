@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/auth_controller.dart';
+import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/controller/sync_controller.dart';
 import 'package:habit_tracker/functions/performSync.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/auth_controller.dart';
+import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/auth/loginpage/widget/Login_Page_Icon.dart';
-import 'package:habit_tracker/view/auth/SignUpPage/signup_page.dart';
-import 'package:habit_tracker/view/auth/forgot_password_page.dart';
+import 'package:habit_tracker/features/auth/presentation/widgets/Login_Page_Icon.dart';
+import 'package:habit_tracker/features/auth/presentation/pages/signup_page.dart';
+import 'package:habit_tracker/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
-import 'package:habit_tracker/view/auth/widgets/fade_slide_transition.dart';
+import 'package:habit_tracker/features/auth/presentation/widgets/fade_slide_transition.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

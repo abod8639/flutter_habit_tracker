@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/auth_controller.dart';
+import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:habit_tracker/functions/navigateToLogin.dart';
 import 'package:habit_tracker/functions/showLogoutDialog.dart';
 import 'package:habit_tracker/generated/l10n.dart';

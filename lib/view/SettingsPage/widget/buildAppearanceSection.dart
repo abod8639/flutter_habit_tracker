@@ -5,7 +5,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingTile.dart';
 import 'package:habit_tracker/view/SettingsPage/widget/buildAnimatedSettingLang.dart';
-import 'package:habit_tracker/view/ThemePage/theme_page.dart';
+import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 
 Widget buildAppearanceSection(AnimationController animationController) {
   final langController = Get.find<LangController>();

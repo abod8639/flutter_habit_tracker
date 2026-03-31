@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/data/settings_storage.dart';
-import 'package:habit_tracker/view/auth/loginpage/login_page.dart';
+import 'package:habit_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
 
 class AuthWrapper extends StatefulWidget {

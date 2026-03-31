@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/controller/theme_controller.dart';
+import 'package:habit_tracker/features/theme/presentation/controllers/theme_controller.dart';
 import 'package:habit_tracker/controller/trend_chart_controller.dart';
 import 'package:habit_tracker/controller/lang_controller.dart';
 import 'package:habit_tracker/data/habit_storage.dart';

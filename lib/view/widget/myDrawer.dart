@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
 import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
-import 'package:habit_tracker/view/ThemePage/theme_page.dart';
+import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 import 'package:habit_tracker/view/widget/MyListTile.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
 import 'package:habit_tracker/view/homepage/widget/image_scanner_bottom_sheet.dart';

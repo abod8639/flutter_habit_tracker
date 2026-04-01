@@ -110,8 +110,8 @@ class _MyTextTaileState extends State<MyTextTaile>
             return Transform.scale(scale: _scaleAnimation.value, child: child);
           },
           child: ListTile(
-            splashColor: Theme.of(context).primaryColor.withValues(alpha:0.3),
-            focusColor: themeColors.secondary.withValues(alpha:0.5),
+            splashColor: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+            focusColor: themeColors.secondary.withValues(alpha: 0.5),
             onTap: () {
               if (widget.isSelectionMode) {
                 if (widget.onLongPress != null) widget.onLongPress!();
@@ -134,19 +134,22 @@ class _MyTextTaileState extends State<MyTextTaile>
                 color: widget.isSelected
                     ? Theme.of(context).primaryColor.withValues(alpha: 0.2)
                     : widget.habitCompleted
-                        ? (widget.colorValue != null
-                            ? Color(widget.colorValue!)
-                            : Theme.of(context)
-                                .primaryColor
-                                .withValues(alpha: 0.5))
-                        : (widget.colorValue != null
-                            ? Color(widget.colorValue!).withValues(alpha: 0.5)
-                            : (themeColors.brightness == Brightness.light
+                    ? (widget.colorValue != null
+                          ? Color(widget.colorValue!)
+                          : Theme.of(
+                              context,
+                            ).primaryColor.withValues(alpha: 0.5))
+                    : (widget.colorValue != null
+                          ? Color(widget.colorValue!).withValues(alpha: 0.5)
+                          : (themeColors.brightness == Brightness.light
                                 ? Colors.grey[400]
                                 : Colors.grey[700])),
                 borderRadius: BorderRadius.circular(10),
                 border: widget.isSelected
-                    ? Border.all(color: Theme.of(context).primaryColor, width: 2)
+                    ? Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2,
+                      )
                     : null,
               ),
               padding: const EdgeInsets.all(10),

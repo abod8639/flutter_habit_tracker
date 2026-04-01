@@ -32,11 +32,13 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       drawer: const MyDrawer(),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Obx(() => controller.isSelectionMode
-          ? const SizedBox.shrink()
-          : myfloatingActionButton(
-              onPressed: () => addHabit(context),
-            )),
+      floatingActionButton: Obx(
+        () => controller.isSelectionMode
+            ? const SizedBox.shrink()
+            : myfloatingActionButton(
+                onPressed: () => addHabit(context),
+              ),
+      ),
       body: SafeArea(
         child: Obx(() {
           if (controller.isLoading.value) {
@@ -100,28 +102,50 @@ class MyAppBar extends StatelessWidget {
                         crossAxisCount: 5,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
-                        children: [
-                          Colors.red, Colors.pink, Colors.purple, Colors.deepPurple,
-                          Colors.indigo, Colors.blue, Colors.lightBlue, Colors.cyan,
-                          Colors.teal, Colors.green, Colors.lightGreen, Colors.lime,
-                          Colors.yellow, Colors.amber, Colors.orange, Colors.deepOrange,
-                          Colors.brown, Colors.grey, Colors.blueGrey, Colors.black,
-                        ].map((color) => InkWell(
-                          onTap: () {
-                            controller.updateSelectedHabitsColor(color);
-                            Get.back();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: color,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                        )).toList(),
+                        children:
+                            [
+                                  Colors.red,
+                                  Colors.pink,
+                                  Colors.purple,
+                                  Colors.deepPurple,
+                                  Colors.indigo,
+                                  Colors.blue,
+                                  Colors.lightBlue,
+                                  Colors.cyan,
+                                  Colors.teal,
+                                  Colors.green,
+                                  Colors.lightGreen,
+                                  Colors.lime,
+                                  Colors.yellow,
+                                  Colors.amber,
+                                  Colors.orange,
+                                  Colors.deepOrange,
+                                  Colors.brown,
+                                  Colors.grey,
+                                  Colors.blueGrey,
+                                  Colors.black,
+                                ]
+                                .map(
+                                  (color) => InkWell(
+                                    onTap: () {
+                                      controller.updateSelectedHabitsColor(
+                                        color,
+                                      );
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: color,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                       ),
                     ),
                   ),
@@ -161,13 +185,17 @@ class MyAppBar extends StatelessWidget {
     });
   }
 
-  void _showBatchDeleteConfirm(BuildContext context, HabitController controller) {
+  void _showBatchDeleteConfirm(
+    BuildContext context,
+    HabitController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Selected'),
         content: Text(
-            'Are you sure you want to delete ${controller.selectedHabitIds.length} habits?'),
+          'Are you sure you want to delete ${controller.selectedHabitIds.length} habits?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

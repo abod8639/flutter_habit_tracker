@@ -50,7 +50,9 @@ class _myfloatingActionButtonState extends State<myfloatingActionButton>
         child: FloatingActionButton(
           tooltip: 'Add Habit',
           autofocus: true,
-          focusColor: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.6),
+          focusColor: Theme.of(
+            context,
+          ).colorScheme.secondary.withValues(alpha: 0.6),
           isExtended: true,
           backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {

@@ -57,7 +57,9 @@ class HabitModel {
       name: map['name'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
       createdAt: _parseDate(map['created_at']),
-      completedAt: map['completed_at'] != null ? _parseDate(map['completed_at']) : null,
+      completedAt: map['completed_at'] != null
+          ? _parseDate(map['completed_at'])
+          : null,
       colorValue: map['color_value'],
       index: map['index'],
       updatedAt: map['updatedAt'] != null ? _parseDate(map['updatedAt']) : null,
@@ -73,7 +75,8 @@ class HabitModel {
       'completed_at': completedAt?.toIso8601String(),
       'color_value': colorValue,
       'index': index,
-      'updatedAt': updatedAt?.toIso8601String(), // Only for local use if requested; Firestore will overwrite it anyway with Timestamp
+      'updatedAt': updatedAt
+          ?.toIso8601String(), // Only for local use if requested; Firestore will overwrite it anyway with Timestamp
     };
   }
 

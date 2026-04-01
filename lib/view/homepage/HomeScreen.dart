@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     if (!Get.isRegistered<HabitController>()) {
       Get.put(HabitController());
     }
-    
+
     return _buildResponsiveLayout(context, Get.find<HabitController>());
   }
 

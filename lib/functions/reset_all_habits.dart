@@ -13,7 +13,7 @@ void resetAllHabits(HabitRepository db) {
     'All habits have been reset for the new day',
     snackPosition: SnackPosition.BOTTOM,
     duration: const Duration(seconds: 5),
-    backgroundColor: Colors.green.withValues(alpha:0.7),
+    backgroundColor: Colors.green.withValues(alpha: 0.7),
     colorText: Colors.white,
     margin: const EdgeInsets.all(10),
   );

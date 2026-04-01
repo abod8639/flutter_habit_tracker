@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/HabitStatsPage/HabitStatsPage.dart';
-import 'package:habit_tracker/view/SettingsPage/SettingsPage.dart';
+import 'package:habit_tracker/features/habitstats/presentation/pages/habit_stats_page.dart';
+import 'package:habit_tracker/features/habitstats/presentation/controllers/habitstats_binding.dart';
+import 'package:habit_tracker/features/setting/presentation/pages/settings_page.dart';
 import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 import 'package:habit_tracker/view/widget/MyListTile.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
@@ -48,7 +49,7 @@ class _DrawerListState extends State<DrawerList> {
           });
           try {
             final service = GeminiService();
-            final habits = await service.extractHabitsFromImage(image );
+            final habits = await service.extractHabitsFromImage(image);
 
             if (mounted) {
               setState(() {
@@ -118,7 +119,7 @@ class _DrawerListState extends State<DrawerList> {
           icon: const Icon(color: Colors.blueAccent, Icons.auto_graph_sharp),
           onTap: () {
             Get.back();
-            Get.to(() => HabitStatsPage());
+            Get.to(() => const HabitStatsPage(), binding: HabitStatsBinding());
           },
           title: S.current.drawerReat,
         ),

@@ -30,7 +30,7 @@ void editHabit(int index, BuildContext context) {
               S.current.error,
               S.current.theFieldCantBeEmpty,
               snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red.withValues(alpha:0.7),
+              backgroundColor: Colors.red.withValues(alpha: 0.7),
               colorText: Colors.white,
             );
           }

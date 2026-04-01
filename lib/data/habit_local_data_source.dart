@@ -106,6 +106,6 @@ class HabitLocalDataSource {
   }
 
   void clearLocalTombstones() {
-     _myBox.delete('local_tombstones');
+    _myBox.delete('local_tombstones');
   }
 }

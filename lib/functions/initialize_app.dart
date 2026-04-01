@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/features/theme/presentation/controllers/theme_controller.dart';
-import 'package:habit_tracker/controller/trend_chart_controller.dart';
-import 'package:habit_tracker/controller/lang_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/controllers/lang_controller.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/notification_service.dart';
-import 'package:habit_tracker/controller/notification_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/controllers/notification_controller.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
@@ -51,7 +50,6 @@ Future<void> initializeApp() async {
     Get.put(ThemeController());
     Get.put(LangController());
     Get.put(HabitController());
-    Get.put(TrendChartState());
     Get.put(NotificationController());
   } catch (e, stack) {
     debugPrint('FATAL initialization error: $e');
@@ -68,7 +66,9 @@ Future<void> _openBoxSafely(String boxName) async {
   try {
     await Hive.openBox(boxName);
   } catch (e) {
-    debugPrint('⚠️ Box "$boxName" is corrupted ($e). Deleting and recreating...');
+    debugPrint(
+      '⚠️ Box "$boxName" is corrupted ($e). Deleting and recreating...',
+    );
     await _deleteCorruptedBox(boxName);
     // Open fresh empty box
     await Hive.openBox(boxName);

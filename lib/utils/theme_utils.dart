@@ -68,7 +68,7 @@ class ThemeUtils {
       ),
       cardTheme: CardThemeData(
         color: surfaceColor,
-        shadowColor: colors['primary']!.withValues(alpha:0.3),
+        shadowColor: colors['primary']!.withValues(alpha: 0.3),
         elevation: 3,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -92,7 +92,7 @@ class ThemeUtils {
       ),
       textTheme: _createTextTheme(brightness, onBackgroundColor),
       inputDecorationTheme: InputDecorationTheme(
-        fillColor: backgroundColor.withValues(alpha:0.8),
+        fillColor: backgroundColor.withValues(alpha: 0.8),
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

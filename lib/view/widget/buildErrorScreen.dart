@@ -35,7 +35,7 @@ Widget buildErrorScreen() {
                   fontSize: 16,
                   color: Theme.of(
                     context,
-                  ).colorScheme.onSurface.withValues(alpha:0.7),
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
               const SizedBox(height: 32),

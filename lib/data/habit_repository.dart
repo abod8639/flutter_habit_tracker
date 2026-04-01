@@ -28,7 +28,9 @@ class HabitRepository {
       if (Hive.isBoxOpen(boxName)) {
         myBox = Hive.box(boxName);
       } else {
-        debugPrint('⚠️ Box $boxName not open in Repository, this shouldn\'t happen.');
+        debugPrint(
+          '⚠️ Box $boxName not open in Repository, this shouldn\'t happen.',
+        );
         // This is a safety fallback, though it's sync and might fail if not initialized at all
         throw Exception('Hive Box not open. Initialization failed.');
       }
@@ -113,13 +115,13 @@ class HabitRepository {
               _hasDifferences(mergedHabits)) {
             debugPrint('🔄 Cloud data differs, updating local storage');
             _habits = mergedHabits;
-            // IMPORTANT: Assign indices before saving! 
+            // IMPORTANT: Assign indices before saving!
             for (int i = 0; i < _habits.length; i++) {
               _habits[i].index = i;
             }
             updateData(); // This persists to Hive
             _updateCache();
-            loadHeatmap(); 
+            loadHeatmap();
           }
         });
       }

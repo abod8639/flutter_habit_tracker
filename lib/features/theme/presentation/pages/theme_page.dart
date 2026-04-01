@@ -51,12 +51,12 @@ class ThemePage extends StatelessWidget {
                 height: 200,
                 child: Row(
                   children: [
-                        Expanded(child: Text(formatThemeName(themeName))),
-                        const SizedBox(width: 15),
-                        ...buildThemeColorPreview(themeName, themeColors),
-                  ]
-                )
-              )
+                    Expanded(child: Text(formatThemeName(themeName))),
+                    const SizedBox(width: 15),
+                    ...buildThemeColorPreview(themeName, themeColors),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

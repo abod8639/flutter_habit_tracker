@@ -79,8 +79,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer.withValues(alpha:
-                          0.3,
+                        color: theme.colorScheme.primaryContainer.withValues(
+                          alpha: 0.3,
                         ),
                         shape: BoxShape.circle,
                       ),

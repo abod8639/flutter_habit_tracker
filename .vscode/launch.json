@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "name": "Flutter (lib/features/setting/presentation/widget/ buildSyncSection.dart)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/features/setting/presentation/widget/ buildSyncSection.dart"
+    }
+  ]
+}

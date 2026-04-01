@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/sync_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/habit_repository.dart';
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
@@ -47,23 +47,25 @@ class HabitController extends GetxController {
   }
 
   void _setupAuthListener() {
-    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) async {
-       if (user != null) {
-          // Wait for local DB to initialize before fetching from cloud
-          while (!isInitialized.value) {
-            await Future.delayed(const Duration(milliseconds: 100));
-          }
-          _syncOnLogin();
-       }
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((
+      user,
+    ) async {
+      if (user != null) {
+        // Wait for local DB to initialize before fetching from cloud
+        while (!isInitialized.value) {
+          await Future.delayed(const Duration(milliseconds: 100));
+        }
+        _syncOnLogin();
+      }
     });
   }
 
   Future<void> _syncOnLogin() async {
     try {
       if (!Get.isRegistered<SyncController>()) return;
-      
+
       final syncController = Get.find<SyncController>();
-      
+
       isLoading.value = true;
       errorMessage.value = '';
 
@@ -168,12 +170,14 @@ class HabitController extends GetxController {
 
   /// Update habits from sync and refresh UI
   void updateHabits(List<HabitModel> newHabits) {
-    debugPrint('💾 Sync: Persisting ${newHabits.length} habits to local storage...');
+    debugPrint(
+      '💾 Sync: Persisting ${newHabits.length} habits to local storage...',
+    );
     db.todaysHabitList = newHabits;
-    
+
     // Explicitly call updateData to save to Hive permanently
-    db.updateData(); 
-    
+    db.updateData();
+
     update(); // Trigger GetBuilder rebuilds
     _loadHabitHistory();
   }
@@ -252,8 +256,9 @@ class HabitController extends GetxController {
     if (selectedHabitIds.isEmpty) return;
 
     // Filter out habits to keep
-    final List<HabitModel> habitsToKeep =
-        db.todaysHabitList.where((h) => !selectedHabitIds.contains(h.id)).toList();
+    final List<HabitModel> habitsToKeep = db.todaysHabitList
+        .where((h) => !selectedHabitIds.contains(h.id))
+        .toList();
 
     // Identify IDs to delete from cloud
     final List<String> idsToDelete = List.from(selectedHabitIds);

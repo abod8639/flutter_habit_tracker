@@ -38,7 +38,7 @@ class GeminiService {
         '5. Keep each string very short (2-5 words) and actionable.\n'
         '6. If an item is alone without a category, just list its name with an emoji.\n'
         '7. Maintain the original language of the image (Arabic or English).\n'
-        '8. Avoid duplicates: If multiple words mean the same thing, output only one.'
+        '8. Avoid duplicates: If multiple words mean the same thing, output only one.',
       );
 
       final imagePart = DataPart(imageFile.mimeType ?? 'image/jpeg', bytes);

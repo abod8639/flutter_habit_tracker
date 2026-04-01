@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habit_tracker/generated/l10n.dart';
@@ -67,7 +66,9 @@ class _MyalartdState extends State<MyalartDialog>
           });
           try {
             final service = GeminiService();
-            final List<String> habits = await service.extractHabitsFromImage(image );
+            final List<String> habits = await service.extractHabitsFromImage(
+              image,
+            );
 
             if (mounted) {
               setState(() {
@@ -142,7 +143,7 @@ class _MyalartdState extends State<MyalartDialog>
         opacity: _fadeAnimation,
         child: AlertDialog(
           backgroundColor: colorScheme.surface,
-          surfaceTintColor: colorScheme.primary.withValues(alpha:0.05),
+          surfaceTintColor: colorScheme.primary.withValues(alpha: 0.05),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
@@ -160,7 +161,7 @@ class _MyalartdState extends State<MyalartDialog>
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(alpha:0.1),
+                      color: colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -233,10 +234,12 @@ class _MyalartdState extends State<MyalartDialog>
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerHighest.withValues(alpha:0.3),
+                    color: colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.3,
+                    ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: colorScheme.outline.withValues(alpha:0.2),
+                      color: colorScheme.outline.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -251,7 +254,9 @@ class _MyalartdState extends State<MyalartDialog>
                     decoration: InputDecoration(
                       hintText: widget.hintText,
                       hintStyle: TextStyle(
-                        color: colorScheme.onSurfaceVariant.withValues(alpha:0.6),
+                        color: colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.6,
+                        ),
                         fontWeight: FontWeight.w400,
                       ),
                       border: InputBorder.none,
@@ -261,7 +266,7 @@ class _MyalartdState extends State<MyalartDialog>
                       ),
                       prefixIcon: Icon(
                         Icons.edit_rounded,
-                        color: colorScheme.primary.withValues(alpha:0.7),
+                        color: colorScheme.primary.withValues(alpha: 0.7),
                         size: 20,
                       ),
                     ),

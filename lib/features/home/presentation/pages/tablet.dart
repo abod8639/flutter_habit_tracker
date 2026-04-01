@@ -5,11 +5,11 @@ import 'package:habit_tracker/functions/add_habit.dart';
 import 'package:habit_tracker/features/home/presentation/widget/DrawerMenuButton.dart';
 import 'package:habit_tracker/features/home/presentation/widget/ExpandedCheckboxList.dart';
 import 'package:habit_tracker/features/home/presentation/widget/Nohabitsyet.dart';
-import 'package:habit_tracker/view/widget/MonthlySummary.dart';
-import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
-import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
-import 'package:habit_tracker/view/widget/myDrawer.dart';
-import 'package:habit_tracker/view/widget/my_fab.dart';
+import 'package:habit_tracker/core/components/monthly_summary.dart';
+import 'package:habit_tracker/core/components/build_error_screen.dart';
+import 'package:habit_tracker/core/components/build_loading_screen.dart';
+import 'package:habit_tracker/core/components/my_drawer.dart';
+import 'package:habit_tracker/core/components/my_fab.dart';
 import 'package:habit_tracker/utils/responsive_utils.dart';
 
 class Tablet extends StatelessWidget {

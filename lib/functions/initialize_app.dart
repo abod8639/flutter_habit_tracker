@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/settings_storage.dart';
-import 'package:habit_tracker/data/theme_storage.dart';
+import 'package:habit_tracker/features/theme/data/datasources/theme_storage.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/notification_service.dart';
 import 'package:habit_tracker/services/firestore_service.dart';

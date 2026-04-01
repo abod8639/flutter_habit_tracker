@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/functions/add_habit.dart';
-import 'package:habit_tracker/view/widget/HabitList.dart';
+import 'package:habit_tracker/core/components/habit_list.dart';
 import 'package:habit_tracker/features/home/presentation/widget/SliverMonthlySummary.dart';
-import 'package:habit_tracker/view/widget/buildErrorScreen.dart';
-import 'package:habit_tracker/view/widget/buildLoadingScreen.dart';
-import 'package:habit_tracker/view/widget/myDrawer.dart';
-import 'package:habit_tracker/view/widget/my_fab.dart';
+import 'package:habit_tracker/core/components/build_error_screen.dart';
+import 'package:habit_tracker/core/components/build_loading_screen.dart';
+import 'package:habit_tracker/core/components/my_drawer.dart';
+import 'package:habit_tracker/core/components/my_fab.dart';
 
 class Phone extends StatefulWidget {
   const Phone({super.key});

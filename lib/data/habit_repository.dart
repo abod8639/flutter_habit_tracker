@@ -124,6 +124,27 @@ class HabitRepository {
             loadHeatmap();
           }
         });
+
+        // ALSO sync habit history (MonthlySummary data)
+        _firestoreService
+            .syncHabitHistory(_localDataSource.getAllHabitStrengths())
+            .then((mergedHistory) {
+              _localDataSource.saveAllHabitStrengths(mergedHistory);
+
+              // Update start date if cloud has older data
+              if (mergedHistory.keys.isNotEmpty) {
+                final allDates = mergedHistory.keys.toList()..sort();
+                final oldestCloudDate = allDates.first;
+                final currentStartDate = _localDataSource.getStartDate();
+
+                if (oldestCloudDate.compareTo(currentStartDate) < 0) {
+                  debugPrint('📅 Updating start date to $oldestCloudDate');
+                  _localDataSource.updateStartDate(oldestCloudDate);
+                }
+              }
+
+              loadHeatmap();
+            });
       }
     } catch (e) {
       debugPrint('❌ Error loading habit data: $e');

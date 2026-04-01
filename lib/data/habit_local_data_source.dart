@@ -69,6 +69,29 @@ class HabitLocalDataSource {
     return _myBox.get("${HabitStorage.habitStrengthPrefix}$yyyymmdd");
   }
 
+  Map<String, String> getAllHabitStrengths() {
+    final Map<String, String> history = {};
+    for (var key in _myBox.keys) {
+      if (key.toString().startsWith(HabitStorage.habitStrengthPrefix)) {
+        final date = key.toString().replaceFirst(
+          HabitStorage.habitStrengthPrefix,
+          '',
+        );
+        final strength = _myBox.get(key) as String?;
+        if (strength != null) {
+          history[date] = strength;
+        }
+      }
+    }
+    return history;
+  }
+
+  void saveAllHabitStrengths(Map<String, String> history) {
+    for (var entry in history.entries) {
+      saveHabitStrength(entry.key, entry.value);
+    }
+  }
+
   String getLastSavedDate() {
     return _myBox.get(HabitStorage.lastSavedDateKey, defaultValue: "");
   }

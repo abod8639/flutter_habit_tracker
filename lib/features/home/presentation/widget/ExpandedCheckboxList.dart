@@ -4,7 +4,7 @@ import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/functions/delete_habit.dart';
 import 'package:habit_tracker/functions/edit_habit.dart';
 import 'package:habit_tracker/functions/toggle_habit.dart';
-import 'package:habit_tracker/view/widget/TextTaile.dart';
+import 'package:habit_tracker/core/components/text_taile.dart';
 
 class CheckboxList extends StatelessWidget {
   const CheckboxList({super.key});

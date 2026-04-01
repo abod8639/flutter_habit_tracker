@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/view/widget/myalart_dialog.dart';
+import 'package:habit_tracker/core/components/myalart_dialog.dart';
 
 void addHabit(BuildContext context) {
   final c = Get.find<HabitController>();

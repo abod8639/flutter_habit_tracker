@@ -215,6 +215,60 @@ class FirestoreService {
     }
   }
 
+  // Download habit history from Firestore
+  Future<Map<String, String>> downloadHabitHistory() async {
+    if (!isUserLoggedIn) return {};
+
+    try {
+      debugPrint('📥 Downloading habit history from Firestore');
+      final snapshot = await _userDoc!.collection('habitHistory').get();
+
+      final Map<String, String> history = {};
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final date = data['date'] as String?;
+        final rate = data['completionRate'] as String?;
+        if (date != null && rate != null) {
+          history[date] = rate;
+        }
+      }
+
+      debugPrint('✅ Downloaded ${history.length} days of history');
+      return history;
+    } catch (e) {
+      debugPrint('❌ Error downloading habit history: $e');
+      return {};
+    }
+  }
+
+  // Sync habit history (local + cloud)
+  Future<Map<String, String>> syncHabitHistory(
+    Map<String, String> localHistory,
+  ) async {
+    if (!isUserLoggedIn) return localHistory;
+
+    try {
+      debugPrint('🔄 Syncing habit history');
+      final cloudHistory = await downloadHabitHistory();
+
+      // Merge: Cloud wins for simplicity, or we could compare timestamps if we had them for every local entry.
+      // For now, let's merge both.
+      final mergedHistory = {...localHistory, ...cloudHistory};
+
+      // Upload missing entries from local to cloud
+      for (var entry in localHistory.entries) {
+        if (!cloudHistory.containsKey(entry.key)) {
+          await uploadHabitHistory(entry.key, entry.value);
+        }
+      }
+
+      return mergedHistory;
+    } catch (e) {
+      debugPrint('❌ Error syncing habit history: $e');
+      return localHistory;
+    }
+  }
+
   // Get last sync time
   Future<DateTime?> getLastSyncTime() async {
     if (!isUserLoggedIn) return null;

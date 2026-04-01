@@ -66,9 +66,8 @@ class _MyalartdState extends State<MyalartDialog>
           });
           try {
             final service = GeminiService();
-            final List<String> habits = await service.extractHabitsFromImage(
-              image,
-            );
+            final List<String> habits = 
+            await service.extractHabitsFromImage(image);
 
             if (mounted) {
               setState(() {

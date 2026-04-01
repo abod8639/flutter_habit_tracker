@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/utils/themeList.dart';
-import 'package:habit_tracker/utils/theme_utils.dart';
+import 'package:habit_tracker/features/theme/data/datasources/themeList.dart';
+import 'package:habit_tracker/features/theme/data/datasources/theme_utils.dart';
 import '../../domain/entities/theme_entity.dart';
 import '../../domain/usecases/get_theme_settings_usecase.dart';
 import '../../domain/usecases/save_theme_settings_usecase.dart';
 import '../../domain/usecases/sync_theme_with_cloud_usecase.dart';
+import '../../domain/usecases/upload_theme_settings_usecase.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 
 class ThemeController extends GetxController {
@@ -23,6 +24,7 @@ class ThemeController extends GetxController {
   final GetThemeSettingsUseCase _getThemeSettingsUseCase = Get.find();
   final SaveThemeSettingsUseCase _saveThemeSettingsUseCase = Get.find();
   final SyncThemeWithCloudUseCase _syncThemeWithCloudUseCase = Get.find();
+  final UploadThemeSettingsUseCase _uploadThemeSettingsUseCase = Get.find();
   final FirestoreService _firestoreService = Get.find();
 
   // Getters
@@ -97,8 +99,21 @@ class ThemeController extends GetxController {
     
     final result = await _saveThemeSettingsUseCase(entity);
     result.fold(
-      (failure) => debugPrint('Error saving theme settings: ${failure.message}'),
-      (_) => update(),
+      (failure) => debugPrint('Error saving theme settings locally: ${failure.message}'),
+      (_) {
+        update();
+        if (_firestoreService.isUserLoggedIn) {
+          _uploadToCloud(entity);
+        }
+      },
+    );
+  }
+
+  Future<void> _uploadToCloud(ThemeEntity entity) async {
+    final result = await _uploadThemeSettingsUseCase(entity);
+    result.fold(
+      (failure) => debugPrint('Error uploading theme settings: ${failure.message}'),
+      (_) => debugPrint('Theme settings uploaded successfully'),
     );
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/login_page.dart';
-import 'package:habit_tracker/view/homepage/HomeScreen.dart';
+import 'package:habit_tracker/features/home/presentation/pages/home_screen.dart';
 import '../../domain/usecases/get_skip_login_status_usecase.dart';
 
 class AuthWrapper extends StatefulWidget {

@@ -8,6 +8,7 @@ import '../../domain/repositories/theme_repository.dart';
 import '../../domain/usecases/get_theme_settings_usecase.dart';
 import '../../domain/usecases/save_theme_settings_usecase.dart';
 import '../../domain/usecases/sync_theme_with_cloud_usecase.dart';
+import '../../domain/usecases/upload_theme_settings_usecase.dart';
 import 'theme_controller.dart';
 
 class ThemeBinding extends Bindings {
@@ -33,6 +34,7 @@ class ThemeBinding extends Bindings {
     Get.lazyPut(() => GetThemeSettingsUseCase(Get.find()));
     Get.lazyPut(() => SaveThemeSettingsUseCase(Get.find()));
     Get.lazyPut(() => SyncThemeWithCloudUseCase(Get.find()));
+    Get.lazyPut(() => UploadThemeSettingsUseCase(Get.find()));
 
     // Controller
     Get.lazyPut(() => ThemeController());

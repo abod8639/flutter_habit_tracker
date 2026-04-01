@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/view/homepage/HomeScreen.dart';
+import 'package:habit_tracker/features/home/presentation/pages/home_screen.dart';
 
 class ErrorApp extends StatelessWidget {
   final String error;

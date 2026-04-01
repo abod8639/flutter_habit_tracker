@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
-import 'package:habit_tracker/view/homepage/widget/image_scanner_bottom_sheet.dart';
-import 'package:habit_tracker/view/homepage/widget/habit_confirmation_dialog.dart';
+import 'package:habit_tracker/features/home/presentation/widget/image_scanner_bottom_sheet.dart';
+import 'package:habit_tracker/features/home/presentation/widget/habit_confirmation_dialog.dart';
 
 class MyalartDialog extends StatefulWidget {
   final Function()? onSave;

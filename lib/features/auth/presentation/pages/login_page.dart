@@ -5,7 +5,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/auth/presentation/widgets/login_page_icon.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/signup_page.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/forgot_password_page.dart';
-import 'package:habit_tracker/view/homepage/HomeScreen.dart';
+import 'package:habit_tracker/features/home/presentation/pages/home_screen.dart';
 import 'package:habit_tracker/features/auth/presentation/widgets/fade_slide_transition.dart';
 
 class LoginPage extends StatefulWidget {

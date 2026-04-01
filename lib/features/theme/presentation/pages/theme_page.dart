@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/utils/themeList.dart';
+import 'package:habit_tracker/features/theme/data/datasources/themeList.dart';
 import '../widgets/custom_theme_selector.dart';
 import '../widgets/section_title.dart';
 import '../widgets/theme_color_preview.dart';

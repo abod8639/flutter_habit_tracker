@@ -4,7 +4,7 @@ import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/functions/delete_habit.dart';
 import 'package:habit_tracker/functions/edit_habit.dart';
 import 'package:habit_tracker/functions/toggle_habit.dart';
-import 'package:habit_tracker/view/homepage/widget/Nohabitsyet.dart';
+import 'package:habit_tracker/features/home/presentation/widget/Nohabitsyet.dart';
 import 'package:habit_tracker/view/widget/TextTaile.dart';
 
 class HabitList extends StatelessWidget {

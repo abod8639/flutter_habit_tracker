@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/theme/presentation/controllers/theme_controller.dart';
-import 'package:habit_tracker/utils/themeList.dart';
+import 'package:habit_tracker/features/theme/data/datasources/themeList.dart';
 import 'theme_color_preview.dart';
 
 class CustomThemeSelector extends StatelessWidget {

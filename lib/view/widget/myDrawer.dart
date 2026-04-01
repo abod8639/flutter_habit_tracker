@@ -7,8 +7,8 @@ import 'package:habit_tracker/features/setting/presentation/pages/settings_page.
 import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 import 'package:habit_tracker/view/widget/MyListTile.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
-import 'package:habit_tracker/view/homepage/widget/image_scanner_bottom_sheet.dart';
-import 'package:habit_tracker/view/homepage/widget/habit_confirmation_dialog.dart';
+import 'package:habit_tracker/features/home/presentation/widget/image_scanner_bottom_sheet.dart';
+import 'package:habit_tracker/features/home/presentation/widget/habit_confirmation_dialog.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/theme_storage.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:habit_tracker/utils/themeList.dart';
 import 'package:habit_tracker/utils/theme_utils.dart';
+import '../../domain/entities/theme_entity.dart';
+import '../../domain/usecases/get_theme_settings_usecase.dart';
+import '../../domain/usecases/save_theme_settings_usecase.dart';
+import '../../domain/usecases/sync_theme_with_cloud_usecase.dart';
+import 'package:habit_tracker/services/firestore_service.dart';
 
 class ThemeController extends GetxController {
   static const String defaultTheme = 'github_dark_green';
@@ -16,9 +19,11 @@ class ThemeController extends GetxController {
   final Rx<ThemeData> lightTheme = ThemeData.light().obs;
   final Rx<ThemeData> darkTheme = ThemeData.dark().obs;
 
-  // Dependencies
-  late final ThemeStorageService _storage;
-  final FirestoreService _firestoreService = FirestoreService();
+  // Use Cases
+  final GetThemeSettingsUseCase _getThemeSettingsUseCase = Get.find();
+  final SaveThemeSettingsUseCase _saveThemeSettingsUseCase = Get.find();
+  final SyncThemeWithCloudUseCase _syncThemeWithCloudUseCase = Get.find();
+  final FirestoreService _firestoreService = Get.find();
 
   // Getters
   List<String> get availableThemes => themeColors.keys.toList();
@@ -31,9 +36,7 @@ class ThemeController extends GetxController {
 
   Future<void> _initializeTheme() async {
     try {
-      _storage = await ThemeStorageService.init();
       await _loadSavedTheme();
-      // Try to sync with cloud if logged in
       if (_firestoreService.isUserLoggedIn) {
         _syncWithCloud();
       }
@@ -44,65 +47,36 @@ class ThemeController extends GetxController {
   }
 
   Future<void> _loadSavedTheme() async {
-    try {
-      // Load saved settings
-      currentTheme.value = _storage.getThemeName(defaultTheme);
-      themeMode.value = _storage.getThemeMode();
-
-      useCustomBackground.value = _storage.getUseCustomBackground();
-
-      final savedBgColor = _storage.getCustomBackgroundColor();
-      if (savedBgColor != null) {
-        customBackgroundColor.value = savedBgColor;
-      }
-
-      // Build and apply themes
-      _buildBothThemes();
-      _applyTheme();
-    } catch (e) {
-      debugPrint('Error loading saved theme: $e');
-      _setDefaultTheme();
-    }
+    final result = await _getThemeSettingsUseCase();
+    result.fold(
+      (failure) {
+        debugPrint('Error loading saved theme: ${failure.message}');
+        _setDefaultTheme();
+      },
+      (entity) {
+        currentTheme.value = entity.themeName;
+        themeMode.value = entity.themeMode;
+        useCustomBackground.value = entity.useCustomBackground;
+        customBackgroundColor.value = entity.customBackgroundColor ?? Colors.transparent;
+        _buildAndApply();
+      },
+    );
   }
 
   Future<void> _syncWithCloud() async {
-    try {
-      final cloudTheme = await _firestoreService.downloadTheme();
-      if (cloudTheme != null) {
-        // Apply cloud theme
-        if (cloudTheme['themeName'] != null) {
-          currentTheme.value = cloudTheme['themeName'];
+    final result = await _syncThemeWithCloudUseCase();
+    result.fold(
+      (failure) => debugPrint('Error syncing theme from cloud: ${failure.message}'),
+      (entity) {
+        if (entity != null) {
+          currentTheme.value = entity.themeName;
+          themeMode.value = entity.themeMode;
+          useCustomBackground.value = entity.useCustomBackground;
+          customBackgroundColor.value = entity.customBackgroundColor ?? Colors.transparent;
+          _buildAndApply();
         }
-
-        if (cloudTheme['themeMode'] != null) {
-          // Parse theme mode string
-          String modeStr = cloudTheme['themeMode'];
-          themeMode.value = _parseThemeMode(modeStr);
-        }
-
-        if (cloudTheme['useCustomBg'] != null) {
-          useCustomBackground.value = cloudTheme['useCustomBg'];
-        }
-
-        if (cloudTheme['customBgColor'] != null) {
-          customBackgroundColor.value = Color(cloudTheme['customBgColor']);
-        }
-
-        _buildBothThemes();
-        _applyTheme();
-
-        // Save to local storage to keep in sync
-        await _saveThemeSettings(skipCloud: true);
-      }
-    } catch (e) {
-      debugPrint('Error syncing theme from cloud: $e');
-    }
-  }
-
-  ThemeMode _parseThemeMode(String modeStr) {
-    if (modeStr == 'ThemeMode.dark') return ThemeMode.dark;
-    if (modeStr == 'ThemeMode.light') return ThemeMode.light;
-    return ThemeMode.system;
+      },
+    );
   }
 
   void _setDefaultTheme() {
@@ -110,49 +84,35 @@ class ThemeController extends GetxController {
     themeMode.value = ThemeMode.system;
     useCustomBackground.value = false;
     customBackgroundColor.value = Colors.transparent;
-    _buildBothThemes();
-    _applyTheme();
-    update();
+    _buildAndApply();
   }
 
-  Future<void> _saveThemeSettings({bool skipCloud = false}) async {
-    try {
-      await _storage.saveThemeSettings(
-        themeName: currentTheme.value,
-        mode: themeMode.value,
-        useCustomBg: useCustomBackground.value,
-        customBgColor: useCustomBackground.value
-            ? customBackgroundColor.value
-            : null,
-      );
-
-      if (!skipCloud && _firestoreService.isUserLoggedIn) {
-        await _firestoreService.uploadTheme(
-          currentTheme.value,
-          themeMode.value,
-          useCustomBackground.value,
-          useCustomBackground.value ? customBackgroundColor.value : null,
-        );
-      }
-    } catch (e) {
-      debugPrint('Error saving theme settings: $e');
-    }
-    update();
+  Future<void> _saveCurrentSettings() async {
+    final entity = ThemeEntity(
+      themeName: currentTheme.value,
+      themeMode: themeMode.value,
+      useCustomBackground: useCustomBackground.value,
+      customBackgroundColor: useCustomBackground.value ? customBackgroundColor.value : null,
+    );
+    
+    final result = await _saveThemeSettingsUseCase(entity);
+    result.fold(
+      (failure) => debugPrint('Error saving theme settings: ${failure.message}'),
+      (_) => update(),
+    );
   }
 
   void changeThemeMode(ThemeMode mode) {
     themeMode.value = mode;
-    _buildBothThemes();
-    _applyTheme();
-    _saveThemeSettings();
+    _buildAndApply();
+    _saveCurrentSettings();
   }
 
   void changeCustomTheme(String themeName) {
     if (themeColors.containsKey(themeName)) {
       currentTheme.value = themeName;
-      _buildBothThemes();
-      _applyTheme();
-      _saveThemeSettings();
+      _buildAndApply();
+      _saveCurrentSettings();
     } else {
       Get.snackbar('Error', 'Theme not found');
     }
@@ -161,16 +121,19 @@ class ThemeController extends GetxController {
   void changeBackgroundColor(Color color) {
     customBackgroundColor.value = color;
     useCustomBackground.value = true;
-    _buildBothThemes();
-    _applyTheme();
-    _saveThemeSettings();
+    _buildAndApply();
+    _saveCurrentSettings();
   }
 
   void resetBackgroundColor() {
     useCustomBackground.value = false;
+    _buildAndApply();
+    _saveCurrentSettings();
+  }
+
+  void _buildAndApply() {
     _buildBothThemes();
     _applyTheme();
-    _saveThemeSettings();
   }
 
   void _applyTheme() {
@@ -185,9 +148,7 @@ class ThemeController extends GetxController {
     if (themeData == null) return;
 
     final isDarkTheme = ThemeUtils.isDarkTheme(themeData);
-    final customBg = useCustomBackground.value
-        ? customBackgroundColor.value
-        : null;
+    final customBg = useCustomBackground.value ? customBackgroundColor.value : null;
 
     lightTheme.value = ThemeUtils.buildThemeData(
       forceDark: false,

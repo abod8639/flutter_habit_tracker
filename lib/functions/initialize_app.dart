@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/features/theme/presentation/controllers/theme_controller.dart';
+import 'package:habit_tracker/features/theme/presentation/controllers/theme_binding.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
@@ -10,6 +10,7 @@ import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/notification_service.dart';
+import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
@@ -37,7 +38,13 @@ Future<void> initializeApp() async {
       debugPrint('Failed to load .env: $e');
     }
 
-    // 4. Initialize Notifications (Non-critical)
+    // 4. Initialize Services
+    final firestoreService = FirestoreService();
+    Get.put(firestoreService);
+
+    final themeStorage = await ThemeStorageService.init();
+    Get.put(themeStorage);
+
     try {
       final notificationService = NotificationService();
       await notificationService.init();
@@ -46,10 +53,10 @@ Future<void> initializeApp() async {
       debugPrint('Failed to initialize notifications: $e');
     }
 
-    // 5. Initialize Dependencies and Controllers
+    // 5. Initialize Dependencies and Controllers via Bindings
     SettingBinding().dependencies();
+    ThemeBinding().dependencies();
     
-    Get.put(ThemeController());
     Get.put(HabitController());
   } catch (e, stack) {
     debugPrint('FATAL initialization error: $e');

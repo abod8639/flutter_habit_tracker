@@ -1,51 +1,47 @@
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:intl/intl.dart';
+import '../../domain/usecases/get_language_usecase.dart';
+import '../../domain/usecases/save_language_usecase.dart';
+import 'package:habit_tracker/data/lang_storage.dart';
 
 class LangController extends GetxController {
-  late final LangStorage _storage;
+  final GetLanguageUseCase _getLanguageUseCase = Get.find();
+  final SaveLanguageUseCase _saveLanguageUseCase = Get.find();
+
   var language = Intl.getCurrentLocale().obs;
 
   @override
   void onInit() {
     super.onInit();
-    _initializeAsync();
+    _loadSavedLanguage();
   }
 
-  Future<void> _initializeAsync() async {
-    try {
-      // Initialize storage
-      _storage = await LangStorage.init();
-
-      // Load saved language
-      final savedLang = _storage.getCurrentLanguage();
-      language.value = savedLang;
-
-      // Update app locale
-      Intl.getCurrentLocale();
-      Get.updateLocale(Get.locale ?? Locale(Intl.getCurrentLocale()));
-    } catch (e) {
-      debugPrint('Error initializing language controller: $e');
-      // Fallback to default language
-      language.value = LangStorage.defaultLanguage;
-    }
+  Future<void> _loadSavedLanguage() async {
+    final result = await _getLanguageUseCase();
+    result.fold(
+      (failure) {
+        debugPrint('Error loading language: ${failure.message}');
+        language.value = LangStorage.defaultLanguage;
+      },
+      (langCode) {
+        language.value = langCode;
+        Get.updateLocale(Locale(langCode));
+      },
+    );
   }
 
   Future<void> changeLanguage(String lang) async {
-    try {
-      // Save to storage
-      await _storage.saveLanguage(lang);
-
-      // Update observable
-      language.value = lang;
-
-      // Update app locale
-      Get.updateLocale(Locale(lang));
-    } catch (e) {
-      debugPrint('Error changing language: $e');
-    }
+    final result = await _saveLanguageUseCase(lang);
+    result.fold(
+      (failure) {
+        debugPrint('Error saving language: ${failure.message}');
+      },
+      (_) {
+        language.value = lang;
+        Get.updateLocale(Locale(lang));
+      },
+    );
   }
 }

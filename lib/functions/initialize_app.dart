@@ -1,16 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/controller/habit_controller.dart';
 import 'package:habit_tracker/features/theme/presentation/controllers/theme_controller.dart';
-import 'package:habit_tracker/features/setting/presentation/controllers/lang_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
+import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/data/theme_storage.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/services/notification_service.dart';
-import 'package:habit_tracker/features/setting/presentation/controllers/notification_controller.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,6 +28,7 @@ Future<void> initializeApp() async {
     await _openBoxSafely(HabitStorage.boxName);
     await _openBoxSafely(ThemeStorageService.themeBox);
     await _openBoxSafely(LangStorage.boxName);
+    await _openBoxSafely(SettingsStorage.boxName);
 
     // 3. Load Env (Non-critical)
     try {
@@ -46,11 +46,11 @@ Future<void> initializeApp() async {
       debugPrint('Failed to initialize notifications: $e');
     }
 
-    // 5. Initialize Controllers
+    // 5. Initialize Dependencies and Controllers
+    SettingBinding().dependencies();
+    
     Get.put(ThemeController());
-    Get.put(LangController());
     Get.put(HabitController());
-    Get.put(NotificationController());
   } catch (e, stack) {
     debugPrint('FATAL initialization error: $e');
     debugPrint('Stack trace: $stack');

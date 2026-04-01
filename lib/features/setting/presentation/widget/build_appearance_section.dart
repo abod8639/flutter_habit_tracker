@@ -39,7 +39,9 @@ Widget buildAppearanceSection(AnimationController animationController) {
               onChanged: (value) async {
                 if (value != null) {
                   await langController.changeLanguage(value);
-                  RestartWidget.restartApp(context);
+                  if (context.mounted) {
+                    RestartWidget.restartApp(context);
+                  }
                 }
               },
               textColor: Theme.of(context).colorScheme.onSecondary,

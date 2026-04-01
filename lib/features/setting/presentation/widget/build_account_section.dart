@@ -20,7 +20,7 @@ Widget buildAccountSection(AnimationController animationController) {
                 animationController,
                 user.displayName ?? S.current.user,
                 user.email ?? '',
-                user.photoURL,
+                user.photoUrl,
                 1,
               ),
               buildAnimatedSettingTile(

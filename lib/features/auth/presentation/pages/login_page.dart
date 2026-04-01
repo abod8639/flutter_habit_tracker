@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
-import 'package:habit_tracker/data/settings_storage.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/features/auth/presentation/widgets/Login_Page_Icon.dart';
+import 'package:habit_tracker/features/auth/presentation/widgets/login_page_icon.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/signup_page.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
@@ -20,8 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final AuthController _authController = Get.put(AuthController());
-  final SettingsStorage _settingsStorage = SettingsStorage();
+  final AuthController _authController = Get.find<AuthController>();
   bool _obscurePassword = true;
 
   @override
@@ -71,8 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         TextButton(
                           onPressed: () async {
-                            await _settingsStorage.init();
-                            await _settingsStorage.setSkippedLogin(true);
+                            await _authController.setSkipLogin(true);
                             Get.offAll(() => const HomeScreen());
                           },
                           style: TextButton.styleFrom(

@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/data/settings_storage.dart';
+import 'package:get/get.dart';
+import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:habit_tracker/view/homepage/HomeScreen.dart';
+import '../../domain/usecases/get_skip_login_status_usecase.dart';
 
 class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
@@ -12,17 +13,24 @@ class AuthWrapper extends StatefulWidget {
 }
 
 class _AuthWrapperState extends State<AuthWrapper> {
-  final SettingsStorage _settingsStorage = SettingsStorage();
   bool _isInitialized = false;
+  bool _hasSkipped = false;
 
   @override
   void initState() {
     super.initState();
-    _initSettings();
+    _checkInitialStatus();
   }
 
-  Future<void> _initSettings() async {
-    await _settingsStorage.init();
+  Future<void> _checkInitialStatus() async {
+    final getSkipStatus = Get.find<GetSkipLoginStatusUseCase>();
+    final result = await getSkipStatus();
+    
+    result.fold(
+      (_) => _hasSkipped = false,
+      (status) => _hasSkipped = status,
+    );
+
     setState(() {
       _isInitialized = true;
     });
@@ -38,29 +46,16 @@ class _AuthWrapperState extends State<AuthWrapper> {
       );
     }
 
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        // Show loading while checking auth state
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+    final authController = Get.find<AuthController>();
 
-        // Check if user has skipped login
-        final hasSkipped = _settingsStorage.hasSkippedLogin;
-
-        // Show login page if not authenticated and hasn't skipped
-        if ((!snapshot.hasData || snapshot.data == null) && !hasSkipped) {
-          return const LoginPage();
-        }
-
-        // Show home screen if authenticated or has skipped login
+    return Obx(() {
+      final user = authController.currentUser;
+      
+      if (user != null || _hasSkipped) {
         return const HomeScreen();
-      },
-    );
+      } else {
+        return const LoginPage();
+      }
+    });
   }
 }

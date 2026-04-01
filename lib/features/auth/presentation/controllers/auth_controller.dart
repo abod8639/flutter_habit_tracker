@@ -1,32 +1,36 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/models/user_model.dart';
-import 'package:habit_tracker/features/auth/data/service/auth_service.dart';
+import '../../domain/entities/auth_entity.dart';
+import '../../domain/usecases/sign_in_with_email_usecase.dart';
+import '../../domain/usecases/sign_up_with_email_usecase.dart';
+import '../../domain/usecases/sign_in_with_google_usecase.dart';
+import '../../domain/usecases/sign_out_usecase.dart';
+import '../../domain/usecases/reset_password_usecase.dart';
+import '../../domain/usecases/get_auth_state_usecase.dart';
+import '../../domain/usecases/set_skip_login_usecase.dart';
 
 class AuthController extends GetxController {
-  final AuthService _authService = AuthService();
+  // Use Cases
+  final SignInWithEmailUseCase _signInWithEmailUseCase = Get.find();
+  final SignUpWithEmailUseCase _signUpWithEmailUseCase = Get.find();
+  final SignInWithGoogleUseCase _signInWithGoogleUseCase = Get.find();
+  final SignOutUseCase _signOutUseCase = Get.find();
+  final ResetPasswordUseCase _resetPasswordUseCase = Get.find();
+  final GetAuthStateUseCase _getAuthStateUseCase = Get.find();
+  final SetSkipLoginUseCase _setSkipLoginUseCase = Get.find();
 
-  // Observable user
-  final Rx<UserModel?> _currentUser = Rx<UserModel?>(null);
-  UserModel? get currentUser => _currentUser.value;
+  // Observable state
+  final Rx<AuthEntity?> _currentUser = Rx<AuthEntity?>(null);
+  AuthEntity? get currentUser => _currentUser.value;
 
-  // Loading state
   final RxBool isLoading = false.obs;
-
-  // Error message
   final RxString errorMessage = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
     // Listen to auth state changes
-    _authService.authStateChanges.listen((User? user) {
-      _currentUser.value = user != null
-          ? UserModel.fromFirebaseUser(user)
-          : null;
-    });
+    _currentUser.bindStream(_getAuthStateUseCase());
   }
 
   // Sign in with email
@@ -38,22 +42,23 @@ class AuthController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
-      await _authService.signInWithEmail(
-        email: email,
-        password: password,
-      );
+      final result = await _signInWithEmailUseCase(email, password);
 
-      isLoading.value = false;
-      return true;
+      return result.fold(
+        (failure) {
+          isLoading.value = false;
+          errorMessage.value = failure.message;
+          _showError(failure.message);
+          return false;
+        },
+        (user) {
+          isLoading.value = false;
+          return true;
+        }
+      );
     } catch (e) {
       isLoading.value = false;
-      errorMessage.value = e.toString();
-      debugPrint(e.toString());
-      Get.snackbar(
-        S.current.error,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      _showError(e.toString());
       return false;
     }
   }
@@ -68,23 +73,23 @@ class AuthController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
-      await _authService.signUpWithEmail(
-        email: email,
-        password: password,
-        displayName: displayName,
-      );
+      final result = await _signUpWithEmailUseCase(email, password, displayName);
 
-      isLoading.value = false;
-      return true;
+      return result.fold(
+        (failure) {
+          isLoading.value = false;
+          errorMessage.value = failure.message;
+          _showError(failure.message);
+          return false;
+        },
+        (user) {
+          isLoading.value = false;
+          return true;
+        }
+      );
     } catch (e) {
       isLoading.value = false;
-      errorMessage.value = e.toString();
-      debugPrint(e.toString());
-      Get.snackbar(
-        S.current.error,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      _showError(e.toString());
       return false;
     }
   }
@@ -95,25 +100,23 @@ class AuthController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
-      final user = await _authService.signInWithGoogle();
+      final result = await _signInWithGoogleUseCase();
 
-      isLoading.value = false;
-
-      if (user == null) {
-        // User cancelled
-        return false;
-      }
-
-      return true;
+      return result.fold(
+        (failure) {
+          isLoading.value = false;
+          errorMessage.value = failure.message;
+          _showError(failure.message);
+          return false;
+        },
+        (user) {
+          isLoading.value = false;
+          return user != null;
+        }
+      );
     } catch (e) {
       isLoading.value = false;
-      errorMessage.value = e.toString();
-      debugPrint(e.toString());
-      Get.snackbar(
-        S.current.error,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      _showError(e.toString());
       return false;
     }
   }
@@ -122,16 +125,17 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     try {
       isLoading.value = true;
-      await _authService.signOut();
+      final result = await _signOutUseCase();
+      
+      result.fold(
+        (failure) => _showError(failure.message),
+        (_) => null,
+      );
+      
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      debugPrint(e.toString());
-      Get.snackbar(
-        S.current.error,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      _showError(e.toString());
     }
   }
 
@@ -141,26 +145,38 @@ class AuthController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
-      await _authService.resetPassword(email: email);
+      final result = await _resetPasswordUseCase(email);
 
-      isLoading.value = false;
-      Get.snackbar(
-        S.current.success,
-        S.current.resetPasswordSuccess,
-        snackPosition: SnackPosition.BOTTOM,
+      return result.fold(
+        (failure) {
+          isLoading.value = false;
+          _showError(failure.message);
+          return false;
+        },
+        (_) {
+          isLoading.value = false;
+          Get.snackbar(S.current.success, S.current.resetPasswordSuccess, snackPosition: SnackPosition.BOTTOM);
+          return true;
+        }
       );
-      return true;
     } catch (e) {
       isLoading.value = false;
-      errorMessage.value = e.toString();
-      debugPrint(e.toString());
-      Get.snackbar(
-        S.current.error,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      _showError(e.toString());
       return false;
     }
+  }
+
+  // Set Skip Login
+  Future<void> setSkipLogin(bool skipped) async {
+    await _setSkipLoginUseCase(skipped);
+  }
+
+  void _showError(String message) {
+    Get.snackbar(
+      S.current.error,
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
   // Check if user is logged in

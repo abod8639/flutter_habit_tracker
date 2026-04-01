@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/features/theme/presentation/controllers/theme_binding.dart';
-import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';
 import 'package:habit_tracker/data/habit_storage.dart';
 import 'package:habit_tracker/data/lang_storage.dart';
 import 'package:habit_tracker/data/settings_storage.dart';
@@ -38,12 +35,17 @@ Future<void> initializeApp() async {
       debugPrint('Failed to load .env: $e');
     }
 
-    // 4. Initialize Services
+    // 4. Initialize Core Infrastructure Services
+    // Put instances that need to be available for Bindings
     final firestoreService = FirestoreService();
     Get.put(firestoreService);
 
     final themeStorage = await ThemeStorageService.init();
     Get.put(themeStorage);
+
+    final settingsStorage = SettingsStorage();
+    await settingsStorage.init();
+    Get.put(settingsStorage);
 
     try {
       final notificationService = NotificationService();
@@ -53,11 +55,8 @@ Future<void> initializeApp() async {
       debugPrint('Failed to initialize notifications: $e');
     }
 
-    // 5. Initialize Dependencies and Controllers via Bindings
-    SettingBinding().dependencies();
-    ThemeBinding().dependencies();
+    // Bindings will be handled by GetMaterialApp(initialBinding: InitialBinding())
     
-    Get.put(HabitController());
   } catch (e, stack) {
     debugPrint('FATAL initialization error: $e');
     debugPrint('Stack trace: $stack');

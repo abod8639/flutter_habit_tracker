@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/notification_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_tile.dart';
 import 'package:habit_tracker/functions/handle_notification_toggle.dart';
 import 'package:habit_tracker/functions/my_show_time_picker.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_animated_setting_tile.dart';
 
 Widget buildNotificationsSection(AnimationController animationController) {
   final notificationController = Get.find<NotificationController>();
@@ -12,9 +12,8 @@ Widget buildNotificationsSection(AnimationController animationController) {
     builder: (context) {
       return Column(
         children: [
-          buildAnimatedSettingTile(
+          AnimatedSettingTile(
             animationController: animationController,
-            context,
             index: 8,
             icon: Icons.notifications_rounded,
             title: S.current.dailyReminder,

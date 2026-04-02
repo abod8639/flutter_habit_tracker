@@ -2,10 +2,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_tile.dart';
 import 'package:habit_tracker/functions/navigate_tologin.dart';
 import 'package:habit_tracker/functions/show_logout_dialog.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_animated_setting_tile.dart';
 
 Widget buildAccountSection(AnimationController animationController) {
   final authController = Get.put(AuthController());
@@ -23,9 +23,8 @@ Widget buildAccountSection(AnimationController animationController) {
                 user.photoUrl,
                 1,
               ),
-              buildAnimatedSettingTile(
+              AnimatedSettingTile(
                 animationController: animationController,
-                context,
                 index: 2,
                 icon: Icons.logout_rounded,
                 title: S.current.logout,
@@ -38,9 +37,8 @@ Widget buildAccountSection(AnimationController animationController) {
         } else {
           return Column(
             children: [
-              buildAnimatedSettingTile(
+              AnimatedSettingTile(
                 animationController: animationController,
-                context,
                 index: 1,
                 icon: Icons.login_rounded,
                 title: S.current.loginToAccount,

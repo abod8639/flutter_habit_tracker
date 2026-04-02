@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/about_section.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/account_section.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/appearance_section.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/data_section.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/notifications_section.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/sync_section.dart';
 import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_data_section.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_sync_section.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_about_section.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_account_section.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_notifications_section.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_appearance_section.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

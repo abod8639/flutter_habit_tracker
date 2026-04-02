@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/lang_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_lang.dart';
+import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_tile.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_animated_setting_tile.dart';
-import 'package:habit_tracker/features/setting/presentation/widget/build_animated_setting_lang.dart';
 import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 
 Widget buildAppearanceSection(AnimationController animationController) {
@@ -13,9 +13,8 @@ Widget buildAppearanceSection(AnimationController animationController) {
     builder: (context) {
       return Column(
         children: [
-          buildAnimatedSettingTile(
+          AnimatedSettingTile(
             animationController: animationController,
-            context,
             index: 5,
             icon: Icons.palette_rounded,
             title: S.current.themepage,

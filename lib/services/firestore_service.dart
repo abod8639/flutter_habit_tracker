@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -31,12 +31,12 @@ class FirestoreService {
   // Upload habits to Firestore
   Future<void> uploadHabits(List<HabitModel> habits) async {
     if (!isUserLoggedIn) {
-      debugPrint('⚠️ Cannot upload: User not logged in');
+      // debugPrint('Cannot upload: User not logged in');
       return;
     }
 
     try {
-      debugPrint('📤 Uploading ${habits.length} habits to Firestore');
+      // debugPrint('Uploading ${habits.length} habits to Firestore');
 
       final batch = _firestore.batch();
       final timestamp = FieldValue.serverTimestamp();
@@ -62,9 +62,9 @@ class FirestoreService {
       }
 
       await batch.commit();
-      debugPrint('✅ Successfully uploaded habits to Firestore');
+      // debugPrint('✅ Successfully uploaded habits to Firestore');
     } catch (e) {
-      debugPrint('❌ Error uploading habits: $e');
+      // debugPrint('❌ Error uploading habits: $e');
       rethrow;
     }
   }
@@ -72,12 +72,12 @@ class FirestoreService {
   // Download habits from Firestore
   Future<List<HabitModel>> downloadHabits() async {
     if (!isUserLoggedIn) {
-      debugPrint('⚠️ Cannot download: User not logged in');
+      // debugPrint('⚠️ Cannot download: User not logged in');
       return [];
     }
 
     try {
-      debugPrint('📥 Downloading habits from Firestore');
+      // debugPrint('📥 Downloading habits from Firestore');
 
       final snapshot = await _habitsCollection!.get();
 
@@ -91,10 +91,10 @@ class FirestoreService {
       // Sort by index for correct order across devices
       habits.sort((a, b) => (a.index ?? 0).compareTo(b.index ?? 0));
 
-      debugPrint('✅ Downloaded ${habits.length} habits from Firestore');
+      // debugPrint('✅ Downloaded ${habits.length} habits from Firestore');
       return habits;
     } catch (e) {
-      debugPrint('❌ Error downloading habits: $e');
+      // debugPrint('❌ Error downloading habits: $e');
       rethrow;
     }
   }
@@ -105,12 +105,12 @@ class FirestoreService {
     List<String> localTombstones = const [],
   }) async {
     if (!isUserLoggedIn) {
-      debugPrint('⚠️ Cannot sync: User not logged in');
+      // debugPrint('⚠️ Cannot sync: User not logged in');
       return localHabits;
     }
 
     try {
-      debugPrint('🔄 Starting habit sync');
+      // debugPrint('🔄 Starting habit sync');
 
       // Process local tombstones first
       for (var id in localTombstones) {
@@ -146,9 +146,9 @@ class FirestoreService {
           // Only local
           if (deletedHabitsMap.containsKey(id)) {
             // Was deleted on another device
-            debugPrint(
-              '🗑️ Habit $id was deleted in cloud, ignoring local copy',
-            );
+            // debugPrint(
+              // '🗑️ Habit $id was deleted in cloud, ignoring local copy',
+            // );
           } else {
             // New local habit
             mergedHabits.add(local);
@@ -171,10 +171,10 @@ class FirestoreService {
       // Upload merged habits back to cloud
       await uploadHabits(mergedHabits);
 
-      debugPrint('✅ Sync completed: ${mergedHabits.length} habits');
+      // debugPrint('✅ Sync completed: ${mergedHabits.length} habits');
       return mergedHabits;
     } catch (e) {
-      debugPrint('❌ Error syncing habits: $e');
+      // debugPrint('❌ Error syncing habits: $e');
       return localHabits; // Return local on error
     }
   }
@@ -192,11 +192,11 @@ class FirestoreService {
       });
 
       await batch.commit();
-      debugPrint(
-        '🗑️ Deleted habit $habitId from Firestore and recorded tombstone',
-      );
+      // debugPrint(
+        // '🗑️ Deleted habit $habitId from Firestore and recorded tombstone',
+      // );
     } catch (e) {
-      debugPrint('❌ Error deleting habit: $e');
+      // debugPrint('❌ Error deleting habit: $e');
     }
   }
 
@@ -211,7 +211,7 @@ class FirestoreService {
         'timestamp': FieldValue.serverTimestamp(),
       });
     } catch (e) {
-      debugPrint('❌ Error uploading habit history: $e');
+      // debugPrint('❌ Error uploading habit history: $e');
     }
   }
 
@@ -220,7 +220,7 @@ class FirestoreService {
     if (!isUserLoggedIn) return {};
 
     try {
-      debugPrint('📥 Downloading habit history from Firestore');
+      // debugPrint('Downloading habit history from Firestore');
       final snapshot = await _userDoc!.collection('habitHistory').get();
 
       final Map<String, String> history = {};
@@ -233,10 +233,10 @@ class FirestoreService {
         }
       }
 
-      debugPrint('✅ Downloaded ${history.length} days of history');
+      // debugPrint('Downloaded ${history.length} days of history');
       return history;
     } catch (e) {
-      debugPrint('❌ Error downloading habit history: $e');
+      // debugPrint('Error downloading habit history: $e');
       return {};
     }
   }
@@ -248,7 +248,7 @@ class FirestoreService {
     if (!isUserLoggedIn) return localHistory;
 
     try {
-      debugPrint('🔄 Syncing habit history');
+      // debugPrint('Syncing habit history');
       final cloudHistory = await downloadHabitHistory();
 
       // Merge: Cloud wins for simplicity, or we could compare timestamps if we had them for every local entry.
@@ -264,7 +264,7 @@ class FirestoreService {
 
       return mergedHistory;
     } catch (e) {
-      debugPrint('❌ Error syncing habit history: $e');
+      // debugPrint('Error syncing habit history: $e');
       return localHistory;
     }
   }
@@ -281,7 +281,7 @@ class FirestoreService {
         return timestamp?.toDate();
       }
     } catch (e) {
-      debugPrint('❌ Error getting last sync time: $e');
+      // debugPrint('Error getting last sync time: $e');
     }
     return null;
   }
@@ -320,9 +320,9 @@ class FirestoreService {
       // Delete user document
       await _userDoc!.delete();
 
-      debugPrint('🗑️ Deleted all user data from Firestore');
+      // debugPrint('Deleted all user data from Firestore');
     } catch (e) {
-      debugPrint('❌ Error deleting user data: $e');
+      // debugPrint('Error deleting user data: $e');
     }
   }
 
@@ -338,7 +338,7 @@ class FirestoreService {
     if (!isUserLoggedIn) return;
 
     try {
-      debugPrint('📤 Uploading theme settings to Firestore');
+      // debugPrint('Uploading theme settings to Firestore');
 
       await _userDoc!.collection('settings').doc('theme').set({
         'themeName': themeName,
@@ -348,9 +348,9 @@ class FirestoreService {
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
-      debugPrint('✅ Theme settings uploaded successfully');
+      // debugPrint('Theme settings uploaded successfully');
     } catch (e) {
-      debugPrint('❌ Error uploading theme settings: $e');
+      // debugPrint('Error uploading theme settings: $e');
     }
   }
 
@@ -359,16 +359,16 @@ class FirestoreService {
     if (!isUserLoggedIn) return null;
 
     try {
-      debugPrint('📥 Downloading theme settings from Firestore');
+      // debugPrint('Downloading theme settings from Firestore');
 
       final doc = await _userDoc!.collection('settings').doc('theme').get();
 
       if (doc.exists) {
-        debugPrint('✅ Theme settings downloaded');
+        // debugPrint('Theme settings downloaded');
         return doc.data() as Map<String, dynamic>;
       }
     } catch (e) {
-      debugPrint('❌ Error downloading theme settings: $e');
+      // debugPrint('Error downloading theme settings: $e');
     }
     return null;
   }

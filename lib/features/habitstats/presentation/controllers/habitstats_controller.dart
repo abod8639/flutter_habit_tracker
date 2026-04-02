@@ -31,6 +31,7 @@ class HabitStatsController extends GetxController {
   final RxBool isWeeklyView = true.obs;
   final RxBool showAllHabits = true.obs;
   final RxList<String> habitNames = <String>[].obs;
+  final RxBool isLoading = false.obs;
 
   @override
   void onInit() {
@@ -38,14 +39,22 @@ class HabitStatsController extends GetxController {
     refreshStats();
   }
 
-  void refreshStats() {
-    stats.value = getOverallStatsUseCase();
-    overallTrend.value = getOverallTrendUseCase(daysPeriod.value);
-    final trends = getIndividualHabitTrendsUseCase(daysPeriod.value);
-    individualTrends.value = trends;
-    todaySummary.value = getTodayHabitsSummaryUseCase();
-
-    habitNames.value = trends.keys.toList();
+  Future<void> refreshStats() async {
+    try {
+      isLoading.value = true;
+      stats.value = await getOverallStatsUseCase();
+      overallTrend.assignAll(await getOverallTrendUseCase(daysPeriod.value));
+      
+      final trends = await getIndividualHabitTrendsUseCase(daysPeriod.value);
+      if (trends != null) {
+        individualTrends.assignAll(trends);
+        habitNames.assignAll(trends.keys.toList());
+      }
+      
+      todaySummary.assignAll(await getTodayHabitsSummaryUseCase());
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void togglePeriod() {

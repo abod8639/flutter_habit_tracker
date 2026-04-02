@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/settings_storage.dart';
+import 'package:habit_tracker/features/setting/data/datasources/settings_storage.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/datasources/auth_remote_datasource_impl.dart';
 import '../../data/datasources/auth_local_datasource.dart';

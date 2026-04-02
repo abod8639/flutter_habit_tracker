@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 
 class HabitConfirmationDialog extends StatefulWidget {
@@ -27,7 +27,7 @@ class HabitConfirmationDialogState extends State<HabitConfirmationDialog> {
     final c = Get.find<HabitController>();
     for (int i = 0; i < widget.extractedHabits.length; i++) {
       if (_selectedHabits[i] == true) {
-        c.dbAddHabit(widget.extractedHabits[i]);
+        c.addHabit(widget.extractedHabits[i]);
       }
     }
     Navigator.of(context).pop(); // Close the confirmation dialog

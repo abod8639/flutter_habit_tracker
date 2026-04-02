@@ -1,8 +1,7 @@
 // habit_storage.dart
-import 'package:flutter/material.dart';
-import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/models/habit_model.dart';
-import 'package:habit_tracker/models/date_time.dart';
+// import 'package:flutter/material.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 /// Storage constants and helper methods for the Habit Tracker app
@@ -23,18 +22,20 @@ class HabitStorage {
 
   static List<HabitModel> defaultHabits = [
     HabitModel(
-      name: "1 ", //"${S.current.defaultHabits1}",
-      isCompleted: false,
-      createdAt: DateTime.now(),
-    ),
-
-    HabitModel(
-      name: "2 ${S.current.defaultHabits2}",
+      id: '1',
+      name: "Default Habit 1",
       isCompleted: false,
       createdAt: DateTime.now(),
     ),
     HabitModel(
-      name: "3 ${S.current.defaultHabits3}",
+      id: '2',
+      name: "Default Habit 2",
+      isCompleted: false,
+      createdAt: DateTime.now(),
+    ),
+    HabitModel(
+      id: '3',
+      name: "Default Habit 3",
       isCompleted: false,
       createdAt: DateTime.now(),
     ),
@@ -46,20 +47,13 @@ Future<void> initializeBox(Box box, dynamic db) async {
   try {
     if (box.get(HabitStorage.habitListKey) == null) {
       // First time initialization
-      db.createDefaultData();
+      box.put(HabitStorage.habitListKey, HabitStorage.defaultHabits);
       box.put(HabitStorage.dayCountKey, HabitStorage.defaultDayCount);
       box.put(HabitStorage.startDayKey, todaysDateFormatted());
 
       // Set initial last reset date
       final now = DateTime.now();
       saveLastResetDate(box, now);
-
-      // Log initialization
-      debugPrint('🔄 Habit Tracker initialized with default data');
-    } else {
-      // Load existing data
-      db.loadData();
-      debugPrint('📋 Existing habit data loaded successfully');
     }
 
     // Always make sure day count exists
@@ -72,9 +66,8 @@ Future<void> initializeBox(Box box, dynamic db) async {
       box.put(HabitStorage.lastSavedDateKey, todaysDateFormatted());
     }
   } catch (e) {
-    debugPrint('❌ Error initializing Habit Tracker: $e');
     // Attempt recovery
-    _recoverFromInitializationError(box, db);
+    _recoverFromInitializationError(box);
   }
 }
 
@@ -89,24 +82,19 @@ DateTime? getLastResetDate(Box box) {
     final String? dateStr = box.get(HabitStorage.lastResetDateKey);
     return dateStr != null ? DateTime.parse(dateStr) : null;
   } catch (e) {
-    debugPrint('❌ Error parsing last reset date: $e');
     return null;
   }
 }
 
 /// Recovery method to handle initialization errors
-void _recoverFromInitializationError(Box box, dynamic db) {
+void _recoverFromInitializationError(Box box) {
   try {
     // Reset to default state
-    box.put(HabitStorage.habitListKey, null);
-    db.createDefaultData();
+    box.put(HabitStorage.habitListKey, HabitStorage.defaultHabits);
     box.put(HabitStorage.dayCountKey, HabitStorage.defaultDayCount);
     box.put(HabitStorage.startDayKey, todaysDateFormatted());
     saveLastResetDate(box, DateTime.now());
-    debugPrint('🔄 Recovery completed - reset to default state');
   } catch (e) {
-    debugPrint('❌ Recovery failed: $e');
+    // Recovery failed
   }
 }
-
-/// Delete all data from the Habit database

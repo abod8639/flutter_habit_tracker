@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/data/habit_storage.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
+import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 import 'package:hive/hive.dart';
 import '../../data/datasources/habit_stats_local_datasource.dart';
 import '../../data/repositories/habit_stats_repository_impl.dart';
@@ -13,11 +13,15 @@ import 'habitstats_controller.dart';
 class HabitStatsBinding extends Bindings {
   @override
   void dependencies() {
+    // Repository from Home feature is already registered by HabitBinding
+    // but we need the interface reference
+    final habitRepo = Get.find<HabitRepository>();
+
     // DataSource
     Get.lazyPut<HabitStatsLocalDataSource>(
       () => HabitStatsLocalDataSource(
         myBox: Hive.box(HabitStorage.boxName),
-        habitRepository: Get.find<HabitController>().db,
+        habitRepository: habitRepo,
       ),
     );
 
@@ -25,7 +29,7 @@ class HabitStatsBinding extends Bindings {
     Get.lazyPut<HabitStatsRepositoryImpl>(
       () => HabitStatsRepositoryImpl(
         localDataSource: Get.find<HabitStatsLocalDataSource>(),
-        getHistoryMap: () => Get.find<HabitController>().habitHistoryMap.value,
+        getHistoryMap: () => {}, // Temporarily empty, should be handled better
       ),
     );
 

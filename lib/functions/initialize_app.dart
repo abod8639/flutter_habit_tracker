@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/habit_storage.dart';
-import 'package:habit_tracker/data/lang_storage.dart';
-import 'package:habit_tracker/data/settings_storage.dart';
+import 'package:habit_tracker/features/setting/data/datasources/lang_storage.dart';
+import 'package:habit_tracker/features/setting/data/datasources/settings_storage.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/features/theme/data/datasources/theme_storage.dart';
-import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/services/notification_service.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -32,7 +32,7 @@ Future<void> initializeApp() async {
     try {
       await dotenv.load(fileName: '.env');
     } catch (e) {
-      debugPrint('Failed to load .env: $e');
+      // debugPrint('Failed to load .env: $e');
     }
 
     // 4. Initialize Core Infrastructure Services
@@ -52,14 +52,14 @@ Future<void> initializeApp() async {
       await notificationService.init();
       await notificationService.requestPermissions();
     } catch (e) {
-      debugPrint('Failed to initialize notifications: $e');
+      // debugPrint('Failed to initialize notifications: $e');
     }
 
     // Bindings will be handled by GetMaterialApp(initialBinding: InitialBinding())
     
-  } catch (e, stack) {
-    debugPrint('FATAL initialization error: $e');
-    debugPrint('Stack trace: $stack');
+  } catch (e) {
+    // debugPrint('FATAL initialization error: $e');
+    // debugPrint('Stack trace: $stack');
     throw Exception('Failed to initialize app: $e');
   }
 }
@@ -72,13 +72,13 @@ Future<void> _openBoxSafely(String boxName) async {
   try {
     await Hive.openBox(boxName);
   } catch (e) {
-    debugPrint(
-      '⚠️ Box "$boxName" is corrupted ($e). Deleting and recreating...',
-    );
+    // debugPrint(
+      // 'Box "$boxName" is corrupted ($e). Deleting and recreating...',
+    // );
     await _deleteCorruptedBox(boxName);
     // Open fresh empty box
     await Hive.openBox(boxName);
-    debugPrint('✅ Box "$boxName" recreated successfully.');
+    // debugPrint('Box "$boxName" recreated successfully.');
   }
 }
 
@@ -92,8 +92,8 @@ Future<void> _deleteCorruptedBox(String boxName) async {
     if (await boxFile.exists()) await boxFile.delete();
     if (await lockFile.exists()) await lockFile.delete();
 
-    debugPrint('🗑️ Deleted corrupted box files for "$boxName"');
+    // debugPrint('Deleted corrupted box files for "$boxName"');
   } catch (e) {
-    debugPrint('❌ Failed to delete corrupted box "$boxName": $e');
+    // debugPrint('Failed to delete corrupted box "$boxName": $e');
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
+import '../../domain/entities/habit_entity.dart';
 
 @HiveType(typeId: 0)
 class HabitModel {
@@ -7,28 +8,28 @@ class HabitModel {
   final String id;
 
   @HiveField(1)
-  String name;
+  final String name;
 
   @HiveField(2)
-  bool isCompleted;
+  final bool isCompleted;
 
   @HiveField(3)
   final DateTime createdAt;
 
   @HiveField(4)
-  DateTime? completedAt;
+  final DateTime? completedAt;
 
   @HiveField(5)
-  int? colorValue;
+  final int? colorValue;
 
   @HiveField(6)
-  int? index;
+  final int? index;
 
   @HiveField(7)
-  DateTime? updatedAt;
+  final DateTime? updatedAt;
 
-  HabitModel({
-    String? id,
+  const HabitModel({
+    required this.id,
     required this.name,
     required this.isCompleted,
     required this.createdAt,
@@ -36,7 +37,7 @@ class HabitModel {
     this.colorValue,
     this.index,
     this.updatedAt,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString();
+  });
 
   static DateTime _parseDate(dynamic dateData, {DateTime? fallback}) {
     if (dateData == null) return fallback ?? DateTime.now();
@@ -75,14 +76,34 @@ class HabitModel {
       'completed_at': completedAt?.toIso8601String(),
       'color_value': colorValue,
       'index': index,
-      'updatedAt': updatedAt
-          ?.toIso8601String(), // Only for local use if requested; Firestore will overwrite it anyway with Timestamp
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 
-  // Deprecated: Used for migration from old list format
-  List<dynamic> toLocalFormat() {
-    return [name, isCompleted];
+  HabitEntity toEntity() {
+    return HabitEntity(
+      id: id,
+      name: name,
+      isCompleted: isCompleted,
+      createdAt: createdAt,
+      completedAt: completedAt,
+      colorValue: colorValue,
+      index: index,
+      updatedAt: updatedAt,
+    );
+  }
+
+  factory HabitModel.fromEntity(HabitEntity entity) {
+    return HabitModel(
+      id: entity.id,
+      name: entity.name,
+      isCompleted: entity.isCompleted,
+      createdAt: entity.createdAt,
+      completedAt: entity.completedAt,
+      colorValue: entity.colorValue,
+      index: entity.index,
+      updatedAt: entity.updatedAt,
+    );
   }
 
   // Deprecated: Used for migration from old list format
@@ -107,7 +128,7 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return HabitModel(
-      id: fields[0] as String?,
+      id: fields[0] as String,
       name: fields[1] as String,
       isCompleted: fields[2] as bool,
       createdAt: fields[3] as DateTime,
@@ -121,7 +142,7 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
   @override
   void write(BinaryWriter writer, HabitModel obj) {
     writer
-      ..writeByte(8) // ← correct: writing 8 fields (indices 0–7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -139,14 +160,4 @@ class HabitModelAdapter extends TypeAdapter<HabitModel> {
       ..writeByte(7)
       ..write(obj.updatedAt);
   }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is HabitModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
 }

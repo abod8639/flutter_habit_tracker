@@ -49,6 +49,11 @@ class NotificationController extends GetxController {
             await _scheduleNotification(notificationTime.value!);
           } else {
             const defaultTime = TimeOfDay(hour: 9, minute: 0);
+            await _notificationService.showNotification(
+              id: 999,
+              title: 'Reminders Enabled!',
+              body: 'You will receive daily habit checks.',
+            );
             await setNotificationTime(defaultTime);
           }
         } else {

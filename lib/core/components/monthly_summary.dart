@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/models/date_time.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
+import 'package:habit_tracker/features/home/data/models/date_time.dart';
 
 class MonthlySummary extends StatefulWidget {
   final Map<DateTime, int> datasets;
@@ -15,7 +15,7 @@ class MonthlySummary extends StatefulWidget {
 
 class _MonthlySummaryState extends State<MonthlySummary>
     with SingleTickerProviderStateMixin {
-  final habitController = Get.put(HabitController());
+  late HabitController habitController;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -24,6 +24,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
   @override
   void initState() {
     super.initState();
+    habitController = Get.find<HabitController>();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),

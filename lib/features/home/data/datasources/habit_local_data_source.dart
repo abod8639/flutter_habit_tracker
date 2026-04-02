@@ -1,6 +1,6 @@
-import 'package:habit_tracker/data/habit_storage.dart';
-import 'package:habit_tracker/models/habit_model.dart';
-import 'package:habit_tracker/models/date_time.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/date_time.dart';
 import 'package:hive/hive.dart';
 
 class HabitLocalDataSource {

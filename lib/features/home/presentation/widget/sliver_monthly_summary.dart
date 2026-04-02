@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/core/components/monthly_summary.dart';
 
 class SliverMonthlySummary extends StatelessWidget {
@@ -10,7 +10,7 @@ class SliverMonthlySummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HabitController controller = Get.put(HabitController());
+    final HabitController controller = Get.find<HabitController>();
 
     return SliverToBoxAdapter(
       child: Center(
@@ -20,9 +20,9 @@ class SliverMonthlySummary extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: MonthlySummary(
-              datasets: controller.db.heatmapDateSet,
-            ),
+            child: Obx(() => MonthlySummary(
+              datasets: controller.heatmapDateSet,
+            )),
           ),
         ),
       ),

@@ -5,7 +5,7 @@ class GetTodayHabitsSummaryUseCase {
 
   GetTodayHabitsSummaryUseCase(this.repository);
 
-  List<Map<String, dynamic>> call() {
+  Future<List<Map<String, dynamic>>> call() async {
     return repository.getTodayHabitsSummary();
   }
 }

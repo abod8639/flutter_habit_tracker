@@ -127,9 +127,9 @@ Widget buildAnimatedUserCard(
                         : null,
                     onBackgroundImageError: photoUrl != null
                         ? (exception, stackTrace) {
-                            debugPrint(
-                              'Error loading profile image: $exception',
-                            );
+                            // debugPrint(
+                              // 'Error loading profile image: $exception',
+                            // );
                           }
                         : null,
                     child: photoUrl == null

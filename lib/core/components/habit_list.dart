@@ -1,54 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/functions/delete_habit.dart';
-import 'package:habit_tracker/functions/edit_habit.dart';
-import 'package:habit_tracker/functions/toggle_habit.dart';
-import 'package:habit_tracker/features/home/presentation/widget/Nohabitsyet.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/widget/no_habits_yet.dart';
 import 'package:habit_tracker/core/components/text_taile.dart';
+import 'package:habit_tracker/functions/edit_habit.dart';
 
 class HabitList extends StatelessWidget {
   const HabitList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HabitController>(
-      builder: (controller) {
-        final List habits = controller.db.todaysHabitList;
+    final HabitController controller = Get.find<HabitController>();
 
-        if (habits.isEmpty) {
-          return SliverFillRemaining(
-            hasScrollBody: false,
-            child: Nohabitsyet(),
-          );
-        }
+    return Obx(() {
+      final habits = controller.habits;
 
-        return SliverReorderableList(
-          itemCount: habits.length,
-          onReorder: (oldIndex, newIndex) =>
-              controller.reorderHabits(oldIndex, newIndex),
-          itemBuilder: (context, index) {
-            final habit = habits[index];
-            return ReorderableDelayedDragStartListener(
-              key: ValueKey(habit.id),
-              index: index,
-              enabled: controller.isSelectionMode,
-              child: MyTextTaile(
-                habitName: habit.name,
-                habitCompleted: habit.isCompleted,
-                isSelected: controller.selectedHabitIds.contains(habit.id),
-                isSelectionMode: controller.isSelectionMode,
-                colorValue: habit.colorValue,
-                onTap: () => toggleHabit(!habit.isCompleted, index),
-                onDelete: (context) => deleteHabit(index, context),
-                onEdit: (context) => editHabit(index, context),
-                onChanged: (value) => toggleHabit(value, index),
-                onLongPress: () => controller.toggleHabitSelection(habit.id),
-              ),
-            );
-          },
+      if (habits.isEmpty) {
+        return const SliverFillRemaining(
+          hasScrollBody: false,
+          child: NoHabitsYet(),
         );
-      },
-    );
+      }
+
+      return SliverReorderableList(
+        itemCount: habits.length,
+        onReorder: (oldIndex, newIndex) =>
+            controller.reorderHabits(oldIndex, newIndex),
+        itemBuilder: (context, index) {
+          final habit = habits[index];
+          return ReorderableDelayedDragStartListener(
+            key: ValueKey(habit.id),
+            index: index,
+            enabled: !controller.isSelectionMode, // Enabled when NOT in selection mode for dragging
+            child: MyTextTaile(
+              habitName: habit.name,
+              habitCompleted: habit.isCompleted,
+              isSelected: controller.selectedHabitIds.contains(habit.id),
+              isSelectionMode: controller.isSelectionMode,
+              colorValue: habit.colorValue,
+              onTap: () {
+                if (controller.isSelectionMode) {
+                  controller.toggleHabitSelection(habit.id);
+                } else {
+                  controller.toggleHabit(habit.id, !habit.isCompleted);
+                }
+              },
+              onDelete: (context) => controller.deleteHabit(habit.id),
+              onEdit: (context) => editHabit(habit.id, habit.name, context),
+              onChanged: (value) => controller.toggleHabit(habit.id, value ?? false),
+              onLongPress: () => controller.toggleHabitSelection(habit.id),
+            ),
+          );
+        },
+      );
+    });
   }
 }

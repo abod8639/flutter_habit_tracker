@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
 import '../repositories/setting_repository.dart';
-import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 
 class SyncHabitsUseCase {
   final SettingRepository repository;

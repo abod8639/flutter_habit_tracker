@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/habit_storage.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
@@ -8,25 +8,25 @@ import 'package:hive/hive.dart';
 /// Delete all data from the Habit database safely
 Future<bool> clearAllHabitData() async {
   try {
-    debugPrint('🗑️ Starting habit data clearing process...');
+    // debugPrint('Starting habit data clearing process...');
 
     // Get the box reference
     final Box box = Hive.box(HabitStorage.boxName);
 
     // Check if box is open
     if (!box.isOpen) {
-      debugPrint('❌ Box is not open, attempting to open...');
+      // debugPrint('Box is not open, attempting to open...');
       await Hive.openBox(HabitStorage.boxName);
     }
 
     // Clear all data step by step
     await _clearDataStepByStep(box);
 
-    debugPrint('✅ All habit data cleared successfully');
+    // debugPrint('All habit data cleared successfully');
     return true;
-  } catch (e, stack) {
-    debugPrint('❌ Error clearing habit data: $e');
-    debugPrint('Stack trace: $stack');
+  } catch (e) {
+    // debugPrint('Error clearing habit data: $e');
+    // debugPrint('Stack trace: $stack');
 
     // Try alternative clearing method
     return await _alternativeClearMethod();
@@ -38,14 +38,14 @@ Future<void> _clearDataStepByStep(Box box) async {
   try {
     // Clear main habit data
     await box.delete(HabitStorage.habitListKey);
-    debugPrint('🗑️ Cleared habit list');
+    // debugPrint('Cleared habit list');
 
     // Clear date-related data
     await box.delete(HabitStorage.lastResetDateKey);
     await box.delete(HabitStorage.dayCountKey);
     await box.delete(HabitStorage.startDayKey);
     await box.delete(HabitStorage.lastSavedDateKey);
-    debugPrint('🗑️ Cleared date data');
+    // debugPrint('Cleared date data');
 
     // Clear habit strength data (keys that start with habit strength prefix)
     final List<dynamic> keysToDelete = [];
@@ -58,17 +58,17 @@ Future<void> _clearDataStepByStep(Box box) async {
     for (var key in keysToDelete) {
       await box.delete(key);
     }
-    debugPrint('🗑️ Cleared ${keysToDelete.length} habit strength records');
+    // debugPrint('Cleared ${keysToDelete.length} habit strength records');
 
     // Clear any remaining keys
     await box.clear();
-    debugPrint('🗑️ Cleared all remaining data');
+    // debugPrint('Cleared all remaining data');
 
     // Compact the box to free up space
     // await box.compact();
-    debugPrint('🗑️ Compacted database');
+    // debugPrint('Compacted database');
   } catch (e) {
-    debugPrint('❌ Error in step-by-step clearing: $e');
+    // debugPrint('Error in step-by-step clearing: $e');
     rethrow;
   }
 }
@@ -76,24 +76,24 @@ Future<void> _clearDataStepByStep(Box box) async {
 /// Alternative method if main clearing fails
 Future<bool> _alternativeClearMethod() async {
   try {
-    debugPrint('🔄 Attempting alternative clearing method...');
+    // debugPrint('Attempting alternative clearing method...');
 
     // Close the box first
     final Box box = Hive.box(HabitStorage.boxName);
     await box.close();
-    debugPrint('🔒 Box closed');
+    // debugPrint('Box closed');
 
     // Delete the box from disk
     await Hive.deleteBoxFromDisk(HabitStorage.boxName);
-    debugPrint('🗑️ Box deleted from disk');
+    // debugPrint('Box deleted from disk');
 
     // Reopen the box (it will be empty)
     await Hive.openBox(HabitStorage.boxName);
-    debugPrint('📦 New empty box opened');
+    // debugPrint('New empty box opened');
 
     return true;
   } catch (e) {
-    debugPrint('❌ Alternative clearing method failed: $e');
+    // debugPrint('Alternative clearing method failed: $e');
     return false;
   }
 }
@@ -146,9 +146,9 @@ Future<void> clearAppDataAndRestart(BuildContext context) async {
     } else {
       throw Exception('Failed to clear data');
     }
-  } catch (e, stack) {
-    debugPrint('❌ Error in clearAppDataAndRestart: $e');
-    debugPrint('Stack: $stack');
+  } catch (e) {
+    // debugPrint('Error in clearAppDataAndRestart: $e');
+    // debugPrint('Stack: $stack');
 
     // Close loading dialog if open
     // Get.back();

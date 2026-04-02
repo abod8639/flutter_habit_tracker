@@ -4,6 +4,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/habitstats/presentation/pages/habit_stats_page.dart';
 import 'package:habit_tracker/features/habitstats/presentation/controllers/habitstats_binding.dart';
 import 'package:habit_tracker/features/setting/presentation/pages/settings_page.dart';
+import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';
 import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 import 'package:habit_tracker/core/components/my_list_tile.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
@@ -127,7 +128,8 @@ class _DrawerListState extends State<DrawerList> {
         MyDrawerListTile(
           icon: const Icon(color: Colors.blueGrey, Icons.settings),
           onTap: () {
-            Get.to(() => SettingsPage());
+            Get.back();
+            Get.to(() => const SettingsPage(), binding: SettingBinding());
           },
           title: S.current.drawerSetting,
         ),

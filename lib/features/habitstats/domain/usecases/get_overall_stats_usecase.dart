@@ -6,7 +6,7 @@ class GetOverallStatsUseCase {
 
   GetOverallStatsUseCase(this.repository);
 
-  HabitStatsEntity call() {
+  Future<HabitStatsEntity> call() async {
     return repository.getOverallStats();
   }
 }

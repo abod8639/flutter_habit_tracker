@@ -43,7 +43,7 @@ class ThemeController extends GetxController {
         _syncWithCloud();
       }
     } catch (e) {
-      debugPrint('Error initializing theme: $e');
+      // debugPrint('Error initializing theme: $e');
       _setDefaultTheme();
     }
   }
@@ -52,7 +52,7 @@ class ThemeController extends GetxController {
     final result = await _getThemeSettingsUseCase();
     result.fold(
       (failure) {
-        debugPrint('Error loading saved theme: ${failure.message}');
+        // debugPrint('Error loading saved theme: ${failure.message}');
         _setDefaultTheme();
       },
       (entity) {
@@ -68,7 +68,7 @@ class ThemeController extends GetxController {
   Future<void> _syncWithCloud() async {
     final result = await _syncThemeWithCloudUseCase();
     result.fold(
-      (failure) => debugPrint('Error syncing theme from cloud: ${failure.message}'),
+      (failure) =>  debugPrint('Error syncing theme from cloud: ${failure.message}'),
       (entity) {
         if (entity != null) {
           currentTheme.value = entity.themeName;
@@ -99,7 +99,7 @@ class ThemeController extends GetxController {
     
     final result = await _saveThemeSettingsUseCase(entity);
     result.fold(
-      (failure) => debugPrint('Error saving theme settings locally: ${failure.message}'),
+      (failure) =>  debugPrint('Error saving theme settings locally: ${failure.message}'),
       (_) {
         update();
         if (_firestoreService.isUserLoggedIn) {
@@ -112,8 +112,8 @@ class ThemeController extends GetxController {
   Future<void> _uploadToCloud(ThemeEntity entity) async {
     final result = await _uploadThemeSettingsUseCase(entity);
     result.fold(
-      (failure) => debugPrint('Error uploading theme settings: ${failure.message}'),
-      (_) => debugPrint('Theme settings uploaded successfully'),
+      (failure) =>  debugPrint('Error uploading theme settings: ${failure.message}'),
+      (_) =>  debugPrint('Theme settings uploaded successfully'),
     );
   }
 

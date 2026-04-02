@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Nohabitsyet extends StatelessWidget {
-  const Nohabitsyet({super.key});
+class NoHabitsYet extends StatelessWidget {
+  const NoHabitsYet({super.key});
 
   @override
   Widget build(BuildContext context) {

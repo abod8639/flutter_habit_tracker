@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/features/auth/presentation/controllers/auth_binding.dart';
 import 'package:habit_tracker/features/theme/presentation/controllers/theme_binding.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 
 class InitialBinding extends Bindings {
   @override

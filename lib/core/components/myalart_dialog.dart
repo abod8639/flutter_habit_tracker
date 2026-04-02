@@ -88,7 +88,7 @@ class _MyalartdState extends State<MyalartDialog>
               setState(() {
                 _isScanning = false;
               });
-              debugPrint(e.toString());
+              // debugPrint(e.toString());
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Error: $e'),

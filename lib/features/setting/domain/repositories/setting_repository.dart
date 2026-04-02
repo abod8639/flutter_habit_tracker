@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
-import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 
 abstract class SettingRepository {
   Future<Either<Failure, String>> getLanguage();

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 
 class GeminiService {
   late final GenerativeModel _model;
@@ -69,7 +69,7 @@ class GeminiService {
 
       return parsedHabits;
     } catch (e) {
-      debugPrint('Error extracting habits from image: $e');
+      // debugPrint('Error extracting habits from image: $e');
       throw Exception('Error extracting habits from image:');
     }
   }

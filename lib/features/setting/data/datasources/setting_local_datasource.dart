@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:habit_tracker/data/lang_storage.dart';
+import 'package:habit_tracker/features/setting/data/datasources/lang_storage.dart';
 
 abstract class SettingLocalDataSource {
   Future<String> getLanguage();

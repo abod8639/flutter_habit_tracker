@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/habitstats/presentation/widget/build_bar_chart.dart';
 import 'package:habit_tracker/features/habitstats/presentation/widget/build_pie_chart.dart';
 import 'package:habit_tracker/features/habitstats/presentation/widget/build_trend_chart.dart';

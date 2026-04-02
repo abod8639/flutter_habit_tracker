@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
-import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import '../../domain/repositories/setting_repository.dart';
 import '../datasources/setting_local_datasource.dart';
 import '../datasources/setting_remote_datasource.dart';

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:habit_tracker/data/settings_storage.dart';
+import 'package:habit_tracker/features/setting/data/datasources/settings_storage.dart';
 import 'package:habit_tracker/features/auth/presentation/pages/login_page.dart';
 
 Future<void> navigateToLogin() async {

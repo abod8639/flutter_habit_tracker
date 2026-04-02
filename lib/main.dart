@@ -29,8 +29,6 @@ Future<void> main() async {
       runApp(RestartWidget(child: const MyApp()));
     },
     (error, stack) {
-      debugPrint('Error during app execution: $error');
-      debugPrint('Stack trace: $stack');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         runApp(ErrorApp(error: error.toString()));
       });
@@ -49,7 +47,7 @@ class MyApp extends StatelessWidget {
 
     return Obx(
       () => GetMaterialApp(
-        // initialBinding: InitialBinding(), // Already called in main()
+        initialBinding: InitialBinding(), // Already called in main()
         locale: Locale(controllerLanguage.language.value),
 
         localizationsDelegates: const [

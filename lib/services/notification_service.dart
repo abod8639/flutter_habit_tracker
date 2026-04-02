@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'
-    as fln;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' as fln;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 class NotificationService {
   static NotificationService? _instance;
@@ -19,15 +19,17 @@ class NotificationService {
 
   Future<void> init() async {
     tz.initializeTimeZones();
+    final String timeZoneName = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
 
     const fln.AndroidInitializationSettings initializationSettingsAndroid =
         fln.AndroidInitializationSettings('@mipmap/ic_launcher');
 
     final fln.DarwinInitializationSettings initializationSettingsDarwin =
         fln.DarwinInitializationSettings(
-          requestSoundPermission: false,
+          requestSoundPermission: true,
           requestBadgePermission: true,
-          requestAlertPermission: false,
+          requestAlertPermission: true,
         );
 
     final fln.InitializationSettings initializationSettings =
@@ -58,6 +60,32 @@ class NotificationService {
         );
   }
 
+  Future<void> showNotification({
+    required int id,
+    required String title,
+    required String body,
+  }) async {
+    try {
+      await flutterLocalNotificationsPlugin.show(
+        id,
+        title,
+        body,
+        const fln.NotificationDetails(
+          android: fln.AndroidNotificationDetails(
+            'immediate_channel',
+            'Immediate Notifications',
+            channelDescription: 'Notifications that show immediately',
+            importance: fln.Importance.max,
+            priority: fln.Priority.high,
+          ),
+          iOS: fln.DarwinNotificationDetails(),
+        ),
+      );
+    } catch (e) {
+      // debugPrint('Failed to show notification: $e');
+    }
+  }
+
   Future<void> scheduleDailyNotification({
     required int id,
     required String title,
@@ -65,11 +93,14 @@ class NotificationService {
     required TimeOfDay time,
   }) async {
     try {
+      // Create a safely initialized timezone object
+      final scheduledDate = _nextInstanceOfTime(time.hour, time.minute);
+      
       await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
         body,
-        _nextInstanceOfTime(time.hour, time.minute),
+        scheduledDate,
         const fln.NotificationDetails(
           android: fln.AndroidNotificationDetails(
             'daily_reminder_channel',
@@ -82,16 +113,20 @@ class NotificationService {
         ),
         androidScheduleMode: fln.AndroidScheduleMode.exactAllowWhileIdle,
         matchDateTimeComponents: fln.DateTimeComponents.time,
+        payload: 'habit_notification_payload',
       );
     } catch (e) {
-      debugPrint('Failed to schedule notification: $e');
+      // debugPrint('Failed to schedule notification: $e');
     }
   }
 
   tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    // Falls back to UTC if tz.local is not initialized
+    final local = tz.local;
+    final now = tz.TZDateTime.now(local);
+    
     tz.TZDateTime scheduledDate = tz.TZDateTime(
-      tz.local,
+      local,
       now.year,
       now.month,
       now.day,
@@ -108,7 +143,7 @@ class NotificationService {
     try {
       await flutterLocalNotificationsPlugin.cancel(id);
     } catch (e) {
-      debugPrint('Failed to cancel notification: $e');
+      // debugPrint('Failed to cancel notification: $e');
     }
   }
 
@@ -116,7 +151,7 @@ class NotificationService {
     try {
       await flutterLocalNotificationsPlugin.cancelAll();
     } catch (e) {
-      debugPrint('Failed to cancel all notifications: $e');
+      // debugPrint('Failed to cancel all notifications: $e');
     }
   }
 }

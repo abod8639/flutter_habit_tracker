@@ -6,7 +6,7 @@ class GetOverallTrendUseCase {
 
   GetOverallTrendUseCase(this.repository);
 
-  List<FlSpot> call(int days) {
+  Future<List<FlSpot>> call(int days) async {
     return repository.getOverallTrendData(days);
   }
 }

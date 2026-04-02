@@ -13,23 +13,23 @@ class HabitStatsRepositoryImpl implements HabitStatsRepository {
   });
 
   @override
-  HabitStatsEntity getOverallStats() {
+  Future<HabitStatsEntity> getOverallStats() async {
     return localDataSource.getOverallStats();
   }
 
   @override
-  List<FlSpot> getOverallTrendData(int days) {
+  Future<List<FlSpot>> getOverallTrendData(int days) async {
     return localDataSource.getOverallTrendData(days);
   }
 
   @override
-  Map<String, List<FlSpot>> getIndividualHabitTrends(int days) {
+  Future<Map<String, List<FlSpot>>?> getIndividualHabitTrends(int days) async {
     final historyMap = getHistoryMap();
     return localDataSource.getIndividualHabitTrends(days, historyMap);
   }
 
   @override
-  List<Map<String, dynamic>> getTodayHabitsSummary() {
+  Future<List<Map<String, dynamic>>> getTodayHabitsSummary() async {
     return localDataSource.getTodayHabitsSummary();
   }
 }

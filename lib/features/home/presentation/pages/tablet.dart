@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/functions/add_habit.dart';
-import 'package:habit_tracker/features/home/presentation/widget/DrawerMenuButton.dart';
-import 'package:habit_tracker/features/home/presentation/widget/ExpandedCheckboxList.dart';
-import 'package:habit_tracker/features/home/presentation/widget/Nohabitsyet.dart';
+import 'package:habit_tracker/features/home/presentation/widget/drawer_menu_button.dart';
+import 'package:habit_tracker/features/home/presentation/widget/expanded_checkbox_list.dart';
+import 'package:habit_tracker/features/home/presentation/widget/no_habits_yet.dart';
 import 'package:habit_tracker/core/components/monthly_summary.dart';
 import 'package:habit_tracker/core/components/build_error_screen.dart';
 import 'package:habit_tracker/core/components/build_loading_screen.dart';
@@ -34,59 +34,41 @@ class Tablet extends StatelessWidget {
         floatingActionButton: myfloatingActionButton(
           onPressed: () => addHabit(context),
         ),
-        body: GetBuilder<HabitController>(
-          init: controller,
-          builder: (controller) => Stack(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.purple.shade900,
-                          Colors.blue.shade900,
-                          Colors.teal.shade700,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
+        body: Stack(
+          children: [
+            Row(
+              children: [
+                // Middle: Monthly Summary
+                Expanded(
+                  flex: ResponsiveUtils.isDesktop(context) ? 8 : 9,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: SingleChildScrollView(
+                      reverse: true,
+                      key: const ValueKey<String>('heatmap'), // Simple key for now
+                      scrollDirection: Axis.horizontal,
+                      child: Obx(() => MonthlySummary(
+                        datasets: controller.heatmapDateSet,
+                      )),
                     ),
                   ),
+                ),
 
-                  // Left Side: Completed Habits List (Visible only on Desktop)
-                  if (ResponsiveUtils.isDesktop(context))
-                    Expanded(flex: 4, child: const DrawerList()),
-
-                  if (!ResponsiveUtils.isDesktop(context))
-                    const DrawerMenuButton(),
-
-                  // Middle: Monthly Summary
-                  Expanded(
-                    flex: ResponsiveUtils.isDesktop(context) ? 8 : 9,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: SingleChildScrollView(
-                        reverse: true,
-                        key: ValueKey<String>(controller.getStartDay()),
-                        scrollDirection: Axis.horizontal,
-                        child: MonthlySummary(
-                          datasets: controller.db.heatmapDateSet,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Expanded(
-                    flex: ResponsiveUtils.isDesktop(context) ? 9 : 13,
-                    child: controller.db.todaysHabitList.isEmpty
-                        ? Nohabitsyet()
-                        : CheckboxList(),
-                  ),
-                ],
+                Expanded(
+                  flex: ResponsiveUtils.isDesktop(context) ? 9 : 13,
+                  child: Obx(() => controller.habits.isEmpty
+                      ? const NoHabitsYet()
+                      : const CheckboxList()),
+                ),
+              ],
+            ),
+            if (!ResponsiveUtils.isDesktop(context))
+              const Positioned(
+                top: 10,
+                left: 10,
+                child: DrawerMenuButton(),
               ),
-            ],
-          ),
+          ],
         ),
       );
     });

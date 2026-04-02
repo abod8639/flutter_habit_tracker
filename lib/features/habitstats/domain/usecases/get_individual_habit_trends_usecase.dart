@@ -6,7 +6,7 @@ class GetIndividualHabitTrendsUseCase {
 
   GetIndividualHabitTrendsUseCase(this.repository);
 
-  Map<String, List<FlSpot>> call(int days) {
+  Future<Map<String, List<FlSpot>>?> call(int days) async {
     return repository.getIndividualHabitTrends(days);
   }
 }

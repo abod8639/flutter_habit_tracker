@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/functions/add_habit.dart';
 import 'package:habit_tracker/core/components/habit_list.dart';
-import 'package:habit_tracker/features/home/presentation/widget/SliverMonthlySummary.dart';
+import 'package:habit_tracker/features/home/presentation/widget/sliver_monthly_summary.dart';
 import 'package:habit_tracker/core/components/build_error_screen.dart';
 import 'package:habit_tracker/core/components/build_loading_screen.dart';
 import 'package:habit_tracker/core/components/my_drawer.dart';
@@ -17,7 +17,7 @@ class Phone extends StatefulWidget {
 }
 
 class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
-  final HabitController controller = Get.put(HabitController());
+  final HabitController controller = Get.find<HabitController>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -49,18 +49,14 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
             return buildErrorScreen();
           }
 
-          return GetBuilder<HabitController>(
-            builder: (controller) {
-              return CustomScrollView(
-                controller: _scrollController,
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                  MyAppBar(),
-                  SliverMonthlySummary(),
-                  HabitList(),
-                ],
-              );
-            },
+          return CustomScrollView(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            slivers: const [
+              MyAppBar(),
+              SliverMonthlySummary(),
+              HabitList(),
+            ],
           );
         }),
       ),

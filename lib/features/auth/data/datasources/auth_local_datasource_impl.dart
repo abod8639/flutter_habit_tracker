@@ -1,4 +1,4 @@
-import 'package:habit_tracker/data/settings_storage.dart';
+import 'package:habit_tracker/features/setting/data/datasources/settings_storage.dart';
 import 'package:habit_tracker/features/auth/data/datasources/auth_local_datasource.dart';
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {

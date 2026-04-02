@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/models/habit_model.dart';
-import 'package:habit_tracker/data/habit_repository.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import '../../domain/usecases/sync_habits_usecase.dart';
 import '../../domain/usecases/get_last_sync_time_usecase.dart';
 import 'package:habit_tracker/services/firestore_service.dart';

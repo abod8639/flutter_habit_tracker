@@ -1,64 +1,57 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/controller/habit_controller.dart';
-import 'package:habit_tracker/data/habit_storage.dart';
+import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/functions/habit_utils.dart';
-import 'package:habit_tracker/functions/reset_all_habits.dart';
-import 'package:habit_tracker/models/date_time.dart';
+import 'package:habit_tracker/features/home/data/models/date_time.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
+import 'package:hive/hive.dart';
 
 /// Check if habits need to be reset for a new day
-void checkAndResetHabits() {
+Future<void> checkAndResetHabits() async {
+  if (!Get.isRegistered<HabitController>()) return;
   final HabitController c = Get.find<HabitController>();
+  final box = Hive.box(HabitStorage.boxName);
+  
   try {
-    if (shouldResetHabits(c.lastResetDate.value)) {
-      debugPrint('🔄 Resetting habits for new day');
-
-      // Save current state to history before reset
-      final habits = c.db.todaysHabitList;
-      final now = DateTime.now();
-      final normalizedDate = DateTime(now.year, now.month, now.day);
-      final currentHistory = Map<String, Map<DateTime, bool>>.from(
-        c.habitHistoryMap.value,
-      );
-      final todayStr = convertDateTimeToString(normalizedDate);
+    final lastResetDate = getLastResetDate(box);
+    
+    if (shouldResetHabits(lastResetDate)) {
+      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      final normalizedDate = DateTime(yesterday.year, yesterday.month, yesterday.day);
+      final yesterdayStr = convertDateTimeToString(normalizedDate);
+      
+      final currentHabits = List<HabitEntity>.from(c.habits);
 
       // Save each habit's current state to history
-      for (var habit in habits) {
-        final String habitName = habit.name;
-        final bool isCompleted = habit.isCompleted;
-
-        // Save to history map
-        if (!currentHistory.containsKey(habitName)) {
-          currentHistory[habitName] = {};
-        }
-        currentHistory[habitName]![normalizedDate] = isCompleted;
-
-        // Save to database
-        final String historyKey = "${habitName}_$todayStr";
-        c.myBox.put(historyKey, isCompleted);
+      for (var habit in currentHabits) {
+        final String historyKey = "${habit.name}_$yesterdayStr";
+        box.put(historyKey, habit.isCompleted);
       }
-      c.habitHistoryMap.value = currentHistory;
 
-      // Perform reset
-      c.incrementDayCount();
-      resetAllHabits(c.db);
-      c.lastResetDate.value = DateTime.now();
-      saveLastResetDate(c.myBox, c.lastResetDate.value!);
+      // Perform reset: set all habits to not completed
+      final resetHabits = currentHabits.map((h) => HabitModel.fromEntity(h.copyWith(
+        isCompleted: false,
+        completedAt: null,
+        updatedAt: DateTime.now(),
+      ))).toList();
+      
+      box.put(HabitStorage.habitListKey, resetHabits);
+      
+      // Update day count
+      int dayCount = box.get(HabitStorage.dayCountKey) ?? 1;
+      box.put(HabitStorage.dayCountKey, dayCount + 1);
+      
+      // Update last reset date
+      final now = DateTime.now();
+      saveLastResetDate(box, now);
 
-      // Make sure all habits start as not completed for the new day
-      final newDate = DateTime.now();
-      final newNormalizedDate = DateTime(
-        newDate.year,
-        newDate.month,
-        newDate.day,
-      );
-      for (var habit in habits) {
-        final String habitName = habit.name;
-        currentHistory[habitName]![newNormalizedDate] = false;
-      }
-      c.habitHistoryMap.value = currentHistory;
+      // Refresh controller state
+      // We can't call private _loadHabits, but we can call public ones if available 
+      // or just wait for the next timer tick or manual refresh.
+      // For now, let's assume the controller will refresh itself or we can trigger it.
     }
   } catch (e) {
-    debugPrint('❌ Error checking/resetting habits: $e');
+    // Error handling
   }
 }

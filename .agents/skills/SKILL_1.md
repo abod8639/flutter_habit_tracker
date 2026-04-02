@@ -1,6 +1,6 @@
 ---
 description: >
-  Comprehensive development guide for the Stronger Muscles Dashboard Flutter application.
+  Comprehensive development guide for the habit tracker Flutter application.
   Use this skill whenever working on this project, including: creating new features,
   writing Controllers, Services, or Repositories, designing Widgets, connecting to the API,
   managing state with GetX, local storage with Hive/GetStorage, or any question about
@@ -10,7 +10,7 @@ description: >
   feature bindings, use cases, or domain entities in a Flutter project.
 ---
 
-# Stronger Muscles Dashboard — Flutter Skill
+# habit tracker — Flutter Skill
 h
 ---
 

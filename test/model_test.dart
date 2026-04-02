@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:habit_tracker/models/habit_model.dart';
+import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 
 void main() {
   group('HabitModel Serialization', () {
     test('should serialize to map correctly', () {
       final habit = HabitModel(
+        id: '1',
         name: 'Test Habit',
         isCompleted: true,
         createdAt: DateTime(2023, 1, 1),
@@ -15,7 +16,7 @@ void main() {
       expect(map['name'], 'Test Habit');
       expect(map['isCompleted'], true);
       expect(map['created_at'], isNotNull);
-      expect(map['id'], isNotNull);
+      expect(map['id'], '1');
     });
 
     test('should deserialize from map correctly', () {
@@ -36,6 +37,7 @@ void main() {
 
     test('should maintain ID across serialization', () {
       final habit = HabitModel(
+        id: '456',
         name: 'Test Habit',
         isCompleted: false,
         createdAt: DateTime.now(),

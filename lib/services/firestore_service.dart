@@ -28,29 +28,28 @@ class FirestoreService {
     return _userDoc?.collection('deleted_habits');
   }
 
-  // Upload habits to Firestore
-  Future<void> uploadHabits(List<HabitModel> habits) async {
+  // Upload habits and metadata to Firestore
+  Future<void> uploadHabits(List<HabitModel> habits, {String? startDay}) async {
     if (!isUserLoggedIn) {
-      // debugPrint('Cannot upload: User not logged in');
       return;
     }
 
     try {
-      // debugPrint('Uploading ${habits.length} habits to Firestore');
-
       final batch = _firestore.batch();
       final timestamp = FieldValue.serverTimestamp();
 
+      Map<String, dynamic> userData = {
+        'email': _auth.currentUser?.email,
+        'displayName': _auth.currentUser?.displayName,
+        'lastSync': timestamp,
+      };
+
+      if (startDay != null) {
+        userData['startDay'] = startDay;
+      }
+
       // Update user metadata
-      batch.set(
-        _userDoc!,
-        {
-          'email': _auth.currentUser?.email,
-          'displayName': _auth.currentUser?.displayName,
-          'lastSync': timestamp,
-        },
-        SetOptions(merge: true),
-      );
+      batch.set(_userDoc!, userData, SetOptions(merge: true));
 
       // Upload each habit
       for (var habit in habits) {
@@ -103,18 +102,23 @@ class FirestoreService {
   Future<List<HabitModel>> syncHabits(
     List<HabitModel> localHabits, {
     List<String> localTombstones = const [],
+    String? localStartDay,
   }) async {
     if (!isUserLoggedIn) {
-      // debugPrint('⚠️ Cannot sync: User not logged in');
       return localHabits;
     }
 
     try {
-      // debugPrint('🔄 Starting habit sync');
+      // Download cloud data
+      final userDoc = await _userDoc!.get();
+      final userData = userDoc.data() as Map<String, dynamic>?;
+      final cloudStartDay = userData?['startDay'] as String?;
 
-      // Process local tombstones first
+      // Sync startDay (Cloud wins if available, else local)
+      String? finalStartDay = cloudStartDay ?? localStartDay;
+
+      // Process local tombstones
       for (var id in localTombstones) {
-        // This will delete it on the server and create a server tombstone
         await deleteHabit(id);
       }
 
@@ -168,10 +172,9 @@ class FirestoreService {
         }
       }
 
-      // Upload merged habits back to cloud
-      await uploadHabits(mergedHabits);
+      // Upload merged habits and startDay back to cloud
+      await uploadHabits(mergedHabits, startDay: finalStartDay);
 
-      // debugPrint('✅ Sync completed: ${mergedHabits.length} habits');
       return mergedHabits;
     } catch (e) {
       // debugPrint('❌ Error syncing habits: $e');

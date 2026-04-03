@@ -17,6 +17,7 @@ import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:hive/hive.dart';
+import 'package:habit_tracker/features/home/data/models/date_time.dart';
 
 class HabitController extends GetxController {
   // Use Cases
@@ -120,7 +121,25 @@ class HabitController extends GetxController {
 
   String getStartDay() {
     final box = Hive.box(HabitStorage.boxName);
-    return box.get(HabitStorage.startDayKey, defaultValue: "");
+    String storedStartDay = box.get(HabitStorage.startDayKey, defaultValue: "");
+    
+    // If we have heatmap data, find the earliest date
+    if (heatmapDateSet.isNotEmpty) {
+      DateTime minDate = heatmapDateSet.keys.reduce((a, b) => a.isBefore(b) ? a : b);
+      String minDateStr = convertDateTimeToString(minDate);
+      
+      if (storedStartDay.isEmpty) return minDateStr;
+      
+      // Return the earlier of the two
+      try {
+        DateTime storedDate = createDateTimeObject(storedStartDay);
+        return minDate.isBefore(storedDate) ? minDateStr : storedStartDay;
+      } catch (e) {
+        return minDateStr;
+      }
+    }
+    
+    return storedStartDay;
   }
 
   void incrementDayCount() {

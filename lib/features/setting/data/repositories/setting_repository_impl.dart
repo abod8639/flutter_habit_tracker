@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
@@ -78,17 +80,31 @@ class SettingRepositoryImpl implements SettingRepository {
   }
 
   @override
-  Future<Either<Failure, List<HabitModel>>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones}) async {
+  Future<Either<Failure, List<HabitModel>>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones, String? localStartDay}) async {
     try {
-      // 1. Sync habits via remote
-      final mergedHabits = await remoteDataSource.syncHabits(localHabits, localTombstones: localTombstones);
+      // 1. Determine local start date (use parameter if provided, else get from local DS)
+      final effectiveStartDay = localStartDay ?? habitLocalDataSource.getStartDate();
+
+      // 2. Sync habits via remote (now includes startDay)
+      final mergedHabits = await remoteDataSource.syncHabits(
+        localHabits, 
+        localTombstones: localTombstones,
+        localStartDay: effectiveStartDay,
+      );
       
-      // 2. Persist habits to local database
+      // 3. Persist habits to local database
       await habitLocalDataSource.saveHabits(mergedHabits);
       
-      // 3. Sync and persist history (Heatmap data)
+      // 4. Sync and persist history (Heatmap data)
       final firestoreService = FirestoreService();
       if (firestoreService.isUserLoggedIn) {
+        // Find if there's a cloud start day to update locally
+        final userDoc = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+        final cloudStartDay = userDoc.data()?['startDay'] as String?;
+        if (cloudStartDay != null && cloudStartDay != effectiveStartDay) {
+          habitLocalDataSource.updateStartDate(cloudStartDay);
+        }
+
         final localHistory = await habitLocalDataSource.getAllHabitStrengths();
         final mergedHistory = await firestoreService.syncHabitHistory(localHistory);
         await habitLocalDataSource.saveAllHabitStrengths(mergedHistory);

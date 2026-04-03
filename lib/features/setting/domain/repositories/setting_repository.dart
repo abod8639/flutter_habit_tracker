@@ -13,7 +13,7 @@ abstract class SettingRepository {
   Future<Either<Failure, TimeOfDay?>> getNotificationTime();
   Future<Either<Failure, void>> setNotificationTime(TimeOfDay time);
 
-  Future<Either<Failure, List<HabitModel>>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones});
+  Future<Either<Failure, List<HabitModel>>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones, String? localStartDay});
   Future<Either<Failure, DateTime?>> getLastSyncTime();
   
   Future<Either<Failure, void>> clearAllData();

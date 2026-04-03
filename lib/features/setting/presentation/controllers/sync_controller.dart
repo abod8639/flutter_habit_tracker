@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import '../../domain/usecases/sync_habits_usecase.dart';
@@ -49,11 +50,21 @@ class SyncController extends GetxController {
       errorMessage.value = '';
 
       List<String> localTombstones = [];
+      String? localStartDay;
       if (Get.isRegistered<HabitRepository>()) {
         localTombstones = Get.find<HabitRepository>().getLocalTombstones();
+        // Since HabitRepository is an interface, check for implementation or use the controller for simplicity if needed, but repository is better.
+        // Actually HabitController wraps it.
+        if (Get.isRegistered<HabitController>()) {
+          localStartDay = Get.find<HabitController>().getStartDay();
+        }
       }
 
-      final result = await _syncHabitsUseCase(localHabits, localTombstones: localTombstones);
+      final result = await _syncHabitsUseCase(
+        localHabits, 
+        localTombstones: localTombstones,
+        localStartDay: localStartDay,
+      );
 
       return result.fold(
         (failure) {
@@ -88,11 +99,19 @@ class SyncController extends GetxController {
       syncStatus.value = SyncStatus.syncing;
 
       List<String> localTombstones = [];
+      String? localStartDay;
       if (Get.isRegistered<HabitRepository>()) {
         localTombstones = Get.find<HabitRepository>().getLocalTombstones();
+        if (Get.isRegistered<HabitController>()) {
+          localStartDay = Get.find<HabitController>().getStartDay();
+        }
       }
 
-      final result = await _syncHabitsUseCase(localHabits, localTombstones: localTombstones);
+      final result = await _syncHabitsUseCase(
+        localHabits, 
+        localTombstones: localTombstones,
+        localStartDay: localStartDay,
+      );
 
       return result.fold(
         (failure) {

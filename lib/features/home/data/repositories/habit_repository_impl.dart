@@ -7,6 +7,7 @@ import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart';
 import '../models/date_time.dart';
 
 class HabitRepositoryImpl implements HabitRepository {
@@ -185,20 +186,10 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<Either<Failure, Map<DateTime, int>>> getHeatmapData() async {
     try {
-      final startDateStr = localDataSource.getStartDate();
-      final startDate = createDateTimeObject(startDateStr);
-      final daysInBetween = DateTime.now().difference(startDate).inDays;
+      final rawHistory = await localDataSource.getAllHabitStrengths();
       
-      final Map<DateTime, int> heatmapData = {};
-      
-      for (int i = 0; i <= daysInBetween; i++) {
-        final currentDate = startDate.add(Duration(days: i));
-        final yyyymmdd = convertDateTimeToString(currentDate);
-        final strengthStr = await localDataSource.getHabitStrength(yyyymmdd);
-        final strength = double.tryParse(strengthStr ?? "0.0") ?? 0.0;
-        
-        heatmapData[DateTime(currentDate.year, currentDate.month, currentDate.day)] = (strength * 10).toInt();
-      }
+      // Use compute to process large data sets off the UI thread
+      final heatmapData = await compute(_processHeatmapData, rawHistory);
       
       return Right(heatmapData);
     } catch (e) {
@@ -299,4 +290,25 @@ class HabitRepositoryImpl implements HabitRepository {
     }
     return await Hive.openBox(boxName);
   }
+}
+
+// Top level function for compute - Must be outside the class
+Map<DateTime, int> _processHeatmapData(Map<String, String> rawData) {
+  final Map<DateTime, int> heatmapData = {};
+  for (var entry in rawData.entries) {
+    try {
+      final yyyymmdd = entry.key;
+      if (yyyymmdd.length != 8) continue;
+      
+      final yyyy = int.parse(yyyymmdd.substring(0, 4));
+      final mm = int.parse(yyyymmdd.substring(4, 6));
+      final dd = int.parse(yyyymmdd.substring(6, 8));
+      
+      final strength = double.tryParse(entry.value) ?? 0.0;
+      heatmapData[DateTime(yyyy, mm, dd)] = (strength * 10).toInt();
+    } catch (_) {
+      // Ignore malformed entries
+    }
+  }
+  return heatmapData;
 }

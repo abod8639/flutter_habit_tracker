@@ -14,6 +14,7 @@ import 'package:habit_tracker/features/home/domain/usecases/reorder_habits_useca
 import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/update_habit_order_usecase.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
@@ -35,6 +36,7 @@ class HabitController extends GetxController {
   final IsUserLoggedInUseCase _isUserLoggedInUseCase = Get.find();
   final ResetDailyHabitsUseCase _resetDailyHabitsUseCase = Get.find();
   final UpdateHabitColorUseCase _updateHabitColorUseCase = Get.find();
+  final UpdateHabitOrderUseCase _updateHabitOrderUseCase = Get.find();
 
   // State
   final RxList<HabitEntity> habits = <HabitEntity>[].obs;
@@ -304,23 +306,39 @@ class HabitController extends GetxController {
       newIndex -= 1;
     }
     
-    final item = habits.removeAt(oldIndex);
-    habits.insert(newIndex, item);
+    final draggedItem = habits[oldIndex];
+    final isDraggedItemSelected = selectedHabitIds.contains(draggedItem.id);
+
+    if (isDraggedItemSelected && selectedHabitIds.length > 1) {
+      // Group reorder: Move all selected habits together to the target position
+      // Get all selected habits in their CURRENT list order
+      final selectedItems = habits.where((h) => selectedHabitIds.contains(h.id)).toList();
+      
+      // Remove all selected items
+      habits.removeWhere((h) => selectedHabitIds.contains(h.id));
+      
+      // Calculate a safe insertion index based on the remaining items
+      // If we move items forward, newIndex might exceed the new length of the list.
+      final insertIndex = newIndex.clamp(0, habits.length);
+      habits.insertAll(insertIndex, selectedItems);
+    } else {
+      // Single reorder
+      final item = habits.removeAt(oldIndex);
+      habits.insert(newIndex, item);
+    }
+    
     habits.refresh();
 
     // 2. Perform background reorder
-    // We send the original oldIndex and newIndex to the usecase as it might have its own logic for index adjustment or expects raw inputs.
-    // However, looking at the UI, oldIndex and newIndex are the raw values from SliverReorderableList.
-    final result = await _reorderHabitsUseCase(oldIndex, newIndex + (newIndex > oldIndex ? 1 : 0));
+    final result = await _updateHabitOrderUseCase(habits.map((h) => h.id).toList());
     
     result.fold(
       (failure) {
         // 3. Rollback on failure
-        // Simple refresh from local DS might be safer than manual rollback for complex reorders
         _loadHabits();
         _showError(failure.message);
       },
-      (_) => _loadHabits(),
+      (_) => null, // Successfully saved the new order
     );
   }
 

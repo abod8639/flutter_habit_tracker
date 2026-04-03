@@ -13,6 +13,7 @@ import 'package:habit_tracker/features/home/domain/usecases/reorder_habits_useca
 import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/update_habit_order_usecase.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 import '../controllers/habit_controller.dart';
@@ -45,6 +46,7 @@ class HabitBinding extends Bindings {
     Get.lazyPut(() => GetHeatmapDataUseCase(Get.find()));
     Get.lazyPut(() => IsUserLoggedInUseCase(Get.find()));
     Get.lazyPut(() => UpdateHabitColorUseCase(repository: Get.find()));
+    Get.lazyPut(() => UpdateHabitOrderUseCase(repository: Get.find()));
     Get.lazyPut(() => ResetDailyHabitsUseCase(Get.find()));
 
     // Controller

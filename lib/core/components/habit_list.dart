@@ -26,12 +26,18 @@ class HabitList extends StatelessWidget {
         itemCount: habits.length,
         onReorder: (oldIndex, newIndex) =>
             controller.reorderHabits(oldIndex, newIndex),
+        proxyDecorator: (child, index, animation) {
+          return Material(
+            color: Colors.transparent,
+            child: child,
+          );
+        },
         itemBuilder: (context, index) {
           final habit = habits[index];
           return ReorderableDelayedDragStartListener(
             key: ValueKey(habit.id),
             index: index,
-            enabled: !controller.isSelectionMode,
+            enabled: true,
             child: Obx(() {
               // Wrap only the tile with Obx to listen to specific state changes like selection
               final isSelected = controller.selectedHabitIds.contains(habit.id);
@@ -53,7 +59,7 @@ class HabitList extends StatelessWidget {
                 onDelete: (context) => controller.deleteHabit(habit.id),
                 onEdit: (context) => editHabit(habit.id, habit.name, context),
                 onChanged: (value) => controller.toggleHabit(habit.id, value ?? false),
-                onLongPress: () => controller.toggleHabitSelection(habit.id),
+                onLongPress: isSelectionMode ? null : () => controller.toggleHabitSelection(habit.id),
               );
             }),
           );

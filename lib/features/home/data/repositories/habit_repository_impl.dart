@@ -224,6 +224,41 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
+  Future<Either<Failure, void>> updateHabitOrder(List<String> ids) async {
+    try {
+      final models = localDataSource.loadHabits();
+      final Map<String, HabitModel> modelMap = {for (var m in models) m.id: m};
+      final List<HabitModel> reorderedModels = [];
+
+      for (int i = 0; i < ids.length; i++) {
+        final m = modelMap[ids[i]];
+        if (m != null) {
+          reorderedModels.add(HabitModel(
+            id: m.id,
+            name: m.name,
+            isCompleted: m.isCompleted,
+            createdAt: m.createdAt,
+            completedAt: m.completedAt,
+            colorValue: m.colorValue,
+            index: i,
+            updatedAt: DateTime.now(),
+          ));
+        }
+      }
+
+      await localDataSource.saveHabits(reorderedModels);
+
+      if (firestoreService.isUserLoggedIn) {
+        await firestoreService.uploadHabits(reorderedModels);
+      }
+
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
   bool isUserLoggedIn() {
     return firestoreService.isUserLoggedIn;
   }

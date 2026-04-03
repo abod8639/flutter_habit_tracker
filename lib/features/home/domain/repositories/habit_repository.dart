@@ -12,6 +12,7 @@ abstract class HabitRepository {
   Future<Either<Failure, void>> reorderHabits(int oldIndex, int newIndex);
   Future<Either<Failure, Map<DateTime, int>>> getHeatmapData();
   Future<Either<Failure, void>> updateHabitColor(String id, int colorValue);
+  Future<Either<Failure, void>> updateHabitOrder(List<String> ids);
   bool isUserLoggedIn();
   List<String> getLocalTombstones();
   void clearLocalTombstones();

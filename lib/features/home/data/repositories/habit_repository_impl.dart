@@ -201,8 +201,8 @@ class HabitRepositoryImpl implements HabitRepository {
       // 1. Get historical data from local storage
       final rawHistory = await localDataSource.getAllHabitStrengths();
       
-      // 2. Process large historical data set off-thread
-      final heatmapData = await compute(_processHeatmapData, rawHistory);
+      // 2. Process large historical data set directly instead of using compute
+      final heatmapData = _processHeatmapData(rawHistory);
       
       // 3. Recalculate TODAY's strength based on LIVE habits to ensure accuracy on startup
       final habits = localDataSource.loadHabits();
@@ -382,6 +382,16 @@ class HabitRepositoryImpl implements HabitRepository {
     }
     return await Hive.openBox(boxName);
   }
+
+  @override
+  Future<Either<Failure, Map<String, Map<DateTime, bool>>>> getHabitHistoryMap(int days) async {
+    try {
+      final result = await localDataSource.getHabitHistoryMap(days);
+      return Right(result);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
 }
 
 // Top level function for compute - Must be outside the class
@@ -389,17 +399,23 @@ Map<DateTime, int> _processHeatmapData(Map<String, String> rawData) {
   final Map<DateTime, int> heatmapData = {};
   for (var entry in rawData.entries) {
     try {
-      final yyyymmdd = entry.key;
+      // Handle both cases: key is "YYYYMMDD" or "PREFIX_YYYYMMDD"
+      String yyyymmdd = entry.key;
+      if (yyyymmdd.contains('_')) {
+        yyyymmdd = yyyymmdd.split('_').last;
+      }
+      
       if (yyyymmdd.length != 8) continue;
       
       final yyyy = int.parse(yyyymmdd.substring(0, 4));
       final mm = int.parse(yyyymmdd.substring(4, 6));
       final dd = int.parse(yyyymmdd.substring(6, 8));
       
-      final strength = double.tryParse(entry.value) ?? 0.0;
-      heatmapData[DateTime(yyyy, mm, dd)] = (strength * 10).toInt();
+      final date = DateTime(yyyy, mm, dd);
+      final strength = int.tryParse(entry.value) ?? 0;
+      heatmapData[date] = strength;
     } catch (_) {
-      // Ignore malformed entries
+      // Skip invalid entries
     }
   }
   return heatmapData;

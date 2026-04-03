@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
-import 'package:habit_tracker/core/components/text_taile.dart';
+import 'package:habit_tracker/core/components/my_text_taile.dart';
 import 'package:habit_tracker/functions/edit_habit.dart';
 
 class CheckboxList extends StatelessWidget {

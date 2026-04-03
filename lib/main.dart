@@ -23,7 +23,6 @@ Future<void> main() async {
       );
       await initializeApp();
 
-      // Initialize all dependencies beforehand to avoid chicken-and-egg issues in MyApp.build
       InitialBinding().dependencies();
 
       runApp(RestartWidget(child: const MyApp()));

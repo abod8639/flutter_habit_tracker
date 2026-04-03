@@ -24,9 +24,16 @@ Widget buildTrendChart() {
 
   return Obx(() {
     final List<FlSpot> trendSpots = controller.overallTrend;
+    final bool hasOverallData = trendSpots.isNotEmpty &&
+        !(trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0));
+    final bool hasIndividualData = controller.individualTrends.isNotEmpty;
 
-    if (trendSpots.isEmpty ||
-        trendSpots.length <= 1 && trendSpots[0] == const FlSpot(0, 0)) {
+    // Determine if we should show the empty state based on the current view mode
+    final bool isEmpty = controller.showAllHabits.value
+        ? !hasOverallData
+        : !hasIndividualData;
+
+    if (isEmpty && !controller.isLoading.value) {
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -103,11 +103,10 @@ class HabitLocalDataSource {
       
       for (var key in historyBox.keys) {
         if (key.toString().startsWith(HabitStorage.habitStrengthPrefix)) {
-          final date = key.toString().replaceFirst(HabitStorage.habitStrengthPrefix, '');
-          final strength = historyBox.get(key) as String?;
-          if (strength != null) {
-            allHistory[date] = strength;
-          }
+          // Add underscore to prefix to properly strip it
+          final date = key.toString().replaceFirst('${HabitStorage.habitStrengthPrefix}_', '');
+          final strength = historyBox.get(key).toString();
+          allHistory[date] = strength;
         }
       }
       
@@ -188,5 +187,36 @@ class HabitLocalDataSource {
     
     // 2. Clear main habit box
     await _myBox.clear();
+  }
+
+  Future<Map<String, Map<DateTime, bool>>> getHabitHistoryMap(int days) async {
+    final Map<String, Map<DateTime, bool>> historyMap = {};
+    final now = DateTime.now();
+    final habits = loadHabits();
+    
+    // Create map for each habit
+    for (var habit in habits) {
+      historyMap[habit.name] = {};
+    }
+
+    // Iterate backwards N days
+    for (int i = 0; i < days; i++) {
+      final date = now.subtract(Duration(days: i));
+      final dateStr = convertDateTimeToString(date);
+      final normalizedDate = DateTime(date.year, date.month, date.day);
+      
+      final historyBox = await _openMonthlyBox(dateStr);
+      
+      for (var habit in habits) {
+        final historyKey = "${habit.name}_$dateStr";
+        final bool? isCompleted = historyBox.get(historyKey);
+        
+        if (isCompleted != null) {
+          historyMap[habit.name]![normalizedDate] = isCompleted;
+        }
+      }
+    }
+    
+    return historyMap;
   }
 }

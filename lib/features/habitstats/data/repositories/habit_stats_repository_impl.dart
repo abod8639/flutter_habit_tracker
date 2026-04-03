@@ -2,14 +2,15 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../domain/entities/habit_stats_entity.dart';
 import '../../domain/repositories/habit_stats_repository.dart';
 import '../datasources/habit_stats_local_datasource.dart';
+import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 
 class HabitStatsRepositoryImpl implements HabitStatsRepository {
   final HabitStatsLocalDataSource localDataSource;
-  final Map<String, Map<DateTime, bool>> Function() getHistoryMap;
+  final HabitRepository habitRepository;
 
   HabitStatsRepositoryImpl({
     required this.localDataSource,
-    required this.getHistoryMap,
+    required this.habitRepository,
   });
 
   @override
@@ -24,8 +25,7 @@ class HabitStatsRepositoryImpl implements HabitStatsRepository {
 
   @override
   Future<Map<String, List<FlSpot>>?> getIndividualHabitTrends(int days) async {
-    final historyMap = getHistoryMap();
-    return localDataSource.getIndividualHabitTrends(days, historyMap);
+    return await localDataSource.getIndividualHabitTrends(days);
   }
 
   @override

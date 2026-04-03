@@ -43,68 +43,74 @@ class HabitStatsLocalDataSource {
 
   Future<List<FlSpot>> getOverallTrendData(int days) async {
     final habitsResult = await habitRepository.getHabits();
-    return habitsResult.fold(
-      (failure) => [const FlSpot(0, 0)],
+    return await habitsResult.fold(
+      (failure) async => List.generate(days, (index) => FlSpot(index.toDouble(), 0.0)),
       (habits) async {
-        if (habits.isEmpty) return [const FlSpot(0, 0)];
-
         final heatmapResult = await habitRepository.getHeatmapData();
-        return heatmapResult.fold(
-          (failure) => [const FlSpot(0, 0)],
-          (heatmapData) {
+        return await heatmapResult.fold(
+          (failure) async => List.generate(days, (index) => FlSpot(index.toDouble(), 0.0)),
+          (heatmapData) async {
+            final List<FlSpot> spots = [];
             final now = DateTime.now();
-            final List<FlSpot> trendSpots = [];
+            final maxStrength = habits.isEmpty ? 1 : (habits.length * 10);
 
             for (int i = 0; i < days; i++) {
-              final date = now.subtract(Duration(days: days - 1 - i));
-              final normalizedDate = DateTime(date.year, date.month, date.day);
+              final normalizedDate = DateTime(now.year, now.month, now.day).subtract(Duration(days: days - 1 - i));
+              final completionValue = heatmapData[normalizedDate];
 
-              final int? completionValue = heatmapData[normalizedDate];
-              final double percentage = completionValue != null
-                  ? completionValue / 10.0
-                  : 0.0;
-
-              trendSpots.add(FlSpot(i.toDouble(), percentage.clamp(0.0, 1.0)));
+              final strength = completionValue ?? 0;
+              final percentage = (strength / maxStrength) * 100;
+              spots.add(FlSpot(i.toDouble(), percentage));
             }
-            return trendSpots;
+            return spots;
           },
         );
       },
     );
   }
 
-  Future<Map<String, List<FlSpot>>> getIndividualHabitTrends(
-    int days,
-    Map<String, Map<DateTime, bool>> historyMap,
-  ) async {
+  Future<Map<String, List<FlSpot>>> getIndividualHabitTrends(int days) async {
     final habitsResult = await habitRepository.getHabits();
-    return habitsResult.fold(
-      (failure) => {},
-      (habitsList) {
-        if (habitsList.isEmpty) return {};
-
-        final Map<String, List<FlSpot>> habitProgressMap = {};
+    return await habitsResult.fold(
+      (failure) async => {},
+      (habits) async {
+        final Map<String, List<FlSpot>> individualTrends = {};
         final now = DateTime.now();
+        final historyMapResult = await habitRepository.getHabitHistoryMap(days);
 
-        for (var habit in habitsList) {
-          final String habitName = habit.name;
-          final List<FlSpot> spots = [];
-
-          for (int i = 0; i < days; i++) {
-            final date = now.subtract(Duration(days: days - 1 - i));
-            final normalizedDate = DateTime(date.year, date.month, date.day);
-
-            final bool? completed = historyMap[habitName]?[normalizedDate];
-
-            if (i == days - 1 && completed == null) {
-              spots.add(FlSpot(i.toDouble(), habit.isCompleted ? 1.0 : 0.0));
-            } else {
-              spots.add(FlSpot(i.toDouble(), completed == true ? 1.0 : 0.00));
+        await historyMapResult.fold(
+          (failure) async {
+            // Fill with zeros for each habit so we show empty charts instead of nothing
+            for (var habit in habits) {
+              individualTrends[habit.name] = List.generate(
+                days,
+                (index) => FlSpot(index.toDouble(), 0.0),
+              );
             }
-          }
-          habitProgressMap[habitName] = spots;
-        }
-        return habitProgressMap;
+          },
+          (historyMap) async {
+            for (var habit in habits) {
+              final List<FlSpot> spots = [];
+              final habitHistory = historyMap[habit.name] ?? {};
+
+              for (int i = 0; i < days; i++) {
+                final normalizedDate = DateTime(now.year, now.month, now.day).subtract(Duration(days: days - 1 - i));
+
+                final bool? completed = habitHistory[normalizedDate];
+
+                // If not in history, use today's live completion if it's today's point
+                bool isCompleted = completed ?? false;
+                if (completed == null && i == days - 1) {
+                  isCompleted = habit.isCompleted;
+                }
+
+                spots.add(FlSpot(i.toDouble(), isCompleted ? 10.0 : 0.0));
+              }
+              individualTrends[habit.name] = spots;
+            }
+          },
+        );
+        return individualTrends;
       },
     );
   }

@@ -57,8 +57,8 @@ class _MyTextTaileState extends State<MyTextTaile>
   void didUpdateWidget(MyTextTaile oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.habitCompleted != oldWidget.habitCompleted) {
-      widget.habitCompleted 
-          ? _animationController.forward() 
+      widget.habitCompleted
+          ? _animationController.forward()
           : _animationController.reverse();
     }
   }
@@ -75,26 +75,32 @@ class _MyTextTaileState extends State<MyTextTaile>
     if (widget.isSelected) {
       return Theme.of(context).primaryColor.withValues(alpha: 0.2);
     }
-    
-    final baseColor = widget.colorValue != null 
-        ? Color(widget.colorValue!) 
+
+    final baseColor = widget.colorValue != null
+        ? Color(widget.colorValue!)
         : Theme.of(context).primaryColor;
 
     if (widget.habitCompleted) {
-      return widget.colorValue != null ? baseColor : baseColor.withValues(alpha: 0.5);
+      return widget.colorValue != null
+          ? baseColor
+          : baseColor.withValues(alpha: 0.5);
     }
 
-    return widget.colorValue != null 
-        ? baseColor.withValues(alpha: 0.5) 
-        : (themeColors.brightness == Brightness.light ? Colors.grey[400]! : Colors.grey[700]!);
+    return widget.colorValue != null
+        ? baseColor.withValues(alpha: 0.5)
+        : (themeColors.brightness == Brightness.light
+              ? Colors.grey[400]!
+              : Colors.grey[700]!);
   }
 
   void _handleTap() {
     if (widget.isSelectionMode) {
-      widget.onLongPress?.call();
+      widget.onTap?.call();
     } else {
       if (!widget.habitCompleted) {
-        _animationController.forward().then((_) => _animationController.reverse());
+        _animationController.forward().then(
+          (_) => _animationController.reverse(),
+        );
       }
       widget.onTap?.call();
     }
@@ -104,26 +110,29 @@ class _MyTextTaileState extends State<MyTextTaile>
   Widget build(BuildContext context) {
     final themeColors = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Slidable(
-        startActionPane: _buildActionPane(
-          icon: Icons.delete,
-          color: themeColors.error,
-          onPressed: widget.onDelete,
-        ),
-        endActionPane: _buildActionPane(
-          icon: Icons.edit,
-          color: Colors.orange[700]!,
-          onPressed: widget.onEdit,
-        ),
-        child: ScaleTransition(
-          scale: _scaleAnimation,
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
-            onTap: _handleTap,
-            onLongPress: widget.onLongPress,
-            title: _buildTileContent(themeColors),
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Slidable(
+          startActionPane: _buildActionPane(
+            icon: Icons.delete,
+            color: themeColors.error,
+            onPressed: widget.onDelete,
+          ),
+          endActionPane: _buildActionPane(
+            icon: Icons.edit,
+            color: Colors.orange[700]!,
+            onPressed: widget.onEdit,
+          ),
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              onTap: _handleTap,
+              onLongPress: widget.onLongPress,
+              title: _buildTileContent(themeColors),
+            ),
           ),
         ),
       ),
@@ -174,9 +183,13 @@ class _MyTextTaileState extends State<MyTextTaile>
       duration: const Duration(milliseconds: 200),
       child: widget.isSelectionMode
           ? Icon(
-              widget.isSelected ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+              widget.isSelected
+                  ? Icons.check_circle_rounded
+                  : Icons.radio_button_unchecked_rounded,
               key: const ValueKey('selection_icon'),
-              color: widget.isSelected ? Theme.of(context).primaryColor : themeColors.onSurface.withValues(alpha: 0.5),
+              color: widget.isSelected
+                  ? Theme.of(context).primaryColor
+                  : themeColors.onSurface.withValues(alpha: 0.5),
             )
           : Checkbox(
               key: const ValueKey('checkbox'),
@@ -193,7 +206,9 @@ class _MyTextTaileState extends State<MyTextTaile>
       style: TextStyle(
         fontWeight: FontWeight.w600,
         color: themeColors.onSurface,
-        decoration: widget.habitCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+        decoration: widget.habitCompleted
+            ? TextDecoration.lineThrough
+            : TextDecoration.none,
       ),
       child: Text(widget.habitName),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/habitstats/presentation/pages/habit_stats_page.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/habitstats/presentation/controllers/habitstats_binding.dart';
 import 'package:habit_tracker/features/setting/presentation/pages/settings_page.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';

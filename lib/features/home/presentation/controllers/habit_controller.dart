@@ -10,7 +10,6 @@ import 'package:habit_tracker/features/home/domain/usecases/edit_habit_usecase.d
 import 'package:habit_tracker/features/home/domain/usecases/get_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/get_heatmap_data_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/is_user_logged_in_usecase.dart';
-import 'package:habit_tracker/features/home/domain/usecases/reorder_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
@@ -31,7 +30,7 @@ class HabitController extends GetxController {
   final EditHabitUseCase _editHabitUseCase = Get.find();
   final DeleteHabitUseCase _deleteHabitUseCase = Get.find();
   final ToggleHabitUseCase _toggleHabitUseCase = Get.find();
-  final ReorderHabitsUseCase _reorderHabitsUseCase = Get.find();
+  // final ReorderHabitsUseCase _reorderHabitsUseCase = Get.find();
   final GetHeatmapDataUseCase _getHeatmapDataUseCase = Get.find();
   final IsUserLoggedInUseCase _isUserLoggedInUseCase = Get.find();
   final ResetDailyHabitsUseCase _resetDailyHabitsUseCase = Get.find();

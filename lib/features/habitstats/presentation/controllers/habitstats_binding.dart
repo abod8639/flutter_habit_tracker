@@ -29,7 +29,7 @@ class HabitStatsBinding extends Bindings {
     Get.lazyPut<HabitStatsRepositoryImpl>(
       () => HabitStatsRepositoryImpl(
         localDataSource: Get.find<HabitStatsLocalDataSource>(),
-        getHistoryMap: () => {}, // Temporarily empty, should be handled better
+        habitRepository: Get.find<HabitRepository>(),
       ),
     );
 

@@ -18,23 +18,24 @@ class Tablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HabitController controller = Get.find<HabitController>();
-    return Obx(() {
-      if (controller.isLoading.value) {
-        return buildLoadingScreen();
-      }
+    
+    return Scaffold(
+      drawer: const MyDrawer(),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: myfloatingActionButton(
+        onPressed: () => addHabit(context),
+      ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return buildLoadingScreen();
+        }
 
-      if (controller.errorMessage.value.isNotEmpty) {
-        return buildErrorScreen();
-      }
+        if (controller.errorMessage.value.isNotEmpty) {
+          return buildErrorScreen();
+        }
 
-      return Scaffold(
-        drawer: const MyDrawer(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: myfloatingActionButton(
-          onPressed: () => addHabit(context),
-        ),
-        body: Stack(
+        return Stack(
           children: [
             Row(
               children: [
@@ -45,7 +46,7 @@ class Tablet extends StatelessWidget {
                     duration: const Duration(milliseconds: 300),
                     child: SingleChildScrollView(
                       reverse: true,
-                      key: const ValueKey<String>('heatmap'), // Simple key for now
+                      key: const ValueKey<String>('heatmap'),
                       scrollDirection: Axis.horizontal,
                       child: Obx(() => MonthlySummary(
                         datasets: controller.heatmapDateSet,
@@ -69,8 +70,8 @@ class Tablet extends StatelessWidget {
                 child: DrawerMenuButton(),
               ),
           ],
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }

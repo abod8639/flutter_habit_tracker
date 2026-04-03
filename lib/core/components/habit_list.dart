@@ -31,25 +31,31 @@ class HabitList extends StatelessWidget {
           return ReorderableDelayedDragStartListener(
             key: ValueKey(habit.id),
             index: index,
-            enabled: !controller.isSelectionMode, // Enabled when NOT in selection mode for dragging
-            child: MyTextTaile(
-              habitName: habit.name,
-              habitCompleted: habit.isCompleted,
-              isSelected: controller.selectedHabitIds.contains(habit.id),
-              isSelectionMode: controller.isSelectionMode,
-              colorValue: habit.colorValue,
-              onTap: () {
-                if (controller.isSelectionMode) {
-                  controller.toggleHabitSelection(habit.id);
-                } else {
-                  controller.toggleHabit(habit.id, !habit.isCompleted);
-                }
-              },
-              onDelete: (context) => controller.deleteHabit(habit.id),
-              onEdit: (context) => editHabit(habit.id, habit.name, context),
-              onChanged: (value) => controller.toggleHabit(habit.id, value ?? false),
-              onLongPress: () => controller.toggleHabitSelection(habit.id),
-            ),
+            enabled: !controller.isSelectionMode,
+            child: Obx(() {
+              // Wrap only the tile with Obx to listen to specific state changes like selection
+              final isSelected = controller.selectedHabitIds.contains(habit.id);
+              final isSelectionMode = controller.isSelectionMode;
+              
+              return MyTextTaile(
+                habitName: habit.name,
+                habitCompleted: habit.isCompleted,
+                isSelected: isSelected,
+                isSelectionMode: isSelectionMode,
+                colorValue: habit.colorValue,
+                onTap: () {
+                  if (controller.isSelectionMode) {
+                    controller.toggleHabitSelection(habit.id);
+                  } else {
+                    controller.toggleHabit(habit.id, !habit.isCompleted);
+                  }
+                },
+                onDelete: (context) => controller.deleteHabit(habit.id),
+                onEdit: (context) => editHabit(habit.id, habit.name, context),
+                onChanged: (value) => controller.toggleHabit(habit.id, value ?? false),
+                onLongPress: () => controller.toggleHabitSelection(habit.id),
+              );
+            }),
           );
         },
       );

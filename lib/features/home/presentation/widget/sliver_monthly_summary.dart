@@ -21,7 +21,7 @@ class SliverMonthlySummary extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Obx(() => MonthlySummary(
-              datasets: controller.heatmapDateSet,
+              datasets: Map<DateTime, int>.from(controller.heatmapDateSet),
             )),
           ),
         ),

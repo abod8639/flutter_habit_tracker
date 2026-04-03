@@ -229,6 +229,37 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
+  Future<Either<Failure, void>> updateHabitColor(String id, int colorValue) async {
+    try {
+      final models = localDataSource.loadHabits();
+      final index = models.indexWhere((h) => h.id == id);
+      if (index == -1) return Left(CacheFailure('Habit not found'));
+
+      final m = models[index];
+      models[index] = HabitModel(
+        id: m.id,
+        name: m.name,
+        isCompleted: m.isCompleted,
+        createdAt: m.createdAt,
+        completedAt: m.completedAt,
+        colorValue: colorValue,
+        index: m.index,
+        updatedAt: DateTime.now(),
+      );
+
+      await localDataSource.saveHabits(models);
+
+      if (firestoreService.isUserLoggedIn) {
+        await firestoreService.uploadHabits(models);
+      }
+
+      return const Right(null);
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
   List<String> getLocalTombstones() {
     return localDataSource.getLocalTombstones();
   }

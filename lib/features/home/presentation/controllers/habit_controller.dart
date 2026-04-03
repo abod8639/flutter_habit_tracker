@@ -13,6 +13,7 @@ import 'package:habit_tracker/features/home/domain/usecases/is_user_logged_in_us
 import 'package:habit_tracker/features/home/domain/usecases/reorder_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
@@ -33,6 +34,7 @@ class HabitController extends GetxController {
   final GetHeatmapDataUseCase _getHeatmapDataUseCase = Get.find();
   final IsUserLoggedInUseCase _isUserLoggedInUseCase = Get.find();
   final ResetDailyHabitsUseCase _resetDailyHabitsUseCase = Get.find();
+  final UpdateHabitColorUseCase _updateHabitColorUseCase = Get.find();
 
   // State
   final RxList<HabitEntity> habits = <HabitEntity>[].obs;
@@ -342,10 +344,19 @@ class HabitController extends GetxController {
   }
 
   Future<void> updateSelectedHabitsColor(Color color) async {
-    // This logic would need to be moved to a Use Case for full Clean Arch compliance
-    // For now, staying with the existing simple implementation
+    final idsToUpdate = List<String>.from(selectedHabitIds);
+    final colorValue = color.toARGB32();
+
+    for (final id in idsToUpdate) {
+      final result = await _updateHabitColorUseCase(id, colorValue);
+      result.fold(
+        (failure) => _showError(failure.message),
+        (_) => null,
+      );
+    }
+
     clearSelection();
-    await _loadHabits();
+    await refreshData();
   }
 
   Future<void> refreshData() async {

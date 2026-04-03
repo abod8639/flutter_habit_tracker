@@ -122,7 +122,9 @@ class MyAppBar extends StatelessWidget {
     });
   }
 
-  void _showColorPicker(BuildContext context, HabitController controller) {
+  void _showColorPicker(
+    BuildContext context, 
+    HabitController controller) {
     Get.dialog(
       AlertDialog(
         title: const Text('Choose Color'),

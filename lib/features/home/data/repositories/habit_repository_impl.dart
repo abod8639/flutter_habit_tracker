@@ -32,18 +32,30 @@ class HabitRepositoryImpl implements HabitRepository {
 
   @override
   Future<Either<Failure, void>> addHabit(String name) async {
+    return addMultipleHabits([name]);
+  }
+
+  @override
+  Future<Either<Failure, void>> addMultipleHabits(List<String> names) async {
     try {
       final models = localDataSource.loadHabits();
-      final newModel = HabitModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: name,
-        isCompleted: false,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        index: models.length,
-      );
+      final now = DateTime.now();
       
-      models.add(newModel);
+      for (final name in names) {
+        if (name.trim().isEmpty) continue;
+        
+        final newModel = HabitModel(
+          // Use microseconds and name hash to further reduce collision risk
+          id: "${now.microsecondsSinceEpoch}_${name.hashCode}_${models.length}",
+          name: name,
+          isCompleted: false,
+          createdAt: now,
+          updatedAt: now,
+          index: models.length,
+        );
+        models.add(newModel);
+      }
+      
       await localDataSource.saveHabits(models);
       
       if (firestoreService.isUserLoggedIn) {

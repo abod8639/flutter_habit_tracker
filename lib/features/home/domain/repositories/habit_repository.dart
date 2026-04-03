@@ -5,6 +5,7 @@ import '../entities/habit_entity.dart';
 abstract class HabitRepository {
   Future<Either<Failure, List<HabitEntity>>> getHabits();
   Future<Either<Failure, void>> addHabit(String name);
+  Future<Either<Failure, void>> addMultipleHabits(List<String> names);
   Future<Either<Failure, void>> editHabit(String id, String newName);
   Future<Either<Failure, void>> deleteHabit(String id);
   Future<Either<Failure, void>> toggleHabit(String id, bool isCompleted);

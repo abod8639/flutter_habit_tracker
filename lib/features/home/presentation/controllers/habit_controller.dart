@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/domain/usecases/add_habit_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/add_multiple_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/delete_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/edit_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/get_habits_usecase.dart';
@@ -24,6 +25,7 @@ class HabitController extends GetxController {
   // Use Cases
   final GetHabitsUseCase _getHabitsUseCase = Get.find();
   final AddHabitUseCase _addHabitUseCase = Get.find();
+  final AddMultipleHabitsUseCase _addMultipleHabitsUseCase = Get.find();
   final EditHabitUseCase _editHabitUseCase = Get.find();
   final DeleteHabitUseCase _deleteHabitUseCase = Get.find();
   final ToggleHabitUseCase _toggleHabitUseCase = Get.find();
@@ -196,6 +198,18 @@ class HabitController extends GetxController {
       (failure) => _showError(failure.message),
       (_) async {
         habitTextController.clear();
+        await refreshData();
+      },
+    );
+  }
+
+  Future<void> addMultipleHabits(List<String> names) async {
+    if (names.isEmpty) return;
+    
+    final result = await _addMultipleHabitsUseCase(names);
+    result.fold(
+      (failure) => _showError(failure.message),
+      (_) async {
         await refreshData();
       },
     );

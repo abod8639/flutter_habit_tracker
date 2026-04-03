@@ -3,6 +3,7 @@ import 'package:habit_tracker/features/home/data/datasources/habit_local_data_so
 import 'package:habit_tracker/features/home/data/repositories/habit_repository_impl.dart';
 import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker/features/home/domain/usecases/add_habit_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/add_multiple_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/delete_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/edit_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/get_habits_usecase.dart';
@@ -35,6 +36,7 @@ class HabitBinding extends Bindings {
     // Use Cases
     Get.lazyPut(() => GetHabitsUseCase(Get.find()));
     Get.lazyPut(() => AddHabitUseCase(Get.find()));
+    Get.lazyPut(() => AddMultipleHabitsUseCase(Get.find()));
     Get.lazyPut(() => EditHabitUseCase(Get.find()));
     Get.lazyPut(() => DeleteHabitUseCase(Get.find()));
     Get.lazyPut(() => ToggleHabitUseCase(Get.find()));

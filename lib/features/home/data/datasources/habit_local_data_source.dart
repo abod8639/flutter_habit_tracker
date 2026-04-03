@@ -8,41 +8,51 @@ class HabitLocalDataSource {
 
   HabitLocalDataSource(this._myBox);
 
-  // String get userId => _myBox.get('user_id', defaultValue: 'default_user');
+  // Helper to get monthly box name
+  String _getMonthlyBoxName(String yyyymmdd) {
+    return "${HabitStorage.boxName}_history_${yyyymmdd.substring(0, 6)}";
+  }
+
+  Future<Box> _openMonthlyBox(String yyyymmdd) async {
+    final boxName = _getMonthlyBoxName(yyyymmdd);
+    if (Hive.isBoxOpen(boxName)) {
+      return Hive.box(boxName);
+    }
+    return await Hive.openBox(boxName);
+  }
 
   List<HabitModel> loadHabits() {
     if (_myBox.get(HabitStorage.habitListKey) != null) {
       final data = _myBox.get(HabitStorage.habitListKey);
       if (data is List && data.isNotEmpty && data.first is List) {
-        // Migration: Old format was List<List<dynamic>>
         return data.map((item) => HabitModel.fromLocalFormat(item)).toList();
       } else if (data is List) {
-        // New format: List<HabitModel>
         return data.cast<HabitModel>();
       }
     }
     return [];
   }
 
-  void saveHabits(List<HabitModel> habits) {
+  Future<void> saveHabits(List<HabitModel> habits) async {
     _myBox.put(HabitStorage.habitListKey, habits);
 
     final String today = todaysDateFormatted();
-    // For history, we might still want a simple format or just store the list of models if needed.
-    // But the original code stored the list for 'today' key.
-    // Let's store the list of models for today as well to be consistent.
-    _myBox.put(today, habits);
+    final historyBox = await _openMonthlyBox(today);
+    
+    // Store daily list in partitioned box
+    await historyBox.put(today, habits);
 
     for (var habit in habits) {
       final String historyKey = "${habit.name}_$today";
-      _myBox.put(historyKey, habit.isCompleted);
+      await historyBox.put(historyKey, habit.isCompleted);
     }
   }
 
-  void saveHabitCompletionHistory(String habitName, bool isCompleted) {
+  Future<void> saveHabitCompletionHistory(String habitName, bool isCompleted) async {
     final String today = todaysDateFormatted();
+    final historyBox = await _openMonthlyBox(today);
     final String historyKey = "${habitName}_$today";
-    _myBox.put(historyKey, isCompleted);
+    await historyBox.put(historyKey, isCompleted);
   }
 
   void setStartDate() {
@@ -60,35 +70,57 @@ class HabitLocalDataSource {
     _myBox.put(HabitStorage.startDayKey, date);
   }
 
-  void saveHabitStrength(String date, String strength) {
+  Future<void> saveHabitStrength(String date, String strength) async {
+    final historyBox = await _openMonthlyBox(date);
     final dateKey = "${HabitStorage.habitStrengthPrefix}$date";
-    _myBox.put(dateKey, strength);
+    await historyBox.put(dateKey, strength);
   }
 
-  String? getHabitStrength(String yyyymmdd) {
-    return _myBox.get("${HabitStorage.habitStrengthPrefix}$yyyymmdd");
+  Future<String?> getHabitStrength(String yyyymmdd) async {
+    final historyBox = await _openMonthlyBox(yyyymmdd);
+    return historyBox.get("${HabitStorage.habitStrengthPrefix}$yyyymmdd") as String?;
   }
 
-  Map<String, String> getAllHabitStrengths() {
-    final Map<String, String> history = {};
-    for (var key in _myBox.keys) {
-      if (key.toString().startsWith(HabitStorage.habitStrengthPrefix)) {
-        final date = key.toString().replaceFirst(
-          HabitStorage.habitStrengthPrefix,
-          '',
-        );
-        final strength = _myBox.get(key) as String?;
-        if (strength != null) {
-          history[date] = strength;
+  Future<Map<String, String>> getAllHabitStrengths() async {
+    final Map<String, String> allHistory = {};
+    
+    // We need to iterate through all months since start date
+    final startDateStr = getStartDate();
+    final startDate = createDateTimeObject(startDateStr);
+    final now = DateTime.now();
+    
+    var current = DateTime(startDate.year, startDate.month);
+    while (current.isBefore(now) || (current.year == now.year && current.month == now.month)) {
+      final monthStr = convertDateTimeToString(current).substring(0, 6);
+      final boxName = "${HabitStorage.boxName}_history_$monthStr";
+      
+      final Box historyBox;
+      if (Hive.isBoxOpen(boxName)) {
+        historyBox = Hive.box(boxName);
+      } else {
+        historyBox = await Hive.openBox(boxName);
+      }
+      
+      for (var key in historyBox.keys) {
+        if (key.toString().startsWith(HabitStorage.habitStrengthPrefix)) {
+          final date = key.toString().replaceFirst(HabitStorage.habitStrengthPrefix, '');
+          final strength = historyBox.get(key) as String?;
+          if (strength != null) {
+            allHistory[date] = strength;
+          }
         }
       }
+      
+      // Move to next month
+      current = DateTime(current.year, current.month + 1);
     }
-    return history;
+    
+    return allHistory;
   }
 
-  void saveAllHabitStrengths(Map<String, String> history) {
+  Future<void> saveAllHabitStrengths(Map<String, String> history) async {
     for (var entry in history.entries) {
-      saveHabitStrength(entry.key, entry.value);
+      await saveHabitStrength(entry.key, entry.value);
     }
   }
 
@@ -109,7 +141,7 @@ class HabitLocalDataSource {
   }
 
   Future<void> markLastSyncTime() async {
-    _myBox.put('last_sync', DateTime.now().toIso8601String());
+    await _myBox.put('last_sync', DateTime.now().toIso8601String());
   }
 
   List<String> getLocalTombstones() {

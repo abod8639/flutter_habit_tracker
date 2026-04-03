@@ -15,4 +15,6 @@ abstract class SettingRepository {
 
   Future<Either<Failure, List<HabitModel>>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones});
   Future<Either<Failure, DateTime?>> getLastSyncTime();
+  
+  Future<Either<Failure, void>> clearAllData();
 }

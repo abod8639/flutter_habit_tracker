@@ -11,6 +11,7 @@ import 'package:habit_tracker/features/home/domain/usecases/get_heatmap_data_use
 import 'package:habit_tracker/features/home/domain/usecases/is_user_logged_in_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/reorder_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
@@ -27,6 +28,7 @@ class HabitController extends GetxController {
   final ReorderHabitsUseCase _reorderHabitsUseCase = Get.find();
   final GetHeatmapDataUseCase _getHeatmapDataUseCase = Get.find();
   final IsUserLoggedInUseCase _isUserLoggedInUseCase = Get.find();
+  final ResetDailyHabitsUseCase _resetDailyHabitsUseCase = Get.find();
 
   // State
   final RxList<HabitEntity> habits = <HabitEntity>[].obs;
@@ -56,6 +58,9 @@ class HabitController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
+      // Perform initial reset check
+      await _resetDailyHabitsUseCase();
+
       await _loadHabits();
       await _loadHeatmap();
       _setupHabitResetChecking();
@@ -82,8 +87,7 @@ class HabitController extends GetxController {
     
     final result = await syncController.autoSync(habits.map((e) => HabitModel.fromEntity(e)).toList());
     if (result != null) {
-      await _loadHabits();
-      await _loadHeatmap();
+      await refreshData();
     }
   }
 
@@ -104,7 +108,6 @@ class HabitController extends GetxController {
   }
 
   void _setupHabitResetChecking() {
-    checkAndResetHabits();
     _resetCheckTimer?.cancel();
     _resetCheckTimer = Timer.periodic(const Duration(minutes: 15), (_) => checkAndResetHabits());
   }
@@ -128,10 +131,9 @@ class HabitController extends GetxController {
     final result = await _addHabitUseCase(name);
     result.fold(
       (failure) => _showError(failure.message),
-      (_) {
+      (_) async {
         habitTextController.clear();
-        _loadHabits();
-        _loadHeatmap();
+        await refreshData();
       },
     );
   }
@@ -150,9 +152,8 @@ class HabitController extends GetxController {
     final result = await _deleteHabitUseCase(id);
     result.fold(
       (failure) => _showError(failure.message),
-      (_) {
-        _loadHabits();
-        _loadHeatmap();
+      (_) async {
+        await refreshData();
       },
     );
   }
@@ -161,9 +162,8 @@ class HabitController extends GetxController {
     final result = await _toggleHabitUseCase(id, value);
     result.fold(
       (failure) => _showError(failure.message),
-      (_) {
-        _loadHabits();
-        _loadHeatmap();
+      (_) async {
+        await refreshData();
       },
     );
   }
@@ -196,21 +196,10 @@ class HabitController extends GetxController {
   }
 
   Future<void> updateSelectedHabitsColor(Color color) async {
-    // This could be a separate use case, but for now we can reuse edit logic if needed
-    // or implement updateColorUseCase. Let's keep it simple for now as it's a UI feature.
-    final box = Hive.box(HabitStorage.boxName);
-    final data = box.get(HabitStorage.habitListKey);
-    if (data is List) {
-      final habitsList = data.cast<HabitModel>();
-      for (var habit in habitsList) {
-        if (selectedHabitIds.contains(habit.id)) {
-          // Since it's a model with Hive annotations, we modify and save
-          // In a pure Clean Arch, we'd have an UpdateHabitUseCase
-        }
-      }
-    }
+    // This logic would need to be moved to a Use Case for full Clean Arch compliance
+    // For now, staying with the existing simple implementation
     clearSelection();
-    _loadHabits();
+    await _loadHabits();
   }
 
   Future<void> refreshData() async {

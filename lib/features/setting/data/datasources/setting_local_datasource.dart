@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:habit_tracker/features/setting/data/datasources/lang_storage.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
+import 'package:habit_tracker/features/theme/data/datasources/theme_storage.dart';
 
 abstract class SettingLocalDataSource {
   Future<String> getLanguage();
@@ -13,6 +15,8 @@ abstract class SettingLocalDataSource {
   Future<void> setNotificationTime(TimeOfDay time);
 
   DateTime? getLastSyncTime();
+  
+  Future<void> clearAllData();
 }
 
 class SettingLocalDataSourceImpl implements SettingLocalDataSource {
@@ -60,10 +64,22 @@ class SettingLocalDataSourceImpl implements SettingLocalDataSource {
 
   @override
   DateTime? getLastSyncTime() {
-    // This depends on how last sync time is stored. 
-    // Usually it's in the habit_box or settings_box.
-    // Looking at SyncController, it gets it from FirestoreService.
-    // But we might want to cache it locally too.
     return null; 
+  }
+
+  @override
+  Future<void> clearAllData() async {
+    // Clear all related boxes
+    await _langBox.clear();
+    await _settingsBox.clear();
+    
+    // Clear other global boxes
+    if (Hive.isBoxOpen(HabitStorage.boxName)) {
+      await Hive.box(HabitStorage.boxName).clear();
+    }
+    
+    if (Hive.isBoxOpen(ThemeStorageService.themeBox)) {
+      await Hive.box(ThemeStorageService.themeBox).clear();
+    }
   }
 }

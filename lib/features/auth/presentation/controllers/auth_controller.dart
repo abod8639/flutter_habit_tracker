@@ -125,6 +125,10 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     try {
       isLoading.value = true;
+      
+      // Reset skip login status so they see login screen again
+      await _setSkipLoginUseCase(false);
+      
       final result = await _signOutUseCase();
       
       result.fold(

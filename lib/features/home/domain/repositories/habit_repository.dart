@@ -13,4 +13,11 @@ abstract class HabitRepository {
   bool isUserLoggedIn();
   List<String> getLocalTombstones();
   void clearLocalTombstones();
+  
+  // Date and Reset logic
+  Future<Either<Failure, DateTime?>> getLastResetDate();
+  Future<Either<Failure, void>> saveLastResetDate(DateTime date);
+  Future<Either<Failure, void>> resetHabitsCompletion();
+  Future<Either<Failure, void>> incrementDayCount();
+  Future<Either<Failure, void>> saveHabitCompletionToHistory(String habitName, bool isCompleted, DateTime date);
 }

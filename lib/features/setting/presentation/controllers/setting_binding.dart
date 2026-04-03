@@ -15,6 +15,7 @@ import '../../domain/usecases/get_notification_time_usecase.dart';
 import '../../domain/usecases/set_notification_time_usecase.dart';
 import '../../domain/usecases/sync_habits_usecase.dart';
 import '../../domain/usecases/get_last_sync_time_usecase.dart';
+import '../../domain/usecases/clear_all_data_usecase.dart';
 import 'lang_controller.dart';
 import 'notification_controller.dart';
 import 'sync_controller.dart';
@@ -50,6 +51,7 @@ class SettingBinding extends Bindings {
     Get.lazyPut(() => SetNotificationTimeUseCase(Get.find()));
     Get.lazyPut(() => SyncHabitsUseCase(Get.find()));
     Get.lazyPut(() => GetLastSyncTimeUseCase(Get.find()));
+    Get.lazyPut(() => ClearAllDataUseCase(Get.find()));
 
     // Controllers
     Get.lazyPut(() => LangController());

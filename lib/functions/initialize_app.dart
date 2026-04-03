@@ -1,5 +1,4 @@
 import 'dart:io';
-// import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/setting/data/datasources/lang_storage.dart';
 import 'package:habit_tracker/features/setting/data/datasources/settings_storage.dart';
@@ -12,34 +11,31 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// Centralized application initialization logic
 Future<void> initializeApp() async {
   try {
-    // 1. Initialize Hive
+    // 1. Initialize Hive and register adapters
     await Hive.initFlutter();
     if (!Hive.isAdapterRegistered(0)) {
-      try {
-        Hive.registerAdapter(HabitModelAdapter());
-      } catch (_) {}
+      Hive.registerAdapter(HabitModelAdapter());
     }
 
-    // 2. Open Boxes with corruption recovery
+    // 2. Open necessary Hive boxes with corruption recovery
     await _openBoxSafely(HabitStorage.boxName);
     await _openBoxSafely(ThemeStorageService.themeBox);
     await _openBoxSafely(LangStorage.boxName);
     await _openBoxSafely(SettingsStorage.boxName);
 
-    // 3. Load Env (Non-critical)
+    // 3. Load Environment variables
     try {
       await dotenv.load(fileName: '.env');
-    } catch (e) {
-      // debugPrint('Failed to load .env: $e');
+    } catch (_) {
+      // .env is optional
     }
 
-    // 4. Initialize Core Infrastructure Services
-    // Put instances that need to be available for Bindings
-    final firestoreService = FirestoreService();
-    Get.put(firestoreService);
-
+    // 4. Initialize and register infrastructure services
+    Get.put(FirestoreService());
+    
     final themeStorage = await ThemeStorageService.init();
     Get.put(themeStorage);
 
@@ -51,38 +47,28 @@ Future<void> initializeApp() async {
       final notificationService = NotificationService();
       await notificationService.init();
       await notificationService.requestPermissions();
-    } catch (e) {
-      // debugPrint('Failed to initialize notifications: $e');
+    } catch (_) {
+      // Notifications are non-fatal
     }
-
-    // Bindings will be handled by GetMaterialApp(initialBinding: InitialBinding())
     
   } catch (e) {
-    // debugPrint('FATAL initialization error: $e');
-    // debugPrint('Stack trace: $stack');
-    throw Exception('Failed to initialize app: $e');
+    throw Exception('FATAL initialization error: $e');
   }
 }
 
-/// Opens a Hive box safely. If the box file is corrupted (RangeError or
-/// HiveError), deletes the corrupted file and reopens a fresh empty box.
+/// Opens a Hive box safely. If corrupted, deletes and recreates a fresh box.
 Future<void> _openBoxSafely(String boxName) async {
   if (Hive.isBoxOpen(boxName)) return;
 
   try {
     await Hive.openBox(boxName);
   } catch (e) {
-    // debugPrint(
-      // 'Box "$boxName" is corrupted ($e). Deleting and recreating...',
-    // );
     await _deleteCorruptedBox(boxName);
-    // Open fresh empty box
     await Hive.openBox(boxName);
-    // debugPrint('Box "$boxName" recreated successfully.');
   }
 }
 
-/// Deletes the corrupted Hive box file from disk.
+/// Deletes corrupted Hive box files from disk
 Future<void> _deleteCorruptedBox(String boxName) async {
   try {
     final appDocDir = await getApplicationDocumentsDirectory();
@@ -91,9 +77,7 @@ Future<void> _deleteCorruptedBox(String boxName) async {
 
     if (await boxFile.exists()) await boxFile.delete();
     if (await lockFile.exists()) await lockFile.delete();
-
-    // debugPrint('Deleted corrupted box files for "$boxName"');
-  } catch (e) {
-    // debugPrint('Failed to delete corrupted box "$boxName": $e');
+  } catch (_) {
+    // Ignore deletion errors
   }
 }

@@ -63,6 +63,12 @@ class HabitController extends GetxController {
 
       await _loadHabits();
       await _loadHeatmap();
+
+      // Trigger sync if user is already logged in
+      if (isUserLoggedIn()) {
+        _syncOnLogin();
+      }
+
       _setupHabitResetChecking();
 
       isInitialized.value = true;

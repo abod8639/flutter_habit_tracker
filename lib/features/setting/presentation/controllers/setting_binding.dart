@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:habit_tracker/features/setting/data/datasources/lang_storage.dart';
 import 'package:habit_tracker/features/setting/data/datasources/settings_storage.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
 import '../../data/datasources/setting_local_datasource.dart';
 import '../../data/datasources/setting_remote_datasource.dart';
 import '../../data/repositories/setting_repository_impl.dart';
@@ -31,7 +30,7 @@ class SettingBinding extends Bindings {
       ),
     );
     Get.lazyPut<SettingRemoteDataSource>(
-      () => SettingRemoteDataSourceImpl(FirestoreService()),
+      () => SettingRemoteDataSourceImpl(Get.find()),
     );
 
     // Repository
@@ -39,6 +38,7 @@ class SettingBinding extends Bindings {
       () => SettingRepositoryImpl(
         localDataSource: Get.find(),
         remoteDataSource: Get.find(),
+        habitLocalDataSource: Get.find(),
       ),
     );
 

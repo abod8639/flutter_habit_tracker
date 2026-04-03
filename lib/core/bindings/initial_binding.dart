@@ -13,9 +13,10 @@ class InitialBinding extends Bindings {
     // 2. Theme Feature Dependencies
     ThemeBinding().dependencies();
 
-    // 3. Setting Feature Dependencies (Language, Notifications, Sync)
-    SettingBinding().dependencies();
-
+    // 3. Habit Feature (Provides global services like Local DataSource & Firestore)
     HabitBinding().dependencies();
+
+    // 4. Setting Feature (Depends on services from Habit)
+    SettingBinding().dependencies();
   }
 }

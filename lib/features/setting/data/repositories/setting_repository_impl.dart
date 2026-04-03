@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/features/home/data/datasources/habit_local_data_source.dart';
 import '../../domain/repositories/setting_repository.dart';
 import '../datasources/setting_local_datasource.dart';
 import '../datasources/setting_remote_datasource.dart';
@@ -10,10 +11,12 @@ import '../datasources/setting_remote_datasource.dart';
 class SettingRepositoryImpl implements SettingRepository {
   final SettingLocalDataSource localDataSource;
   final SettingRemoteDataSource remoteDataSource;
+  final HabitLocalDataSource habitLocalDataSource;
 
   SettingRepositoryImpl({
     required this.localDataSource,
     required this.remoteDataSource,
+    required this.habitLocalDataSource,
   });
 
   @override
@@ -77,7 +80,20 @@ class SettingRepositoryImpl implements SettingRepository {
   @override
   Future<Either<Failure, List<HabitModel>>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones}) async {
     try {
+      // 1. Sync habits via remote
       final mergedHabits = await remoteDataSource.syncHabits(localHabits, localTombstones: localTombstones);
+      
+      // 2. Persist habits to local database
+      await habitLocalDataSource.saveHabits(mergedHabits);
+      
+      // 3. Sync and persist history (Heatmap data)
+      final firestoreService = FirestoreService();
+      if (firestoreService.isUserLoggedIn) {
+        final localHistory = await habitLocalDataSource.getAllHabitStrengths();
+        final mergedHistory = await firestoreService.syncHabitHistory(localHistory);
+        await habitLocalDataSource.saveAllHabitStrengths(mergedHistory);
+      }
+      
       return Right(mergedHabits);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

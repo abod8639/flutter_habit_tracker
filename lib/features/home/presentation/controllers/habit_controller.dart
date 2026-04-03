@@ -174,29 +174,77 @@ class HabitController extends GetxController {
   }
 
   Future<void> deleteHabit(String id) async {
+    // 1. Optimistic UI update
+    final int index = habits.indexWhere((h) => h.id == id);
+    if (index == -1) return;
+
+    final oldHabit = habits[index];
+    habits.removeAt(index);
+
+    // 2. Perform background delete
     final result = await _deleteHabitUseCase(id);
+    
     result.fold(
-      (failure) => _showError(failure.message),
+      (failure) {
+        // 3. Rollback on failure
+        habits.insert(index, oldHabit);
+        _showError(failure.message);
+      },
       (_) async {
+        // 4. Background refresh
         await refreshData();
       },
     );
   }
 
   Future<void> toggleHabit(String id, bool value) async {
+    // 1. Optimistic UI update
+    final int index = habits.indexWhere((h) => h.id == id);
+    if (index == -1) return;
+
+    final oldHabit = habits[index];
+    habits[index] = oldHabit.copyWith(isCompleted: value);
+    habits.refresh(); // Trigger Obx update immediately
+
+    // 2. Perform background update
     final result = await _toggleHabitUseCase(id, value);
+    
     result.fold(
-      (failure) => _showError(failure.message),
+      (failure) {
+        // 3. Rollback on failure
+        habits[index] = oldHabit;
+        habits.refresh();
+        _showError(failure.message);
+      },
       (_) async {
+        // 4. Background refresh to ensure everything is in sync (like Heatmap)
         await refreshData();
       },
     );
   }
 
   Future<void> reorderHabits(int oldIndex, int newIndex) async {
-    final result = await _reorderHabitsUseCase(oldIndex, newIndex);
+    // 1. Optimistic UI update
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    
+    final item = habits.removeAt(oldIndex);
+    habits.insert(newIndex, item);
+    habits.refresh();
+
+    // 2. Perform background reorder
+    // We send the original oldIndex and newIndex to the usecase as it might have its own logic for index adjustment or expects raw inputs.
+    // However, looking at the UI, oldIndex and newIndex are the raw values from SliverReorderableList.
+    final result = await _reorderHabitsUseCase(oldIndex, newIndex + (newIndex > oldIndex ? 1 : 0));
+    
     result.fold(
-      (failure) => _showError(failure.message),
+      (failure) {
+        // 3. Rollback on failure
+        // Simple refresh from local DS might be safer than manual rollback for complex reorders
+        _loadHabits();
+        _showError(failure.message);
+      },
       (_) => _loadHabits(),
     );
   }

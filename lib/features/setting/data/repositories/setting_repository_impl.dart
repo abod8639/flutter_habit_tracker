@@ -137,6 +137,7 @@ class SettingRepositoryImpl implements SettingRepository {
       
       // 2. Clear Local Data
       await localDataSource.clearAllData();
+      await habitLocalDataSource.clearAllData();
       
       return const Right(null);
     } catch (e) {

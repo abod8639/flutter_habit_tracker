@@ -85,6 +85,6 @@ app.*.map.json
 /android/app/release
 
 # Sensitive Files
-.env
+# .env
 lib/firebase_options.dart
 firebase_options.dart

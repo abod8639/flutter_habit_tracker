@@ -16,6 +16,7 @@ import 'package:habit_tracker/features/setting/presentation/controllers/sync_con
 import 'package:habit_tracker/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
+import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';
 
@@ -33,10 +34,17 @@ class HabitController extends GetxController {
 
   // State
   final RxList<HabitEntity> habits = <HabitEntity>[].obs;
-  final RxMap<DateTime, int> heatmapDateSet = <DateTime, int>{}.obs;
+  final RxMap<DateTime, int> localHeatmapDateSet = <DateTime, int>{}.obs;
+  final RxMap<DateTime, int> remoteHeatmapDateSet = <DateTime, int>{}.obs;
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
   final RxBool isInitialized = false.obs;
+
+  // View Getter for UI (Combines both sources seamlessly)
+  Map<DateTime, int> get heatmapDateSet => {
+        ...remoteHeatmapDateSet,
+        ...localHeatmapDateSet,
+      };
 
   // UI State
   final TextEditingController habitTextController = TextEditingController();
@@ -107,11 +115,39 @@ class HabitController extends GetxController {
   }
 
   Future<void> _loadHeatmap() async {
+    // Load local history fast for immediate UI rendering
     final result = await _getHeatmapDataUseCase();
     result.fold(
       (failure) => null,
-      (data) => heatmapDateSet.assignAll(data),
+      (data) => localHeatmapDateSet.assignAll(data),
     );
+
+    // Fetch remote data in background to prevent UI stall
+    _loadRemoteHeatmap();
+  }
+
+  Future<void> _loadRemoteHeatmap() async {
+    if (!Get.isRegistered<FirestoreService>()) return;
+    final firestoreService = Get.find<FirestoreService>();
+    if (!firestoreService.isUserLoggedIn) return;
+
+    try {
+      final remoteData = await firestoreService.downloadHabitHistory();
+      final Map<DateTime, int> parsed = {};
+      
+      for (var entry in remoteData.entries) {
+        if (entry.key.length == 8) {
+          final yyyy = int.parse(entry.key.substring(0, 4));
+          final mm = int.parse(entry.key.substring(4, 6));
+          final dd = int.parse(entry.key.substring(6, 8));
+          final strength = double.tryParse(entry.value) ?? 0.0;
+          parsed[DateTime(yyyy, mm, dd)] = (strength * 10).toInt();
+        }
+      }
+      remoteHeatmapDateSet.assignAll(parsed);
+    } catch (_) {
+      // Background process, errors can be ignored safely
+    }
   }
 
   void _setupHabitResetChecking() {
@@ -123,9 +159,11 @@ class HabitController extends GetxController {
     final box = Hive.box(HabitStorage.boxName);
     String storedStartDay = box.get(HabitStorage.startDayKey, defaultValue: "");
     
+    final combinedHeatmap = heatmapDateSet;
+
     // If we have heatmap data, find the earliest date
-    if (heatmapDateSet.isNotEmpty) {
-      DateTime minDate = heatmapDateSet.keys.reduce((a, b) => a.isBefore(b) ? a : b);
+    if (combinedHeatmap.isNotEmpty) {
+      DateTime minDate = combinedHeatmap.keys.reduce((a, b) => a.isBefore(b) ? a : b);
       String minDateStr = convertDateTimeToString(minDate);
       
       if (storedStartDay.isEmpty) return minDateStr;
@@ -180,6 +218,7 @@ class HabitController extends GetxController {
 
     final oldHabit = habits[index];
     habits.removeAt(index);
+    _updateOptimisticHeatmap();
 
     // 2. Perform background delete
     final result = await _deleteHabitUseCase(id);
@@ -188,6 +227,7 @@ class HabitController extends GetxController {
       (failure) {
         // 3. Rollback on failure
         habits.insert(index, oldHabit);
+        _updateOptimisticHeatmap();
         _showError(failure.message);
       },
       (_) async {
@@ -206,6 +246,9 @@ class HabitController extends GetxController {
     habits[index] = oldHabit.copyWith(isCompleted: value);
     habits.refresh(); // Trigger Obx update immediately
 
+    // 1.1 Optimistic Heatmap update
+    _updateOptimisticHeatmap();
+
     // 2. Perform background update
     final result = await _toggleHabitUseCase(id, value);
     
@@ -214,6 +257,7 @@ class HabitController extends GetxController {
         // 3. Rollback on failure
         habits[index] = oldHabit;
         habits.refresh();
+        _updateOptimisticHeatmap();
         _showError(failure.message);
       },
       (_) async {
@@ -221,6 +265,21 @@ class HabitController extends GetxController {
         await refreshData();
       },
     );
+  }
+
+  void _updateOptimisticHeatmap() {
+    final today = createDateTimeObject(todaysDateFormatted());
+    final total = habits.length;
+    final completed = habits.where((h) => h.isCompleted).length;
+    
+    if (total == 0) {
+      localHeatmapDateSet.remove(today);
+    } else {
+      double rate = completed / total;
+      int strength = (rate * 10).toInt();
+      if (strength == 0 && completed > 0) strength = 1; // Show at least something if partially completed
+      localHeatmapDateSet[today] = strength;
+    }
   }
 
   Future<void> reorderHabits(int oldIndex, int newIndex) async {

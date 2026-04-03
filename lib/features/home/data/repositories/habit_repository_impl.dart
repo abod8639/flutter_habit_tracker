@@ -186,10 +186,24 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<Either<Failure, Map<DateTime, int>>> getHeatmapData() async {
     try {
+      // 1. Get historical data from local storage
       final rawHistory = await localDataSource.getAllHabitStrengths();
       
-      // Use compute to process large data sets off the UI thread
+      // 2. Process large historical data set off-thread
       final heatmapData = await compute(_processHeatmapData, rawHistory);
+      
+      // 3. Recalculate TODAY's strength based on LIVE habits to ensure accuracy on startup
+      final habits = localDataSource.loadHabits();
+      if (habits.isNotEmpty) {
+        final completedCount = habits.where((h) => h.isCompleted).length;
+        final completionRate = completedCount / habits.length;
+        int strength = (completionRate * 10).toInt();
+        if (strength == 0 && completedCount > 0) strength = 1;
+        
+        final today = DateTime.now();
+        final normalizedToday = DateTime(today.year, today.month, today.day);
+        heatmapData[normalizedToday] = strength;
+      }
       
       return Right(heatmapData);
     } catch (e) {

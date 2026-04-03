@@ -163,4 +163,30 @@ class HabitLocalDataSource {
   void clearLocalTombstones() {
     _myBox.delete('local_tombstones');
   }
+
+  Future<void> clearAllData() async {
+    // 1. Iterate and clear monthly history boxes
+    final startDateStr = getStartDate();
+    final startDate = createDateTimeObject(startDateStr);
+    final now = DateTime.now();
+    
+    var current = DateTime(startDate.year, startDate.month);
+    while (current.isBefore(now) || (current.year == now.year && current.month == now.month)) {
+      final monthStr = convertDateTimeToString(current).substring(0, 6);
+      final boxName = "${HabitStorage.boxName}_history_$monthStr";
+      
+      if (Hive.isBoxOpen(boxName)) {
+        await Hive.box(boxName).clear();
+      } else {
+        final box = await Hive.openBox(boxName);
+        await box.clear();
+      }
+      
+      // Move to next month
+      current = DateTime(current.year, current.month + 1);
+    }
+    
+    // 2. Clear main habit box
+    await _myBox.clear();
+  }
 }

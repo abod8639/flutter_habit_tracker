@@ -54,15 +54,32 @@ class HabitModel {
 
   factory HabitModel.fromMap(Map<String, dynamic> map) {
     return HabitModel(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      isCompleted: map['isCompleted'] ?? false,
-      createdAt: _parseDate(map['created_at']),
-      completedAt: map['completed_at'] != null
-          ? _parseDate(map['completed_at'])
+      id: map['id']?.toString() ?? '',
+      name: map['name']?.toString() ?? 'Unnamed Habit',
+      isCompleted: map['isCompleted'] ?? map['is_completed'] ?? false,
+      createdAt: _parseDate(map['createdAt'] ?? map['created_at']),
+      completedAt: map['completedAt'] != null || map['completed_at'] != null
+          ? _parseDate(map['completedAt'] ?? map['completed_at'])
           : null,
-      colorValue: map['color_value'],
-      index: map['index'],
+      colorValue: map['colorValue'] ?? map['color_value'],
+      index: map['index'] ?? 0,
+      updatedAt: map['updatedAt'] != null || map['updated_at'] != null 
+          ? _parseDate(map['updatedAt'] ?? map['updated_at']) 
+          : null,
+    );
+  }
+
+  // Modern Firestore-specific factory
+  factory HabitModel.fromFirestore(DocumentSnapshot doc) {
+    final map = doc.data() as Map<String, dynamic>? ?? {};
+    return HabitModel(
+      id: doc.id,
+      name: map['name']?.toString() ?? 'Unnamed Habit',
+      isCompleted: map['isCompleted'] ?? false,
+      createdAt: _parseDate(map['createdAt']),
+      completedAt: map['completedAt'] != null ? _parseDate(map['completedAt']) : null,
+      colorValue: map['colorValue'] as int?,
+      index: map['index'] as int? ?? 0,
       updatedAt: map['updatedAt'] != null ? _parseDate(map['updatedAt']) : null,
     );
   }
@@ -72,11 +89,24 @@ class HabitModel {
       'id': id,
       'name': name,
       'isCompleted': isCompleted,
-      'created_at': createdAt.toIso8601String(),
-      'completed_at': completedAt?.toIso8601String(),
-      'color_value': colorValue,
+      'createdAt': createdAt.toIso8601String(),
+      'completedAt': completedAt?.toIso8601String(),
+      'colorValue': colorValue,
       'index': index,
       'updatedAt': updatedAt?.toIso8601String(),
+    };
+  }
+
+  // Professional Firestore map conversion
+  Map<String, dynamic> toFirestore() {
+    return {
+      'name': name,
+      'isCompleted': isCompleted,
+      'createdAt': Timestamp.fromDate(createdAt),
+      'completedAt': completedAt != null ? Timestamp.fromDate(completedAt!) : null,
+      'colorValue': colorValue,
+      'index': index,
+      'updatedAt': FieldValue.serverTimestamp(), // Always use server time for updates
     };
   }
 

@@ -23,7 +23,7 @@ class Tablet extends StatelessWidget {
       drawer: const MyDrawer(),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: myfloatingActionButton(
+      floatingActionButton: MyfloatingActionButton(
         onPressed: () => addHabit(context),
       ),
       body: Obx(() {

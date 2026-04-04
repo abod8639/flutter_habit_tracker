@@ -103,8 +103,11 @@ class HabitLocalDataSource {
       
       for (var key in historyBox.keys) {
         if (key.toString().startsWith(HabitStorage.habitStrengthPrefix)) {
-          // Add underscore to prefix to properly strip it
-          final date = key.toString().replaceFirst('${HabitStorage.habitStrengthPrefix}_', '');
+          // Strip the prefix, and remove any remaining underscore gracefully
+          String date = key.toString().replaceFirst(HabitStorage.habitStrengthPrefix, '');
+          if (date.startsWith('_')) {
+            date = date.substring(1);
+          }
           final strength = historyBox.get(key).toString();
           allHistory[date] = strength;
         }
@@ -201,7 +204,7 @@ class HabitLocalDataSource {
 
     // Iterate backwards N days
     for (int i = 0; i < days; i++) {
-      final date = now.subtract(Duration(days: i));
+      final date = DateTime(now.year, now.month, now.day - i);
       final dateStr = convertDateTimeToString(date);
       final normalizedDate = DateTime(date.year, date.month, date.day);
       

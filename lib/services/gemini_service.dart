@@ -27,6 +27,7 @@ class GeminiService {
     try {
       final bytes = await imageFile.readAsBytes();
       final prompt = TextPart(
+        'You are an expert habit coach and productivity analyst.\n'
         'Role: You are a professional daily habit and task extractor.\n'
         'Task: Analyze the provided image (handwritten list, schedule, or diet plan) and extract all habits/tasks.\n'
         'Strict Formatting Rules:\n'
@@ -40,7 +41,33 @@ class GeminiService {
         '7. Maintain the original language of the image (Arabic or English).\n'
         '8. Avoid duplicates: If multiple words mean the same thing, output only one.',
       );
-
+//         'You are an expert habit coach and productivity analyst.\n'
+//         '\n'
+//         'Your task: Analyze the image and extract or INFER clear, specific, actionable daily habits.\n'
+//         '\n'
+//         '## How to think:\n'
+//         '- If the image is a DIET PLAN: Convert each meal item into a daily eating habit (e.g., "eat 3 eggs for breakfast").\n'
+//         '- If the image is a SCHEDULE: Convert each activity into a daily recurring habit.\n'
+//         '- If the image is a TASK LIST: Convert each task into something that can be done every day or regularly.\n'
+//         '- If the image is a NOTE or REMINDER: Extract intent and rewrite as a clear habit.\n'
+//         '- If the image is a BILL or RECEIPT: Infer financial habits (e.g., "track daily expenses", "review weekly budget").\n'
+//         '- If the image contains GOALS: Break each goal down into a concrete daily action.\n'
+//         '\n'
+//         '## Rules for each habit:\n'
+//         '1. Every habit MUST be a concrete daily action (start with a VERB: eat, drink, walk, read, track, do, take, etc.).\n'
+//         '2. Be SPECIFIC: not "be healthy" → instead say "drink 2L of water".\n'
+//         '3. Keep each habit SHORT (3–6 words max).\n'
+//         '4. Add a relevant emoji BEFORE the habit text.\n'
+//         '5. If items are grouped under categories (like Breakfast, Morning), prefix with the category.\n'
+//         '6. Maintain the ORIGINAL LANGUAGE of the image (Arabic or English). Do NOT translate.\n'
+//         '7. Avoid vague or abstract entries. Every entry must be something a person can physically DO today.\n'
+//         '8. Remove duplicates.\n'
+//         '\n'
+//         '## Output format:\n'
+//         'Output ONLY a valid flat JSON array of strings. No markdown, no explanation, no extra text.\n'
+//         'Example output:\n'
+//         '["🍳 Eat 3 eggs for breakfast", "🥗 Eat salad at lunch", "💧 Drink 2L of water", "🚶 Walk 30 minutes", "📖 Read 10 pages"]\n',
+      
       final imagePart = DataPart(imageFile.mimeType ?? 'image/jpeg', bytes);
 
       final response = await _model.generateContent([

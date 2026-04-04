@@ -7,7 +7,6 @@ import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
-import 'package:flutter/foundation.dart';
 import '../models/date_time.dart';
 
 class HabitRepositoryImpl implements HabitRepository {
@@ -412,7 +411,8 @@ Map<DateTime, int> _processHeatmapData(Map<String, String> rawData) {
       final dd = int.parse(yyyymmdd.substring(6, 8));
       
       final date = DateTime(yyyy, mm, dd);
-      final strength = int.tryParse(entry.value) ?? 0;
+      final doubleStrength = double.tryParse(entry.value) ?? 0.0;
+      final strength = (doubleStrength * 10).toInt();
       heatmapData[date] = strength;
     } catch (_) {
       // Skip invalid entries

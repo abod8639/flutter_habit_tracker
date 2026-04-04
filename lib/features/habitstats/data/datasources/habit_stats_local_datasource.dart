@@ -52,14 +52,14 @@ class HabitStatsLocalDataSource {
           (heatmapData) async {
             final List<FlSpot> spots = [];
             final now = DateTime.now();
-            final maxStrength = habits.isEmpty ? 1 : (habits.length * 10);
+            final maxStrength = 10; // Heatmap data is bounded 0-10
 
             for (int i = 0; i < days; i++) {
-              final normalizedDate = DateTime(now.year, now.month, now.day).subtract(Duration(days: days - 1 - i));
+              final normalizedDate = DateTime(now.year, now.month, now.day - (days - 1 - i));
               final completionValue = heatmapData[normalizedDate];
 
               final strength = completionValue ?? 0;
-              final percentage = (strength / maxStrength) * 100;
+              final percentage = (strength / maxStrength).clamp(0.0, 1.0);
               spots.add(FlSpot(i.toDouble(), percentage));
             }
             return spots;
@@ -80,7 +80,6 @@ class HabitStatsLocalDataSource {
 
         await historyMapResult.fold(
           (failure) async {
-            // Fill with zeros for each habit so we show empty charts instead of nothing
             for (var habit in habits) {
               individualTrends[habit.name] = List.generate(
                 days,
@@ -94,17 +93,16 @@ class HabitStatsLocalDataSource {
               final habitHistory = historyMap[habit.name] ?? {};
 
               for (int i = 0; i < days; i++) {
-                final normalizedDate = DateTime(now.year, now.month, now.day).subtract(Duration(days: days - 1 - i));
+                final normalizedDate = DateTime(now.year, now.month, now.day - (days - 1 - i));
 
                 final bool? completed = habitHistory[normalizedDate];
 
-                // If not in history, use today's live completion if it's today's point
                 bool isCompleted = completed ?? false;
                 if (completed == null && i == days - 1) {
                   isCompleted = habit.isCompleted;
                 }
 
-                spots.add(FlSpot(i.toDouble(), isCompleted ? 10.0 : 0.0));
+                spots.add(FlSpot(i.toDouble(), isCompleted ? 1.0 : 0.0));
               }
               individualTrends[habit.name] = spots;
             }

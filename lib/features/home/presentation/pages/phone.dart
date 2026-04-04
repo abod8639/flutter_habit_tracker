@@ -35,7 +35,7 @@ class _PhoneState extends State<Phone> with SingleTickerProviderStateMixin {
       floatingActionButton: Obx(
         () => controller.isSelectionMode
             ? const SizedBox.shrink()
-            : myfloatingActionButton(
+            : MyfloatingActionButton(
                 onPressed: () => addHabit(context),
               ),
       ),

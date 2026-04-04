@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-class myfloatingActionButton extends StatefulWidget {
+class MyfloatingActionButton extends StatefulWidget {
   final Function()? onPressed;
-  const myfloatingActionButton({this.onPressed, super.key});
+  const MyfloatingActionButton({this.onPressed, super.key});
 
   @override
-  State<myfloatingActionButton> createState() => _myfloatingActionButtonState();
+  State<MyfloatingActionButton> createState() => _MyfloatingActionButtonState();
 }
 
-class _myfloatingActionButtonState extends State<myfloatingActionButton>
+class _MyfloatingActionButtonState extends State<MyfloatingActionButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
-  // late Animation<double> _rotateAnimation;
 
   @override
   void initState() {
@@ -25,10 +24,6 @@ class _myfloatingActionButtonState extends State<myfloatingActionButton>
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-
-    // _rotateAnimation = Tween<double>(begin: 0, end: 0.125).animate(
-    //   CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    // );
   }
 
   @override

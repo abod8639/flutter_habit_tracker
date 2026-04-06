@@ -15,7 +15,7 @@ import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_u
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_order_usecase.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
-import 'package:habit_tracker/functions/check_and_reset_habits.dart';
+import 'package:habit_tracker/core/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/services/firestore_service.dart';

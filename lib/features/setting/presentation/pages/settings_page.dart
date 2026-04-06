@@ -5,7 +5,7 @@ import 'package:habit_tracker/features/setting/presentation/widget/appearance_se
 import 'package:habit_tracker/features/setting/presentation/widget/data_section.dart';
 import 'package:habit_tracker/features/setting/presentation/widget/notifications_section.dart';
 import 'package:habit_tracker/features/setting/presentation/widget/sync_section.dart';
-import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
+import 'package:habit_tracker/core/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 
 class SettingsPage extends StatefulWidget {

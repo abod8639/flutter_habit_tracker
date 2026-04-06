@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
-import 'package:habit_tracker/functions/habit_utils.dart';
+import 'package:habit_tracker/core/functions/habit_utils.dart';
 import '../repositories/habit_repository.dart';
 
 class ResetDailyHabitsUseCase {

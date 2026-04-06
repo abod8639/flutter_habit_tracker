@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/notification_controller.dart';
-import 'package:habit_tracker/functions/my_show_time_picker.dart';
+import 'package:habit_tracker/core/functions/my_show_time_picker.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 
 Future<void> handleNotificationToggle(

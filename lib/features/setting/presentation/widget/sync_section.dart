@@ -4,7 +4,7 @@ import 'package:habit_tracker/features/auth/presentation/controllers/auth_contro
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
 import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_tile.dart';
-import 'package:habit_tracker/functions/perform_sync.dart';
+import 'package:habit_tracker/core/functions/perform_sync.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 
 Widget buildSyncSection(AnimationController animationController) {

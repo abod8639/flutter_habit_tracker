@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/functions/keyboard_shortcuts.dart';
+import 'package:habit_tracker/core/functions/keyboard_shortcuts.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import '../controllers/habitstats_controller.dart';
 import '../widget/fade_animation_summary_card.dart';

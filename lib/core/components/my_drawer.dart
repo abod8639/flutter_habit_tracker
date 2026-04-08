@@ -6,7 +6,7 @@ import 'package:habit_tracker/features/habitstats/presentation/controllers/habit
 import 'package:habit_tracker/features/setting/presentation/pages/settings_page.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/setting_binding.dart';
 import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
-import 'package:habit_tracker/core/components/my_list_tile.dart';
+import 'package:habit_tracker/features/home/presentation/widget/my_list_tile.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
 import 'package:habit_tracker/features/home/presentation/widget/image_scanner_bottom_sheet.dart';
 import 'package:habit_tracker/features/home/presentation/widget/habit_confirmation_dialog.dart';

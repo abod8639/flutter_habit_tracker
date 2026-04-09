@@ -181,7 +181,6 @@ Widget _buildTileContent(ColorScheme themeColors) {
             : Border.all(color: Colors.white.withValues(alpha: 0.1), width: 1), // حد خفيف جداً للبروز
 
         boxShadow: [
-          // الظل الأساسي (العمق السفلي)
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 12,
@@ -192,7 +191,7 @@ Widget _buildTileContent(ColorScheme themeColors) {
           // إضاءة علوية (اختياري - تعطي تأثير زجاجي/بارز)
           BoxShadow(
             blurStyle: BlurStyle.inner,
-            color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.5),
+            // color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.5),
             blurRadius: 10,
             offset: const Offset(-2, -2),
           ),

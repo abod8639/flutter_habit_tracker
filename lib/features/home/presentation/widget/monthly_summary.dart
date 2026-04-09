@@ -119,6 +119,13 @@ class _MonthlySummaryState extends State<MonthlySummary>
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   child: HeatMap(
+                    // colorTipHelper: [
+                    // Container(
+                    //   color: Colors.grey[400],
+                    //   width: 10,
+                    //   height: 10,
+                    //   )
+                      // ],
                     startDate: startDateTime,
                     fontSize: 16,
                     endDate: DateTime.now(),

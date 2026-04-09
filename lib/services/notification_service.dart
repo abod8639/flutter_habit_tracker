@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' as fln;
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:flutter/material.dart';
 
 class NotificationService {
   static NotificationService? _instance;
@@ -19,8 +19,8 @@ class NotificationService {
 
   Future<void> init() async {
     tz.initializeTimeZones();
-    final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(timeZoneName));
+    final  timeZoneName = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName.toString()));
 
     const fln.AndroidInitializationSettings initializationSettingsAndroid =
         fln.AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -39,7 +39,7 @@ class NotificationService {
           macOS: initializationSettingsDarwin,
         );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(settings: initializationSettings);
   }
 
   Future<void> requestPermissions() async {
@@ -67,10 +67,10 @@ class NotificationService {
   }) async {
     try {
       await flutterLocalNotificationsPlugin.show(
-        id,
-        title,
-        body,
-        const fln.NotificationDetails(
+      id:   id,
+       title:  title,
+        body: body,
+       notificationDetails:  const fln.NotificationDetails(
           android: fln.AndroidNotificationDetails(
             'immediate_channel',
             'Immediate Notifications',
@@ -97,11 +97,11 @@ class NotificationService {
       final scheduledDate = _nextInstanceOfTime(time.hour, time.minute);
       
       await flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        title,
-        body,
-        scheduledDate,
-        const fln.NotificationDetails(
+    id:     id,
+    title:  title,
+    body:   body,
+    scheduledDate: scheduledDate,
+    notificationDetails:  const fln.NotificationDetails(
           android: fln.AndroidNotificationDetails(
             'daily_reminder_channel',
             'Daily Reminders',
@@ -141,7 +141,7 @@ class NotificationService {
 
   Future<void> cancelNotification(int id) async {
     try {
-      await flutterLocalNotificationsPlugin.cancel(id);
+      await flutterLocalNotificationsPlugin.cancel(id: id);
     } catch (e) {
       // debugPrint('Failed to cancel notification: $e');
     }

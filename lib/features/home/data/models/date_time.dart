@@ -27,19 +27,28 @@ String todaysDateFormatted() {
 // return a DateTime object representing the given date in yyyymmdd format
 
 DateTime createDateTimeObject(String yyyymmdd) {
-  // year
-  int yyyy = int.parse(yyyymmdd.substring(0, 4));
+  // If the date string is null, empty, or not exactly 8 characters, return today's date
+  if (yyyymmdd.length != 8) {
+    return DateTime.now();
+  }
 
-  // month
-  int mm = int.parse(yyyymmdd.substring(4, 6));
+  try {
+    // year
+    int yyyy = int.parse(yyyymmdd.substring(0, 4));
 
-  // day
-  int dd = int.parse(yyyymmdd.substring(6, 8));
+    // month
+    int mm = int.parse(yyyymmdd.substring(4, 6));
 
-  // create DateTime object
-  DateTime dateTimeObject = DateTime(yyyy, mm, dd);
+    // day
+    int dd = int.parse(yyyymmdd.substring(6, 8));
 
-  return dateTimeObject;
+    // create DateTime object
+    DateTime dateTimeObject = DateTime(yyyy, mm, dd);
+
+    return dateTimeObject;
+  } catch (e) {
+    return DateTime.now();
+  }
 }
 
 // convert DateTime object to string yyyymmdd

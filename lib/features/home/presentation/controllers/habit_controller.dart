@@ -383,6 +383,7 @@ class HabitController extends GetxController {
 
   void _showError(String message) {
     Get.snackbar('Error', message, snackPosition: SnackPosition.BOTTOM);
+    print("Error: $message");
   }
 
   bool isUserLoggedIn() => _isUserLoggedInUseCase();

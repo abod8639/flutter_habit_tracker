@@ -42,6 +42,7 @@ class SyncController extends GetxController {
   Future<List<HabitModel>?> manualSync(List<HabitModel> localHabits) async {
     if (!_firestoreService.isUserLoggedIn) {
       Get.snackbar(S.current.error, S.current.loginRequired, snackPosition: SnackPosition.BOTTOM);
+      print('Error: ${S.current.loginRequired}');
       return null;
     }
 
@@ -71,6 +72,7 @@ class SyncController extends GetxController {
           syncStatus.value = SyncStatus.error;
           errorMessage.value = failure.message;
           Get.snackbar(S.current.error, '${S.current.syncFailed}: ${failure.message}', snackPosition: SnackPosition.BOTTOM);
+          print('Error: ${failure.message}');
           return null;
         },
         (mergedHabits) {
@@ -80,6 +82,7 @@ class SyncController extends GetxController {
           lastSyncTime.value = DateTime.now();
           syncStatus.value = SyncStatus.success;
           Get.snackbar(S.current.success, S.current.syncSuccess, snackPosition: SnackPosition.BOTTOM, duration: const Duration(seconds: 2));
+          print('Success: ${S.current.syncSuccess}');
           return mergedHabits;
         }
       );

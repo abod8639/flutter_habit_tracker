@@ -49,40 +49,40 @@ class ThemePage extends StatelessWidget {
               const SizedBox(height: 12),
               
               // Theme Mode Selector
-              Obx(() => Center(
-                child: SegmentedButton<ThemeMode>(
-                  segments: const [
-                    ButtonSegment<ThemeMode>(
-                      value: ThemeMode.system,
-                      label: Text('System'),
-                      icon: Icon(Icons.brightness_auto),
-                    ),
-                    ButtonSegment<ThemeMode>(
-                      value: ThemeMode.light,
-                      label: Text('Light'),
-                      icon: Icon(Icons.light_mode),
-                    ),
-                    ButtonSegment<ThemeMode>(
-                      value: ThemeMode.dark,
-                      label: Text('Dark'),
-                      icon: Icon(Icons.dark_mode),
-                    ),
-                  ],
-                  selected: {themeController.themeMode.value},
-                  onSelectionChanged: (Set<ThemeMode> selection) {
-                    themeController.changeThemeMode(selection.first);
-                  },
-                  showSelectedIcon: false,
-                  style: SegmentedButton.styleFrom(
-                    selectedBackgroundColor: colorScheme.primary,
-                    selectedForegroundColor: colorScheme.onPrimary,
-                  ),
-                ),
-              )),
+              // Obx(() => Center(
+              //   child: SegmentedButton<ThemeMode>(
+              //     segments: const [
+              //       ButtonSegment<ThemeMode>(
+              //         value: ThemeMode.system,
+              //         label: Text('System'),
+              //         icon: Icon(Icons.brightness_auto),
+              //       ),
+              //       ButtonSegment<ThemeMode>(
+              //         value: ThemeMode.light,
+              //         label: Text('Light'),
+              //         icon: Icon(Icons.light_mode),
+              //       ),
+              //       ButtonSegment<ThemeMode>(
+              //         value: ThemeMode.dark,
+              //         label: Text('Dark'),
+              //         icon: Icon(Icons.dark_mode),
+              //       ),
+              //     ],
+              //     selected: {themeController.themeMode.value},
+              //     onSelectionChanged: (Set<ThemeMode> selection) {
+              //       themeController.changeThemeMode(selection.first);
+              //     },
+              //     showSelectedIcon: false,
+              //     style: SegmentedButton.styleFrom(
+              //       selectedBackgroundColor: colorScheme.primary,
+              //       selectedForegroundColor: colorScheme.onPrimary,
+              //     ),
+              //   ),
+              // )),
               
-              const SizedBox(height: 32),
-              const SectionTitle(title: 'Choose Theme'),
-              const SizedBox(height: 16),
+              // const SizedBox(height: 32),
+              // const SectionTitle(title: 'Choose Theme'),
+              // const SizedBox(height: 16),
 
               // Themes Grid
               Obx(() {
@@ -93,6 +93,7 @@ class ThemePage extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: availableThemes.length,
+                  
                   separatorBuilder: (context, index) => const SizedBox(height: 20),
                   itemBuilder: (context, index) {
                     final themeName = availableThemes[index];
@@ -139,7 +140,7 @@ class ThemeCard extends StatelessWidget {
     final random = Random();
     final today = DateTime.now();
 
-    for (int i = 0; i < 35; i++) {
+    for (int i = 0; i < 60; i++) {
       if (random.nextDouble() > 0.3) {
         final date = today.subtract(Duration(days: i));
         data[DateTime(date.year, date.month, date.day)] = random.nextInt(10) + 1;
@@ -196,7 +197,7 @@ class ThemeCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
                 child: HeatMap(
-                  startDate: DateTime.now().subtract(const Duration(days: 35)),
+                  startDate: DateTime.now().subtract(const Duration(days: 55)),
                   endDate: DateTime.now(),
                   datasets: _generateDummyData(),
                   colorMode: ColorMode.color,
@@ -251,7 +252,11 @@ class ThemeCard extends StatelessWidget {
                         children: [
                           _colorIndicator(colors['primary']!),
                           _colorIndicator(colors['secondary']!),
+                          _colorIndicator(colors['surface']!),
                           _colorIndicator(colors['background']!),
+                          _colorIndicator(colors['onPrimary']!),
+                          _colorIndicator(colors['onSecondary']!),
+                          _colorIndicator(colors['error']!),
                         ],
                       ),
                   ],

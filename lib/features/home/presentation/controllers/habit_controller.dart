@@ -18,6 +18,7 @@ import 'package:habit_tracker/features/setting/presentation/controllers/sync_con
 import 'package:habit_tracker/core/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';
@@ -382,8 +383,7 @@ class HabitController extends GetxController {
   }
 
   void _showError(String message) {
-    Get.snackbar('Error', message, snackPosition: SnackPosition.BOTTOM);
-    print("Error: $message");
+    Get.snackbar(S.current.error, message, snackPosition: SnackPosition.BOTTOM);
   }
 
   bool isUserLoggedIn() => _isUserLoggedInUseCase();

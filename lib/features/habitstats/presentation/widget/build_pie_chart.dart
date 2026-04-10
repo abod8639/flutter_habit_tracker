@@ -35,10 +35,17 @@ Widget buildPieChart() {
                       title: S.current.completedLabel,
                       color: Theme.of(context).primaryColor,
                       radius: 100,
-                      titleStyle: const TextStyle(
+                      titleStyle: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 2,
+                            color: Colors.black.withValues(alpha: 0.5),
+                            offset: const Offset(1, 1),
+                          ),
+                        ],
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
                     ),
                     PieChartSectionData(
@@ -46,10 +53,17 @@ Widget buildPieChart() {
                       title: S.current.incomplete,
                       color: Theme.of(context).colorScheme.error,
                       radius: 100,
-                      titleStyle: const TextStyle(
+                      titleStyle: TextStyle(
                         fontSize: 14,
+                         shadows: [
+                          Shadow(
+                            blurRadius: 2,
+                            color: Colors.black.withValues(alpha: 0.5),
+                            offset: const Offset(1, 1),
+                          ),
+                        ],
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
                     ),
                   ],

@@ -48,7 +48,7 @@ Widget buildAnimatedSettingLang(
           child: Row(
             children: [
               Icon(icon, color: Theme.of(context).primaryColor),
-              const SizedBox(width: 16),
+              const SizedBox(width: 10),
               Expanded(
                 child: DropdownButtonFormField<String>(
                   initialValue: currentValue,

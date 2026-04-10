@@ -48,6 +48,20 @@ class HabitLocalDataSource {
     }
   }
 
+  Future<List<HabitModel>> getHabitsForDate(String dateStr) async {
+    final historyBox = await _openMonthlyBox(dateStr);
+    final data = historyBox.get(dateStr);
+    
+    if (data != null && data is List) {
+      if (data.isNotEmpty && data.first is List) {
+        return data.map((item) => HabitModel.fromLocalFormat(item)).toList();
+      } else {
+        return data.cast<HabitModel>();
+      }
+    }
+    return [];
+  }
+
   Future<void> saveHabitCompletionHistory(String habitName, bool isCompleted) async {
     final String today = todaysDateFormatted();
     final historyBox = await _openMonthlyBox(today);

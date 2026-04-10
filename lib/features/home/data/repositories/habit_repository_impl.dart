@@ -383,6 +383,36 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
+  Future<Either<Failure, Map<String, int>>> getCompletionStatusForDate(DateTime date) async {
+    try {
+      final dateStr = convertDateTimeToString(date);
+      final todayStr = todaysDateFormatted();
+      
+      List<HabitModel> habitsForDate;
+      
+      if (dateStr == todayStr) {
+        habitsForDate = localDataSource.loadHabits();
+      } else {
+        habitsForDate = await localDataSource.getHabitsForDate(dateStr);
+        // Fallback to current habits if no history found for that specific date
+        if (habitsForDate.isEmpty) {
+          habitsForDate = localDataSource.loadHabits();
+        }
+      }
+
+      final total = habitsForDate.length;
+      final completed = habitsForDate.where((h) => h.isCompleted).length;
+
+      return Right({
+        'total': total,
+        'completed': completed,
+      });
+    } catch (e) {
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, Map<String, Map<DateTime, bool>>>> getHabitHistoryMap(int days) async {
     try {
       final result = await localDataSource.getHabitHistoryMap(days);

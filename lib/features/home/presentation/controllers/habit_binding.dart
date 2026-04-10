@@ -12,6 +12,7 @@ import 'package:habit_tracker/features/home/domain/usecases/is_user_logged_in_us
 import 'package:habit_tracker/features/home/domain/usecases/reorder_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/get_completion_status_for_date_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_order_usecase.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
@@ -26,6 +27,7 @@ class HabitBinding extends Bindings {
     final box = Hive.box(HabitStorage.boxName);
     Get.lazyPut(() => HabitLocalDataSource(box));
     Get.lazyPut(() => FirestoreService());
+    
 
     // Repository
     Get.lazyPut<HabitRepository>(
@@ -48,6 +50,7 @@ class HabitBinding extends Bindings {
     Get.lazyPut(() => UpdateHabitColorUseCase(repository: Get.find()));
     Get.lazyPut(() => UpdateHabitOrderUseCase(repository: Get.find()));
     Get.lazyPut(() => ResetDailyHabitsUseCase(Get.find()));
+    Get.lazyPut(() => GetCompletionStatusForDateUseCase(Get.find()));
 
     // Controller
     Get.lazyPut(() => HabitController());

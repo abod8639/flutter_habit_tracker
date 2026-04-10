@@ -21,7 +21,7 @@ class ThemeModel extends ThemeEntity {
   Map<String, dynamic> toJson() {
     return {
       'themeName': themeName,
-      'themeMode': themeMode.toString(),
+      'themeMode': themeMode.index,
       'useCustomBg': useCustomBackground,
       'customBgColor': customBackgroundColor?.toARGB32(),
     };
@@ -36,9 +36,15 @@ class ThemeModel extends ThemeEntity {
     );
   }
 
-  static ThemeMode _parseThemeMode(String? modeStr) {
-    if (modeStr == 'ThemeMode.dark') return ThemeMode.dark;
-    if (modeStr == 'ThemeMode.light') return ThemeMode.light;
+  static ThemeMode _parseThemeMode(dynamic mode) {
+    if (mode is int) {
+      if (mode >= 0 && mode < ThemeMode.values.length) {
+        return ThemeMode.values[mode];
+      }
+    } else if (mode is String) {
+      if (mode == 'ThemeMode.dark') return ThemeMode.dark;
+      if (mode == 'ThemeMode.light') return ThemeMode.light;
+    }
     return ThemeMode.system;
   }
 }

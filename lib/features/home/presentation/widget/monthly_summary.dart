@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:get/get.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 
 class MonthlySummary extends StatefulWidget {
   final Map<DateTime, int> datasets;
@@ -23,6 +25,7 @@ class _MonthlySummaryState extends State<MonthlySummary>
   @override
   void initState() {
     super.initState();
+    habitController = Get.find<HabitController>();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -55,15 +58,15 @@ class _MonthlySummaryState extends State<MonthlySummary>
     final primaryColor = themeColors.primary;
 
     final colorsets = {
-      1: primaryColor.withValues(alpha: 0.1),
-      2: primaryColor.withValues(alpha: 0.2),
-      3: primaryColor.withValues(alpha: 0.3),
-      4: primaryColor.withValues(alpha: 0.4),
-      5: primaryColor.withValues(alpha: 0.5),
-      6: primaryColor.withValues(alpha: 0.6),
-      7: primaryColor.withValues(alpha: 0.7),
-      8: primaryColor.withValues(alpha: 0.8),
-      9: primaryColor.withValues(alpha: 0.9),
+      1:  primaryColor.withValues(alpha: 0.1),
+      2:  primaryColor.withValues(alpha: 0.2),
+      3:  primaryColor.withValues(alpha: 0.3),
+      4:  primaryColor.withValues(alpha: 0.4),
+      5:  primaryColor.withValues(alpha: 0.5),
+      6:  primaryColor.withValues(alpha: 0.6),
+      7:  primaryColor.withValues(alpha: 0.7),
+      8:  primaryColor.withValues(alpha: 0.8),
+      9:  primaryColor.withValues(alpha: 0.9),
       10: primaryColor.withValues(alpha: 1.0),
     };
 
@@ -138,25 +141,59 @@ class _MonthlySummaryState extends State<MonthlySummary>
                     scrollable: true,
                     size: _heatMapSize,
                     colorsets: colorsets,
-                    onClick: (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.primary.withAlpha(100),
-                          duration: const Duration(seconds: 1),
-                          content: Center(
-                            child: Text(
-                              value.toString().replaceAll("00:00:00.000", " "),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
+                    onClick: (value) async {
+                      final messenger = ScaffoldMessenger.of(context);
+                      final status = await habitController.getCompletionStatusForDate(value);
+                      final int completed = status['completed'] ?? 0;
+                      final int total = status['total'] ?? 0;
+
+                      if (mounted) {
+                        messenger.clearSnackBars();
+                        messenger.showSnackBar(
+                          SnackBar(
+                            backgroundColor: themeColors.primary.withValues(alpha: 0.9),
+                            duration: const Duration(seconds: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      S.current.completed,
+                                      style: TextStyle(
+                                        color: themeColors.onPrimary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      "$completed / $total",
+                                      style: TextStyle(
+                                        color: themeColors.onPrimary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  value.toString().split(' ')[0],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: themeColors.onPrimary.withValues(alpha: 0.9),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                   ),
                 ),

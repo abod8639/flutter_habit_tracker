@@ -161,12 +161,11 @@ class _MyTextTaileState extends State<MyTextTaile>
 Widget _buildTileContent(ColorScheme themeColors) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      padding: const EdgeInsets.all(12), // زيادة بسيطة للتنفس
+      padding: const EdgeInsets.all(12), 
       decoration: BoxDecoration(
         color: _getTileColor(themeColors),
-        borderRadius: BorderRadius.circular(15), // زوايا أنعم تزيد من إحساس العمق
+        borderRadius: BorderRadius.circular(15), 
         
-        // التدرج اللوني يعطي إيحاءً بالانحناء والعمق
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -178,17 +177,16 @@ Widget _buildTileContent(ColorScheme themeColors) {
 
         border: widget.isSelected
             ? Border.all(color: themeColors.primary, width: 2)
-            : Border.all(color: Colors.white.withValues(alpha: 0.1), width: 1), // حد خفيف جداً للبروز
+            : Border.all(color: Colors.white.withValues(alpha: 0.1), width: 1), 
 
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 12,
             blurStyle: BlurStyle.inner,
-            offset: const Offset(0, 6), // إزاحة الظل للأسفل لرفع العنصر بصرياً
-            spreadRadius: -2, // تقليل الانتشار لجعل الظل يبدو طبيعياً أكثر
+            offset: const Offset(0, 6), 
+            spreadRadius: -2, 
           ),
-          // إضاءة علوية (اختياري - تعطي تأثير زجاجي/بارز)
           BoxShadow(
             blurStyle: BlurStyle.inner,
             // color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.5),

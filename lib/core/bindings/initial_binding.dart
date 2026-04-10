@@ -18,5 +18,6 @@ class InitialBinding extends Bindings {
 
     // 4. Setting Feature (Depends on services from Habit)
     SettingBinding().dependencies();
+
   }
 }

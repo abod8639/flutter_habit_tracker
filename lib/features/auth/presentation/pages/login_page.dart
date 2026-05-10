@@ -7,6 +7,9 @@ import 'package:habit_tracker/features/auth/presentation/pages/signup_page.dart'
 import 'package:habit_tracker/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:habit_tracker/features/home/presentation/pages/home_screen.dart';
 import 'package:habit_tracker/features/auth/presentation/widgets/fade_slide_transition.dart';
+import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
+import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
+import 'package:habit_tracker/core/functions/perform_sync.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final AuthController _authController = Get.find<AuthController>();
+  final HabitController _habitController = Get.find<HabitController>();
+  final SyncController _syncController = Get.find<SyncController>();
   bool _obscurePassword = true;
 
   @override
@@ -31,15 +36,21 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _handleEmailSignIn() async {
     if (_formKey.currentState!.validate()) {
-      await _authController.signInWithEmail(
+      final success = await _authController.signInWithEmail(
         email: _emailController.text,
         password: _passwordController.text,
       );
+      if (success) {
+        await performSync(_syncController, _habitController);
+      }
     }
   }
 
   Future<void> _handleGoogleSignIn() async {
-    await _authController.signInWithGoogle();
+    final success = await _authController.signInWithGoogle();
+    if (success) {
+      await performSync(_syncController, _habitController);
+    }
   }
 
   @override
@@ -183,11 +194,13 @@ class _LoginPageState extends State<LoginPage> {
                   // Sign In Button
                   AnimatedEntry(
                     delay: delayStep * 4,
-                    child: Obx(
-                      () => ElevatedButton(
-                        onPressed: _authController.isLoading.value
-                            ? null
-                            : _handleEmailSignIn,
+                    child: Obx(() {
+                      final bool isAuthLoading = _authController.isLoading.value;
+                      final bool isSyncing = _syncController.syncStatus.value == SyncStatus.syncing;
+                      final bool isLoading = isAuthLoading || isSyncing;
+
+                      return ElevatedButton(
+                        onPressed: isLoading ? null : _handleEmailSignIn,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: theme.colorScheme.primary,
@@ -197,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        child: _authController.isLoading.value
+                        child: isLoading
                             ? SizedBox(
                                 height: 24,
                                 width: 24,
@@ -213,8 +226,8 @@ class _LoginPageState extends State<LoginPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
 
                   const SizedBox(height: 24),
@@ -243,19 +256,27 @@ class _LoginPageState extends State<LoginPage> {
 
                   // Google Sign In Button
                   AnimatedEntry(
-                    delay: delayStep * 6,
-                    child: Obx(
-                      () => OutlinedButton.icon(
-                        onPressed: _authController.isLoading.value
-                            ? null
-                            : _handleGoogleSignIn,
-                        icon: Image.asset(
-                          'assets/icon/google_icon.png',
-                          height: 24,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.g_mobiledata, size: 24);
-                          },
-                        ),
+                    delay: delayStep * 9,
+                    child: Obx(() {
+                      final bool isAuthLoading = _authController.isLoading.value;
+                      final bool isSyncing = _syncController.syncStatus.value == SyncStatus.syncing;
+                      final bool isLoading = isAuthLoading || isSyncing;
+
+                      return OutlinedButton.icon(
+                        onPressed: isLoading ? null : _handleGoogleSignIn,
+                        icon: isLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : Image.asset(
+                                'assets/icon/google_icon.png',
+                                height: 24,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.g_mobiledata, size: 24);
+                                },
+                              ),
                         label: Text(S.current.signInWithGoogle),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -266,8 +287,8 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
 
                   const SizedBox(height: 32),

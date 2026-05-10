@@ -56,6 +56,7 @@ class HabitBinding extends Bindings {
     Get.lazyPut(() => GetStartDateUseCase(Get.find()));
     Get.lazyPut(() => IncrementDayCountUseCase(Get.find()));
 
+
     // Controller
     Get.lazyPut(() => HabitController());
   }

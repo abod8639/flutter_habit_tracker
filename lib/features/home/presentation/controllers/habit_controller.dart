@@ -15,13 +15,13 @@ import 'package:habit_tracker/features/home/domain/usecases/toggle_habit_usecase
 import 'package:habit_tracker/features/home/domain/usecases/reset_daily_habits_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_order_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/get_start_date_usecase.dart';
+import 'package:habit_tracker/features/home/domain/usecases/increment_day_count_usecase.dart';
 import 'package:habit_tracker/features/setting/presentation/controllers/sync_controller.dart';
 import 'package:habit_tracker/core/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
-import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
-import 'package:hive/hive.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';
 
 class HabitController extends GetxController {
@@ -32,13 +32,14 @@ class HabitController extends GetxController {
   final EditHabitUseCase _editHabitUseCase = Get.find();
   final DeleteHabitUseCase _deleteHabitUseCase = Get.find();
   final ToggleHabitUseCase _toggleHabitUseCase = Get.find();
-  // final ReorderHabitsUseCase _reorderHabitsUseCase = Get.find();
   final GetHeatmapDataUseCase _getHeatmapDataUseCase = Get.find();
   final IsUserLoggedInUseCase _isUserLoggedInUseCase = Get.find();
   final ResetDailyHabitsUseCase _resetDailyHabitsUseCase = Get.find();
   final UpdateHabitColorUseCase _updateHabitColorUseCase = Get.find();
   final UpdateHabitOrderUseCase _updateHabitOrderUseCase = Get.find();
   final GetCompletionStatusForDateUseCase _getCompletionStatusForDateUseCase = Get.find();
+  final GetStartDateUseCase _getStartDateUseCase = Get.find();
+  final IncrementDayCountUseCase _incrementDayCountUseCase = Get.find();
 
   // State
   final RxList<HabitEntity> habits = <HabitEntity>[].obs;
@@ -164,8 +165,7 @@ class HabitController extends GetxController {
   }
 
   String getStartDay() {
-    final box = Hive.box(HabitStorage.boxName);
-    String storedStartDay = box.get(HabitStorage.startDayKey, defaultValue: "");
+    String storedStartDay = _getStartDateUseCase();
     
     final combinedHeatmap = heatmapDateSet;
 
@@ -188,10 +188,8 @@ class HabitController extends GetxController {
     return storedStartDay;
   }
 
-  void incrementDayCount() {
-    final box = Hive.box(HabitStorage.boxName);
-    int dayCount = box.get(HabitStorage.dayCountKey) ?? 1;
-    box.put(HabitStorage.dayCountKey, dayCount + 1);
+  Future<void> incrementDayCount() async {
+    await _incrementDayCountUseCase();
   }
 
   // --- Public Actions ---
@@ -320,7 +318,6 @@ class HabitController extends GetxController {
       habits.removeWhere((h) => selectedHabitIds.contains(h.id));
       
       // Calculate a safe insertion index based on the remaining items
-      // If we move items forward, newIndex might exceed the new length of the list.
       final insertIndex = newIndex.clamp(0, habits.length);
       habits.insertAll(insertIndex, selectedItems);
     } else {

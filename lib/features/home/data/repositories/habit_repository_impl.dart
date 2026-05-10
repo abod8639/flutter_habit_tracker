@@ -402,6 +402,11 @@ class HabitRepositoryImpl implements HabitRepository {
       return Left(CacheFailure(e.toString()));
     }
   }
+
+  @override
+  String getStartDate() {
+    return localDataSource.getStartDate();
+  }
 }
 
 // Top level function for compute - Must be outside the class

@@ -25,4 +25,5 @@ abstract class HabitRepository {
   Future<Either<Failure, void>> saveHabitCompletionToHistory(String habitName, bool isCompleted, DateTime date);
   Future<Either<Failure, Map<String, int>>> getCompletionStatusForDate(DateTime date);
   Future<Either<Failure, Map<String, Map<DateTime, bool>>>> getHabitHistoryMap(int days);
+  String getStartDate();
 }

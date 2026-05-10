@@ -10,8 +10,8 @@ description: >
   feature bindings, use cases, or domain entities in a Flutter project.
 ---
 
-# habit tracker — Flutter Skill
-h
+# habit tracker 
+
 ---
 
 ## Senior Developer Mindset

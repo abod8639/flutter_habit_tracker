@@ -1,12 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:habit_tracker/core/error/failures.dart';
 import 'package:habit_tracker/features/home/data/datasources/habit_local_data_source.dart';
-import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
 import 'package:habit_tracker/services/firestore_service.dart';
-import 'package:hive/hive.dart';
 import '../models/date_time.dart';
 
 class HabitRepositoryImpl implements HabitRepository {
@@ -44,7 +43,6 @@ class HabitRepositoryImpl implements HabitRepository {
         if (name.trim().isEmpty) continue;
         
         final newModel = HabitModel(
-          // Use microseconds and name hash to further reduce collision risk
           id: "${now.microsecondsSinceEpoch}_${name.hashCode}_${models.length}",
           name: name,
           isCompleted: false,
@@ -200,8 +198,8 @@ class HabitRepositoryImpl implements HabitRepository {
       // 1. Get historical data from local storage
       final rawHistory = await localDataSource.getAllHabitStrengths();
       
-      // 2. Process large historical data set directly instead of using compute
-      final heatmapData = _processHeatmapData(rawHistory);
+      // 2. Use compute for CPU-intensive heatmap processing to avoid blocking UI thread
+      final heatmapData = await compute(_processHeatmapData, rawHistory);
       
       // 3. Recalculate TODAY's strength based on LIVE habits to ensure accuracy on startup
       final habits = localDataSource.loadHabits();
@@ -267,7 +265,7 @@ class HabitRepositoryImpl implements HabitRepository {
     try {
       final models = localDataSource.loadHabits();
       final index = models.indexWhere((h) => h.id == id);
-      if (index == -1) return Left(CacheFailure('Habit not found'));
+      if (index == -1) return Left(const CacheFailure('Habit not found'));
 
       final m = models[index];
       models[index] = HabitModel(
@@ -306,9 +304,8 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<Either<Failure, DateTime?>> getLastResetDate() async {
     try {
-      final box = Hive.box(HabitStorage.boxName);
-      final dateStr = box.get(HabitStorage.lastResetDateKey);
-      return Right(dateStr != null ? DateTime.parse(dateStr) : null);
+      final date = await localDataSource.getLastResetDate();
+      return Right(date);
     } catch (e) {
       return Left(CacheFailure(e.toString()));
     }
@@ -317,8 +314,7 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<Either<Failure, void>> saveLastResetDate(DateTime date) async {
     try {
-      final box = Hive.box(HabitStorage.boxName);
-      await box.put(HabitStorage.lastResetDateKey, date.toIso8601String());
+      await localDataSource.saveLastResetDate(date);
       return const Right(null);
     } catch (e) {
       return Left(CacheFailure(e.toString()));
@@ -350,9 +346,7 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<Either<Failure, void>> incrementDayCount() async {
     try {
-      final box = Hive.box(HabitStorage.boxName);
-      int currentCount = box.get(HabitStorage.dayCountKey) ?? 1;
-      await box.put(HabitStorage.dayCountKey, currentCount + 1);
+      await localDataSource.incrementDayCount();
       return const Right(null);
     } catch (e) {
       return Left(CacheFailure(e.toString()));
@@ -362,24 +356,11 @@ class HabitRepositoryImpl implements HabitRepository {
   @override
   Future<Either<Failure, void>> saveHabitCompletionToHistory(String habitName, bool isCompleted, DateTime date) async {
     try {
-      final box = await _openMonthlyBoxForDate(date);
-      final dateStr = convertDateTimeToString(date);
-      final historyKey = "${habitName}_$dateStr";
-      await box.put(historyKey, isCompleted);
+      await localDataSource.saveHabitCompletionToHistory(habitName, isCompleted, date);
       return const Right(null);
     } catch (e) {
       return Left(CacheFailure(e.toString()));
     }
-  }
-
-  // Helper to open monthly box
-  Future<Box> _openMonthlyBoxForDate(DateTime date) async {
-    final monthStr = convertDateTimeToString(date).substring(0, 6);
-    final boxName = "${HabitStorage.boxName}_history_$monthStr";
-    if (Hive.isBoxOpen(boxName)) {
-      return Hive.box(boxName);
-    }
-    return await Hive.openBox(boxName);
   }
 
   @override

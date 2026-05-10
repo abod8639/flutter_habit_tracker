@@ -206,6 +206,27 @@ class HabitLocalDataSource {
     await _myBox.clear();
   }
 
+  Future<DateTime?> getLastResetDate() async {
+    final String? dateStr = _myBox.get(HabitStorage.lastResetDateKey);
+    return dateStr != null ? DateTime.parse(dateStr) : null;
+  }
+
+  Future<void> saveLastResetDate(DateTime date) async {
+    await _myBox.put(HabitStorage.lastResetDateKey, date.toIso8601String());
+  }
+
+  Future<void> incrementDayCount() async {
+    int currentCount = _myBox.get(HabitStorage.dayCountKey) ?? 1;
+    await _myBox.put(HabitStorage.dayCountKey, currentCount + 1);
+  }
+
+  Future<void> saveHabitCompletionToHistory(String habitName, bool isCompleted, DateTime date) async {
+    final dateStr = convertDateTimeToString(date);
+    final historyBox = await _openMonthlyBox(dateStr);
+    final historyKey = "${habitName}_$dateStr";
+    await historyBox.put(historyKey, isCompleted);
+  }
+
   Future<Map<String, Map<DateTime, bool>>> getHabitHistoryMap(int days) async {
     final Map<String, Map<DateTime, bool>> historyMap = {};
     final now = DateTime.now();

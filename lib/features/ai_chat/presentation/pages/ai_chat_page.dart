@@ -59,7 +59,7 @@ class AiChatPage extends GetView<AiChatController> {
       ),
       title: Row(
         children: [
-          _buildAiAvatar(context, size: 36),
+          _buildAiAvatar(context, size: 36, useHero: true),
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,8 +99,13 @@ class AiChatPage extends GetView<AiChatController> {
     );
   }
 
-  Widget _buildAiAvatar(BuildContext context, {double size = 42}) {
+  Widget _buildAiAvatar(BuildContext context, {double size = 42, bool useHero = false}) {
     final theme = Theme.of(context);
+    final iconWidget = Icon(
+      Icons.auto_awesome,
+      color: theme.colorScheme.onPrimary,
+      size: size * 0.5,
+    );
     return Container(
       width: size,
       height: size,
@@ -122,11 +127,12 @@ class AiChatPage extends GetView<AiChatController> {
           ),
         ],
       ),
-      child: Icon(
-        Icons.auto_awesome,
-        color: theme.colorScheme.onPrimary,
-        size: size * 0.5,
-      ),
+      child: useHero
+          ? Hero(
+              tag: 'ai_coach',
+              child: iconWidget,
+            )
+          : iconWidget,
     );
   }
 

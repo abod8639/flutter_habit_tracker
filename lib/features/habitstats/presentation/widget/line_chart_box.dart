@@ -5,13 +5,11 @@ import '../controllers/habitstats_controller.dart';
 import 'my_line_chart_bar_data.dart';
 import 'build_trend_chart.dart';
 
-class LineChartBox extends StatelessWidget {
+class LineChartBox extends GetView<HabitStatsController> {
   const LineChartBox({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<HabitStatsController>();
-
     return SizedBox(
       height: 300,
       child: Obx(() {

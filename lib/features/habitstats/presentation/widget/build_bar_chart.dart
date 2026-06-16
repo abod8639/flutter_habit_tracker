@@ -227,7 +227,7 @@ Widget buildBarChart() {
                     ),
                     const SizedBox(width: 8),
                     _StatChip(
-                      label: "نسبة الإنجاز",
+                      label: S.current.completionRate,
                       value: chartData.isEmpty
                           ? '0%'
                           : '${(completedCount / chartData.length * 100).round()}%',
@@ -236,7 +236,7 @@ Widget buildBarChart() {
                     ),
                     const SizedBox(width: 8),
                     _StatChip(
-                      label: "أيام الهدف",
+                      label: S.current.streak,
                       value: '$streak',
                       color: colorScheme.tertiaryContainer,
                       textColor: colorScheme.onTertiaryContainer,

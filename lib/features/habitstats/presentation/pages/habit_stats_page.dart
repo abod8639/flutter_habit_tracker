@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/functions/keyboard_shortcuts.dart';
+import 'package:habit_tracker/features/ai_chat/presentation/controllers/ai_chat_binding.dart';
+import 'package:habit_tracker/features/ai_chat/presentation/pages/ai_chat_page.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import '../controllers/habitstats_controller.dart';
 import '../widget/fade_animation_summary_card.dart';
@@ -76,11 +78,22 @@ class _HabitStatsPageState extends State<HabitStatsPage>
                     FadeAnimationHabitListCard(
                       animationController: _animationController,
                     ),
+                    const SizedBox(height: 80), // extra padding for FAB
                   ],
                 ),
               ),
             );
           },
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Get.to(
+              () => const AiChatPage(),
+              binding: AiChatBinding(),
+            );
+          },
+          icon: const Icon(Icons.auto_awesome),
+          label: Text(S.current.aiCoach),
         ),
       ),
     );

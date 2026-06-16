@@ -38,6 +38,10 @@ class NotificationController extends GetxController {
   }
 
   Future<void> toggleNotification(bool enabled) async {
+    if (enabled) {
+      await _notificationService.requestPermissions();
+    }
+    
     isNotificationEnabled.value = enabled;
     final result = await _setNotificationEnabledUseCase(enabled);
     

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/services/gemini_service.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
@@ -34,7 +35,7 @@ class AiChatController extends GetxController {
       final List<HabitEntity> habits = habitController.habits;
       
       final todayStr = todaysDateFormatted();
-      final today = createDateTimeObject(todayStr);
+      // final today = createDateTimeObject(todayStr);
       final int completedCount = habits.where((h) => h.isCompleted).length;
       final int totalCount = habits.length;
       
@@ -66,16 +67,15 @@ If the completion rate is low, encourage them to take a small step. If it's high
       _generateInitialGreeting();
     } catch (e) {
       Get.snackbar('Error', 'Failed to initialize chat: $e');
+      print('Error Failed to initialize chat: $e');
     }
   }
 
   Future<void> _generateInitialGreeting() async {
     isLoading.value = true;
     try {
-      final isArabic = Get.locale?.languageCode == 'ar';
-      final prompt = isArabic 
-          ? "مرحباً. يرجى التعريف بنفسك باختصار كمدرب ذكاء اصطناعي خاص بي والتعليق على تقدم عاداتي اليوم."
-          : "Hello. Please introduce yourself briefly as my AI coach and comment on my habit progress today.";
+      // final isArabic = Get.locale?.languageCode == 'ar';
+      final prompt = S.current.initialGreeting;
       final response = await _chatSession.sendMessage(Content.text(prompt));
       if (response.text != null && response.text!.isNotEmpty) {
         messages.add(ChatMessage(text: response.text!, isUser: false));

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/features/ai_chat/presentation/controllers/ai_chat_binding.dart';
+import 'package:habit_tracker/features/ai_chat/presentation/pages/ai_chat_page.dart';
 import 'package:habit_tracker/features/habitstats/presentation/pages/habit_stats_page.dart';
 import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/habitstats/presentation/controllers/habitstats_binding.dart';
@@ -132,6 +134,17 @@ class _DrawerListState extends State<DrawerList> {
             Get.to(() => const SettingsPage(), binding: SettingBinding());
           },
           title: S.current.drawerSetting,
+        ),
+        MyDrawerListTile(
+          icon: const Icon(color: Colors.purpleAccent, Icons.psychology),
+          onTap: () {
+            Get.back();
+            Get.to(
+              () => const AiChatPage(),
+              binding: AiChatBinding(),
+            );
+          },
+          title: S.current.aiCoach,
         ),
       ],
     );

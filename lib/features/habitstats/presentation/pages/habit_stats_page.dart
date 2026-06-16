@@ -86,6 +86,7 @@ class _HabitStatsPageState extends State<HabitStatsPage>
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
+          heroTag: 'ai_coach',
           onPressed: () {
             Get.to(
               () => const AiChatPage(),

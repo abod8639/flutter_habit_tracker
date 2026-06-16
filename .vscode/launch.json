@@ -1,6 +1,12 @@
 {
   "configurations": [
     {
+      "name": "habit_tracker (Flutter SM G973U (wireless))",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart"
+    },
+    {
       "name": "Flutter (lib/features/setting/presentation/widget/ buildSyncSection.dart)",
       "type": "dart",
       "request": "launch",

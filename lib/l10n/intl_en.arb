@@ -143,5 +143,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "aiCoach": "AI Coach",
+  "typeMessage": "Type a message...",
+  "online": "Online",
+  "aiGreeting": "I'm here to support you in your journey towards your goals."
 }

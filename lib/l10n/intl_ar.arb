@@ -118,5 +118,9 @@
   "scanImage":"مسح الصورة",
   "minutesAgo": "منذ {minutes} دقيقة",
   "hoursAgo": "منذ {hours} ساعة",
-  "daysAgo": "منذ {days} يوم"
+  "daysAgo": "منذ {days} يوم",
+  "aiCoach": "المدرب الذكي",
+  "typeMessage": "اكتب رسالة...",
+  "online": "متصل",
+  "aiGreeting": "أنا هنا لدعمك في رحلتك نحو أهدافك."
 }

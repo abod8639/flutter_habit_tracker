@@ -147,5 +147,10 @@
   "aiCoach": "AI Coach",
   "typeMessage": "Type a message...",
   "online": "Online",
-  "aiGreeting": "I'm here to support you in your journey towards your goals."
+  "aiGreeting": "I'm here to support you in your journey towards your goals.",
+  "completionRate": "Completion Rate",
+  "streak": "Streak",
+  "initialGreeting": "Hello. Please introduce yourself briefly as my AI coach and comment on my habit progress today."
+
 }
+

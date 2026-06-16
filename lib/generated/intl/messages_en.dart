@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account": MessageLookupByLibrary.simpleMessage("Account"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "addNewHabit": MessageLookupByLibrary.simpleMessage("Add new Habit..."),
+    "aiCoach": MessageLookupByLibrary.simpleMessage("AI Coach"),
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "Already have an account?",
     ),
@@ -220,6 +221,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "total": MessageLookupByLibrary.simpleMessage("Total"),
     "trendChartIsEmpty": MessageLookupByLibrary.simpleMessage(
       "Not enough data to display trends",
+    ),
+    "typeMessage": MessageLookupByLibrary.simpleMessage("Type a message..."),
+    "online": MessageLookupByLibrary.simpleMessage("Online"),
+    "aiGreeting": MessageLookupByLibrary.simpleMessage(
+      "I'm here to support you in your journey towards your goals.",
     ),
     "user": MessageLookupByLibrary.simpleMessage("User"),
     "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress"),

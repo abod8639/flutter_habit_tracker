@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account": MessageLookupByLibrary.simpleMessage("الحساب"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
     "addNewHabit": MessageLookupByLibrary.simpleMessage("إضافة عادة جديدة..."),
+    "aiCoach": MessageLookupByLibrary.simpleMessage("المدرب الذكي"),
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "لديك حساب بالفعل؟",
     ),
@@ -222,6 +223,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "total": MessageLookupByLibrary.simpleMessage("المجموع"),
     "trendChartIsEmpty": MessageLookupByLibrary.simpleMessage(
       "بيانات غير كافية لعرض الإحصائيات",
+    ),
+    "typeMessage": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
+    "online": MessageLookupByLibrary.simpleMessage("متصل"),
+    "aiGreeting": MessageLookupByLibrary.simpleMessage(
+      "أنا هنا لدعمك في رحلتك نحو أهدافك.",
     ),
     "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
     "weekly": MessageLookupByLibrary.simpleMessage("تقدم الأسبوعي"),

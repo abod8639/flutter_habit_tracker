@@ -46,7 +46,6 @@ Future<void> initializeApp() async {
     try {
       final notificationService = NotificationService();
       await notificationService.init();
-      await notificationService.requestPermissions();
     } catch (_) {
       // Notifications are non-fatal
     }

@@ -100,4 +100,21 @@ class GeminiService {
       throw Exception('Error extracting habits from image:');
     }
   }
+
+  /// Starts a new chat session with an optional system instruction.
+  ChatSession startChat({String? systemInstruction}) {
+    final apiKey = dotenv.env['GEMINI_API_KEY'];
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception('GEMINI_API_KEY not found in .env file');
+    }
+
+    final chatModel = GenerativeModel(
+      model: 'gemini-3.5-flash', // Using the standard chat model
+      apiKey: apiKey,
+      systemInstruction: systemInstruction != null ? Content.system(systemInstruction) : null,
+    );
+
+    return chatModel.startChat();
+  }
+  
 }

@@ -968,6 +968,46 @@ class S {
       args: [days],
     );
   }
+
+  /// `AI Coach`
+  String get aiCoach {
+    return Intl.message(
+      'AI Coach',
+      name: 'aiCoach',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type a message...`
+  String get typeMessage {
+    return Intl.message(
+      'Type a message...',
+      name: 'typeMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Online`
+  String get online {
+    return Intl.message(
+      'Online',
+      name: 'online',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I'm here to support you in your journey towards your goals.`
+  String get aiGreeting {
+    return Intl.message(
+      'I\'m here to support you in your journey towards your goals.',
+      name: 'aiGreeting',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

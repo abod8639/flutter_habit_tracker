@@ -123,7 +123,7 @@ class GeminiService {
       }
 
       final chatModel = GenerativeModel(
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-2.5-flash-lite',
         apiKey: apiKey,
         systemInstruction: systemInstruction != null ? Content.system(systemInstruction) : null,
       );

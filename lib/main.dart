@@ -12,6 +12,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/core/error/error_app.dart';
 import 'package:habit_tracker/features/auth/presentation/widgets/auth_wrapper.dart';
+import 'package:habit_tracker/core/services/analytics_service.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -43,31 +44,44 @@ class MyApp extends StatelessWidget {
     // These will now be found correctly because InitialBinding() was called in main()
     final LangController controllerLanguage = Get.find<LangController>();
     final ThemeController themeController = Get.find<ThemeController>();
+    final AnalyticsService analyticsService = Get.find<AnalyticsService>();
 
     return Obx(
-      () => GetMaterialApp(
-        initialBinding: InitialBinding(), // Already called in main()
-        locale: Locale(controllerLanguage.language.value),
+      () => Listener(
+        onPointerDown: (PointerDownEvent event) {
+          final x = event.position.dx;
+          final y = event.position.dy;
+          final currentRoute = Get.currentRoute;
+          analyticsService.logTap(x, y, currentRoute);
+        },
+        child: GetMaterialApp(
+          initialBinding: InitialBinding(), // Already called in main()
+          locale: Locale(controllerLanguage.language.value),
+          navigatorObservers: [
+            analyticsService.getObserver(),
+            analyticsService.getTimeTrackerObserver(),
+          ],
 
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
 
-        supportedLocales: S.delegate.supportedLocales,
+          supportedLocales: S.delegate.supportedLocales,
 
-        debugShowCheckedModeBanner: false,
-        title: 'Habit Tracker',
-        defaultTransition: Transition.fadeIn,
-        smartManagement: SmartManagement.full,
+          debugShowCheckedModeBanner: false,
+          title: 'Habit Tracker',
+          defaultTransition: Transition.fadeIn,
+          smartManagement: SmartManagement.full,
 
-        theme: themeController.lightTheme.value,
-        darkTheme: themeController.darkTheme.value,
-        themeMode: themeController.themeMode.value,
+          theme: themeController.lightTheme.value,
+          darkTheme: themeController.darkTheme.value,
+          themeMode: themeController.themeMode.value,
 
-        home: const AuthWrapper(),
+          home: const AuthWrapper(),
+        ),
       ),
     );
   }

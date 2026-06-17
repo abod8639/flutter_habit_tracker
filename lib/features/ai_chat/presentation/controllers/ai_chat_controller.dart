@@ -6,22 +6,40 @@ import 'package:habit_tracker/services/gemini_service.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';
+import 'package:hive/hive.dart';
 
 class ChatMessage {
-  final String text;
+  final RxString text;
   final bool isUser;
+  final RxBool hasError;
 
-  ChatMessage({required this.text, required this.isUser});
+  ChatMessage({
+    required String text,
+    required this.isUser,
+    bool hasError = false,
+  })  : text = text.obs,
+        hasError = hasError.obs;
 }
 
 class AiChatController extends GetxController {
   final GeminiService _geminiService = GeminiService();
-  late final ChatSession _chatSession;
+  late ChatSession _chatSession;
 
   final RxList<ChatMessage> messages = <ChatMessage>[].obs;
   final TextEditingController textController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final RxBool isLoading = false.obs;
+  final RxString loadingMessage = ''.obs;
+
+  Box? _historyBox;
+
+  Future<Box> _getHistoryBox() async {
+    if (_historyBox != null && _historyBox!.isOpen) {
+      return _historyBox!;
+    }
+    _historyBox = await Hive.openBox(_historyBoxName);
+    return _historyBox!;
+  }
 
   @override
   void onInit() {
@@ -29,27 +47,50 @@ class AiChatController extends GetxController {
     _initializeChat();
   }
 
-  void _initializeChat() {
-    try {
-      final habitController = Get.find<HabitController>();
-      final List<HabitEntity> habits = habitController.habits;
-      
-      final todayStr = todaysDateFormatted();
-      // final today = createDateTimeObject(todayStr);
-      final int completedCount = habits.where((h) => h.isCompleted).length;
-      final int totalCount = habits.length;
-      
-      final completionRate = totalCount == 0 ? 0 : (completedCount / totalCount * 100).toInt();
+  static const String _historyBoxName = 'ai_chat_history';
 
-      String habitsContext = "User has no habits currently tracked.";
-      if (habits.isNotEmpty) {
-        habitsContext = habits.map((h) => "- ${h.name} (${h.isCompleted ? 'Completed' : 'Not completed'})").join("\n");
-      }
+  String _buildSystemInstruction() {
+    final habitController = Get.isRegistered<HabitController>()
+        ? Get.find<HabitController>()
+        : null;
+    final List<HabitEntity> habits = habitController?.habits ?? [];
+    
+    final todayStr = todaysDateFormatted();
+    final int completedCount = habits.where((h) => h.isCompleted).length;
+    final int totalCount = habits.length;
+    
+    final completionRate = totalCount == 0 ? 0 : (completedCount / totalCount * 100).toInt();
 
-      final systemInstruction = '''
+    final isArabic = Get.locale?.languageCode == 'ar';
+    final appLanguage = isArabic ? 'Arabic' : 'English';
+
+    String habitsContext = isArabic ? "لا توجد عادات يتتبعها المستخدم حالياً." : "User has no habits currently tracked.";
+    if (habits.isNotEmpty) {
+      habitsContext = habits.map((h) {
+        final status = h.isCompleted
+            ? (isArabic ? '✓ مكتملة' : '✓ Completed')
+            : (isArabic ? '✗ غير مكتملة' : '✗ Not completed');
+        return "- ${h.name} ($status)";
+      }).join("\n");
+    }
+
+    final startDateStr = habitController?.getStartDay() ?? todayStr;
+    final dailyHistoryContext = habitController != null
+        ? _getHeatmapContext(habitController.heatmapDateSet)
+        : (isArabic ? "لا يوجد سجل إنجاز متوفر حتى الآن." : "No history recorded yet.");
+
+    return '''
 You are an elite, empathetic habit coach embedded inside a Habit Tracker app.
 Your name is never mentioned unless the user asks.
 Your core mission: help the user build momentum, feel understood, and take one concrete action.
+
+━━━━━━━━━━━━━━━━━━━━━━
+LANGUAGE & LOCALE RULES
+━━━━━━━━━━━━━━━━━━━━━━
+✦ The app's current language is: $appLanguage.
+✦ You MUST start the conversation (including your initial greeting) and write your response in this language.
+✦ Mirror the user's language: if they write Arabic → respond in Arabic. If they write English → respond in English. If they mix → mirror the dominant language.
+✦ Maintain natural, high-quality phrasing in the target language (no literal/robotic translations).
 
 ━━━━━━━━━━━━━━━━━━━━━━
 CONTEXT INJECTED EACH SESSION
@@ -59,6 +100,13 @@ Total habits: $totalCount
 Completed: $completedCount ($completionRate%)
 Habits detail:
 $habitsContext
+
+━━━━━━━━━━━━━━━━━━━━━━
+HISTORICAL PROGRESS DATA
+━━━━━━━━━━━━━━━━━━━━━━
+✦ Start tracking date: $startDateStr
+✦ Daily completion rates (last 30 days, newest to oldest):
+$dailyHistoryContext
 
 ━━━━━━━━━━━━━━━━━━━━━━
 RESPONSE MODE — pick based on $completionRate
@@ -139,31 +187,68 @@ PERSONALITY CONSTANTS
 // Keep your responses concise, friendly, and highly motivating. Adapt your language to the user's input language (especially if they use Arabic, respond in fluent Arabic).
 // If the completion rate is low, encourage them to take a small step. If it's high, praise their consistency and discipline.
 ''';
+  }
 
-      _chatSession = _geminiService.startChat(systemInstruction: systemInstruction);
+  Future<void> _initializeChat() async {
+    try {
+      // 1. Load History from Hive (last 10 messages)
+      final box = await _getHistoryBox();
+      final storedList = box.get('history', defaultValue: []) as List;
+      final loadedMessages = storedList.map((item) {
+        final map = Map<String, dynamic>.from(item as Map);
+        return ChatMessage(
+          text: map['text'] as String,
+          isUser: map['isUser'] as bool,
+          hasError: map['hasError'] as bool? ?? false,
+        );
+      }).toList();
+
+      messages.clear();
+      messages.addAll(loadedMessages);
+
+      // 2. Map loaded messages to Content objects for ChatSession history
+      // Note: Skip messages with errors when building history
+      final List<Content> chatHistory = loadedMessages
+          .where((msg) => !msg.hasError.value)
+          .map((msg) {
+        if (msg.isUser) {
+          return Content.text(msg.text.value);
+        } else {
+          return Content.model([TextPart(msg.text.value)]);
+        }
+      }).toList();
+
+      // 3. Initialize chat session with history
+      _chatSession = _geminiService.startChat(
+        systemInstruction: _buildSystemInstruction(),
+        history: chatHistory,
+      );
       
-      // Initial greeting from AI based on their progress
-      // We send a hidden prompt to generate the first greeting
-      _generateInitialGreeting();
+      // 4. Generate initial greeting only if the chat history is completely empty
+      if (messages.isEmpty) {
+        _generateInitialGreeting();
+      } else {
+        _scrollToBottom();
+      }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to initialize chat: $e');
-      print('Error Failed to initialize chat: $e');
+      final userFriendlyError = GeminiService.getErrorMessage(e);
+      Get.snackbar(S.current.error, userFriendlyError);
+      debugPrint('Error Failed to initialize chat: $e');
     }
   }
 
   Future<void> _generateInitialGreeting() async {
-    isLoading.value = true;
-    try {
-      // final isArabic = Get.locale?.languageCode == 'ar';
-      final prompt = S.current.initialGreeting;
-      final response = await _chatSession.sendMessage(Content.text(prompt));
-      if (response.text != null && response.text!.isNotEmpty) {
-        messages.add(ChatMessage(text: response.text!, isUser: false));
-      }
-    } catch (e) {
-      // Silently fail the initial greeting if it errors out
-    } finally {
-      isLoading.value = false;
+    final greetingMessage = ChatMessage(text: '', isUser: false);
+    messages.add(greetingMessage);
+    
+    await _sendChatMessageWithRetry(
+      content: Content.text(S.current.initialGreeting),
+      targetMessage: greetingMessage,
+      isGreeting: true,
+    );
+
+    if (greetingMessage.hasError.value) {
+      messages.remove(greetingMessage);
     }
   }
 
@@ -172,20 +257,150 @@ PERSONALITY CONSTANTS
     if (text.isEmpty) return;
 
     textController.clear();
-    messages.add(ChatMessage(text: text, isUser: true));
+    final userMessage = ChatMessage(text: text, isUser: true);
+    messages.add(userMessage);
     _scrollToBottom();
-    isLoading.value = true;
 
-    try {
-      final response = await _chatSession.sendMessage(Content.text(text));
-      if (response.text != null) {
-        messages.add(ChatMessage(text: response.text!, isUser: false));
-        _scrollToBottom();
+    final responseMessage = ChatMessage(text: '', isUser: false);
+    messages.add(responseMessage);
+    _scrollToBottom();
+
+    await _sendChatMessageWithRetry(
+      content: Content.text(text),
+      targetMessage: responseMessage,
+    );
+
+    if (responseMessage.hasError.value) {
+      userMessage.hasError.value = true;
+      messages.remove(responseMessage);
+      await _saveHistory();
+    }
+  }
+
+  Future<void> retryMessage(ChatMessage userMessage) async {
+    final index = messages.indexOf(userMessage);
+    if (index == -1) return;
+
+    userMessage.hasError.value = false;
+
+    // Remove any trailing messages after this user message
+    while (messages.length > index + 1) {
+      messages.removeLast();
+    }
+
+    final responseMessage = ChatMessage(text: '', isUser: false);
+    messages.add(responseMessage);
+    _scrollToBottom();
+
+    final List<Content> chatHistory = [];
+    for (int i = 0; i < index; i++) {
+      final msg = messages[i];
+      if (msg.hasError.value) continue;
+      if (msg.isUser) {
+        chatHistory.add(Content.text(msg.text.value));
+      } else {
+        chatHistory.add(Content.model([TextPart(msg.text.value)]));
       }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to send message: $e');
-    } finally {
-      isLoading.value = false;
+    }
+
+    _chatSession = _geminiService.startChat(
+      systemInstruction: _buildSystemInstruction(),
+      history: chatHistory,
+    );
+
+    await _sendChatMessageWithRetry(
+      content: Content.text(userMessage.text.value),
+      targetMessage: responseMessage,
+    );
+
+    if (responseMessage.hasError.value) {
+      userMessage.hasError.value = true;
+      messages.remove(responseMessage);
+      await _saveHistory();
+    }
+  }
+
+  double? _extractRetrySeconds(dynamic error) {
+    final errorStr = error.toString();
+    final regex = RegExp(r'retry in\s+([0-9.]+)\s*s', caseSensitive: false);
+    final match = regex.firstMatch(errorStr);
+    if (match != null) {
+      return double.tryParse(match.group(1) ?? '');
+    }
+    return null;
+  }
+
+  Future<void> _sendChatMessageWithRetry({
+    required Content content,
+    required ChatMessage targetMessage,
+    bool isGreeting = false,
+  }) async {
+    const int maxAttempts = 3;
+    int attempt = 0;
+
+    while (attempt < maxAttempts) {
+      attempt++;
+      isLoading.value = true;
+      targetMessage.hasError.value = false;
+      loadingMessage.value = '';
+
+      try {
+        final responseStream = _chatSession.sendMessageStream(content);
+        
+        String accumulatedText = '';
+        bool isFirstChunk = true;
+
+        await for (final chunk in responseStream) {
+          final chunkText = chunk.text;
+          if (chunkText != null && chunkText.isNotEmpty) {
+            if (isFirstChunk) {
+              isLoading.value = false;
+              isFirstChunk = false;
+              targetMessage.text.value = chunkText;
+              accumulatedText = chunkText;
+            } else {
+              accumulatedText += chunkText;
+              targetMessage.text.value = accumulatedText;
+            }
+            _scrollToBottom();
+          }
+        }
+        
+        await _saveHistory();
+        return;
+      } catch (e) {
+        debugPrint('Attempt $attempt failed with error: $e');
+        
+        final errorStr = e.toString().toLowerCase();
+        final isRateLimit = errorStr.contains('quota') || 
+                            errorStr.contains('limit') || 
+                            errorStr.contains('429') || 
+                            errorStr.contains('resource exhausted');
+        
+        if (isRateLimit && attempt < maxAttempts) {
+          double? retrySeconds = _extractRetrySeconds(e);
+          retrySeconds ??= (4.0 * attempt);
+          
+          for (int sec = retrySeconds.ceil(); sec > 0; sec--) {
+            final isArabic = Get.locale?.languageCode == 'ar';
+            loadingMessage.value = isArabic
+                ? 'تم تجاوز حد الطلبات. جاري إعادة المحاولة خلال $sec ثانية...'
+                : 'Rate limit exceeded. Retrying in $sec seconds...';
+            await Future.delayed(const Duration(seconds: 1));
+          }
+          continue;
+        } else {
+          targetMessage.hasError.value = true;
+          if (!isGreeting) {
+            final userFriendlyError = GeminiService.getErrorMessage(e);
+            Get.snackbar(S.current.error, userFriendlyError);
+          }
+          break;
+        }
+      } finally {
+        isLoading.value = false;
+        loadingMessage.value = '';
+      }
     }
   }
 
@@ -201,10 +416,82 @@ PERSONALITY CONSTANTS
     });
   }
 
+  Future<void> _saveHistory() async {
+    try {
+      final box = await _getHistoryBox();
+      // Keep only the last 10 messages
+      final start = messages.length > 10 ? messages.length - 10 : 0;
+      final listToSave = messages.sublist(start).map((msg) => {
+        'text': msg.text.value,
+        'isUser': msg.isUser,
+        'hasError': msg.hasError.value,
+      }).toList();
+      await box.put('history', listToSave);
+    } catch (e) {
+      debugPrint('Error saving chat history: $e');
+    }
+  }
+
+  Future<void> clearChat() async {
+    Get.dialog(
+      AlertDialog(
+        title: Text(S.current.clearChatTitle),
+        content: Text(S.current.clearChatConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(S.current.cancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              Get.back();
+              messages.clear();
+              try {
+                final box = await _getHistoryBox();
+                await box.delete('history');
+              } catch (e) {
+                debugPrint('Error clearing chat history: $e');
+              }
+              _initializeChat();
+            },
+            child: Text(
+              S.current.delete,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void onClose() {
     textController.dispose();
     scrollController.dispose();
     super.onClose();
+  }
+
+  String _getHeatmapContext(Map<DateTime, int> heatmap) {
+    if (heatmap.isEmpty) {
+      return Get.locale?.languageCode == 'ar'
+          ? "لا يوجد سجل إنجاز متوفر حتى الآن."
+          : "No history recorded yet.";
+    }
+    
+    // Sort dates descending (newest first)
+    final sortedDates = heatmap.keys.toList()..sort((a, b) => b.compareTo(a));
+    
+    // Limit to the last 30 days to avoid overloading context
+    final recentDates = sortedDates.take(1).toList();
+    
+    final isArabic = Get.locale?.languageCode == 'ar';
+    
+    return recentDates.map((date) {
+      final dateStr = "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+      final percent = heatmap[date]! * 10;
+      return isArabic
+          ? "- $dateStr: نسبة الإنجاز $percent%"
+          : "- $dateStr: $percent% completed";
+    }).join("\n");
   }
 }

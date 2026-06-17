@@ -96,6 +96,17 @@ class AiChatPage extends GetView<AiChatController> {
           ),
         ],
       ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.delete_sweep_rounded,
+            color: theme.colorScheme.error.withValues(alpha: 0.8),
+            size: 24,
+          ),
+          onPressed: () => controller.clearChat(),
+          tooltip: S.current.clearChatTitle,
+        ),
+      ],
     );
   }
 
@@ -188,6 +199,28 @@ class AiChatPage extends GetView<AiChatController> {
               isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            if (isUser) ...[
+              Obx(() => message.hasError.value
+                  ? Material(
+                      type: MaterialType.transparency,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          color: Colors.redAccent,
+                        ),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () => controller.retryMessage(message),
+                        tooltip: Get.locale?.languageCode == 'ar'
+                            ? 'إعادة المحاولة'
+                            : 'Retry',
+                      ),
+                    )
+                  : const SizedBox.shrink()),
+              Obx(() => message.hasError.value
+                  ? const SizedBox(width: 8)
+                  : const SizedBox.shrink()),
+            ],
             if (!isUser) ...[
               _buildAiAvatar(context, size: 30),
               const SizedBox(width: 8),
@@ -230,14 +263,16 @@ class AiChatPage extends GetView<AiChatController> {
                     ),
                   ],
                 ),
-                child: Text(
-                  message.text,
-                  style: TextStyle(
-                    fontSize: 15,
-                    height: 1.5,
-                    color: isUser
-                        ? theme.colorScheme.onPrimary
-                        : theme.colorScheme.onSurface,
+                child: Obx(
+                  () => Text(
+                    message.text.value,
+                    style: TextStyle(
+                      fontSize: 15,
+                      height: 1.5,
+                      color: isUser
+                          ? theme.colorScheme.onPrimary
+                          : theme.colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ),
@@ -275,7 +310,20 @@ class AiChatPage extends GetView<AiChatController> {
                 ),
               ],
             ),
-            child: const _TypingDots(),
+            child: Obx(() {
+              final loadingMsg = controller.loadingMessage.value;
+              if (loadingMsg.isNotEmpty) {
+                return Text(
+                  loadingMsg,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                    fontWeight: FontWeight.w500,
+                  ),
+                );
+              }
+              return const _TypingDots();
+            }),
           ),
         ],
       ),

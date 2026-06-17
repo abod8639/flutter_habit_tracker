@@ -150,7 +150,13 @@
   "aiGreeting": "I'm here to support you in your journey towards your goals.",
   "completionRate": "Completion Rate",
   "streak": "Streak",
-  "initialGreeting": "Hello. Please introduce yourself briefly as my AI coach and comment on my habit progress today."
-
+  "initialGreeting": "Hello. Please introduce yourself briefly as my AI coach and comment on my habit progress today.",
+  "clearChatTitle": "Clear Chat",
+  "clearChatConfirm": "Are you sure you want to clear the conversation?",
+  "delete": "Delete",
+  "geminiQuotaExceeded": "API rate limit exceeded. Please try again in a moment.",
+  "geminiApiKeyError": "Invalid Gemini API key configuration.",
+  "geminiServerError": "Gemini server error.",
+  "unexpectedError": "An unexpected error occurred."
 }
 

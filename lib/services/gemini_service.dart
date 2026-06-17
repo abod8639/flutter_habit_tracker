@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:habit_tracker/generated/l10n.dart';
 
 // ── CUSTOM GEMINI EXCEPTIONS ──────────────────────────────────────────────────
 abstract class GeminiException implements Exception {
@@ -114,8 +115,8 @@ class GeminiService {
     }
   }
 
-  /// Starts a new chat session with an optional system instruction.
-  ChatSession startChat({String? systemInstruction}) {
+  /// Starts a new chat session with an optional system instruction and history.
+  ChatSession startChat({String? systemInstruction, List<Content>? history}) {
     try {
       final apiKey = dotenv.env['GEMINI_API_KEY'];
       if (apiKey == null || apiKey.isEmpty) {
@@ -128,10 +129,37 @@ class GeminiService {
         systemInstruction: systemInstruction != null ? Content.system(systemInstruction) : null,
       );
 
-      return chatModel.startChat();
+      return chatModel.startChat(history: history);
     } catch (e) {
       _handleException(e, 'starting chat session');
     }
+  }
+
+  /// Converts any exception into a user-friendly localized error message.
+  static String getErrorMessage(Object e) {
+    if (e is ApiKeyMissingException) {
+      return S.current.geminiApiKeyError;
+    }
+    if (e is GeminiQuotaException) {
+      return S.current.geminiQuotaExceeded;
+    }
+    if (e is GeminiServerException) {
+      return S.current.geminiServerError;
+    }
+    if (e is GeminiException) {
+      return e.message;
+    }
+    if (e is GenerativeAIException) {
+      final msg = e.message.toLowerCase();
+      if (msg.contains('quota') || msg.contains('limit') || msg.contains('429')) {
+        return S.current.geminiQuotaExceeded;
+      }
+      if (msg.contains('api key') || msg.contains('invalid') || msg.contains('400')) {
+        return S.current.geminiApiKeyError;
+      }
+      return S.current.geminiServerError;
+    }
+    return S.current.unexpectedError;
   }
 
   /// Centralized exception analyzer mapping errors to custom GeminiExceptions.

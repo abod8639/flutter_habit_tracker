@@ -202,6 +202,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "typeMessage":
             MessageLookupByLibrary.simpleMessage("Type a message..."),
         "user": MessageLookupByLibrary.simpleMessage("User"),
-        "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress")
+        "weekly": MessageLookupByLibrary.simpleMessage("weekly Progress"),
+        "clearChatTitle": MessageLookupByLibrary.simpleMessage("Clear Chat"),
+        "clearChatConfirm": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to clear the conversation?"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "geminiQuotaExceeded": MessageLookupByLibrary.simpleMessage(
+            "API rate limit exceeded. Please try again in a moment."),
+        "geminiApiKeyError": MessageLookupByLibrary.simpleMessage(
+            "Invalid Gemini API key configuration."),
+        "geminiServerError":
+            MessageLookupByLibrary.simpleMessage("Gemini server error."),
+        "unexpectedError": MessageLookupByLibrary.simpleMessage(
+            "An unexpected error occurred.")
       };
 }

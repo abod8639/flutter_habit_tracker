@@ -1239,6 +1239,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Clear Chat`
+  String get clearChatTitle {
+    return Intl.message(
+      'Clear Chat',
+      name: 'clearChatTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to clear the conversation?`
+  String get clearChatConfirm {
+    return Intl.message(
+      'Are you sure you want to clear the conversation?',
+      name: 'clearChatConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `API rate limit exceeded. Please try again in a moment.`
+  String get geminiQuotaExceeded {
+    return Intl.message(
+      'API rate limit exceeded. Please try again in a moment.',
+      name: 'geminiQuotaExceeded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid Gemini API key configuration.`
+  String get geminiApiKeyError {
+    return Intl.message(
+      'Invalid Gemini API key configuration.',
+      name: 'geminiApiKeyError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gemini server error.`
+  String get geminiServerError {
+    return Intl.message(
+      'Gemini server error.',
+      name: 'geminiServerError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error occurred.`
+  String get unexpectedError {
+    return Intl.message(
+      'An unexpected error occurred.',
+      name: 'unexpectedError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -206,6 +206,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "بيانات غير كافية لعرض الإحصائيات"),
         "typeMessage": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
         "user": MessageLookupByLibrary.simpleMessage("مستخدم"),
-        "weekly": MessageLookupByLibrary.simpleMessage("تقدم الأسبوعي")
+        "weekly": MessageLookupByLibrary.simpleMessage("تقدم الأسبوعي"),
+        "clearChatTitle": MessageLookupByLibrary.simpleMessage("مسح المحادثة"),
+        "clearChatConfirm": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد من مسح المحادثة بالكامل؟"),
+        "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+        "geminiQuotaExceeded": MessageLookupByLibrary.simpleMessage(
+            "تم تجاوز حد الطلبات المسموح به. يرجى المحاولة بعد قليل."),
+        "geminiApiKeyError": MessageLookupByLibrary.simpleMessage(
+            "خطأ في إعدادات مفتاح API الخاص بـ Gemini."),
+        "geminiServerError":
+            MessageLookupByLibrary.simpleMessage("حدث خطأ في خادم Gemini."),
+        "unexpectedError":
+            MessageLookupByLibrary.simpleMessage("حدث خطأ غير متوقع.")
       };
 }

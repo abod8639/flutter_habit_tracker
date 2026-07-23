@@ -6,7 +6,7 @@ import 'package:habit_tracker/generated/l10n.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import '../../domain/usecases/sync_habits_usecase.dart';
 import '../../domain/usecases/get_last_sync_time_usecase.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 
 enum SyncStatus {
   idle,

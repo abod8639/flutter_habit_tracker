@@ -17,7 +17,7 @@ import 'package:habit_tracker/features/home/domain/usecases/update_habit_color_u
 import 'package:habit_tracker/features/home/domain/usecases/update_habit_order_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/get_start_date_usecase.dart';
 import 'package:habit_tracker/features/home/domain/usecases/increment_day_count_usecase.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import 'package:hive/hive.dart';
 import '../controllers/habit_controller.dart';
 import '../../data/datasources/habit_storage.dart';

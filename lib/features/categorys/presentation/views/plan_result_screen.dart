@@ -187,11 +187,11 @@ class _HabitSuggestionCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: selected
-              ? color.withOpacity(0.05)
+              ? color.withValues(alpha:0.05)
               : Colors.grey.shade50,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: selected ? color.withOpacity(0.4) : Colors.grey.shade200,
+            color: selected ? color.withValues(alpha:0.4) : Colors.grey.shade200,
             width: selected ? 1.5 : 1,
           ),
         ),
@@ -254,7 +254,7 @@ class _HabitSuggestionCard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: selected
-                          ? color.withOpacity(0.1)
+                          ? color.withValues(alpha:0.1)
                           : Colors.grey.shade100,
                       borderRadius: BorderRadius.circular(20),
                     ),

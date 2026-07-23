@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/setting/domain/usecases/clear_all_data_usecase.dart';
-import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/core/utils/restart_widget.dart';
 
 /// Safe function to clear data and restart app
 Future<void> clearAppDataAndRestart(BuildContext context) async {

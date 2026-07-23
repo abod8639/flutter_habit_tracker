@@ -165,9 +165,18 @@ class PlanGeneratorController extends GetxController {
     status.value = PlanGeneratorStatus.loading;
 
     try {
-      final habitController = Get.find<HabitController>();
-      for (final s in selectedSuggestions) {
-        await habitController.addHabit(s.name);
+      final HabitController habitController =
+          Get.isRegistered<HabitController>()
+              ? Get.find<HabitController>()
+              : Get.put(HabitController());
+
+      final habitNames = selectedSuggestions.map((s) => s.name).toList();
+      final bool success = await habitController.addMultipleHabits(habitNames);
+
+      if (!success) {
+        status.value = PlanGeneratorStatus.error;
+        errorMessage.value = 'Could not save habits. Please try again.';
+        return;
       }
 
       status.value = PlanGeneratorStatus.idle;

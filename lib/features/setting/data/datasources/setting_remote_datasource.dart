@@ -1,5 +1,5 @@
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 
 abstract class SettingRemoteDataSource {
   Future<List<HabitModel>> syncHabits(List<HabitModel> localHabits, {List<String>? localTombstones, String? localStartDay});

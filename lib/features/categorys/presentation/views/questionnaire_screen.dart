@@ -39,7 +39,7 @@ class QuestionnaireScreen extends StatelessWidget {
                                 '',
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.grey.shade500,
+                              color: Theme.of(context).hintColor,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -47,7 +47,7 @@ class QuestionnaireScreen extends StatelessWidget {
                             controller.progressLabel,
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.grey.shade500,
+                              color: Theme.of(context).hintColor,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -59,7 +59,9 @@ class QuestionnaireScreen extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: controller.progress,
                           minHeight: 5,
-                          backgroundColor: Colors.grey.shade200,
+                          backgroundColor: Theme.of(context)
+                              .dividerColor
+                              .withOpacity(0.3),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             controller.selectedCategory.value?.color ??
                                 Colors.blue,
@@ -178,7 +180,10 @@ class _QuestionContent extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               question.subtitle!,
-              style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).hintColor,
+              ),
             ),
           ],
 
@@ -188,14 +193,14 @@ class _QuestionContent extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: Theme.of(context).dividerColor.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
                 'Optional',
                 style: TextStyle(
                   fontSize: 11,
-                  color: Colors.grey.shade500,
+                  color: Theme.of(context).hintColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -262,17 +267,24 @@ class _TextInputState extends State<_TextInput> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return TextField(
       controller: _textController,
       onChanged: (v) => widget.controller.setAnswer(widget.question.id, v),
       textCapitalization: TextCapitalization.sentences,
+      style: TextStyle(color: theme.textTheme.bodyLarge?.color),
       decoration: InputDecoration(
         hintText: widget.question.hint,
+        hintStyle: TextStyle(color: theme.hintColor),
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: theme.cardColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: theme.dividerColor),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: theme.dividerColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -321,6 +333,7 @@ class _NumberInputState extends State<_NumberInput> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final color =
         widget.controller.selectedCategory.value?.color ?? Colors.blue;
 
@@ -341,9 +354,12 @@ class _NumberInputState extends State<_NumberInput> {
             ),
             decoration: InputDecoration(
               hintText: widget.question.hint ?? '0',
-              hintStyle: TextStyle(color: Colors.grey.shade300, fontSize: 32),
+              hintStyle: TextStyle(
+                color: theme.hintColor.withOpacity(0.5),
+                fontSize: 32,
+              ),
               filled: true,
-              fillColor: color.withOpacity(0.05),
+              fillColor: color.withOpacity(0.08),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
                 borderSide: BorderSide(color: color.withOpacity(0.2)),
@@ -367,7 +383,7 @@ class _NumberInputState extends State<_NumberInput> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
-              color: Colors.grey.shade400,
+              color: theme.hintColor,
             ),
           ),
         ],
@@ -386,6 +402,7 @@ class _SingleChoiceInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final color =
         controller.selectedCategory.value?.color ?? Colors.blue;
 
@@ -405,13 +422,13 @@ class _SingleChoiceInput extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: selected
-                          ? color.withOpacity(0.08)
-                          : Colors.grey.shade50,
+                          ? color.withOpacity(0.12)
+                          : theme.cardColor,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: selected
                             ? color
-                            : Colors.grey.shade200,
+                            : theme.dividerColor,
                         width: selected ? 1.5 : 1,
                       ),
                     ),
@@ -425,7 +442,9 @@ class _SingleChoiceInput extends StatelessWidget {
                               fontWeight: selected
                                   ? FontWeight.w600
                                   : FontWeight.normal,
-                              color: selected ? color : null,
+                              color: selected
+                                  ? color
+                                  : theme.textTheme.bodyMedium?.color,
                             ),
                           ),
                         ),
@@ -439,7 +458,7 @@ class _SingleChoiceInput extends StatelessWidget {
                             border: Border.all(
                               color: selected
                                   ? color
-                                  : Colors.grey.shade300,
+                                  : theme.disabledColor,
                               width: 1.5,
                             ),
                           ),
@@ -472,6 +491,7 @@ class _MultipleChoiceInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final color =
         controller.selectedCategory.value?.color ?? Colors.blue;
 
@@ -491,11 +511,11 @@ class _MultipleChoiceInput extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: selected
-                      ? color.withOpacity(0.1)
-                      : Colors.grey.shade100,
+                      ? color.withOpacity(0.12)
+                      : theme.cardColor,
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
-                    color: selected ? color : Colors.transparent,
+                    color: selected ? color : theme.dividerColor,
                     width: 1.5,
                   ),
                 ),
@@ -513,7 +533,9 @@ class _MultipleChoiceInput extends StatelessWidget {
                         fontWeight: selected
                             ? FontWeight.w600
                             : FontWeight.normal,
-                        color: selected ? color : Colors.grey.shade700,
+                        color: selected
+                            ? color
+                            : theme.textTheme.bodyMedium?.color,
                       ),
                     ),
                   ],

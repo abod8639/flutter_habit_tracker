@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/utils/responsive_utils.dart';
+import 'package:habit_tracker/core/utils/responsive_utils.dart';
 
 Widget buildStatItem(String title, String value, IconData icon, Color color) {
   return Expanded(

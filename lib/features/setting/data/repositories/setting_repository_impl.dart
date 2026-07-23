@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:dartz/dartz.dart';
 import 'package:habit_tracker/core/error/failures.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import 'package:habit_tracker/features/home/data/datasources/habit_local_data_source.dart';
 import '../../domain/repositories/setting_repository.dart';
 import '../datasources/setting_local_datasource.dart';

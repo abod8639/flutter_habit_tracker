@@ -1,4 +1,4 @@
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import '../models/theme_model.dart';
 
 abstract class ThemeRemoteDataSource {

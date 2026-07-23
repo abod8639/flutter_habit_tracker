@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_tracker/services/notification_service.dart';
+import 'package:habit_tracker/core/services/notification_service.dart';
 import '../../domain/usecases/is_notification_enabled_usecase.dart';
 import '../../domain/usecases/set_notification_enabled_usecase.dart';
 import '../../domain/usecases/get_notification_time_usecase.dart';

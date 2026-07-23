@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:habit_tracker/features/theme/data/datasources/theme_storage.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import '../../data/datasources/theme_local_datasource.dart';
 import '../../data/datasources/theme_remote_datasource.dart';
 import '../../data/repositories/theme_repository_impl.dart';

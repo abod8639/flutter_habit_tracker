@@ -9,7 +9,7 @@ import 'package:habit_tracker/features/theme/presentation/controllers/theme_cont
 import 'package:habit_tracker/firebase_options.dart';
 import 'package:habit_tracker/core/functions/initialize_app.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/core/utils/restart_widget.dart';
 import 'package:habit_tracker/core/error/error_app.dart';
 import 'package:habit_tracker/features/auth/presentation/widgets/auth_wrapper.dart';
 import 'package:habit_tracker/core/services/analytics_service.dart';

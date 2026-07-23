@@ -5,7 +5,7 @@ import 'package:habit_tracker/features/home/data/datasources/habit_local_data_so
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/domain/repositories/habit_repository.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import '../models/date_time.dart';
 
 class HabitRepositoryImpl implements HabitRepository {

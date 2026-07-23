@@ -61,7 +61,7 @@ class QuestionnaireScreen extends StatelessWidget {
                           minHeight: 5,
                           backgroundColor: Theme.of(context)
                               .dividerColor
-                              .withOpacity(0.3),
+                              .withValues(alpha:0.3),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             controller.selectedCategory.value?.color ??
                                 Colors.blue,
@@ -193,7 +193,7 @@ class _QuestionContent extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               decoration: BoxDecoration(
-                color: Theme.of(context).dividerColor.withOpacity(0.15),
+                color: Theme.of(context).dividerColor.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -355,18 +355,18 @@ class _NumberInputState extends State<_NumberInput> {
             decoration: InputDecoration(
               hintText: widget.question.hint ?? '0',
               hintStyle: TextStyle(
-                color: theme.hintColor.withOpacity(0.5),
+                color: theme.hintColor.withValues(alpha:0.5),
                 fontSize: 32,
               ),
               filled: true,
-              fillColor: color.withOpacity(0.08),
+              fillColor: color.withValues(alpha:0.08),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: color.withOpacity(0.2)),
+                borderSide: BorderSide(color: color.withValues(alpha:0.2)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: color.withOpacity(0.2)),
+                borderSide: BorderSide(color: color.withValues(alpha:0.2)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -422,7 +422,7 @@ class _SingleChoiceInput extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: selected
-                          ? color.withOpacity(0.12)
+                          ? color.withValues(alpha:0.12)
                           : theme.cardColor,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
@@ -511,7 +511,7 @@ class _MultipleChoiceInput extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: selected
-                      ? color.withOpacity(0.12)
+                      ? color.withValues(alpha:0.12)
                       : theme.cardColor,
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(

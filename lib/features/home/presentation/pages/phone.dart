@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_tracker/core/routes/app_routes.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/core/functions/add_habit.dart';
 import 'package:habit_tracker/features/home/presentation/widget/habit_list.dart';
@@ -118,6 +119,16 @@ class MyAppBar extends StatelessWidget {
             );
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.auto_awesome,
+              color: Theme.of(context).primaryColor,
+            ),
+            tooltip: 'Generate Plan',
+            onPressed: () => Get.toNamed(AppRoutes.categorySelection),
+          ),
+        ],
       );
     });
   }

@@ -5,8 +5,8 @@ import 'package:habit_tracker/features/setting/data/datasources/settings_storage
 import 'package:habit_tracker/features/home/data/datasources/habit_storage.dart';
 import 'package:habit_tracker/features/theme/data/datasources/theme_storage.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
-import 'package:habit_tracker/services/notification_service.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/notification_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';

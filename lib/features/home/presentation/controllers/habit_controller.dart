@@ -201,20 +201,26 @@ class HabitController extends GetxController {
     result.fold(
       (failure) => _showError(failure.message),
       (_) async {
-        habitTextController.clear();
+        try {
+          habitTextController.clear();
+        } catch (_) {}
         await refreshData();
       },
     );
   }
 
-  Future<void> addMultipleHabits(List<String> names) async {
-    if (names.isEmpty) return;
+  Future<bool> addMultipleHabits(List<String> names) async {
+    if (names.isEmpty) return false;
     
     final result = await _addMultipleHabitsUseCase(names);
-    result.fold(
-      (failure) => _showError(failure.message),
+    return result.fold(
+      (failure) {
+        _showError(failure.message);
+        return false;
+      },
       (_) async {
         await refreshData();
+        return true;
       },
     );
   }

@@ -21,7 +21,7 @@ import 'package:habit_tracker/features/setting/presentation/controllers/sync_con
 import 'package:habit_tracker/core/functions/check_and_reset_habits.dart';
 import 'package:habit_tracker/features/home/data/models/habit_model.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/services/firestore_service.dart';
+import 'package:habit_tracker/core/services/firestore_service.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';
 
 class HabitController extends GetxController {

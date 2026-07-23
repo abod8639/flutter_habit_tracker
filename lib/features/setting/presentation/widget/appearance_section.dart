@@ -4,7 +4,7 @@ import 'package:habit_tracker/features/setting/presentation/controllers/lang_con
 import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_lang.dart';
 import 'package:habit_tracker/features/setting/presentation/widget/animated_setting_tile.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/utils/restart_widget.dart';
+import 'package:habit_tracker/core/utils/restart_widget.dart';
 import 'package:habit_tracker/features/theme/presentation/pages/theme_page.dart';
 
 Widget buildAppearanceSection(AnimationController animationController) {

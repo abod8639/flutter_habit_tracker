@@ -4,7 +4,7 @@ import 'package:habit_tracker/features/home/presentation/controllers/habit_contr
 import 'package:habit_tracker/features/habitstats/presentation/widget/build_bar_chart.dart';
 import 'package:habit_tracker/features/habitstats/presentation/widget/build_pie_chart.dart';
 import 'package:habit_tracker/features/habitstats/presentation/widget/build_trend_chart.dart';
-import 'package:habit_tracker/utils/responsive_utils.dart';
+import 'package:habit_tracker/core/utils/responsive_utils.dart';
 
 Widget buildChartsSection(BuildContext context) {
   return GetBuilder<HabitController>(

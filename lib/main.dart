@@ -13,6 +13,7 @@ import 'package:habit_tracker/utils/restart_widget.dart';
 import 'package:habit_tracker/core/error/error_app.dart';
 import 'package:habit_tracker/features/auth/presentation/widgets/auth_wrapper.dart';
 import 'package:habit_tracker/core/services/analytics_service.dart';
+import 'package:habit_tracker/core/routes/app_routes.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
           darkTheme: themeController.darkTheme.value,
           themeMode: themeController.themeMode.value,
 
+          getPages: appPages,
           home: const AuthWrapper(),
         ),
       ),

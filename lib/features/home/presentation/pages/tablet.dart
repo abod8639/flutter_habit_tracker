@@ -10,7 +10,7 @@ import 'package:habit_tracker/core/components/build_error_screen.dart';
 import 'package:habit_tracker/core/components/build_loading_screen.dart';
 import 'package:habit_tracker/core/components/my_drawer.dart';
 import 'package:habit_tracker/features/home/presentation/widget/my_fab.dart';
-import 'package:habit_tracker/utils/responsive_utils.dart';
+import 'package:habit_tracker/core/utils/responsive_utils.dart';
 
 class Tablet extends StatelessWidget {
   const Tablet({super.key});

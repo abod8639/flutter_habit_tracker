@@ -120,10 +120,10 @@ class _CategoryCardState extends State<_CategoryCard>
         scale: _scale,
         child: Container(
           decoration: BoxDecoration(
-            color: color.withOpacity(0.06),
+            color: color.withValues(alpha:0.06),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: color.withOpacity(0.22),
+              color: color.withValues(alpha:0.22),
               width: 1.5,
             ),
           ),
@@ -136,7 +136,7 @@ class _CategoryCardState extends State<_CategoryCard>
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.14),
+                  color: color.withValues(alpha:0.14),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(

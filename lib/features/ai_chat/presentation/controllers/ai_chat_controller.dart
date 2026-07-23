@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:habit_tracker/generated/l10n.dart';
-import 'package:habit_tracker/services/gemini_service.dart';
+import 'package:habit_tracker/core/services/gemini_service.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/home/domain/entities/habit_entity.dart';
 import 'package:habit_tracker/features/home/data/models/date_time.dart';

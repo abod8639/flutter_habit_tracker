@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/features/home/presentation/controllers/habit_controller.dart';
 import 'package:habit_tracker/features/home/presentation/pages/phone.dart';
 import 'package:habit_tracker/features/home/presentation/pages/tablet.dart';
-import 'package:habit_tracker/utils/responsive_utils.dart';
+import 'package:habit_tracker/core/utils/responsive_utils.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

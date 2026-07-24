@@ -26,6 +26,7 @@ class _MyalartdState extends State<MyalartDialog>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
+  final FocusNode _keyboardFocusNode = FocusNode();
   bool _isScanning = false;
 
   @override
@@ -52,6 +53,7 @@ class _MyalartdState extends State<MyalartDialog>
   @override
   void dispose() {
     _animationController.dispose();
+    _keyboardFocusNode.dispose();
     super.dispose();
   }
 
@@ -197,32 +199,36 @@ class _MyalartdState extends State<MyalartDialog>
               const SizedBox(height: 24),
 
               // Input field
-              RawKeyboardListener(
-                focusNode: FocusNode(),
-                onKey: (RawKeyEvent event) {
+              KeyboardListener(
+                focusNode: _keyboardFocusNode,
+                onKeyEvent: (KeyEvent event) {
                   if (event.physicalKey == PhysicalKeyboardKey.numLock) {
                     return;
                   }
-                  if (event is RawKeyUpEvent) {
-                    if (event.isKeyPressed(LogicalKeyboardKey.exit)) {
+                  if (event is KeyUpEvent) {
+                    if (event.logicalKey == LogicalKeyboardKey.escape ||
+                        event.logicalKey == LogicalKeyboardKey.exit) {
                       Navigator.of(context).pop();
                       widget.controller.clear();
                     }
                     return;
                   }
 
-                  if (event is RawKeyDownEvent) {
-                    if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                      if (event.isControlPressed) {
+                  if (event is KeyDownEvent) {
+                    if (event.logicalKey == LogicalKeyboardKey.enter ||
+                        event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+                      if (HardwareKeyboard.instance.isControlPressed) {
                         final currentText = widget.controller.text;
                         final currentPosition =
                             widget.controller.selection.base.offset;
+                        final validPosition =
+                            currentPosition.clamp(0, currentText.length);
                         final newText =
-                            '${currentText.substring(0, currentPosition)}\n${currentText.substring(currentPosition)}';
+                            '${currentText.substring(0, validPosition)}\n${currentText.substring(validPosition)}';
                         widget.controller.value = TextEditingValue(
                           text: newText,
                           selection: TextSelection.collapsed(
-                            offset: currentPosition + 1,
+                            offset: validPosition + 1,
                           ),
                         );
                       } else {

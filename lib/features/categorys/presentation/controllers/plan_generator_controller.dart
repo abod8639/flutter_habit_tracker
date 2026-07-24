@@ -210,43 +210,43 @@ class PlanGeneratorController extends GetxController {
   }
 
   // ── Mock data (remove in production) ─────────────────────────────────────
-  List<PlanSuggestion> _mockSuggestions(PlanCategory category) {
-    return [
-      PlanSuggestion(
-        name: 'Morning hydration ritual',
-        description:
-            'Drink 500ml of water immediately after waking up. Rehydrates your body after sleep and kickstarts metabolism.',
-        frequency: 'daily',
-        category: category.name,
-      ),
-      PlanSuggestion(
-        name: 'Eat a protein-rich breakfast',
-        description:
-            'Include at least 20g of protein in your first meal. Reduces cravings and supports muscle retention.',
-        frequency: 'daily',
-        category: category.name,
-      ),
-      PlanSuggestion(
-        name: 'No screen 30 min before bed',
-        description:
-            'Reduce blue light exposure before sleep to improve sleep quality and recovery.',
-        frequency: 'daily',
-        category: category.name,
-      ),
-      PlanSuggestion(
-        name: 'Meal prep session',
-        description:
-            'Prepare healthy meals in advance. Eliminates last-minute unhealthy food decisions.',
-        frequency: '2 times per week',
-        category: category.name,
-      ),
-      PlanSuggestion(
-        name: 'Track daily food intake',
-        description:
-            'Log everything you eat. Awareness is the first step to behavior change.',
-        frequency: 'daily',
-        category: category.name,
-      ),
-    ];
-  }
+  // List<PlanSuggestion> _mockSuggestions(PlanCategory category) {
+  //   return [
+  //     PlanSuggestion(
+  //       name: 'Morning hydration ritual',
+  //       description:
+  //           'Drink 500ml of water immediately after waking up. Rehydrates your body after sleep and kickstarts metabolism.',
+  //       frequency: 'daily',
+  //       category: category.name,
+  //     ),
+  //     PlanSuggestion(
+  //       name: 'Eat a protein-rich breakfast',
+  //       description:
+  //           'Include at least 20g of protein in your first meal. Reduces cravings and supports muscle retention.',
+  //       frequency: 'daily',
+  //       category: category.name,
+  //     ),
+  //     PlanSuggestion(
+  //       name: 'No screen 30 min before bed',
+  //       description:
+  //           'Reduce blue light exposure before sleep to improve sleep quality and recovery.',
+  //       frequency: 'daily',
+  //       category: category.name,
+  //     ),
+  //     PlanSuggestion(
+  //       name: 'Meal prep session',
+  //       description:
+  //           'Prepare healthy meals in advance. Eliminates last-minute unhealthy food decisions.',
+  //       frequency: '2 times per week',
+  //       category: category.name,
+  //     ),
+  //     PlanSuggestion(
+  //       name: 'Track daily food intake',
+  //       description:
+  //           'Log everything you eat. Awareness is the first step to behavior change.',
+  //       frequency: 'daily',
+  //       category: category.name,
+  //     ),
+  //   ];
+  // }
 }
